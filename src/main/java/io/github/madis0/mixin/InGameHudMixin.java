@@ -15,9 +15,10 @@ public class InGameHudMixin {
     public void render(MatrixStack matrixStack, float tickDelta, CallbackInfo info) {
         MinecraftClient client = MinecraftClient.getInstance();
 
-        String value = "20";
-        client.textRenderer.drawWithShadow(matrixStack, value, 400, 300, 0xFFFFFF); // TODO: relative coords, currently only visible in maximized
+        // TODO: relative coords, currently only visible in maximized
+        DrawableHelper.fill(matrixStack, 228, 300, 411, 309, 0xFFD32F2F);
 
-        DrawableHelper.fill(matrixStack, 10, 200, 100, 200, 0xFF0000);
+        String value = "20";
+        client.textRenderer.draw(matrixStack, value, 396, 301, 0xFFFFFFFF);
     }
 }
