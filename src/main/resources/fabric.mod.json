@@ -1,37 +1,35 @@
 {
   "schemaVersion": 1,
-  "id": "modid",
+  "id": "onebar",
   "version": "${version}",
 
-  "name": "Example Mod",
+  "name": "OneBar",
   "description": "This is an example description! Tell everyone what your mod is about!",
   "authors": [
-    "Me!"
+    "Madis0"
   ],
   "contact": {
-    "homepage": "https://fabricmc.net/",
-    "sources": "https://github.com/FabricMC/fabric-example-mod"
+    "homepage": "https://github.com/Madis0/OneBar",
+    "sources": "https://github.com/Madis0/OneBar",
+    "issues": "https://github.com/Madis0/OneBar/issues"
   },
 
-  "license": "CC0-1.0",
-  "icon": "assets/modid/icon.png",
+  "license": "MPL-2.0",
+  "icon": "assets/onebar/icon.png",
 
-  "environment": "*",
+  "environment": "client",
   "entrypoints": {
     "main": [
-      "net.fabricmc.example.ExampleMod"
+      "io.github.madis0.OneBar"
     ]
   },
   "mixins": [
-    "modid.mixins.json"
+    "onebar.mixins.json"
   ],
 
   "depends": {
     "fabricloader": ">=0.7.4",
     "fabric": "*",
     "minecraft": "1.16.x"
-  },
-  "suggests": {
-    "another-mod": "*"
   }
 }
