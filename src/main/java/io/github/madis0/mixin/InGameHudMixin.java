@@ -11,14 +11,35 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 @Mixin(InGameHud.class)
 public class InGameHudMixin {
+    MinecraftClient client;
+    MatrixStack stack;
+
     @Inject(at = @At("TAIL"), method = "render")
     public void render(MatrixStack matrixStack, float tickDelta, CallbackInfo info) {
-        MinecraftClient client = MinecraftClient.getInstance();
+        client = MinecraftClient.getInstance();
+        stack = matrixStack;
 
         // TODO: relative coords, currently only visible in maximized
-        DrawableHelper.fill(matrixStack, 228, 300, 411, 309, 0xFFD32F2F);
+        resetBar();
+        renderHealth(15);
 
-        String value = "20";
-        client.textRenderer.draw(matrixStack, value, 396, 301, 0xFFFFFFFF);
+    }
+
+    private void resetBar(){
+        DrawableHelper.fill(stack, 228, 300, 411, 309, 0xFF000000);
+    }
+
+    private void renderHealth(int health){
+        String value = String.valueOf(health);
+
+        int startW = 228;
+        int endW = 411;
+        int startH = 300;
+        int endH = 309;
+
+        int relativeEndW = startW + ((endW - startW) / 20 * health);
+
+        client.textRenderer.draw(stack, value, 396, 301, 0xFFFFFFFF);
+        DrawableHelper.fill(stack, startW, startH, relativeEndW, endH, 0xFFD32F2F);
     }
 }
