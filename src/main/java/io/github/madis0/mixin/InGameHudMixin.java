@@ -28,10 +28,13 @@ public abstract class InGameHudMixin {
         PlayerEntity playerEntity = this.getCameraPlayer();
         HungerManager hungerManager = playerEntity.getHungerManager();
 
-        int hunger = 20 - hungerManager.getFoodLevel(); // TODO: no constant in source?
+        int hunger = 20 - hungerManager.getFoodLevel(); // TODO: source constant?
         int health = MathHelper.ceil(playerEntity.getHealth());
         int armor = playerEntity.getArmor();
         int air = (playerEntity.getMaxAir() - playerEntity.getAir()) / 15;
+        int xpLevel = playerEntity.experienceLevel;
+        int xpTotal = 183; // TODO: source constant?
+        int xpProg = (int)(playerEntity.experienceProgress * xpTotal);
 
         // TODO: relative coords, currently only visible in maximized
         resetBar();
@@ -39,12 +42,25 @@ public abstract class InGameHudMixin {
         renderHunger(hunger);
         renderArmor(armor);
         renderAir(air);
+        renderXp(xpProg, xpTotal, xpLevel);
 
         renderText(health, hunger, air);
     }
 
     private void resetBar(){
-        DrawableHelper.fill(stack, 228, 300, 411, 309, 0xFF000000);
+        int backgroundColor = 0xFF000000;
+        int healthStartW = 228;
+        int healthEndW = 411;
+        int healthStartH = 300;
+        int healthEndH = 309;
+
+        int xpStartW = 420;
+        int xpEndW = 440;
+        int xpStartH = 345;
+        int xpEndH = 346;
+
+        DrawableHelper.fill(stack, healthStartW, healthStartH, healthEndW, healthEndH, backgroundColor);
+        DrawableHelper.fill(stack, xpStartW, xpStartH, xpEndW, xpEndH, backgroundColor);
     }
 
     private void renderHealth(int health){
@@ -122,5 +138,28 @@ public abstract class InGameHudMixin {
         int textX = 396;
         int textY = 301;
         client.textRenderer.draw(stack, value, textX, textY, textColor);
+    }
+
+    private void renderXp(int xp, int total, int level){
+        int xpColor = 0xFF4CAF50;
+        int startW = 420;
+        int endW = 440;
+        int startH = 345;
+        int endH = 346;
+
+        int textX = 425;
+        int textY = 335;
+
+        int relativeEndW;
+
+        if(xp < total)
+            relativeEndW = (startW + ((endW - startW) / total * xp));
+        else
+            relativeEndW = endW;
+
+        //String value = String.valueOf(level) + " " + String.valueOf(xp) + "/" + String.valueOf(total) + " (" + String.valueOf(relativeEndW) + ")";
+
+        DrawableHelper.fill(stack, startW, startH, relativeEndW, endH, xpColor);
+        client.textRenderer.drawWithShadow(stack, String.valueOf(level), textX, textY, xpColor);
     }
 }
