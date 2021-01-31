@@ -24,7 +24,7 @@ public abstract class InGameHudMixin {
 
     int baseStartW = 229;
     int baseEndW = 411;
-    int baseStartH = 315;
+    int baseStartH = 317;
     int baseEndH = baseStartH + 9;
 
     @Inject(at = @At("TAIL"), method = "render")
@@ -108,7 +108,7 @@ public abstract class InGameHudMixin {
     }
 
     private void renderXp(int xp, int total, int level){
-        int xpColor = 0xFF4CAF50;
+        int xpColor = 0xFF00C853;
         int startW = 420;
         int endW = 440;
         int startH = 345;
@@ -117,14 +117,12 @@ public abstract class InGameHudMixin {
         int relativeEndW;
 
         if(xp < total)
-            relativeEndW = startW + ((endW - startW) / total * xp);
+            relativeEndW = MathHelper.ceil(startW + ((float)(endW - startW) / total * xp));
         else
             relativeEndW = endW;
 
         int textX = 425;
         int textY = 335;
-
-        //String value = level + " " + xp + "/" + total + " (" + relativeEndW + ")";
 
         DrawableHelper.fill(stack, startW, startH, relativeEndW, endH, xpColor);
         client.textRenderer.drawWithShadow(stack, String.valueOf(level), textX, textY, xpColor);
