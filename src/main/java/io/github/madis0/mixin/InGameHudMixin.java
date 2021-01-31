@@ -27,15 +27,20 @@ public abstract class InGameHudMixin {
 
         PlayerEntity playerEntity = this.getCameraPlayer();
         HungerManager hungerManager = playerEntity.getHungerManager();
+
         int hunger = 20 - hungerManager.getFoodLevel(); // TODO: no constant in source?
-        int health = MathHelper.ceil(playerEntity.getHealth()); //TODO: original health for animation
+        int health = MathHelper.ceil(playerEntity.getHealth());
+        int armor = playerEntity.getArmor();
+        int air = (playerEntity.getMaxAir() - playerEntity.getAir()) / 15;
 
         // TODO: relative coords, currently only visible in maximized
         resetBar();
         renderHealth(health);
         renderHunger(hunger);
+        renderArmor(armor);
+        renderAir(air);
 
-        renderText(health, hunger);
+        renderText(health, hunger, air);
     }
 
     private void resetBar(){
@@ -60,7 +65,7 @@ public abstract class InGameHudMixin {
     }
 
     private void renderHunger(int hunger){
-        int healthColor = 0xFF4E342E;
+        int hungerColor = 0xFF3E2723;
         int endW = 228;
         int startW = 411;
         int startH = 300;
@@ -68,11 +73,51 @@ public abstract class InGameHudMixin {
 
         int relativeEndW = startW + ((endW - startW) / 20 * hunger);
 
-        DrawableHelper.fill(stack, startW, startH, relativeEndW, endH, healthColor);
+        DrawableHelper.fill(stack, startW, startH, relativeEndW, endH, hungerColor);
     }
 
-    private void renderText(int health, int hunger){
-        String value = String.valueOf(health) + "-" + String.valueOf(hunger);
+    private void renderAir(int air){
+        int airColor = 0xFF1A237E;
+        int endW = 228;
+        int startW = 411;
+        int startH = 300;
+        int endH = 309;
+
+        int relativeEndW;
+
+        if(air < 20)
+            relativeEndW = startW + ((endW - startW) / 20 * air);
+        else
+            relativeEndW = endW;
+
+        DrawableHelper.fill(stack, startW, startH, relativeEndW, endH, airColor);
+    }
+
+    private void renderArmor(int armor){
+        int armorColor = 0xFFFFFFFF;
+        int startW = 228;
+        int endW = 411;
+        int startH = 299;
+        int endH = 300;
+
+        int relativeEndW;
+
+        if(armor < 20)
+            relativeEndW = startW + ((endW - startW) / 20 * armor);
+        else
+            relativeEndW = endW;
+
+        DrawableHelper.fill(stack, startW, startH, relativeEndW, endH, armorColor);
+    }
+
+    private void renderText(int health, int hunger, int air){
+        String value;
+        if (hunger < 1 && air < 1)
+            value = String.valueOf(health);
+        else if(hunger >= 1 && air < 1)
+            value = String.valueOf(health) + "-" + String.valueOf(hunger);
+        else
+            value = String.valueOf(health) + "-A" + String.valueOf(air);
         int textColor = 0xFFFFFFFF;
         int textX = 396;
         int textY = 301;
