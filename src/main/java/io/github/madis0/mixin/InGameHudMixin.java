@@ -18,19 +18,37 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 public abstract class InGameHudMixin {
     @Shadow protected abstract PlayerEntity getCameraPlayer();
 
+    @Shadow private int scaledWidth;
+    @Shadow private int scaledHeight;
+
     MinecraftClient client;
     MatrixStack stack;
     boolean disableVanilla = false; // TODO: make it work
 
-    int baseStartW = 229;
-    int baseEndW = 411;
-    int baseStartH = 317;
-    int baseEndH = baseStartH + 9;
+    int baseStartW;
+    int baseEndW;
+    int baseStartH;
+    int baseEndH;
+
+    int xpStartW;
+    int xpEndW;
+    int xpStartH;
+    int xpEndH;
 
     @Inject(at = @At("TAIL"), method = "render")
     public void render(MatrixStack matrixStack, float tickDelta, CallbackInfo info) {
         client = MinecraftClient.getInstance();
         stack = matrixStack;
+
+        baseStartW = this.scaledWidth / 2 - 91;
+        baseEndW = baseStartW + 182;
+        baseStartH = this.scaledHeight - 35;
+        baseEndH = baseStartH + 9;
+
+        xpStartW = baseEndW + 2;
+        xpEndW = xpStartW + 18;
+        xpStartH = baseStartH + 30;
+        xpEndH = xpStartH + 1;
 
         PlayerEntity playerEntity = this.getCameraPlayer();
         HungerManager hungerManager = playerEntity.getHungerManager();
@@ -66,11 +84,6 @@ public abstract class InGameHudMixin {
     private void resetBar(){
         int backgroundColor = 0xFF000000;
 
-        int xpStartW = 420;
-        int xpEndW = 440;
-        int xpStartH = 345;
-        int xpEndH = 346;
-
         DrawableHelper.fill(stack, baseStartW, baseStartH, baseEndW, baseEndH, backgroundColor);
         DrawableHelper.fill(stack, xpStartW, xpStartH, xpEndW, xpEndH, backgroundColor);
     }
@@ -104,27 +117,22 @@ public abstract class InGameHudMixin {
         else
             value = health + "-A" + air;
         int textColor = 0xFFFFFFFF;
-        client.textRenderer.draw(stack, value, baseEndW - 15, baseStartH + 1, textColor);
+        client.textRenderer.draw(stack, value, baseEndW - 12, baseStartH + 1, textColor);
     }
 
     private void renderXp(int xp, int total, int level){
         int xpColor = 0xFF00C853;
-        int startW = 420;
-        int endW = 440;
-        int startH = 345;
-        int endH = 346;
-
         int relativeEndW;
 
         if(xp < total)
-            relativeEndW = MathHelper.ceil(startW + ((float)(endW - startW) / total * xp));
+            relativeEndW = MathHelper.ceil(xpStartW + ((float)(xpEndW - xpStartW) / total * xp));
         else
-            relativeEndW = endW;
+            relativeEndW = xpEndW;
 
-        int textX = 425;
-        int textY = 335;
+        int textX = xpStartW + 3;
+        int textY = xpStartH - 10;
 
-        DrawableHelper.fill(stack, startW, startH, relativeEndW, endH, xpColor);
+        DrawableHelper.fill(stack, xpStartW, xpStartH, relativeEndW, xpEndH, xpColor);
         client.textRenderer.drawWithShadow(stack, String.valueOf(level), textX, textY, xpColor);
     }
 
