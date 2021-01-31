@@ -115,9 +115,9 @@ public abstract class InGameHudMixin {
         else if(hunger >= 1 && air < 1)
             value = health + "-" + hunger;
         else
-            value = health + "-A" + air;
+            value = health + "-a" + air;
         int textColor = 0xFFFFFFFF;
-        client.textRenderer.draw(stack, value, baseEndW - 12, baseStartH + 1, textColor);
+        client.textRenderer.draw(stack, value, baseEndW - client.textRenderer.getWidth(value), baseStartH + 1, textColor);
     }
 
     private void renderXp(int xp, int total, int level){
