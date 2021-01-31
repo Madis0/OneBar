@@ -58,7 +58,9 @@ public abstract class InGameHudMixin {
         int health = MathHelper.ceil(rawHealth);
 
         int maxHunger = 20;
-        int hunger = maxHunger - hungerManager.getFoodLevel();
+        int rawFood = hungerManager.getFoodLevel();
+        float saturation = hungerManager.getSaturationLevel(); //TODO: usage TBD
+        int hunger = maxHunger - rawFood;
 
         int maxArmor = 20;
         int armor = playerEntity.getArmor();
@@ -101,13 +103,7 @@ public abstract class InGameHudMixin {
 
     private void renderHealth(float health, float total){
         int healthColor = 0xFFD32F2F;
-        float precision = 10000.0F;
-        int current = MathHelper.ceil(health * precision);
-        int max = MathHelper.ceil(total * precision);
-
-        int wat = relativeEndW(current, max);
-
-        DrawableHelper.fill(stack, baseStartW, baseStartH, relativeEndW(current, max), baseEndH, healthColor);
+        DrawableHelper.fill(stack, baseStartW, baseStartH, relativeEndW(getPreciseInt(health), getPreciseInt(total)), baseEndH, healthColor);
     }
 
     private void renderArmor(int armor, int total){
@@ -169,5 +165,10 @@ public abstract class InGameHudMixin {
 
     private void debugText(String value){
         client.textRenderer.drawWithShadow(stack, value, baseEndW + 15, baseStartH + 1, 0xFFFFFFFF);
+    }
+
+    private int getPreciseInt(float number){
+        float precision = 10000.0F;
+        return MathHelper.ceil(number * precision);
     }
 }
