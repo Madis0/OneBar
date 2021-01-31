@@ -8,6 +8,7 @@ import net.minecraft.entity.player.HungerManager;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.util.math.MathHelper;
 import org.spongepowered.asm.mixin.Mixin;
+import org.spongepowered.asm.mixin.Overwrite;
 import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
@@ -19,6 +20,12 @@ public abstract class InGameHudMixin {
 
     MinecraftClient client;
     MatrixStack stack;
+    boolean disableVanilla = false; // TODO: make it work
+
+    int baseStartW = 229;
+    int baseEndW = 411;
+    int baseStartH = 315;
+    int baseEndH = baseStartH + 9;
 
     @Inject(at = @At("TAIL"), method = "render")
     public void render(MatrixStack matrixStack, float tickDelta, CallbackInfo info) {
@@ -36,94 +43,54 @@ public abstract class InGameHudMixin {
         int xpTotal = 183; // TODO: source constant?
         int xpProg = (int)(playerEntity.experienceProgress * xpTotal);
 
-        // TODO: relative coords, currently only visible in maximized
         resetBar();
         renderHealth(health);
         renderHunger(hunger);
         renderArmor(armor);
         renderAir(air);
         renderXp(xpProg, xpTotal, xpLevel);
-
         renderText(health, hunger, air);
+    }
+
+    //TODO: overwrite only on-demand
+
+    @Overwrite
+    private void renderStatusBars(MatrixStack matrices){
+    }
+    @Overwrite
+    public void renderExperienceBar(MatrixStack matrices, int x){
     }
 
     private void resetBar(){
         int backgroundColor = 0xFF000000;
-        int healthStartW = 228;
-        int healthEndW = 411;
-        int healthStartH = 300;
-        int healthEndH = 309;
 
         int xpStartW = 420;
         int xpEndW = 440;
         int xpStartH = 345;
         int xpEndH = 346;
 
-        DrawableHelper.fill(stack, healthStartW, healthStartH, healthEndW, healthEndH, backgroundColor);
+        DrawableHelper.fill(stack, baseStartW, baseStartH, baseEndW, baseEndH, backgroundColor);
         DrawableHelper.fill(stack, xpStartW, xpStartH, xpEndW, xpEndH, backgroundColor);
     }
 
     private void renderHealth(int health){
         int healthColor = 0xFFD32F2F;
-        int startW = 228;
-        int endW = 411;
-        int startH = 300;
-        int endH = 309;
-
-        int relativeEndW;
-
-        if(health < 20)
-            relativeEndW = startW + ((endW - startW) / 20 * health);
-        else
-            relativeEndW = endW;
-
-        DrawableHelper.fill(stack, startW, startH, relativeEndW, endH, healthColor);
-    }
-
-    private void renderHunger(int hunger){
-        int hungerColor = 0xFF3E2723;
-        int endW = 228;
-        int startW = 411;
-        int startH = 300;
-        int endH = 309;
-
-        int relativeEndW = startW + ((endW - startW) / 20 * hunger);
-
-        DrawableHelper.fill(stack, startW, startH, relativeEndW, endH, hungerColor);
-    }
-
-    private void renderAir(int air){
-        int airColor = 0xFF1A237E;
-        int endW = 228;
-        int startW = 411;
-        int startH = 300;
-        int endH = 309;
-
-        int relativeEndW;
-
-        if(air < 20)
-            relativeEndW = startW + ((endW - startW) / 20 * air);
-        else
-            relativeEndW = endW;
-
-        DrawableHelper.fill(stack, startW, startH, relativeEndW, endH, airColor);
+        DrawableHelper.fill(stack, baseStartW, baseStartH, relativeEndW(health, 20), baseEndH, healthColor);
     }
 
     private void renderArmor(int armor){
         int armorColor = 0xFFFFFFFF;
-        int startW = 228;
-        int endW = 411;
-        int startH = 299;
-        int endH = 300;
+        DrawableHelper.fill(stack, baseStartW, baseStartH - 1, relativeEndW(armor, 20), baseStartH, armorColor);
+    }
 
-        int relativeEndW;
+    private void renderHunger(int hunger){
+        int hungerColor = 0xFF3E2723;
+        DrawableHelper.fill(stack, relativeStartW(hunger, 20), baseStartH, baseEndW, baseEndH, hungerColor);
+    }
 
-        if(armor < 20)
-            relativeEndW = startW + ((endW - startW) / 20 * armor);
-        else
-            relativeEndW = endW;
-
-        DrawableHelper.fill(stack, startW, startH, relativeEndW, endH, armorColor);
+    private void renderAir(int air){
+        int airColor = 0xFF1A237E;
+        DrawableHelper.fill(stack, relativeStartW(air, 20), baseStartH, baseEndW, baseEndH, airColor);
     }
 
     private void renderText(int health, int hunger, int air){
@@ -131,13 +98,11 @@ public abstract class InGameHudMixin {
         if (hunger < 1 && air < 1)
             value = String.valueOf(health);
         else if(hunger >= 1 && air < 1)
-            value = String.valueOf(health) + "-" + String.valueOf(hunger);
+            value = health + "-" + hunger;
         else
-            value = String.valueOf(health) + "-A" + String.valueOf(air);
+            value = health + "-A" + air;
         int textColor = 0xFFFFFFFF;
-        int textX = 396;
-        int textY = 301;
-        client.textRenderer.draw(stack, value, textX, textY, textColor);
+        client.textRenderer.draw(stack, value, baseEndW - 15, baseStartH + 1, textColor);
     }
 
     private void renderXp(int xp, int total, int level){
@@ -147,19 +112,33 @@ public abstract class InGameHudMixin {
         int startH = 345;
         int endH = 346;
 
-        int textX = 425;
-        int textY = 335;
-
         int relativeEndW;
 
         if(xp < total)
-            relativeEndW = (startW + ((endW - startW) / total * xp));
+            relativeEndW = startW + ((endW - startW) / total * xp);
         else
             relativeEndW = endW;
 
-        //String value = String.valueOf(level) + " " + String.valueOf(xp) + "/" + String.valueOf(total) + " (" + String.valueOf(relativeEndW) + ")";
+        int textX = 425;
+        int textY = 335;
+
+        //String value = level + " " + xp + "/" + total + " (" + relativeEndW + ")";
 
         DrawableHelper.fill(stack, startW, startH, relativeEndW, endH, xpColor);
         client.textRenderer.drawWithShadow(stack, String.valueOf(level), textX, textY, xpColor);
+    }
+
+    private int relativeEndW(int value, int total){
+        if(value < total)
+            return baseStartW + ((baseEndW - baseStartW) / total * value);
+        else
+            return baseEndW;
+    }
+
+    private int relativeStartW(int value, int total){
+        if(value < total)
+            return baseEndW + ((baseStartW - baseEndW) / total * value);
+        else
+            return baseStartW;
     }
 }
