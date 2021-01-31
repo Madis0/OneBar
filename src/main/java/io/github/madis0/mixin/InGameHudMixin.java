@@ -42,6 +42,8 @@ public abstract class InGameHudMixin {
         int xpLevel = playerEntity.experienceLevel;
         int xpTotal = 183; // TODO: source constant?
         int xpProg = (int)(playerEntity.experienceProgress * xpTotal);
+        //int fire = playerEntity.getFireTicks(); //TODO: only returns 0, 1 or -20
+        //debugText("Fire:" + fire);
 
         resetBar();
         renderHealth(health);
@@ -140,5 +142,9 @@ public abstract class InGameHudMixin {
             return baseEndW + ((baseStartW - baseEndW) / total * value);
         else
             return baseStartW;
+    }
+
+    private void debugText(String value){
+        client.textRenderer.drawWithShadow(stack, value, baseEndW + 15, baseStartH + 1, 0xFFFFFFFF);
     }
 }
