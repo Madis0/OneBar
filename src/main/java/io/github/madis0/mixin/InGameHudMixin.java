@@ -42,33 +42,44 @@ public abstract class InGameHudMixin {
 
         baseStartW = this.scaledWidth / 2 - 91;
         baseEndW = baseStartW + 182;
-        baseStartH = this.scaledHeight - 35;
+        baseStartH = this.scaledHeight - 33;
         baseEndH = baseStartH + 9;
 
         xpStartW = baseEndW + 2;
         xpEndW = xpStartW + 18;
-        xpStartH = baseStartH + 30;
+        xpStartH = baseStartH + 28;
         xpEndH = xpStartH + 1;
 
         PlayerEntity playerEntity = this.getCameraPlayer();
         HungerManager hungerManager = playerEntity.getHungerManager();
 
-        int hunger = 20 - hungerManager.getFoodLevel(); // TODO: source constant?
-        int health = MathHelper.ceil(playerEntity.getHealth());
+        float rawHealth = playerEntity.getHealth();
+        float maxHealth = playerEntity.getMaxHealth();
+        int health = MathHelper.ceil(rawHealth);
+
+        int maxHunger = 20;
+        int hunger = maxHunger - hungerManager.getFoodLevel();
+
+        int maxArmor = 20;
         int armor = playerEntity.getArmor();
-        int air = (playerEntity.getMaxAir() - playerEntity.getAir()) / 15;
+
+        int maxAir = playerEntity.getMaxAir();
+        int rawAir = maxAir - playerEntity.getAir();
+        int air = rawAir / 15;
+
         int xpLevel = playerEntity.experienceLevel;
-        int xpTotal = 183; // TODO: source constant?
-        int xpProg = (int)(playerEntity.experienceProgress * xpTotal);
+        int maxXp = 183;
+        int xp = (int)(playerEntity.experienceProgress * maxXp);
+
         //int fire = playerEntity.getFireTicks(); //TODO: only returns 0, 1 or -20
         //debugText("Fire:" + fire);
 
         resetBar();
-        renderHealth(health);
-        renderHunger(hunger);
-        renderArmor(armor);
-        renderAir(air);
-        renderXp(xpProg, xpTotal, xpLevel);
+        renderHealth(rawHealth, maxHealth);
+        renderHunger(hunger, maxHunger);
+        renderArmor(armor, maxArmor);
+        renderAir(rawAir, maxAir);
+        renderXp(xp, maxXp, xpLevel);
         renderText(health, hunger, air);
     }
 
@@ -88,24 +99,30 @@ public abstract class InGameHudMixin {
         DrawableHelper.fill(stack, xpStartW, xpStartH, xpEndW, xpEndH, backgroundColor);
     }
 
-    private void renderHealth(int health){
+    private void renderHealth(float health, float total){
         int healthColor = 0xFFD32F2F;
-        DrawableHelper.fill(stack, baseStartW, baseStartH, relativeEndW(health, 20), baseEndH, healthColor);
+        float precision = 10000.0F;
+        int current = MathHelper.ceil(health * precision);
+        int max = MathHelper.ceil(total * precision);
+
+        int wat = relativeEndW(current, max);
+
+        DrawableHelper.fill(stack, baseStartW, baseStartH, relativeEndW(current, max), baseEndH, healthColor);
     }
 
-    private void renderArmor(int armor){
+    private void renderArmor(int armor, int total){
         int armorColor = 0xFFFFFFFF;
-        DrawableHelper.fill(stack, baseStartW, baseStartH - 1, relativeEndW(armor, 20), baseStartH, armorColor);
+        DrawableHelper.fill(stack, baseStartW, baseStartH - 1, relativeEndW(armor, total), baseStartH, armorColor);
     }
 
-    private void renderHunger(int hunger){
+    private void renderHunger(int hunger, int total){
         int hungerColor = 0xFF3E2723;
-        DrawableHelper.fill(stack, relativeStartW(hunger, 20), baseStartH, baseEndW, baseEndH, hungerColor);
+        DrawableHelper.fill(stack, relativeStartW(hunger, total), baseStartH, baseEndW, baseEndH, hungerColor);
     }
 
-    private void renderAir(int air){
+    private void renderAir(int air, int total){
         int airColor = 0xFF1A237E;
-        DrawableHelper.fill(stack, relativeStartW(air, 20), baseStartH, baseEndW, baseEndH, airColor);
+        DrawableHelper.fill(stack, relativeStartW(air, total), baseStartH, baseEndW, baseEndH, airColor);
     }
 
     private void renderText(int health, int hunger, int air){
@@ -138,14 +155,14 @@ public abstract class InGameHudMixin {
 
     private int relativeEndW(int value, int total){
         if(value < total)
-            return baseStartW + ((baseEndW - baseStartW) / total * value);
+            return MathHelper.ceil(baseStartW + ((float)(baseEndW - baseStartW) / total * value));
         else
             return baseEndW;
     }
 
     private int relativeStartW(int value, int total){
         if(value < total)
-            return baseEndW + ((baseStartW - baseEndW) / total * value);
+            return MathHelper.ceil(baseEndW + ((float)(baseStartW - baseEndW) / total * value));
         else
             return baseStartW;
     }
