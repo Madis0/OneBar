@@ -28,6 +28,7 @@ public abstract class InGameHudMixin {
     boolean showVanilla = false;
     boolean showOneBar = true;
     boolean showArmor = true;
+    boolean showJump = true;
 
     int baseStartW;
     int baseEndW;
@@ -65,9 +66,9 @@ public abstract class InGameHudMixin {
         jumpEndH = jumpStartH + 50;
 
         if(showOneBar && !playerEntity.isSpectator() && !playerEntity.isCreative()) renderBar();
-        if(showArmor && !playerEntity.isSpectator() && !playerEntity.isCreative()) armorBar();
+        if(showOneBar && showArmor && !playerEntity.isSpectator() && !playerEntity.isCreative()) armorBar();
 
-        mountBossBar();
+        //mountBossBar();
 
     }
 
@@ -85,7 +86,7 @@ public abstract class InGameHudMixin {
     @Inject(method = "renderMountJumpBar", at = @At(value = "INVOKE"), cancellable = true)
     public void renderMountJumpBar(MatrixStack matrices, int x, CallbackInfo ci) {
         if(!showVanilla) ci.cancel();
-        if(showOneBar) jumpBar();
+        if(showOneBar && showJump) jumpBar();
     }
 
     private void renderBar(){
