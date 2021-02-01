@@ -8,7 +8,6 @@ import net.minecraft.entity.player.HungerManager;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.util.math.MathHelper;
 import org.spongepowered.asm.mixin.Mixin;
-import org.spongepowered.asm.mixin.Overwrite;
 import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
@@ -38,6 +37,10 @@ public abstract class InGameHudMixin {
     int xpEndW;
     int xpStartH;
     int xpEndH;
+    int jumpStartW;
+    int jumpEndW;
+    int jumpStartH;
+    int jumpEndH;
 
     @Inject(at = @At("TAIL"), method = "render")
     public void render(MatrixStack matrixStack, float tickDelta, CallbackInfo info) {
@@ -56,8 +59,16 @@ public abstract class InGameHudMixin {
         xpStartH = baseStartH + 28;
         xpEndH = xpStartH + 1;
 
+        jumpStartW = (this.scaledWidth / 2) - 2;
+        jumpStartH = (this.scaledHeight / 2) + 10;
+        jumpEndW = jumpStartW + 3;
+        jumpEndH = jumpStartH + 50;
+
         if(showOneBar && !playerEntity.isSpectator() && !playerEntity.isCreative()) renderBar();
-        if(showArmor) armorBar();
+        if(showArmor && !playerEntity.isSpectator() && !playerEntity.isCreative()) armorBar();
+
+        mountBossBar();
+
     }
 
     //TODO: overwrite only on-demand
@@ -69,6 +80,12 @@ public abstract class InGameHudMixin {
     @Inject(method = "renderExperienceBar", at = @At(value = "INVOKE"), cancellable = true)
     public void renderExperienceBar(MatrixStack matrices, int x, CallbackInfo ci){
         if(!showVanilla) ci.cancel();
+    }
+
+    @Inject(method = "renderMountJumpBar", at = @At(value = "INVOKE"), cancellable = true)
+    public void renderMountJumpBar(MatrixStack matrices, int x, CallbackInfo ci) {
+        if(!showVanilla) ci.cancel();
+        if(showOneBar) jumpBar();
     }
 
     private void renderBar(){
@@ -92,7 +109,7 @@ public abstract class InGameHudMixin {
         float maxHealth = playerEntity.getMaxHealth();
 
         int healthColor = 0xFFD32F2F;
-        DrawableHelper.fill(stack, baseStartW, baseStartH, relativeEndW(getPreciseInt(rawHealth), getPreciseInt(maxHealth)), baseEndH, healthColor);
+        DrawableHelper.fill(stack, baseStartW, baseStartH, baseRelativeEndW(getPreciseInt(rawHealth), getPreciseInt(maxHealth)), baseEndH, healthColor);
     }
 
     private void armorBar(){
@@ -100,7 +117,7 @@ public abstract class InGameHudMixin {
         int armor = playerEntity.getArmor();
 
         int armorColor = 0xFFFFFFFF;
-        DrawableHelper.fill(stack, baseStartW, baseStartH - 1, relativeEndW(armor, maxArmor), baseStartH, armorColor);
+        DrawableHelper.fill(stack, baseStartW, baseStartH - 1, baseRelativeEndW(armor, maxArmor), baseStartH, armorColor);
     }
 
     private void hungerBar(){
@@ -109,16 +126,15 @@ public abstract class InGameHudMixin {
         //float saturation = hungerManager.getSaturationLevel(); //TODO: usage TBD
 
         int hungerColor = 0xFF3E2723;
-        DrawableHelper.fill(stack, relativeStartW(hunger, maxHunger), baseStartH, baseEndW, baseEndH, hungerColor);
+        DrawableHelper.fill(stack, baseRelativeStartW(hunger, maxHunger), baseStartH, baseEndW, baseEndH, hungerColor);
     }
 
     private void airBar(){
         int maxAir = playerEntity.getMaxAir();
         int rawAir = maxAir - playerEntity.getAir();
-        int air = rawAir / 15;
 
         int airColor = 0xFF1A237E;
-        DrawableHelper.fill(stack, relativeStartW(rawAir, maxAir), baseStartH, baseEndW, baseEndH, airColor);
+        DrawableHelper.fill(stack, baseRelativeStartW(rawAir, maxAir), baseStartH, baseEndW, baseEndH, airColor);
     }
 
     private void barText(){
@@ -148,12 +164,7 @@ public abstract class InGameHudMixin {
         int xp = (int)(playerEntity.experienceProgress * maxXp);
 
         int xpColor = 0xFF00C853;
-        int relativeEndW;
-
-        if(xp < maxXp)
-            relativeEndW = MathHelper.ceil(xpStartW + ((float)(xpEndW - xpStartW) / maxXp * xp));
-        else
-            relativeEndW = xpEndW;
+        int relativeEndW = relativeW(xpStartW, xpEndW, xp, maxXp);
 
         int textX = xpStartW + 3;
         int textY = xpStartH - 10;
@@ -162,18 +173,33 @@ public abstract class InGameHudMixin {
         client.textRenderer.drawWithShadow(stack, String.valueOf(xpLevel), textX, textY, xpColor);
     }
 
-    private int relativeEndW(int value, int total){
-        if(value < total)
-            return MathHelper.ceil(baseStartW + ((float)(baseEndW - baseStartW) / total * value));
-        else
-            return baseEndW;
+    private void jumpBar(){
+        if (client.player == null) throw new AssertionError();
+
+        int maxHeight = getPreciseInt(1.0F);
+        int height = getPreciseInt(client.player.method_3151());
+
+        int jumpColor = 0xFF795548;
+        int backgroundColor = 0xFF000000;
+
+        int relativeStartH = relativeW(jumpEndH, jumpStartH, height, maxHeight);
+        DrawableHelper.fill(stack, jumpStartW, jumpStartH, jumpEndW, jumpEndH, backgroundColor);
+        DrawableHelper.fill(stack, jumpStartW, jumpEndH, jumpEndW, relativeStartH, jumpColor);
     }
 
-    private int relativeStartW(int value, int total){
+    private int relativeW(int start, int end, int value, int total){
         if(value < total)
-            return MathHelper.ceil(baseEndW + ((float)(baseStartW - baseEndW) / total * value));
+            return MathHelper.ceil(start + ((float)(end - start) / total * value));
         else
-            return baseStartW;
+            return end;
+    }
+
+    private int baseRelativeEndW(int value, int total){
+        return relativeW(baseStartW, baseEndW, value, total);
+    }
+
+    private int baseRelativeStartW(int value, int total){
+        return relativeW(baseEndW, baseStartW, value, total);
     }
 
     private void debugText(String value){
@@ -183,5 +209,14 @@ public abstract class InGameHudMixin {
     private int getPreciseInt(float number){
         float precision = 10000.0F;
         return MathHelper.ceil(number * precision);
+    }
+
+    private void mountBossBar(){
+        /*
+        ClientBossBar clientBossBar;
+        BossBar bossBar = new BossBar(UUID.randomUUID(), "Piggy", BossBar.Color.YELLOW, BossBar.Style.PROGRESS, 0.5F);
+        BossBarS2CPacket packet = new BossBarS2CPacket(BossBarS2CPacket.Type.ADD, bossBar);
+        clientBossBar = new ClientBossBar(packet);
+*/
     }
 }
