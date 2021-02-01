@@ -148,6 +148,8 @@ public abstract class InGameHudMixin {
         int rawAir = maxAir - playerEntity.getAir();
         int air = rawAir / 15;
 
+        boolean hardcore = playerEntity.world.getLevelProperties().isHardcore();
+
         String value;
         if (hunger < 1 && air < 1)
             value = String.valueOf(health);
@@ -155,6 +157,8 @@ public abstract class InGameHudMixin {
             value = health + "-" + hunger;
         else
             value = health + "-A" + air;
+
+        if(hardcore) value = value + "!";
         int textColor = 0xFFFFFFFF;
         client.textRenderer.draw(stack, value, baseEndW - client.textRenderer.getWidth(value), baseStartH + 1, textColor);
     }
