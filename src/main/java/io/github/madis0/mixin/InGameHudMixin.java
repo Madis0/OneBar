@@ -117,7 +117,7 @@ public abstract class InGameHudMixin {
         int maxArmor = 20;
         int armor = playerEntity.getArmor();
 
-        int armorColor = 0xFFFFFFFF;
+        int armorColor = 0x99FFFFFF;
         DrawableHelper.fill(stack, baseStartW, baseStartH - 1, baseRelativeEndW(armor, maxArmor), baseStartH, armorColor);
     }
 
@@ -126,7 +126,7 @@ public abstract class InGameHudMixin {
         int hunger = maxHunger - hungerManager.getFoodLevel();
         //float saturation = hungerManager.getSaturationLevel(); //TODO: usage TBD
 
-        int hungerColor = 0xFF3E2723;
+        int hungerColor = 0xBB3E2723;
         DrawableHelper.fill(stack, baseRelativeStartW(hunger, maxHunger), baseStartH, baseEndW, baseEndH, hungerColor);
     }
 
@@ -134,7 +134,7 @@ public abstract class InGameHudMixin {
         int maxAir = playerEntity.getMaxAir();
         int rawAir = maxAir - playerEntity.getAir();
 
-        int airColor = 0xFF1A237E;
+        int airColor = 0xBB1A237E;
         DrawableHelper.fill(stack, baseRelativeStartW(rawAir, maxAir), baseStartH, baseEndW, baseEndH, airColor);
     }
 
@@ -159,7 +159,7 @@ public abstract class InGameHudMixin {
             value = health + "-A" + air;
 
         if(hardcore) value = value + "!";
-        int textColor = 0xFFFFFFFF;
+        int textColor = 0x99FFFFFF;
         client.textRenderer.draw(stack, value, baseEndW - client.textRenderer.getWidth(value), baseStartH + 1, textColor);
     }
 
