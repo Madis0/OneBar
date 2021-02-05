@@ -17,6 +17,7 @@ For example, if you get hungry, the hunger overlay is displayed over the health 
 * Health - red bar, **number**
 * Armor - white bar on top, no number
 * Absorption - no bar, **+number**
+* Health boost - same as health, but changes bars widths to fit the max health
 
 #### Negative (right-to-left)
 
