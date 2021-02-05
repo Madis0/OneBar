@@ -1,17 +1,25 @@
 package io.github.madis0.mixin;
 
+import io.github.madis0.FakeBossBar;
 import net.minecraft.client.MinecraftClient;
+import net.minecraft.client.gui.hud.ClientBossBar;
 import net.minecraft.client.gui.hud.InGameHud;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.client.gui.DrawableHelper;
+import net.minecraft.entity.boss.BossBar;
 import net.minecraft.entity.player.HungerManager;
 import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.network.packet.s2c.play.BossBarS2CPacket;
+import net.minecraft.text.LiteralText;
+import net.minecraft.text.Text;
 import net.minecraft.util.math.MathHelper;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
+
+import java.util.UUID;
 
 @Mixin(InGameHud.class)
 public abstract class InGameHudMixin {
@@ -20,10 +28,11 @@ public abstract class InGameHudMixin {
     @Shadow private int scaledWidth;
     @Shadow private int scaledHeight;
 
-    MinecraftClient client;
-    MatrixStack stack;
-    PlayerEntity playerEntity;
-    HungerManager hungerManager;
+    private MinecraftClient client;
+    private MatrixStack stack;
+    private PlayerEntity playerEntity;
+    private HungerManager hungerManager;
+    private ClientBossBar clientBossBar;
 
     boolean showVanilla = false;
     boolean showOneBar = true;
@@ -68,7 +77,7 @@ public abstract class InGameHudMixin {
         if(showOneBar && !playerEntity.isSpectator() && !playerEntity.isCreative()) renderBar();
         if(showOneBar && showArmor && !playerEntity.isSpectator() && !playerEntity.isCreative()) armorBar();
 
-        //mountBossBar();
+        mountBossBar();
 
     }
 
@@ -217,11 +226,11 @@ public abstract class InGameHudMixin {
     }
 
     private void mountBossBar(){
-        /*
-        ClientBossBar clientBossBar;
-        BossBar bossBar = new BossBar(UUID.randomUUID(), "Piggy", BossBar.Color.YELLOW, BossBar.Style.PROGRESS, 0.5F);
+        LiteralText name = new LiteralText("piggy");
+        BossBar bossBar = new FakeBossBar(UUID.randomUUID(), name, BossBar.Color.YELLOW, BossBar.Style.PROGRESS);
         BossBarS2CPacket packet = new BossBarS2CPacket(BossBarS2CPacket.Type.ADD, bossBar);
         clientBossBar = new ClientBossBar(packet);
-*/
+        clientBossBar.setPercent(60);
+
     }
 }
