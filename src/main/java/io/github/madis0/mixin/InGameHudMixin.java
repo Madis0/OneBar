@@ -150,8 +150,9 @@ public abstract class InGameHudMixin {
 
     private void barText(){
         int health = MathHelper.ceil(playerEntity.getHealth());
-        int maxHunger = 20;
+        int absorption = MathHelper.ceil(playerEntity.getAbsorptionAmount());
 
+        int maxHunger = 20;
         int hunger = maxHunger - hungerManager.getFoodLevel();
 
         int maxAir = playerEntity.getMaxAir();
@@ -160,15 +161,16 @@ public abstract class InGameHudMixin {
 
         boolean hardcore = playerEntity.world.getLevelProperties().isHardcore();
 
-        String value;
-        if (hunger < 1 && air < 1)
-            value = String.valueOf(health);
-        else if(hunger >= 1 && air < 1)
-            value = health + "-" + hunger;
-        else
-            value = health + "-A" + air;
+        String value = String.valueOf(health);
 
-        if(hardcore) value = value + "!";
+        if (absorption > 0)
+            value += "+" + absorption; //TODO: effect time
+        if (air > 0)
+            value += "-a" + air;
+        if (hunger > 0)
+            value += "-" + hunger;
+        if (hardcore)
+            value += "!";
 
         int textColor = 0x99FFFFFF;
         int textX = baseEndW - client.textRenderer.getWidth(value);
