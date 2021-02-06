@@ -33,6 +33,7 @@ public abstract class InGameHudMixin {
     boolean showOneBar = true;
     boolean showArmor = true;
     boolean showJump = true;
+    boolean barsVisible;
 
     int baseStartW;
     int baseEndW;
@@ -77,8 +78,12 @@ public abstract class InGameHudMixin {
 
         backgroundColor = 0xFF000000;
 
-        if(showOneBar && !playerEntity.isSpectator() && !playerEntity.isCreative()) renderBar();
-        if(showOneBar && showArmor && !playerEntity.isSpectator() && !playerEntity.isCreative()) armorBar();
+        barsVisible = !client.options.hudHidden && client.interactionManager.hasStatusBars();
+
+        if (client.interactionManager == null) throw new AssertionError();
+
+        if(showOneBar && barsVisible) renderBar();
+        if(showOneBar && showArmor && barsVisible) armorBar();
 
         mountBar();
 
@@ -107,11 +112,14 @@ public abstract class InGameHudMixin {
     }
 
     private void renderBar(){
-        healthBar();
-        hungerBar();
-        airBar();
-        xpBar();
-        barText();
+        PlayerEntity playerEntity = this.getCameraPlayer();
+        if (playerEntity != null) {
+            healthBar();
+            hungerBar();
+            airBar();
+            xpBar();
+            barText();
+        }
     }
 
     private void healthBar(){
