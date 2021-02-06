@@ -25,4 +25,10 @@ For example, if you get hungry, the hunger overlay is displayed over the health 
 * Air - blue bar, **-anumber**
 * Hardcore mode - no bar, **!**
 
+#### Others
+
+* Mount health - orange bar above OneBar, similar style
+* Horse jump - brown vertical bar below crosshair
+* Enchanting points - level count and bar to the right of hotbar 
+
 ![](https://i.ibb.co/z2RP4gw/2021-01-31-21-42-18.png)
