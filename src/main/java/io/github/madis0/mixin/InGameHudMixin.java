@@ -34,6 +34,7 @@ public abstract class InGameHudMixin {
     boolean showArmor = true;
     boolean showJump = true;
     boolean leftHanded = true;
+    boolean fractions = false;
 
     int baseStartW;
     int baseEndW;
@@ -133,7 +134,7 @@ public abstract class InGameHudMixin {
 
         int healthColor = 0xFFD32F2F;
         DrawableHelper.fill(stack, baseStartW, baseStartH, baseEndW, baseEndH, backgroundColor);
-        DrawableHelper.fill(stack, baseStartW, baseStartH, baseRelativeEndW(Calculations.getPreciseInt(rawHealth), Calculations.getPreciseInt(maxHealth)), baseEndH, healthColor);
+        DrawableHelper.fill(stack, baseStartW, baseStartH, baseRelativeEndW(Calculations.GetPreciseInt(rawHealth), Calculations.GetPreciseInt(maxHealth)), baseEndH, healthColor);
     }
 
     private void armorBar(){
@@ -174,14 +175,14 @@ public abstract class InGameHudMixin {
 
         boolean hardcore = playerEntity.world.getLevelProperties().isHardcore();
 
-        String value = String.valueOf(health);
+        String value = Calculations.MakeFraction(health, fractions);
 
         if (absorption > 0)
-            value += "+" + absorption; //TODO: effect time
+            value += "+" + Calculations.MakeFraction(absorption, fractions); //TODO: effect time
         if (air > 0)
-            value += "-a" + air;
+            value += "-a" + Calculations.MakeFraction(air, fractions);
         if (hunger > 0)
-            value += "-" + hunger;
+            value += "-" + Calculations.MakeFraction(hunger, fractions);
         if (hardcore)
             value += "!";
 
@@ -198,7 +199,7 @@ public abstract class InGameHudMixin {
         int xp = (int)(playerEntity.experienceProgress * maxXp);
 
         int xpColor = 0xFF00C853;
-        int relativeEndW = Calculations.relativeW(xpStartW, xpEndW, xp, maxXp);
+        int relativeEndW = Calculations.RelativeW(xpStartW, xpEndW, xp, maxXp);
 
         int textX = xpStartW + 3;
         int textY = xpStartH - 10;
@@ -211,12 +212,12 @@ public abstract class InGameHudMixin {
     private void jumpBar(){
         if (client.player == null) throw new AssertionError();
 
-        int maxHeight = Calculations.getPreciseInt(1.0F);
-        int height = Calculations.getPreciseInt(client.player.method_3151());
+        int maxHeight = Calculations.GetPreciseInt(1.0F);
+        int height = Calculations.GetPreciseInt(client.player.method_3151());
 
         int jumpColor = 0xFF795548;
 
-        int relativeStartH = Calculations.relativeW(jumpEndH, jumpStartH, height, maxHeight);
+        int relativeStartH = Calculations.RelativeW(jumpEndH, jumpStartH, height, maxHeight);
         DrawableHelper.fill(stack, jumpStartW, jumpStartH, jumpEndW, jumpEndH, backgroundColor);
         DrawableHelper.fill(stack, jumpStartW, jumpEndH, jumpEndW, relativeStartH, jumpColor);
     }
@@ -236,7 +237,7 @@ public abstract class InGameHudMixin {
             int textY = mountStartH + 1;
 
             DrawableHelper.fill(stack, baseStartW, mountStartH, baseEndW, mountEndH, backgroundColor);
-            DrawableHelper.fill(stack, baseStartW, mountStartH, baseRelativeEndW(Calculations.getPreciseInt(rawHealth), Calculations.getPreciseInt(maxHealth)), mountEndH, healthColor);
+            DrawableHelper.fill(stack, baseStartW, mountStartH, baseRelativeEndW(Calculations.GetPreciseInt(rawHealth), Calculations.GetPreciseInt(maxHealth)), mountEndH, healthColor);
             client.textRenderer.draw(stack, value, textX, textY, textColor);
         }
     }
@@ -246,10 +247,10 @@ public abstract class InGameHudMixin {
     }
 
     private int baseRelativeEndW(int value, int total){
-        return Calculations.relativeW(baseStartW, baseEndW, value, total);
+        return Calculations.RelativeW(baseStartW, baseEndW, value, total);
     }
 
     private int baseRelativeStartW(int value, int total){
-        return Calculations.relativeW(baseEndW, baseStartW, value, total);
+        return Calculations.RelativeW(baseEndW, baseStartW, value, total);
     }
 }
