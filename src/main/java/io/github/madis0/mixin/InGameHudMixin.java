@@ -33,7 +33,7 @@ public abstract class InGameHudMixin {
     boolean showOneBar = true;
     boolean showArmor = true;
     boolean showJump = true;
-    boolean barsVisible;
+    boolean leftHanded = true;
 
     int baseStartW;
     int baseEndW;
@@ -63,7 +63,12 @@ public abstract class InGameHudMixin {
         baseStartH = this.scaledHeight - 33;
         baseEndH = baseStartH + 9;
 
-        xpStartW = baseEndW + 2;
+        if(!leftHanded){
+            xpStartW = baseEndW + 2;
+        }
+        else {
+            xpStartW = baseStartW - 28;
+        }
         xpEndW = xpStartW + 18;
         xpStartH = baseStartH + 28;
         xpEndH = xpStartH + 1;
@@ -78,7 +83,7 @@ public abstract class InGameHudMixin {
 
         backgroundColor = 0xFF000000;
 
-        barsVisible = !client.options.hudHidden && client.interactionManager.hasStatusBars();
+        boolean barsVisible = !client.options.hudHidden && client.interactionManager.hasStatusBars();
 
         if (client.interactionManager == null) throw new AssertionError();
 
