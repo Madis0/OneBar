@@ -3,7 +3,6 @@ package io.github.madis0.mixin;
 import io.github.madis0.Calculations;
 import io.github.madis0.ModConfig;
 import me.shedaniel.autoconfig.AutoConfig;
-import me.shedaniel.autoconfig.serializer.GsonConfigSerializer;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.DrawableHelper;
 import net.minecraft.client.gui.hud.InGameHud;
@@ -32,7 +31,7 @@ public abstract class InGameHudMixin {
     private MatrixStack stack;
     private PlayerEntity playerEntity;
     private HungerManager hungerManager;
-    private ModConfig config = AutoConfig.getConfigHolder(ModConfig.class).getConfig();
+    private final ModConfig config = AutoConfig.getConfigHolder(ModConfig.class).getConfig();
 
     int baseStartW;
     int baseEndW;
@@ -48,7 +47,6 @@ public abstract class InGameHudMixin {
     int jumpEndH;
     int mountStartH;
     int mountEndH;
-    int backgroundColor;
 
     @Inject(at = @At("TAIL"), method = "render")
     public void render(MatrixStack matrixStack, float tickDelta, CallbackInfo info) {
@@ -62,7 +60,7 @@ public abstract class InGameHudMixin {
         baseStartH = this.scaledHeight - 33;
         baseEndH = baseStartH + 9;
 
-        if(!config.leftHanded){
+        if(!config.experience.leftHanded){
             xpStartW = baseEndW + 2;
         }
         else {
@@ -80,14 +78,12 @@ public abstract class InGameHudMixin {
         mountStartH = baseStartH - 12;
         mountEndH = mountStartH + 9;
 
-        backgroundColor = 0xFF000000;
-
         boolean barsVisible = !client.options.hudHidden && client.interactionManager.hasStatusBars();
 
         if (client.interactionManager == null) throw new AssertionError();
 
         if(config.showOneBar && barsVisible) renderBar();
-        if(config.showOneBar && config.showArmor && barsVisible) armorBar();
+        if(config.showOneBar && config.goodThings.showArmor && barsVisible) armorBar();
 
         mountBar();
 
@@ -107,7 +103,7 @@ public abstract class InGameHudMixin {
     @Inject(method = "renderMountJumpBar", at = @At(value = "INVOKE"), cancellable = true)
     private void renderMountJumpBar(MatrixStack matrices, int x, CallbackInfo ci) {
         if(!config.showVanilla) ci.cancel();
-        if(config.showOneBar && config.showJump) jumpBar();
+        if(config.showOneBar && config.entity.showHorseJump) jumpBar();
     }
     @Inject(method = "renderMountHealth", at = @At(value = "INVOKE"), cancellable = true)
     private void renderMountHealth(MatrixStack matrices, CallbackInfo ci) {
@@ -130,17 +126,15 @@ public abstract class InGameHudMixin {
         float rawHealth = playerEntity.getHealth();
         float maxHealth = playerEntity.getMaxHealth();
 
-        int healthColor = 0xFFD32F2F;
-        DrawableHelper.fill(stack, baseStartW, baseStartH, baseEndW, baseEndH, backgroundColor);
-        DrawableHelper.fill(stack, baseStartW, baseStartH, baseRelativeEndW(Calculations.GetPreciseInt(rawHealth), Calculations.GetPreciseInt(maxHealth)), baseEndH, healthColor);
+        DrawableHelper.fill(stack, baseStartW, baseStartH, baseEndW, baseEndH, config.backgroundColor);
+        DrawableHelper.fill(stack, baseStartW, baseStartH, baseRelativeEndW(Calculations.GetPreciseInt(rawHealth), Calculations.GetPreciseInt(maxHealth)), baseEndH, config.goodThings.healthColor);
     }
 
     private void armorBar(){
         int maxArmor = 20;
         int armor = playerEntity.getArmor();
 
-        int armorColor = 0x99FFFFFF;
-        DrawableHelper.fill(stack, baseStartW, baseStartH - 1, baseRelativeEndW(armor, maxArmor), baseStartH, armorColor);
+        DrawableHelper.fill(stack, baseStartW, baseStartH - 1, baseRelativeEndW(armor, maxArmor), baseStartH, config.goodThings.armorColor);
     }
 
     private void hungerBar(){
@@ -148,16 +142,14 @@ public abstract class InGameHudMixin {
         int hunger = maxHunger - hungerManager.getFoodLevel();
         //float saturation = hungerManager.getSaturationLevel(); //TODO: usage TBD
 
-        int hungerColor = 0xBB3E2723;
-        DrawableHelper.fill(stack, baseRelativeStartW(hunger, maxHunger), baseStartH, baseEndW, baseEndH, hungerColor);
+        DrawableHelper.fill(stack, baseRelativeStartW(hunger, maxHunger), baseStartH, baseEndW, baseEndH, config.badThings.hungerColor);
     }
 
     private void airBar(){
         int maxAir = playerEntity.getMaxAir();
         int rawAir = maxAir - playerEntity.getAir();
 
-        int airColor = 0xBB1A237E;
-        DrawableHelper.fill(stack, baseRelativeStartW(rawAir, maxAir), baseStartH, baseEndW, baseEndH, airColor);
+        DrawableHelper.fill(stack, baseRelativeStartW(rawAir, maxAir), baseStartH, baseEndW, baseEndH, config.badThings.airColor);
     }
 
     private void barText(){
@@ -173,22 +165,21 @@ public abstract class InGameHudMixin {
 
         boolean hardcore = playerEntity.world.getLevelProperties().isHardcore();
 
-        String value = Calculations.MakeFraction(health, config.fractions);
+        String value = Calculations.MakeFraction(health);
 
         if (absorption > 0)
-            value += "+" + Calculations.MakeFraction(absorption, config.fractions); //TODO: effect time
+            value += "+" + Calculations.MakeFraction(absorption); //TODO: effect time
         if (air > 0)
-            value += "-" + new TranslatableText("text.onebar.air").getString() + Calculations.MakeFraction(air, config.fractions);
+            value += "-" + new TranslatableText("text.onebar.air").getString() + Calculations.MakeFraction(air);
         if (hunger > 0)
-            value += "-" + Calculations.MakeFraction(hunger, config.fractions);
+            value += "-" + Calculations.MakeFraction(hunger);
         if (hardcore)
             value += "!";
 
-        int textColor = 0x99FFFFFF;
         int textX = baseEndW - client.textRenderer.getWidth(value);
         int textY = baseStartH + 1;
 
-        client.textRenderer.draw(stack, value, textX, textY, textColor);
+        client.textRenderer.draw(stack, value, textX, textY, config.textColor);
     }
 
     private void xpBar(){
@@ -196,15 +187,14 @@ public abstract class InGameHudMixin {
         int maxXp = 183;
         int xp = (int)(playerEntity.experienceProgress * maxXp);
 
-        int xpColor = 0xFF00C853;
         int relativeEndW = Calculations.RelativeW(xpStartW, xpEndW, xp, maxXp);
 
         int textX = xpStartW + 3;
         int textY = xpStartH - 10;
 
-        client.textRenderer.drawWithShadow(stack, String.valueOf(xpLevel), textX, textY, xpColor);
-        DrawableHelper.fill(stack, xpStartW, xpStartH, xpEndW, xpEndH, backgroundColor);
-        DrawableHelper.fill(stack, xpStartW, xpStartH, relativeEndW, xpEndH, xpColor);
+        client.textRenderer.drawWithShadow(stack, String.valueOf(xpLevel), textX, textY, config.experience.xpColor);
+        DrawableHelper.fill(stack, xpStartW, xpStartH, xpEndW, xpEndH, config.backgroundColor);
+        DrawableHelper.fill(stack, xpStartW, xpStartH, relativeEndW, xpEndH, config.experience.xpColor);
     }
 
     private void jumpBar(){
@@ -213,11 +203,10 @@ public abstract class InGameHudMixin {
         int maxHeight = Calculations.GetPreciseInt(1.0F);
         int height = Calculations.GetPreciseInt(client.player.method_3151());
 
-        int jumpColor = 0xFF795548;
 
         int relativeStartH = Calculations.RelativeW(jumpEndH, jumpStartH, height, maxHeight);
-        DrawableHelper.fill(stack, jumpStartW, jumpStartH, jumpEndW, jumpEndH, backgroundColor);
-        DrawableHelper.fill(stack, jumpStartW, jumpEndH, jumpEndW, relativeStartH, jumpColor);
+        DrawableHelper.fill(stack, jumpStartW, jumpStartH, jumpEndW, jumpEndH, config.backgroundColor);
+        DrawableHelper.fill(stack, jumpStartW, jumpEndH, jumpEndW, relativeStartH, config.entity.jumpColor);
     }
 
     private void mountBar(){
@@ -227,21 +216,18 @@ public abstract class InGameHudMixin {
             float maxHealth = livingEntity.getMaxHealth();
             int health = (int) Math.ceil(rawHealth);
 
-            int healthColor = 0xFFF57F17;
-            int textColor = 0x99FFFFFF;
-
             String value = String.valueOf(health);
             int textX = baseEndW - client.textRenderer.getWidth(value);
             int textY = mountStartH + 1;
 
-            DrawableHelper.fill(stack, baseStartW, mountStartH, baseEndW, mountEndH, backgroundColor);
-            DrawableHelper.fill(stack, baseStartW, mountStartH, baseRelativeEndW(Calculations.GetPreciseInt(rawHealth), Calculations.GetPreciseInt(maxHealth)), mountEndH, healthColor);
-            client.textRenderer.draw(stack, value, textX, textY, textColor);
+            DrawableHelper.fill(stack, baseStartW, mountStartH, baseEndW, mountEndH, config.backgroundColor);
+            DrawableHelper.fill(stack, baseStartW, mountStartH, baseRelativeEndW(Calculations.GetPreciseInt(rawHealth), Calculations.GetPreciseInt(maxHealth)), mountEndH, config.entity.healthColor);
+            client.textRenderer.draw(stack, value, textX, textY, config.textColor);
         }
     }
 
     private void debugText(String value){
-        client.textRenderer.drawWithShadow(stack, value, baseEndW + 15, baseStartH + 1, 0xFFFFFFFF);
+        client.textRenderer.drawWithShadow(stack, value, baseEndW + 15, baseStartH + 1, config.textColor);
     }
 
     private int baseRelativeEndW(int value, int total){
