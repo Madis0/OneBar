@@ -10,6 +10,8 @@ OneBar is meant to be contextual, showing you the values (and bar overlays) only
 
 For example, if you get hungry, the hunger overlay is displayed over the health by its value. If you eat, you'll lose the overlay and the value, because you no longer need it. However, if you are hungry and underwater, the water bar is displayed on top of health _and_ hunger because it is the most important value in this case.
 
+There are also settings for configuring the colors and visibility of various elements.
+
 ### Bars and values
 
 #### Positive (left-to-right)
@@ -31,4 +33,4 @@ For example, if you get hungry, the hunger overlay is displayed over the health 
 * Horse jump - brown vertical bar below crosshair
 * Enchanting points - level count and bar to the right of hotbar 
 
-![](https://i.ibb.co/z2RP4gw/2021-01-31-21-42-18.png)
+![](https://i.ibb.co/Jcs3ys8/2021-02-19-20-01-43.png)
