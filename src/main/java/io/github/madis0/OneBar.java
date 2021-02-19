@@ -1,6 +1,8 @@
 package io.github.madis0;
 
+import me.shedaniel.clothconfig2.api.ConfigBuilder;
 import net.fabricmc.api.ModInitializer;
+import net.minecraft.text.TranslatableText;
 
 public class OneBar implements ModInitializer {
 	@Override

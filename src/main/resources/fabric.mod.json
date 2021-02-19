@@ -26,6 +26,11 @@
   "mixins": [
     "onebar.mixins.json"
   ],
+  "entrypoints": {
+    "modmenu": [
+      "io.github.madis0.ModMenuIntegration"
+    ]
+  },
 
   "depends": {
     "fabricloader": ">=0.7.4",
