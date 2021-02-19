@@ -1,0 +1,11 @@
+{
+  "modmenu.descriptionTranslation.onebar": "Kontekstipõhine liidese mod",
+  "text.onebar.air": "õ",
+  "text.autoconfig.onebar.title": "OneBar seadistus",
+  "text.autoconfig.onebar.option.showVanilla": "Kuva vanilli liides",
+  "text.autoconfig.onebar.option.showOneBar": "Kuva OneBar",
+  "text.autoconfig.onebar.option.showArmor": "Rüüriba OneBari kohal",
+  "text.autoconfig.onebar.option.showJump": "Vertikaalne hobuse hüpperiba",
+  "text.autoconfig.onebar.option.leftHanded": "Vasakukäeline loitsimisriba",
+  "text.autoconfig.onebar.option.fractions": "Vanillisarnased murdarvudega loendurid"
+}

@@ -1,6 +1,9 @@
 package io.github.madis0.mixin;
 
 import io.github.madis0.Calculations;
+import io.github.madis0.ModConfig;
+import me.shedaniel.autoconfig.AutoConfig;
+import me.shedaniel.autoconfig.serializer.GsonConfigSerializer;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.DrawableHelper;
 import net.minecraft.client.gui.hud.InGameHud;
@@ -8,6 +11,7 @@ import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.HungerManager;
 import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.text.TranslatableText;
 import net.minecraft.util.math.MathHelper;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
@@ -28,13 +32,7 @@ public abstract class InGameHudMixin {
     private MatrixStack stack;
     private PlayerEntity playerEntity;
     private HungerManager hungerManager;
-
-    boolean showVanilla = false;
-    boolean showOneBar = true;
-    boolean showArmor = true;
-    boolean showJump = true;
-    boolean leftHanded = true;
-    boolean fractions = false;
+    private ModConfig config = AutoConfig.getConfigHolder(ModConfig.class).getConfig();
 
     int baseStartW;
     int baseEndW;
@@ -64,7 +62,7 @@ public abstract class InGameHudMixin {
         baseStartH = this.scaledHeight - 33;
         baseEndH = baseStartH + 9;
 
-        if(!leftHanded){
+        if(!config.leftHanded){
             xpStartW = baseEndW + 2;
         }
         else {
@@ -88,8 +86,8 @@ public abstract class InGameHudMixin {
 
         if (client.interactionManager == null) throw new AssertionError();
 
-        if(showOneBar && barsVisible) renderBar();
-        if(showOneBar && showArmor && barsVisible) armorBar();
+        if(config.showOneBar && barsVisible) renderBar();
+        if(config.showOneBar && config.showArmor && barsVisible) armorBar();
 
         mountBar();
 
@@ -99,22 +97,22 @@ public abstract class InGameHudMixin {
 
     @Inject(method = "renderStatusBars", at = @At(value = "INVOKE"), cancellable = true)
     private void renderStatusBars(MatrixStack matrices, CallbackInfo ci){
-        if(!showVanilla) ci.cancel();
+        if(!config.showVanilla) ci.cancel();
     }
     @Inject(method = "renderExperienceBar", at = @At(value = "INVOKE"), cancellable = true)
     private void renderExperienceBar(MatrixStack matrices, int x, CallbackInfo ci){
-        if(!showVanilla) ci.cancel();
+        if(!config.showVanilla) ci.cancel();
     }
 
     @Inject(method = "renderMountJumpBar", at = @At(value = "INVOKE"), cancellable = true)
     private void renderMountJumpBar(MatrixStack matrices, int x, CallbackInfo ci) {
-        if(!showVanilla) ci.cancel();
-        if(showOneBar && showJump) jumpBar();
+        if(!config.showVanilla) ci.cancel();
+        if(config.showOneBar && config.showJump) jumpBar();
     }
     @Inject(method = "renderMountHealth", at = @At(value = "INVOKE"), cancellable = true)
     private void renderMountHealth(MatrixStack matrices, CallbackInfo ci) {
-        if(!showVanilla) ci.cancel();
-        if(showOneBar) mountBar();
+        if(!config.showVanilla) ci.cancel();
+        if(config.showOneBar) mountBar();
     }
 
     private void renderBar(){
@@ -175,14 +173,14 @@ public abstract class InGameHudMixin {
 
         boolean hardcore = playerEntity.world.getLevelProperties().isHardcore();
 
-        String value = Calculations.MakeFraction(health, fractions);
+        String value = Calculations.MakeFraction(health, config.fractions);
 
         if (absorption > 0)
-            value += "+" + Calculations.MakeFraction(absorption, fractions); //TODO: effect time
+            value += "+" + Calculations.MakeFraction(absorption, config.fractions); //TODO: effect time
         if (air > 0)
-            value += "-a" + Calculations.MakeFraction(air, fractions);
+            value += "-" + new TranslatableText("text.onebar.air").getString() + Calculations.MakeFraction(air, config.fractions);
         if (hunger > 0)
-            value += "-" + Calculations.MakeFraction(hunger, fractions);
+            value += "-" + Calculations.MakeFraction(hunger, config.fractions);
         if (hardcore)
             value += "!";
 

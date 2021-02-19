@@ -1,0 +1,11 @@
+{
+  "modmenu.descriptionTranslation.onebar": "A contextual HUD mod",
+  "text.onebar.air": "a",
+  "text.autoconfig.onebar.title": "OneBar configuration",
+  "text.autoconfig.onebar.option.showVanilla": "Show vanilla HUD",
+  "text.autoconfig.onebar.option.showOneBar": "Show OneBar",
+  "text.autoconfig.onebar.option.showArmor": "Armor line on top of OneBar",
+  "text.autoconfig.onebar.option.showJump": "Vertical horse jump bar",
+  "text.autoconfig.onebar.option.leftHanded": "Left-handed enchanting bar",
+  "text.autoconfig.onebar.option.fractions": "Vanilla-like fractionated counters"
+}

@@ -1,8 +1,8 @@
 package io.github.madis0;
 
-import me.shedaniel.clothconfig2.api.ConfigBuilder;
+import me.shedaniel.autoconfig.AutoConfig;
+import me.shedaniel.autoconfig.serializer.GsonConfigSerializer;
 import net.fabricmc.api.ModInitializer;
-import net.minecraft.text.TranslatableText;
 
 public class OneBar implements ModInitializer {
 	@Override
@@ -10,5 +10,6 @@ public class OneBar implements ModInitializer {
 		// This code runs as soon as Minecraft is in a mod-load-ready state.
 		// However, some things (like resources) may still be uninitialized.
 		// Proceed with mild caution.
+		AutoConfig.register(ModConfig.class, GsonConfigSerializer::new);
 	}
 }
