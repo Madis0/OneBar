@@ -2,9 +2,8 @@
   "schemaVersion": 1,
   "id": "onebar",
   "version": "${version}",
-
   "name": "OneBar",
-  "description": "This is an example description! Tell everyone what your mod is about!",
+  "description": "A contextual HUD mod",
   "authors": [
     "Madis0"
   ],
@@ -13,25 +12,20 @@
     "sources": "https://github.com/Madis0/OneBar",
     "issues": "https://github.com/Madis0/OneBar/issues"
   },
-
   "license": "MPL-2.0",
   "icon": "assets/onebar/icon.png",
-
   "environment": "client",
   "entrypoints": {
     "main": [
       "io.github.madis0.OneBar"
+    ],
+    "modmenu": [
+      "io.github.madis0.ModMenuIntegration"
     ]
   },
   "mixins": [
     "onebar.mixins.json"
   ],
-  "entrypoints": {
-    "modmenu": [
-      "io.github.madis0.ModMenuIntegration"
-    ]
-  },
-
   "depends": {
     "fabricloader": ">=0.7.4",
     "fabric": "*",
