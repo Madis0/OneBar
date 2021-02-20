@@ -44,3 +44,14 @@ There are also settings for configuring the colors and visibility of various ele
 * Enchanting points - level count and bar to the right of hotbar 
 
 ![](https://i.ibb.co/Jcs3ys8/2021-02-19-20-01-43.png)
+
+### FAQ
+
+**Q: Forge support?**
+A: No. Feel free to fork according to the license.
+
+**Q: Backports?**
+A: No, Cloth Config isn't cross-compatible and I don't suggest using old versions anyway.
+
+**Q: Snapshots?**
+A: Somewhat. It probably runs, but config will crash. You've been warned!
