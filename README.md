@@ -48,7 +48,7 @@ There are also settings for configuring the colors and visibility of various ele
 ### FAQ
 
 **Q: Forge support?**
-A: No. Feel free to fork according to the license.
+A: No. Feel free to fork according to the license or [check out my resource pack that inspired this](https://www.curseforge.com/minecraft/texture-packs/material-design-hud).
 
 **Q: Backports?**
 A: No, Cloth Config isn't cross-compatible and I don't suggest using old versions anyway.
