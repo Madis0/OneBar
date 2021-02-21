@@ -2,7 +2,7 @@
 
 A sleek HUD mod for Minecraft: Java Edition. 
 
-Work in progress, Curseforge and Modrinth releases will come when stable enough. Right now the JARs can be found from [Actions tab](https://github.com/Madis0/OneBar/actions).
+Stable releases downloadable from [Curseforge](https://www.curseforge.com/minecraft/mc-mods/onebar) or [Modrinth](https://modrinth.com/mod/OneBar), automated builds available from [Actions tab](https://github.com/Madis0/OneBar/actions).
 
 ## Installation
 
