@@ -1,6 +1,7 @@
 {
   "modmenu.descriptionTranslation.onebar": "A contextual HUD mod",
-  "text.onebar.air": "a",
+  "text.onebar.resistance": "r%s%%",
+  "text.onebar.air": "a%s",
   "text.onebar.fire": "f",
   "text.autoconfig.onebar.title": "OneBar configuration",
   "text.autoconfig.onebar.option.showOneBar": "Show OneBar",
@@ -12,6 +13,7 @@
   "text.autoconfig.onebar.option.goodThings.healthColor": "Health color",
   "text.autoconfig.onebar.option.goodThings.showArmor": "Armor line on top of OneBar",
   "text.autoconfig.onebar.option.goodThings.armorColor": "Armor color",
+  "text.autoconfig.onebar.option.goodThings.showResistance": "Resistance percent",
   "text.autoconfig.onebar.option.badThings": "Bad effects and states",
   "text.autoconfig.onebar.option.badThings.hungerColor": "Hunger color",
   "text.autoconfig.onebar.option.badThings.airColor": "Air color (underwater)",

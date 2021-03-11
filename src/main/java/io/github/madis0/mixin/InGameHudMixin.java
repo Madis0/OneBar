@@ -8,6 +8,8 @@ import net.minecraft.client.gui.DrawableHelper;
 import net.minecraft.client.gui.hud.InGameHud;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.entity.LivingEntity;
+import net.minecraft.entity.effect.StatusEffect;
+import net.minecraft.entity.effect.StatusEffectInstance;
 import net.minecraft.entity.effect.StatusEffects;
 import net.minecraft.entity.player.HungerManager;
 import net.minecraft.entity.player.PlayerEntity;
@@ -164,6 +166,11 @@ public abstract class InGameHudMixin {
         int health = MathHelper.ceil(playerEntity.getHealth());
         int absorption = MathHelper.ceil(playerEntity.getAbsorptionAmount());
 
+        StatusEffectInstance resEffect = playerEntity.getStatusEffect(StatusEffects.RESISTANCE);
+        int resLevel = -1;
+        if(resEffect != null) resLevel = resEffect.getAmplifier();
+        int resPercent = (resLevel + 1) * 20;
+
         int maxHunger = 20;
         int hunger = maxHunger - hungerManager.getFoodLevel();
 
@@ -178,9 +185,11 @@ public abstract class InGameHudMixin {
         String value = Calculations.MakeFraction(health);
 
         if (absorption > 0)
-            value += "+" + Calculations.MakeFraction(absorption); //TODO: effect time
+            value += "+" + Calculations.MakeFraction(absorption);
+        if (resPercent > 0 && config.goodThings.showResistance)
+            value += "+" + new TranslatableText("text.onebar.resistance", String.valueOf(resPercent)).getString();
         if (air > 0 || altAir)
-            value += "-" + new TranslatableText("text.onebar.air").getString() + Calculations.MakeFraction(air);
+            value += "-" + new TranslatableText("text.onebar.air", Calculations.MakeFraction(air)).getString();
         if (fire)
             value += "-" + new TranslatableText("text.onebar.fire").getString();
         if (hunger > 0)

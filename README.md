@@ -30,6 +30,7 @@ There are also settings for configuring the colors and visibility of various ele
 * Armor - white bar on top, no number
 * Absorption - no bar, **+number**
 * Health boost - same as health, but changes bars widths to fit the max health
+* Resistance - no bar, **+percent%** where percent is the [effect level multiplier](https://minecraft.gamepedia.com/Resistance#Effect)
 
 #### Negative (right-to-left)
 
