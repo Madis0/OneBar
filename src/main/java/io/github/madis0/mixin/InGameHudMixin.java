@@ -8,6 +8,7 @@ import net.minecraft.client.gui.DrawableHelper;
 import net.minecraft.client.gui.hud.InGameHud;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.entity.LivingEntity;
+import net.minecraft.entity.effect.StatusEffects;
 import net.minecraft.entity.player.HungerManager;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.text.TranslatableText;
@@ -83,7 +84,7 @@ public abstract class InGameHudMixin {
         if (client.interactionManager == null) throw new AssertionError();
 
         if(config.showOneBar && barsVisible) renderBar();
-        if(config.showOneBar && config.goodThings.showArmor && barsVisible) armorBar();
+        if(config.showOneBar && barsVisible && config.goodThings.showArmor) armorBar();
 
         mountBar();
 
@@ -116,6 +117,7 @@ public abstract class InGameHudMixin {
         if (playerEntity != null) {
             healthBar();
             hungerBar();
+            fireBar();
             airBar();
             xpBar();
             barText();
@@ -152,6 +154,12 @@ public abstract class InGameHudMixin {
         DrawableHelper.fill(stack, baseRelativeStartW(rawAir, maxAir), baseStartH, baseEndW, baseEndH, config.badThings.airColor);
     }
 
+    private void fireBar(){
+        if(config.badThings.showFire && playerEntity.doesRenderOnFire() && !playerEntity.hasStatusEffect(StatusEffects.FIRE_RESISTANCE)){
+            DrawableHelper.fill(stack, baseStartW, baseStartH, baseEndW, baseEndH, config.badThings.fireColor);
+        }
+    }
+
     private void barText(){
         int health = MathHelper.ceil(playerEntity.getHealth());
         int absorption = MathHelper.ceil(playerEntity.getAbsorptionAmount());
@@ -162,6 +170,8 @@ public abstract class InGameHudMixin {
         int maxAir = playerEntity.getMaxAir();
         int rawAir = maxAir - playerEntity.getAir();
         int air = rawAir / 15;
+        boolean altAir =  playerEntity.isSubmergedInWater();
+        boolean fire = playerEntity.doesRenderOnFire();
 
         boolean hardcore = playerEntity.world.getLevelProperties().isHardcore();
 
@@ -169,8 +179,10 @@ public abstract class InGameHudMixin {
 
         if (absorption > 0)
             value += "+" + Calculations.MakeFraction(absorption); //TODO: effect time
-        if (air > 0)
+        if (air > 0 || altAir)
             value += "-" + new TranslatableText("text.onebar.air").getString() + Calculations.MakeFraction(air);
+        if (fire)
+            value += "-" + new TranslatableText("text.onebar.fire").getString();
         if (hunger > 0)
             value += "-" + Calculations.MakeFraction(hunger);
         if (hardcore)

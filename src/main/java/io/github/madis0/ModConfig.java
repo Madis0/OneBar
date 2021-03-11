@@ -39,6 +39,9 @@ public class ModConfig implements ConfigData {
         public int hungerColor = 0xBB3E2723;
         @ConfigEntry.ColorPicker(allowAlpha = true)
         public int airColor = 0xBB1A237E;
+        public boolean showFire = true;
+        @ConfigEntry.ColorPicker(allowAlpha = true)
+        public int fireColor = 0xBBC43E00;
 
     }
 

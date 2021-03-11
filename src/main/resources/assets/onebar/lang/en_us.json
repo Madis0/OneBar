@@ -1,6 +1,7 @@
 {
   "modmenu.descriptionTranslation.onebar": "A contextual HUD mod",
   "text.onebar.air": "a",
+  "text.onebar.fire": "f",
   "text.autoconfig.onebar.title": "OneBar configuration",
   "text.autoconfig.onebar.option.showOneBar": "Show OneBar",
   "text.autoconfig.onebar.option.showVanilla": "Show vanilla HUD",
@@ -14,6 +15,8 @@
   "text.autoconfig.onebar.option.badThings": "Bad effects and states",
   "text.autoconfig.onebar.option.badThings.hungerColor": "Hunger color",
   "text.autoconfig.onebar.option.badThings.airColor": "Air color (underwater)",
+  "text.autoconfig.onebar.option.badThings.showFire": "Fire overlay bar",
+  "text.autoconfig.onebar.option.badThings.fireColor": "Fire color",
   "text.autoconfig.onebar.option.entity": "Ridable entities",
   "text.autoconfig.onebar.option.entity.healthColor": "Health color",
   "text.autoconfig.onebar.option.entity.showHorseJump": "Vertical horse jump bar",

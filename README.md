@@ -35,6 +35,7 @@ There are also settings for configuring the colors and visibility of various ele
 
 * Hunger - brown bar, **-number**
 * Air - blue bar, **-anumber**
+* Fire - orange bar, **-f**
 * Hardcore mode - no bar, **!**
 
 #### Others

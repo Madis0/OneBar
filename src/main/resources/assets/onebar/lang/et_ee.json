@@ -1,6 +1,7 @@
 {
   "modmenu.descriptionTranslation.onebar": "Kontekstipõhine liidese mod",
   "text.onebar.air": "õ",
+  "text.onebar.fire": "t",
   "text.autoconfig.onebar.title": "OneBar seadistus",
   "text.autoconfig.onebar.option.showOneBar": "Kuva OneBar",
   "text.autoconfig.onebar.option.showVanilla": "Kuva vanilliliidest",
@@ -14,6 +15,8 @@
   "text.autoconfig.onebar.option.badThings": "Halvad mõjud ja olekud",
   "text.autoconfig.onebar.option.badThings.hungerColor": "Nälja värv",
   "text.autoconfig.onebar.option.badThings.airColor": "Õhu värv (vee all)",
+  "text.autoconfig.onebar.option.badThings.showFire": "Tule ülekatte riba",
+  "text.autoconfig.onebar.option.badThings.fireColor": "Tule värv",
   "text.autoconfig.onebar.option.entity": "Ratsutatavad olemid",
   "text.autoconfig.onebar.option.entity.healthColor": "Tervise värv",
   "text.autoconfig.onebar.option.entity.showHorseJump": "Vertikaalne hobuse hüppe riba",
