@@ -32,14 +32,14 @@ There are also settings for configuring the colors and visibility of various ele
 * Health boost - same as health, but changes bars widths to fit the max health
 * Resistance - no bar, **+number%** where number is the [effect level multiplier](https://minecraft.gamepedia.com/Resistance#Effect)
 * Regeneration - pink bar, **→number** where number is the resulting health
-* Fire Resistance - same as fire, but crossed number
+* Fire Resistance - same as fire, but crossed number and no bar
 * Water Breathing - same as air, but crossed number
 
 #### Negative (right-to-left)
 
 * Hunger - brown bar, **-number**
 * Air - blue bar, **-anumber**
-* Fire - orange bar, **-fnumber×** where number is a rough damage multiplier (1× - burning, 2× - burning in fire, 4× - burning in lava)
+* Fire - orange full bar, **-fnumber×** where number is a rough damage multiplier (1× - burning, 2× - burning in fire, 4× - burning in lava)
 * Poison - yellowish green bar, **→number** where number is the resulting health
 * Wither - dark gray bar, **→number** where number is the resulting health
 * Hardcore mode - no bar, **!**
