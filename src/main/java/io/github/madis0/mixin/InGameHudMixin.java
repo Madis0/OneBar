@@ -67,7 +67,9 @@ public abstract class InGameHudMixin {
     int air;
     boolean isUnderwater;
 
-    boolean onFire;
+    boolean isOnFire;
+    int fireSource;
+    int fireMultiplier;
 
     int xpLevel;
     int maxXp;
@@ -77,6 +79,8 @@ public abstract class InGameHudMixin {
 
     int resistancePercent;
     int regenerationHealth;
+    boolean hasFireResistance;
+    boolean hasWaterBreathing;
 
     @Inject(at = @At("TAIL"), method = "render")
     public void render(MatrixStack matrixStack, float tickDelta, CallbackInfo info) {
@@ -127,13 +131,18 @@ public abstract class InGameHudMixin {
         maxRawAir = playerEntity.getMaxAir();
         rawAir = maxRawAir - playerEntity.getAir();
         air = rawAir / 15;
+        isUnderwater =  playerEntity.isSubmergedInWater();
+
+        isOnFire = playerEntity.doesRenderOnFire();
+        fireSource = playerEntity.getFireTicks();
+
+        if(fireSource == -20) fireMultiplier = 1;
+        if(fireSource == 1) fireMultiplier = 2;
+        if(fireSource == 0) fireMultiplier = 4;
 
         xpLevel = playerEntity.experienceLevel;
         maxXp = 183;
         xp = (int)(playerEntity.experienceProgress * maxXp);
-
-        isUnderwater =  playerEntity.isSubmergedInWater();
-        onFire = playerEntity.doesRenderOnFire();
 
         isHardcore = playerEntity.world.getLevelProperties().isHardcore();
 
@@ -150,6 +159,10 @@ public abstract class InGameHudMixin {
                 regenerationEffect.getDuration(),
                 health,
                 MathHelper.ceil(playerEntity.getMaxHealth()));
+
+        hasFireResistance = playerEntity.hasStatusEffect(StatusEffects.FIRE_RESISTANCE);
+
+        hasWaterBreathing = playerEntity.hasStatusEffect(StatusEffects.WATER_BREATHING);
 
         // Method calls
 
@@ -225,7 +238,7 @@ public abstract class InGameHudMixin {
     }
 
     private void fireBar(){
-        if(config.badThings.showFire && playerEntity.doesRenderOnFire() && !playerEntity.hasStatusEffect(StatusEffects.FIRE_RESISTANCE)){
+        if(config.badThings.showFire && isOnFire && !hasFireResistance){
             DrawableHelper.fill(stack, baseStartW, baseStartH, baseEndW, baseEndH, config.badThings.fireColor);
         }
     }
@@ -234,15 +247,19 @@ public abstract class InGameHudMixin {
         String value = Calculations.MakeFraction(health);
 
         if (regenerationHealth > 0)
-            value += "→" + regenerationHealth;
+            value += "→" + Calculations.MakeFraction(regenerationHealth);
         if (absorption > 0)
             value += "+" + Calculations.MakeFraction(absorption);
         if (resistancePercent > 0 && config.goodThings.showResistance)
-            value += "+" + new TranslatableText("text.onebar.resistance", String.valueOf(resistancePercent)).getString();
-        if (air > 0 || isUnderwater)
+            value += "+" + new TranslatableText("text.onebar.resistance", resistancePercent).getString();
+        if ((air > 0 || isUnderwater) && !hasWaterBreathing)
             value += "-" + new TranslatableText("text.onebar.air", Calculations.MakeFraction(air)).getString();
-        if (onFire)
-            value += "-" + new TranslatableText("text.onebar.fire").getString();
+        if ((air > 0 || isUnderwater) && hasWaterBreathing)
+            value += "-§m" + new TranslatableText("text.onebar.air", Calculations.MakeFraction(air)).getString() + "§r";
+        if (isOnFire && !hasFireResistance)
+            value += "-" + new TranslatableText("text.onebar.fire", fireMultiplier).getString();
+        if (isOnFire && hasFireResistance)
+            value += "-§m" + new TranslatableText("text.onebar.fire", fireMultiplier).getString() + "§r";
         if (hunger > 0)
             value += "-" + Calculations.MakeFraction(hunger);
         if (isHardcore)

@@ -1,8 +1,8 @@
 {
   "modmenu.descriptionTranslation.onebar": "A contextual HUD mod",
-  "text.onebar.resistance": "r%s%%",
+  "text.onebar.resistance": "%s%%",
   "text.onebar.air": "a%s",
-  "text.onebar.fire": "f",
+  "text.onebar.fire": "f%s×",
   "text.autoconfig.onebar.title": "OneBar configuration",
   "text.autoconfig.onebar.option.showOneBar": "Show OneBar",
   "text.autoconfig.onebar.option.showVanilla": "Show vanilla HUD",

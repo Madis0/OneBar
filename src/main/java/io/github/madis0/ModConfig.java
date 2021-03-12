@@ -34,7 +34,7 @@ public class ModConfig implements ConfigData {
         public int armorColor = 0x99FFFFFF;
         public boolean showResistance = true;
         @ConfigEntry.ColorPicker(allowAlpha = true)
-        public int regenerationColor = 0xBBD81B60;
+        public int regenerationColor = 0xBBF48FB1;
     }
 
     public static class BadThings {
@@ -44,7 +44,7 @@ public class ModConfig implements ConfigData {
         public int airColor = 0xBB1A237E;
         public boolean showFire = true;
         @ConfigEntry.ColorPicker(allowAlpha = true)
-        public int fireColor = 0xBBC43E00;
+        public int fireColor = 0x99C43E00;
 
     }
 
