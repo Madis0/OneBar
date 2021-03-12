@@ -71,16 +71,19 @@ public abstract class InGameHudMixin {
     int fireSource;
     int fireMultiplier;
 
+    int resistancePercent;
+    int regenerationHealth;
+    int poisonHealth;
+    int witherHealth;
+    int hungerReduction;
+    boolean hasFireResistance;
+    boolean hasWaterBreathing;
+
     int xpLevel;
     int maxXp;
     int xp;
 
     boolean isHardcore;
-
-    int resistancePercent;
-    int regenerationHealth;
-    boolean hasFireResistance;
-    boolean hasWaterBreathing;
 
     @Inject(at = @At("TAIL"), method = "render")
     public void render(MatrixStack matrixStack, float tickDelta, CallbackInfo info) {
@@ -154,11 +157,32 @@ public abstract class InGameHudMixin {
 
         StatusEffectInstance regenerationEffect = playerEntity.getStatusEffect(StatusEffects.REGENERATION);
         regenerationHealth = 0;
-        if(regenerationEffect != null) regenerationHealth = Calculations.GetEstimatedHealth(50,
+        if(regenerationEffect != null) regenerationHealth = Calculations.GetEstimatedHealthRegen(50,
                 regenerationEffect.getAmplifier(),
                 regenerationEffect.getDuration(),
                 health,
                 MathHelper.ceil(playerEntity.getMaxHealth()));
+
+        StatusEffectInstance poisonEffect = playerEntity.getStatusEffect(StatusEffects.POISON);
+        poisonHealth = maxHealth;
+        if(poisonEffect != null) poisonHealth =
+                Calculations.GetEstimatedHealthDamage(25,
+                                                poisonEffect.getAmplifier(),
+                                                poisonEffect.getDuration(),
+                                                health,
+                                                1);
+
+        StatusEffectInstance witherEffect = playerEntity.getStatusEffect(StatusEffects.WITHER);
+        witherHealth = maxHealth;
+        if(witherEffect != null) witherHealth =
+                Calculations.GetEstimatedHealthDamage(40,
+                                                witherEffect.getAmplifier(),
+                                                witherEffect.getDuration(),
+                                                health,
+                                                0);
+
+        StatusEffectInstance hungerEffect = playerEntity.getStatusEffect(StatusEffects.HUNGER);
+        if(hungerEffect != null) hungerReduction = 0;
 
         hasFireResistance = playerEntity.hasStatusEffect(StatusEffects.FIRE_RESISTANCE);
 
@@ -205,11 +229,13 @@ public abstract class InGameHudMixin {
             barBackground();
             regenerationBar();
             healthBar();
+            witherBar();
+            poisonBar();
             hungerBar();
-            fireBar();
+            if(config.badThings.showFire) fireBar();
             airBar();
             xpBar();
-            barText();
+            if(config.showText) barText();
         }
     }
 
@@ -217,16 +243,24 @@ public abstract class InGameHudMixin {
         DrawableHelper.fill(stack, baseStartW, baseStartH, baseEndW, baseEndH, config.backgroundColor);
     }
 
+    private void armorBar(){
+        DrawableHelper.fill(stack, baseStartW, baseStartH - 1, baseRelativeEndW(armor, maxArmor), baseStartH, config.goodThings.armorColor);
+    }
+
     private void regenerationBar(){
-        DrawableHelper.fill(stack, baseStartW, baseStartH, baseRelativeEndW(regenerationHealth, maxHealth), baseEndH, config.goodThings.regenerationColor);
+        DrawableHelper.fill(stack, baseStartW, baseStartH, baseRelativeEndW(Math.max(regenerationHealth, 0), maxHealth), baseEndH, config.goodThings.regenerationColor);
     }
 
     private void healthBar(){
         DrawableHelper.fill(stack, baseStartW, baseStartH, baseRelativeEndW(Calculations.GetPreciseInt(rawHealth), Calculations.GetPreciseInt(maxRawHealth)), baseEndH, config.goodThings.healthColor);
     }
 
-    private void armorBar(){
-        DrawableHelper.fill(stack, baseStartW, baseStartH - 1, baseRelativeEndW(armor, maxArmor), baseStartH, config.goodThings.armorColor);
+    private void witherBar(){
+        DrawableHelper.fill(stack, baseRelativeStartW(maxHealth - witherHealth, maxHealth), baseStartH, baseEndW, baseEndH, config.badThings.witherColor);
+    }
+
+    private void poisonBar(){
+        DrawableHelper.fill(stack, baseRelativeStartW(maxHealth - poisonHealth, maxHealth), baseStartH, baseEndW, baseEndH, config.badThings.poisonColor);
     }
 
     private void hungerBar(){
@@ -238,7 +272,7 @@ public abstract class InGameHudMixin {
     }
 
     private void fireBar(){
-        if(config.badThings.showFire && isOnFire && !hasFireResistance){
+        if(isOnFire && !hasFireResistance){
             DrawableHelper.fill(stack, baseStartW, baseStartH, baseEndW, baseEndH, config.badThings.fireColor);
         }
     }
@@ -246,8 +280,12 @@ public abstract class InGameHudMixin {
     private void barText(){
         String value = Calculations.MakeFraction(health);
 
-        if (regenerationHealth > 0)
+        if (regenerationHealth > 0 && config.healthEstimates)
             value += "→" + Calculations.MakeFraction(regenerationHealth);
+        if (witherHealth < maxHealth && config.healthEstimates)
+            value += "→" + Calculations.MakeFraction(witherHealth);
+        if (poisonHealth < maxHealth && config.healthEstimates)
+            value += "→" + Calculations.MakeFraction(poisonHealth);
         if (absorption > 0)
             value += "+" + Calculations.MakeFraction(absorption);
         if (resistancePercent > 0 && config.goodThings.showResistance)

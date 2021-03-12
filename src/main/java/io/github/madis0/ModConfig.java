@@ -9,6 +9,8 @@ public class ModConfig implements ConfigData {
 
     public boolean showOneBar = true;
     public boolean showVanilla = false;
+    public boolean showText = true;
+    public boolean healthEstimates = true;
     @ConfigEntry.Gui.PrefixText
     @ConfigEntry.ColorPicker(allowAlpha = true)
     public int textColor = 0x99FFFFFF;
@@ -45,7 +47,10 @@ public class ModConfig implements ConfigData {
         public boolean showFire = true;
         @ConfigEntry.ColorPicker(allowAlpha = true)
         public int fireColor = 0x99C43E00;
-
+        @ConfigEntry.ColorPicker(allowAlpha = true)
+        public int poisonColor = 0xBB8C9900;
+        @ConfigEntry.ColorPicker(allowAlpha = true)
+        public int witherColor = 0xCC37474f;
     }
 
     public static class Entity {
@@ -54,7 +59,6 @@ public class ModConfig implements ConfigData {
         public boolean showHorseJump = true;
         @ConfigEntry.ColorPicker(allowAlpha = true)
         public int jumpColor = 0xFF795548;
-
     }
 
     public static class Experience {

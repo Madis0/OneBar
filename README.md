@@ -40,6 +40,8 @@ There are also settings for configuring the colors and visibility of various ele
 * Hunger - brown bar, **-number**
 * Air - blue bar, **-anumber**
 * Fire - orange bar, **-fnumber×** where number is a rough damage multiplier (1× - burning, 2× - burning in fire, 4× - burning in lava)
+* Poison - yellowish green bar, **→number** where number is the resulting health
+* Wither - dark gray bar, **→number** where number is the resulting health
 * Hardcore mode - no bar, **!**
 
 #### Others

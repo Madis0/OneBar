@@ -28,7 +28,7 @@ public class Calculations {
             return String.valueOf(number);
     }
 
-    public static int GetEstimatedHealth(int constant, int rawLevel, int duration, int currentHealth, int maxHealth){
+    public static int GetEstimatedHealthRegen(int constant, int rawLevel, int duration, int currentHealth, int maxHealth){
         // See canApplyUpdateEffect and https://www.geeksforgeeks.org/bitwise-shift-operators-in-java/
         int ticks = constant >> rawLevel;
         float healthPerSec = 20 / (float)ticks;
@@ -36,5 +36,14 @@ public class Calculations {
         int addedHealth = (int)(healthPerSec * durationPerSec);
         int newHealth = currentHealth + addedHealth;
         return Math.min(newHealth, maxHealth);
+    }
+
+    public static int GetEstimatedHealthDamage(int constant, int rawLevel, int duration, int currentHealth, int minHealth){
+        int ticks = constant >> rawLevel;
+        float healthPerSec = 20 / (float)ticks;
+        float durationPerSec = (float)duration / 20;
+        int removedHealth = (int)(healthPerSec * durationPerSec);
+        int newHealth = currentHealth - removedHealth;
+        return Math.max(newHealth, minHealth);
     }
 }
