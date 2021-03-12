@@ -33,6 +33,8 @@ public class ModConfig implements ConfigData {
         @ConfigEntry.ColorPicker(allowAlpha = true)
         public int armorColor = 0x99FFFFFF;
         public boolean showResistance = true;
+        @ConfigEntry.ColorPicker(allowAlpha = true)
+        public int regenerationColor = 0xBBD81B60;
     }
 
     public static class BadThings {

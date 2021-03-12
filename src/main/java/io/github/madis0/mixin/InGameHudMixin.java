@@ -8,7 +8,6 @@ import net.minecraft.client.gui.DrawableHelper;
 import net.minecraft.client.gui.hud.InGameHud;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.entity.LivingEntity;
-import net.minecraft.entity.effect.StatusEffect;
 import net.minecraft.entity.effect.StatusEffectInstance;
 import net.minecraft.entity.effect.StatusEffects;
 import net.minecraft.entity.player.HungerManager;
@@ -51,12 +50,42 @@ public abstract class InGameHudMixin {
     int mountStartH;
     int mountEndH;
 
+    float rawHealth;
+    float maxRawHealth;
+    int health;
+    int maxHealth;
+    int absorption;
+
+    int maxArmor;
+    int armor;
+
+    int maxHunger;
+    int hunger;
+
+    int maxRawAir;
+    int rawAir;
+    int air;
+    boolean isUnderwater;
+
+    boolean onFire;
+
+    int xpLevel;
+    int maxXp;
+    int xp;
+
+    boolean isHardcore;
+
+    int resistancePercent;
+    int regenerationHealth;
+
     @Inject(at = @At("TAIL"), method = "render")
     public void render(MatrixStack matrixStack, float tickDelta, CallbackInfo info) {
         client = MinecraftClient.getInstance();
         stack = matrixStack;
         playerEntity = this.getCameraPlayer();
         hungerManager = playerEntity.getHungerManager();
+
+        // Dimensions and locations
 
         baseStartW = this.scaledWidth / 2 - 91;
         baseEndW = baseStartW + 182;
@@ -81,6 +110,49 @@ public abstract class InGameHudMixin {
         mountStartH = baseStartH - 12;
         mountEndH = mountStartH + 9;
 
+        // Player property calculations
+
+        rawHealth = playerEntity.getHealth();
+        maxRawHealth = playerEntity.getMaxHealth();
+        health = MathHelper.ceil(rawHealth);
+        maxHealth = MathHelper.ceil(maxRawHealth);
+        absorption = MathHelper.ceil(playerEntity.getAbsorptionAmount());
+
+        maxArmor = 20;
+        armor = playerEntity.getArmor();
+
+        maxHunger = 20;
+        hunger = maxHunger - hungerManager.getFoodLevel();
+
+        maxRawAir = playerEntity.getMaxAir();
+        rawAir = maxRawAir - playerEntity.getAir();
+        air = rawAir / 15;
+
+        xpLevel = playerEntity.experienceLevel;
+        maxXp = 183;
+        xp = (int)(playerEntity.experienceProgress * maxXp);
+
+        isUnderwater =  playerEntity.isSubmergedInWater();
+        onFire = playerEntity.doesRenderOnFire();
+
+        isHardcore = playerEntity.world.getLevelProperties().isHardcore();
+
+        // Potion effects
+
+        StatusEffectInstance resistanceEffect = playerEntity.getStatusEffect(StatusEffects.RESISTANCE);
+        resistancePercent = 0;
+        if(resistanceEffect != null) resistancePercent = (resistanceEffect.getAmplifier() + 1) * 20;
+
+        StatusEffectInstance regenerationEffect = playerEntity.getStatusEffect(StatusEffects.REGENERATION);
+        regenerationHealth = 0;
+        if(regenerationEffect != null) regenerationHealth = Calculations.GetEstimatedHealth(50,
+                regenerationEffect.getAmplifier(),
+                regenerationEffect.getDuration(),
+                health,
+                MathHelper.ceil(playerEntity.getMaxHealth()));
+
+        // Method calls
+
         boolean barsVisible = !client.options.hudHidden && client.interactionManager.hasStatusBars();
 
         if (client.interactionManager == null) throw new AssertionError();
@@ -92,7 +164,7 @@ public abstract class InGameHudMixin {
 
     }
 
-    //TODO: overwrite only on-demand
+    // Injections to vanilla methods
 
     @Inject(method = "renderStatusBars", at = @At(value = "INVOKE"), cancellable = true)
     private void renderStatusBars(MatrixStack matrices, CallbackInfo ci){
@@ -117,6 +189,8 @@ public abstract class InGameHudMixin {
     private void renderBar(){
         PlayerEntity playerEntity = this.getCameraPlayer();
         if (playerEntity != null) {
+            barBackground();
+            regenerationBar();
             healthBar();
             hungerBar();
             fireBar();
@@ -126,34 +200,28 @@ public abstract class InGameHudMixin {
         }
     }
 
-    private void healthBar(){
-        float rawHealth = playerEntity.getHealth();
-        float maxHealth = playerEntity.getMaxHealth();
-
+    private void barBackground(){
         DrawableHelper.fill(stack, baseStartW, baseStartH, baseEndW, baseEndH, config.backgroundColor);
-        DrawableHelper.fill(stack, baseStartW, baseStartH, baseRelativeEndW(Calculations.GetPreciseInt(rawHealth), Calculations.GetPreciseInt(maxHealth)), baseEndH, config.goodThings.healthColor);
+    }
+
+    private void regenerationBar(){
+        DrawableHelper.fill(stack, baseStartW, baseStartH, baseRelativeEndW(regenerationHealth, maxHealth), baseEndH, config.goodThings.regenerationColor);
+    }
+
+    private void healthBar(){
+        DrawableHelper.fill(stack, baseStartW, baseStartH, baseRelativeEndW(Calculations.GetPreciseInt(rawHealth), Calculations.GetPreciseInt(maxRawHealth)), baseEndH, config.goodThings.healthColor);
     }
 
     private void armorBar(){
-        int maxArmor = 20;
-        int armor = playerEntity.getArmor();
-
         DrawableHelper.fill(stack, baseStartW, baseStartH - 1, baseRelativeEndW(armor, maxArmor), baseStartH, config.goodThings.armorColor);
     }
 
     private void hungerBar(){
-        int maxHunger = 20;
-        int hunger = maxHunger - hungerManager.getFoodLevel();
-        //float saturation = hungerManager.getSaturationLevel(); //TODO: usage TBD
-
         DrawableHelper.fill(stack, baseRelativeStartW(hunger, maxHunger), baseStartH, baseEndW, baseEndH, config.badThings.hungerColor);
     }
 
     private void airBar(){
-        int maxAir = playerEntity.getMaxAir();
-        int rawAir = maxAir - playerEntity.getAir();
-
-        DrawableHelper.fill(stack, baseRelativeStartW(rawAir, maxAir), baseStartH, baseEndW, baseEndH, config.badThings.airColor);
+        DrawableHelper.fill(stack, baseRelativeStartW(rawAir, maxRawAir), baseStartH, baseEndW, baseEndH, config.badThings.airColor);
     }
 
     private void fireBar(){
@@ -163,38 +231,21 @@ public abstract class InGameHudMixin {
     }
 
     private void barText(){
-        int health = MathHelper.ceil(playerEntity.getHealth());
-        int absorption = MathHelper.ceil(playerEntity.getAbsorptionAmount());
-
-        StatusEffectInstance resEffect = playerEntity.getStatusEffect(StatusEffects.RESISTANCE);
-        int resLevel = -1;
-        if(resEffect != null) resLevel = resEffect.getAmplifier();
-        int resPercent = (resLevel + 1) * 20;
-
-        int maxHunger = 20;
-        int hunger = maxHunger - hungerManager.getFoodLevel();
-
-        int maxAir = playerEntity.getMaxAir();
-        int rawAir = maxAir - playerEntity.getAir();
-        int air = rawAir / 15;
-        boolean altAir =  playerEntity.isSubmergedInWater();
-        boolean fire = playerEntity.doesRenderOnFire();
-
-        boolean hardcore = playerEntity.world.getLevelProperties().isHardcore();
-
         String value = Calculations.MakeFraction(health);
 
+        if (regenerationHealth > 0)
+            value += "→" + regenerationHealth;
         if (absorption > 0)
             value += "+" + Calculations.MakeFraction(absorption);
-        if (resPercent > 0 && config.goodThings.showResistance)
-            value += "+" + new TranslatableText("text.onebar.resistance", String.valueOf(resPercent)).getString();
-        if (air > 0 || altAir)
+        if (resistancePercent > 0 && config.goodThings.showResistance)
+            value += "+" + new TranslatableText("text.onebar.resistance", String.valueOf(resistancePercent)).getString();
+        if (air > 0 || isUnderwater)
             value += "-" + new TranslatableText("text.onebar.air", Calculations.MakeFraction(air)).getString();
-        if (fire)
+        if (onFire)
             value += "-" + new TranslatableText("text.onebar.fire").getString();
         if (hunger > 0)
             value += "-" + Calculations.MakeFraction(hunger);
-        if (hardcore)
+        if (isHardcore)
             value += "!";
 
         int textX = baseEndW - client.textRenderer.getWidth(value);
@@ -204,10 +255,6 @@ public abstract class InGameHudMixin {
     }
 
     private void xpBar(){
-        int xpLevel = playerEntity.experienceLevel;
-        int maxXp = 183;
-        int xp = (int)(playerEntity.experienceProgress * maxXp);
-
         int relativeEndW = Calculations.RelativeW(xpStartW, xpEndW, xp, maxXp);
 
         int textX = xpStartW + 3;
@@ -223,7 +270,6 @@ public abstract class InGameHudMixin {
 
         int maxHeight = Calculations.GetPreciseInt(1.0F);
         int height = Calculations.GetPreciseInt(client.player.method_3151());
-
 
         int relativeStartH = Calculations.RelativeW(jumpEndH, jumpStartH, height, maxHeight);
         DrawableHelper.fill(stack, jumpStartW, jumpStartH, jumpEndW, jumpEndH, config.backgroundColor);

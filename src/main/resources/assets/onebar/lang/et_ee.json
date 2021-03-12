@@ -14,6 +14,7 @@
   "text.autoconfig.onebar.option.goodThings.showArmor": "Rüüriba OneBari kohal",
   "text.autoconfig.onebar.option.goodThings.armorColor": "Rüü värv",
   "text.autoconfig.onebar.option.goodThings.showResistance": "Vastupanu protsent",
+  "text.autoconfig.onebar.option.goodThings.regenerationColor": "Taastumise värv",
   "text.autoconfig.onebar.option.badThings": "Halvad mõjud ja olekud",
   "text.autoconfig.onebar.option.badThings.hungerColor": "Nälja värv",
   "text.autoconfig.onebar.option.badThings.airColor": "Õhu värv (vee all)",

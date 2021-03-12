@@ -31,6 +31,7 @@ There are also settings for configuring the colors and visibility of various ele
 * Absorption - no bar, **+number**
 * Health boost - same as health, but changes bars widths to fit the max health
 * Resistance - no bar, **+rpercent%** where percent is the [effect level multiplier](https://minecraft.gamepedia.com/Resistance#Effect)
+* Regeneration - pink bar, **→number**
 
 #### Negative (right-to-left)
 
@@ -43,7 +44,7 @@ There are also settings for configuring the colors and visibility of various ele
 
 * Mount health - orange bar above OneBar, similar style
 * Horse jump - brown vertical bar below crosshair
-* Enchanting points - level count and bar to the right of hotbar 
+* Experience points - level count and bar to the right of hotbar 
 
 ![](https://i.ibb.co/Jcs3ys8/2021-02-19-20-01-43.png)
 
