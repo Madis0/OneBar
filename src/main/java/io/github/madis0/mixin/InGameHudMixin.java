@@ -75,7 +75,6 @@ public abstract class InGameHudMixin {
     int regenerationHealth;
     int poisonHealth;
     int witherHealth;
-    int hungerReduction;
     boolean hasFireResistance;
     boolean hasWaterBreathing;
 
@@ -180,9 +179,6 @@ public abstract class InGameHudMixin {
                                                 witherEffect.getDuration(),
                                                 health,
                                                 0);
-
-        StatusEffectInstance hungerEffect = playerEntity.getStatusEffect(StatusEffects.HUNGER);
-        if(hungerEffect != null) hungerReduction = 0;
 
         hasFireResistance = playerEntity.hasStatusEffect(StatusEffects.FIRE_RESISTANCE);
 
