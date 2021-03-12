@@ -13,7 +13,7 @@ public class ModConfig implements ConfigData {
     public boolean healthEstimates = true;
     @ConfigEntry.Gui.PrefixText
     @ConfigEntry.ColorPicker(allowAlpha = true)
-    public int textColor = 0x99FFFFFF;
+    public int textColor = 0xAAFFFFFF;
     @ConfigEntry.ColorPicker(allowAlpha = true)
     public int backgroundColor = 0xFF000000;
 
