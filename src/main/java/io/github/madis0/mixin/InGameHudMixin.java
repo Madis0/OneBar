@@ -80,6 +80,8 @@ public abstract class InGameHudMixin {
     int witherHealth;
     boolean hasFireResistance;
     boolean hasWaterBreathing;
+    int hungerEffectLevel;
+    int naturalRegenerationHealth;
 
     int xpLevel;
     int maxXp;
@@ -192,6 +194,18 @@ public abstract class InGameHudMixin {
             hungerEffectSaturationLoss = (int) Math.ceil(hungerEffectExhaustionLoss / (float)4); // Exhaustion is server-side, so lost saturation is rounded up to be approximate
         }
 
+        hungerEffectLevel = 0;
+        if(hungerEffect != null) hungerEffectLevel = hungerEffect.getAmplifier() + 1;
+
+        naturalRegenerationHealth = 0;
+        if(health < maxHealth && hunger < 3 ){
+            int regenerationAddition = 0;
+            // Approximate formula for calculating regeneration addition health: saturation * exhaustion max / 6 exhaustion per healed heart
+            regenerationAddition = MathHelper.ceil((float)saturation * (float)4 / (float)6);
+
+            naturalRegenerationHealth = Math.min(health + regenerationAddition, maxHealth);
+        }
+
         hasFireResistance = playerEntity.hasStatusEffect(StatusEffects.FIRE_RESISTANCE);
 
         hasWaterBreathing = playerEntity.hasStatusEffect(StatusEffects.WATER_BREATHING);
@@ -241,7 +255,7 @@ public abstract class InGameHudMixin {
             witherBar();
             poisonBar();
             hungerBar();
-            if(config.badThings.showFire) fireBar();
+            if(config.badThings.showFireBar) fireBar();
             airBar();
             xpBar();
             if(config.showText) barText();
@@ -307,14 +321,16 @@ public abstract class InGameHudMixin {
             value += "-" + new TranslatableText("text.onebar.air", Calculations.MakeFraction(air)).getString();
         if ((air > 0 || isUnderwater) && hasWaterBreathing)
             value += "-§m" + new TranslatableText("text.onebar.air", Calculations.MakeFraction(air)).getString() + "§r";
-        if (isOnFire && !hasFireResistance)
+        if (isOnFire && !hasFireResistance && config.badThings.showFireText)
             value += "-" + new TranslatableText("text.onebar.fire", fireMultiplier).getString();
-        if (isOnFire && hasFireResistance)
+        if (isOnFire && hasFireResistance && config.badThings.showFireText)
             value += "-§m" + new TranslatableText("text.onebar.fire", fireMultiplier).getString() + "§r";
         if (hunger > 0)
             value += "-" + Calculations.MakeFraction(hunger);
         if (hunger > 0 && saturation < 1 && config.experimental.showHungerDecreasing)
             value += "↓";
+        if (hungerEffectLevel > 0 && config.badThings.showHungerEffectText)
+            value += "-" + new TranslatableText("text.onebar.hungerEffect", hungerEffectLevel).getString();
         if (isHardcore)
             value += "!";
 

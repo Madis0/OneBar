@@ -45,13 +45,15 @@ public class ModConfig implements ConfigData {
         public int hungerColor = 0xBB3E2723;
         @ConfigEntry.ColorPicker(allowAlpha = true)
         public int airColor = 0xBB1A237E;
-        public boolean showFire = true;
+        public boolean showFireBar = true;
+        public boolean showFireText = true;
         @ConfigEntry.ColorPicker(allowAlpha = true)
         public int fireColor = 0x99C43E00;
         @ConfigEntry.ColorPicker(allowAlpha = true)
         public int poisonColor = 0xBB8C9900;
         @ConfigEntry.ColorPicker(allowAlpha = true)
         public int witherColor = 0xCC37474f;
+        public boolean showHungerEffectText = true;
     }
 
     public static class Entity {

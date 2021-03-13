@@ -33,14 +33,15 @@ The mod only uses client-side data, so it is never needed on a server. There are
 * Health boost - same as health, but changes bars widths to fit the max health
 * Resistance - no bar, **+number%** where number is the [effect level multiplier](https://minecraft.gamepedia.com/Resistance#Effect)
 * Regeneration - pink bar, **→number** where number is the resulting health
-* Fire Resistance - same as fire, but crossed number
+* Fire Resistance - same as fire, but crossed number and no bar
 * Water Breathing - same as air, but crossed number
 
 #### Negative (right-to-left)
 
 * Hunger - brown bar, **-number**
 * Air - blue bar, **-anumber**
-* Fire - orange bar, **-fnumber×** where number is a rough damage multiplier (1× - burning, 2× - burning in fire, 4× - burning in lava)
+* Fire - orange full bar, **-fnumber×** where number is a rough damage multiplier (1× - burning, 2× - burning in fire, 4× - burning in lava)
+* Hunger effect - no bar, **-hnumber×** where number is the level of the hunger effect
 * Poison - yellowish green bar, **→number** where number is the resulting health
 * Wither - dark gray bar, **→number** where number is the resulting health
 * Hardcore mode - no bar, **!**
@@ -53,8 +54,8 @@ The mod only uses client-side data, so it is never needed on a server. There are
 
 #### Experimental
 
-* Vanilla-like fractionated counters - shows values in vanilla hearts, e.g. 9,5 hearts
-* Zero saturation - no bar, **↓** - shows when saturation is 0 and hunger will actively decrease
+* Vanilla-like fractionated counters - shows values in vanilla hearts, e.g. 9,5 instead of 19
+* Zero saturation - no bar, **↓** - shows when saturation is 0 and hunger will decrease with activity
 
 ![](https://i.ibb.co/Jcs3ys8/2021-02-19-20-01-43.png)
 
