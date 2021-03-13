@@ -10,5 +10,5 @@ public interface HungerManagerMixin {
     float getExhaustion();
 
     @Accessor
-    int foodStarvationTimer();
+    int getFoodStarvationTimer();
 }

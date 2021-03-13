@@ -64,7 +64,7 @@ public abstract class InGameHudMixin {
     float exhaustion;
     float saturation;
     float foodTickTimer;
-    float addedExhaustionPerTick;
+    float totalHungerExhaustion;
 
     int maxRawAir;
     int rawAir;
@@ -185,10 +185,10 @@ public abstract class InGameHudMixin {
                                                 0);
 
         StatusEffectInstance hungerEffect = playerEntity.getStatusEffect(StatusEffects.HUNGER);
-        if(hungerEffect != null) addedExhaustionPerTick = 0.005F * (float)(hungerEffect.getAmplifier() + 1);
+        if(hungerEffect != null) totalHungerExhaustion = 0.005F * (float)(hungerEffect.getAmplifier() + 1) * (hungerEffect.getDuration() / (float)20);
         exhaustion = ((HungerManagerMixin)hungerManager).getExhaustion();
         saturation = hungerManager.getSaturationLevel();
-        foodTickTimer = ((HungerManagerMixin) hungerManager).foodStarvationTimer();
+        foodTickTimer = ((HungerManagerMixin) hungerManager).getFoodStarvationTimer();
 
         //playerEntity.getActiveItem().isFood();
 
@@ -246,7 +246,7 @@ public abstract class InGameHudMixin {
             xpBar();
             if(config.showText) barText();
 
-            debugText("sat " + MathHelper.ceil(saturation) + " exh " + exhaustion + " tick " + );
+            debugText("sat " + MathHelper.ceil(saturation) + " exh " + Calculations.GetPreciseInt(exhaustion) + " tick " + Calculations.GetPreciseInt(foodTickTimer) + " hunger " + totalHungerExhaustion);
         }
     }
 
