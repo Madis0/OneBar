@@ -209,9 +209,7 @@ public abstract class InGameHudMixin {
 
         boolean barsVisible = !client.options.hudHidden && client.interactionManager.hasStatusBars();
 
-        if (client.interactionManager == null) throw new AssertionError();
-
-        if(config.showOneBar && barsVisible) renderBar();
+        if(config.showOneBar && barsVisible) renderOneBar();
         if(config.showOneBar && barsVisible && config.goodThings.showArmorBar) armorBar();
         if(config.showOneBar) mountBar();
     }
@@ -238,7 +236,7 @@ public abstract class InGameHudMixin {
         if(config.showOneBar) mountBar();
     }
 
-    private void renderBar(){
+    private void renderOneBar(){
         PlayerEntity playerEntity = this.getCameraPlayer();
         if (playerEntity != null) {
             barBackground();
@@ -353,29 +351,27 @@ public abstract class InGameHudMixin {
     }
 
     private void jumpBar(){
-        if (client.player == null) throw new AssertionError();
+        int barHeight = Calculations.GetPreciseInt(1.0F);
+        int jumpHeight = Calculations.GetPreciseInt(client.player.method_3151());
 
-        int maxHeight = Calculations.GetPreciseInt(1.0F);
-        int height = Calculations.GetPreciseInt(client.player.method_3151());
-
-        int relativeStartH = Calculations.RelativeW(jumpEndH, jumpStartH, height, maxHeight);
+        int relativeStartH = Calculations.RelativeW(jumpEndH, jumpStartH, jumpHeight, barHeight);
         DrawableHelper.fill(stack, jumpStartW, jumpStartH, jumpEndW, jumpEndH, config.backgroundColor);
         DrawableHelper.fill(stack, jumpStartW, jumpEndH, jumpEndW, relativeStartH, config.entity.jumpColor);
     }
 
     private void mountBar(){
-        LivingEntity livingEntity = this.getRiddenEntity();
-        if (livingEntity != null) {
-            float rawHealth = livingEntity.getHealth();
-            float maxHealth = livingEntity.getMaxHealth();
-            int health = (int) Math.ceil(rawHealth);
+        LivingEntity mountEntity = this.getRiddenEntity();
+        if (mountEntity != null) {
+            float mountRawHealth = mountEntity.getHealth();
+            float mountMaxHealth = mountEntity.getMaxHealth();
+            int health = (int) Math.ceil(mountRawHealth);
 
             String value = String.valueOf(health);
             int textX = baseEndW - client.textRenderer.getWidth(value);
             int textY = mountStartH + 1;
 
             DrawableHelper.fill(stack, baseStartW, mountStartH, baseEndW, mountEndH, config.backgroundColor);
-            DrawableHelper.fill(stack, baseStartW, mountStartH, baseRelativeEndW(Calculations.GetPreciseInt(rawHealth), Calculations.GetPreciseInt(maxHealth)), mountEndH, config.entity.healthColor);
+            DrawableHelper.fill(stack, baseStartW, mountStartH, baseRelativeEndW(Calculations.GetPreciseInt(mountRawHealth), Calculations.GetPreciseInt(mountMaxHealth)), mountEndH, config.entity.healthColor);
             client.textRenderer.draw(stack, value, textX, textY, config.textColor);
         }
     }
