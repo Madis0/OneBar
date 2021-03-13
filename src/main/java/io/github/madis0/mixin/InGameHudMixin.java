@@ -12,6 +12,8 @@ import net.minecraft.entity.effect.StatusEffectInstance;
 import net.minecraft.entity.effect.StatusEffects;
 import net.minecraft.entity.player.HungerManager;
 import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.item.FoodComponent;
+import net.minecraft.item.ItemStack;
 import net.minecraft.text.TranslatableText;
 import net.minecraft.util.math.MathHelper;
 import org.spongepowered.asm.mixin.Mixin;
@@ -85,6 +87,7 @@ public abstract class InGameHudMixin {
     int maxXp;
     int xp;
 
+    int heldFoodHunger;
     boolean isHardcore;
 
     @Inject(at = @At("TAIL"), method = "render")
@@ -151,6 +154,15 @@ public abstract class InGameHudMixin {
         maxXp = 183;
         xp = (int)(playerEntity.experienceProgress * maxXp);
 
+        heldFoodHunger = 0;
+        ItemStack heldItem = playerEntity.getMainHandStack();
+        if(!heldItem.isFood()) heldItem = playerEntity.getOffHandStack();
+
+        if(heldItem.isFood()){
+            FoodComponent itemFood = heldItem.getItem().getFoodComponent();
+            heldFoodHunger = itemFood.getHunger();
+        }
+
         isHardcore = playerEntity.world.getLevelProperties().isHardcore();
 
         // Potion effects
@@ -200,10 +212,8 @@ public abstract class InGameHudMixin {
         if (client.interactionManager == null) throw new AssertionError();
 
         if(config.showOneBar && barsVisible) renderBar();
-        if(config.showOneBar && barsVisible && config.goodThings.showArmor) armorBar();
-
-        mountBar();
-
+        if(config.showOneBar && barsVisible && config.goodThings.showArmorBar) armorBar();
+        if(config.showOneBar) mountBar();
     }
 
     // Injections to vanilla methods
@@ -241,6 +251,7 @@ public abstract class InGameHudMixin {
             airBar();
             xpBar();
             if(config.showText) barText();
+            if(config.goodThings.heldFoodHungerBar) heldFoodBar();
         }
     }
 
@@ -250,6 +261,16 @@ public abstract class InGameHudMixin {
 
     private void armorBar(){
         DrawableHelper.fill(stack, baseStartW, baseStartH - 1, baseRelativeEndW(armor, maxArmor), baseStartH, config.goodThings.armorColor);
+    }
+
+    private void heldFoodBar(){
+        if(hunger > 0){
+            if(hunger >= heldFoodHunger)
+                DrawableHelper.fill(stack, baseRelativeStartW(heldFoodHunger, maxHunger), baseEndH, baseEndW, baseEndH + 1, config.goodThings.heldFoodHungerGoodColor);
+            else
+                DrawableHelper.fill(stack, baseRelativeStartW(heldFoodHunger, maxHunger), baseEndH, baseEndW, baseEndH + 1, config.goodThings.heldFoodHungerWasteColor);
+
+        }
     }
 
     private void regenerationBar(){
