@@ -301,15 +301,15 @@ public abstract class InGameHudMixin {
             value += "-" + new TranslatableText("text.onebar.air", Calculations.MakeFraction(air)).getString();
         if ((air > 0 || isUnderwater) && hasWaterBreathing)
             value += "-§m" + new TranslatableText("text.onebar.air", Calculations.MakeFraction(air)).getString() + "§r";
-        if (isOnFire && !hasFireResistance)
+        if (isOnFire && !hasFireResistance && config.badThings.showFireText)
             value += "-" + new TranslatableText("text.onebar.fire", fireMultiplier).getString();
-        if (isOnFire && hasFireResistance)
+        if (isOnFire && hasFireResistance && config.badThings.showFireText)
             value += "-§m" + new TranslatableText("text.onebar.fire", fireMultiplier).getString() + "§r";
         if (hunger > 0)
             value += "-" + Calculations.MakeFraction(hunger);
         if (hunger > 0 && saturation < 1 && config.experimental.showHungerDecreasing)
             value += "↓";
-        if (hungerEffectLevel > 0)
+        if (hungerEffectLevel > 0 && config.badThings.showHungerEffectText)
             value += "-" + new TranslatableText("text.onebar.hungerEffect", hungerEffectLevel).getString();
         if (isHardcore)
             value += "!";
