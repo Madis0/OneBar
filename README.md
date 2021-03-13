@@ -27,13 +27,13 @@ The mod only uses client-side data, so it is never needed on a server. There are
 #### Positive (left-to-right)
 
 * Health - red bar, **number**
+* Health boost - red bar, **number**, bar width adapts to the max health
 * Natural regeneration - no bar, **↑** - shows when health is less than max and [hunger is less than 3](https://minecraft.gamepedia.com/Hunger#Mechanics)
 * Absorption - no bar, **+number**
-* Health boost - same as health, but changes bars widths to fit the max health
 * Resistance - no bar, **+number%** where number is the [effect level multiplier](https://minecraft.gamepedia.com/Resistance#Effect)
 * Regeneration - pink bar, **→number** where number is the resulting health
-* Fire Resistance - same as fire, but crossed number and no bar
-* Water Breathing - same as air, but crossed number
+* Fire Resistance - no bar, **-~fnumber×~** where number is a rough damage multiplier (1× - burning, 2× - burning in fire, 4× - burning in lava)
+* Water Breathing - blue bar, **-~anumber~**, number is usually zero and bar hidden unless you got water breathing _within_ water
 
 #### Negative (right-to-left)
 
