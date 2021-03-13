@@ -132,6 +132,8 @@ public abstract class InGameHudMixin {
 
         maxHunger = 20;
         hunger = maxHunger - hungerManager.getFoodLevel();
+        rawSaturation = hungerManager.getSaturationLevel();
+        saturation = MathHelper.ceil(rawSaturation);
 
         maxRawAir = playerEntity.getMaxAir();
         rawAir = maxRawAir - playerEntity.getAir();
@@ -189,8 +191,6 @@ public abstract class InGameHudMixin {
             float hungerEffectExhaustionLoss = 0.005F * (float)(hungerEffect.getAmplifier() + 1) * hungerEffect.getDuration();
             hungerEffectSaturationLoss = (int) Math.ceil(hungerEffectExhaustionLoss / (float)4); // Exhaustion is server-side, so lost saturation is rounded up to be approximate
         }
-        rawSaturation = hungerManager.getSaturationLevel();
-        saturation = MathHelper.ceil(rawSaturation);
 
         hasFireResistance = playerEntity.hasStatusEffect(StatusEffects.FIRE_RESISTANCE);
 
@@ -291,7 +291,7 @@ public abstract class InGameHudMixin {
     private void barText(){
         String value = Calculations.MakeFraction(health);
 
-        if (health < maxHealth && saturation > 0 && config.goodThings.showNaturalRegeneration)
+        if (health < maxHealth && hunger < 3 && config.goodThings.showNaturalRegeneration)
             value += "↑";
         if (regenerationHealth > 0 && config.healthEstimates)
             value += "→" + Calculations.MakeFraction(regenerationHealth);
