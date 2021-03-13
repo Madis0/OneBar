@@ -313,7 +313,7 @@ public abstract class InGameHudMixin {
             value += "-§m" + new TranslatableText("text.onebar.fire", fireMultiplier).getString() + "§r";
         if (hunger > 0)
             value += "-" + Calculations.MakeFraction(hunger);
-        if (hunger > 0 && saturation < 1 && config.badThings.showHungerDecreasing)
+        if (hunger > 0 && saturation < 1 && config.experimental.showHungerDecreasing)
             value += "↓";
         if (isHardcore)
             value += "!";

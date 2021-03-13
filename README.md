@@ -27,7 +27,7 @@ The mod only uses client-side data, so it is never needed on a server. There are
 #### Positive (left-to-right)
 
 * Health - red bar, **number**
-* Natural regeneration - no bar, **↑** - shows when health is less than max and hunger is less than 3
+* Natural regeneration - no bar, **↑** - shows when health is less than max and hunger is less than 3 (number estimation still WIP #8)
 * Armor - white bar on top, no number
 * Absorption - no bar, **+number**
 * Health boost - same as health, but changes bars widths to fit the max health
@@ -39,7 +39,6 @@ The mod only uses client-side data, so it is never needed on a server. There are
 #### Negative (right-to-left)
 
 * Hunger - brown bar, **-number**
-* Zero saturation - no bar, **↓** - shows when saturation is 0 and hunger will actively decrease
 * Air - blue bar, **-anumber**
 * Fire - orange bar, **-fnumber×** where number is a rough damage multiplier (1× - burning, 2× - burning in fire, 4× - burning in lava)
 * Poison - yellowish green bar, **→number** where number is the resulting health
@@ -51,6 +50,11 @@ The mod only uses client-side data, so it is never needed on a server. There are
 * Mount health - orange bar above OneBar, similar style
 * Horse jump - brown vertical bar below crosshair
 * Experience points - level count and bar to the right of hotbar 
+
+#### Experimental
+
+* Vanilla-like fractionated counters - shows values in vanilla hearts, e.g. 9,5 hearts
+* Zero saturation - no bar, **↓** - shows when saturation is 0 and hunger will actively decrease
 
 ![](https://i.ibb.co/Jcs3ys8/2021-02-19-20-01-43.png)
 

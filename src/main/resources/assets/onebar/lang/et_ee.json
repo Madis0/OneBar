@@ -20,7 +20,6 @@
   "text.autoconfig.onebar.option.goodThings.regenerationColor": "Taastumise värv",
   "text.autoconfig.onebar.option.badThings": "Halvad mõjud ja olekud",
   "text.autoconfig.onebar.option.badThings.hungerColor": "Nälja värv",
-  "text.autoconfig.onebar.option.badThings.showHungerDecreasing": "Kuva ↓, kui muutud tegevustega näljasemaks (küllastus on null)",
   "text.autoconfig.onebar.option.badThings.airColor": "Õhu värv (vee all)",
   "text.autoconfig.onebar.option.badThings.showFire": "Tule ülekatte riba",
   "text.autoconfig.onebar.option.badThings.fireColor": "Tule värv",
@@ -34,5 +33,6 @@
   "text.autoconfig.onebar.option.experience.xpColor": "Punktide värv",
   "text.autoconfig.onebar.option.experience.leftHanded": "Vasakukäeline kogemusriba",
   "text.autoconfig.onebar.option.experimental": "Katsetusjärgus sätted",
-  "text.autoconfig.onebar.option.experimental.useFractions": "Vanillisarnased murdarvudega loendurid"
+  "text.autoconfig.onebar.option.experimental.useFractions": "Vanillisarnased murdarvudega loendurid",
+  "text.autoconfig.onebar.option.experimental.showHungerDecreasing": "Kuva ↓, kui muutud tegevustega näljasemaks (küllastus on null)"
 }

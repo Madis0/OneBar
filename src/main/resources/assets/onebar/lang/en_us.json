@@ -20,7 +20,6 @@
   "text.autoconfig.onebar.option.goodThings.regenerationColor": "Regeneration color",
   "text.autoconfig.onebar.option.badThings": "Bad effects and states",
   "text.autoconfig.onebar.option.badThings.hungerColor": "Hunger color",
-  "text.autoconfig.onebar.option.badThings.showHungerDecreasing": "Show ↓ when you're getting hungrier by activities (zero saturation)",
   "text.autoconfig.onebar.option.badThings.airColor": "Air color (underwater)",
   "text.autoconfig.onebar.option.badThings.showFire": "Fire overlay bar",
   "text.autoconfig.onebar.option.badThings.fireColor": "Fire color",
@@ -34,5 +33,6 @@
   "text.autoconfig.onebar.option.experience.xpColor": "Points color",
   "text.autoconfig.onebar.option.experience.leftHanded": "Left-handed experience bar",
   "text.autoconfig.onebar.option.experimental": "Experimental settings",
-  "text.autoconfig.onebar.option.experimental.useFractions": "Vanilla-like fractionated counters"
+  "text.autoconfig.onebar.option.experimental.useFractions": "Vanilla-like fractionated counters",
+  "text.autoconfig.onebar.option.experimental.showHungerDecreasing": "Show ↓ when you're getting hungrier by activities (zero saturation)"
 }
