@@ -18,7 +18,7 @@ OneBar is meant to be contextual, showing you the values (and bar overlays) only
 
 For example, if you get hungry, the hunger overlay is displayed over the health by its value. If you eat, you'll lose the overlay and the value, because you no longer need it. However, if you are hungry and underwater, the water bar is displayed on top of health _and_ hunger because it is the most important value in this case.
 
-There are also settings for configuring the colors and visibility of various elements.
+The mod only uses client-side data, so it is never needed on a server. There are also settings for configuring the colors and visibility of various elements.
 
 [Feature roadmap](https://github.com/Madis0/OneBar/projects)
 
@@ -27,6 +27,7 @@ There are also settings for configuring the colors and visibility of various ele
 #### Positive (left-to-right)
 
 * Health - red bar, **number**
+* Natural regeneration - no bar, **↑** - shows when health is less than max and hunger is less than 3 (number estimation still WIP #8)
 * Armor - white bar on top, no number
 * Absorption - no bar, **+number**
 * Health boost - same as health, but changes bars widths to fit the max health
@@ -40,6 +41,7 @@ There are also settings for configuring the colors and visibility of various ele
 * Hunger - brown bar, **-number**
 * Air - blue bar, **-anumber**
 * Fire - orange full bar, **-fnumber×** where number is a rough damage multiplier (1× - burning, 2× - burning in fire, 4× - burning in lava)
+* Hunger effect - no bar, **-hnumber×** where number is the level of the hunger effect
 * Poison - yellowish green bar, **→number** where number is the resulting health
 * Wither - dark gray bar, **→number** where number is the resulting health
 * Hardcore mode - no bar, **!**
@@ -49,6 +51,11 @@ There are also settings for configuring the colors and visibility of various ele
 * Mount health - orange bar above OneBar, similar style
 * Horse jump - brown vertical bar below crosshair
 * Experience points - level count and bar to the right of hotbar 
+
+#### Experimental
+
+* Vanilla-like fractionated counters - shows values in vanilla hearts, e.g. 9,5 instead of 19
+* Zero saturation - no bar, **↓** - shows when saturation is 0 and hunger will decrease with activity
 
 ![](https://i.ibb.co/Jcs3ys8/2021-02-19-20-01-43.png)
 

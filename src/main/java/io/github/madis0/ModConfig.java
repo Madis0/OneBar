@@ -31,6 +31,7 @@ public class ModConfig implements ConfigData {
     public static class GoodThings {
         @ConfigEntry.ColorPicker(allowAlpha = true)
         public int healthColor = 0xFFD32F2F;
+        public boolean showNaturalRegeneration = true;
         public boolean showArmor = true;
         @ConfigEntry.ColorPicker(allowAlpha = true)
         public int armorColor = 0x99FFFFFF;
@@ -44,7 +45,7 @@ public class ModConfig implements ConfigData {
         public int hungerColor = 0xBB3E2723;
         @ConfigEntry.ColorPicker(allowAlpha = true)
         public int airColor = 0xBB1A237E;
-        public boolean showFire = true;
+        public boolean showFireBar = true;
         @ConfigEntry.ColorPicker(allowAlpha = true)
         public int fireColor = 0x99C43E00;
         @ConfigEntry.ColorPicker(allowAlpha = true)
@@ -69,5 +70,6 @@ public class ModConfig implements ConfigData {
 
     public static class Experimental {
         public boolean useFractions = false;
+        public boolean showHungerDecreasing = false;
     }
 }

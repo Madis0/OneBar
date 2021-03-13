@@ -61,6 +61,8 @@ public abstract class InGameHudMixin {
 
     int maxHunger;
     int hunger;
+    float rawSaturation;
+    int saturation;
 
     int maxRawAir;
     int rawAir;
@@ -77,6 +79,7 @@ public abstract class InGameHudMixin {
     int witherHealth;
     boolean hasFireResistance;
     boolean hasWaterBreathing;
+    int hungerEffectLevel;
 
     int xpLevel;
     int maxXp;
@@ -129,6 +132,8 @@ public abstract class InGameHudMixin {
 
         maxHunger = 20;
         hunger = maxHunger - hungerManager.getFoodLevel();
+        rawSaturation = hungerManager.getSaturationLevel();
+        saturation = MathHelper.ceil(rawSaturation);
 
         maxRawAir = playerEntity.getMaxAir();
         rawAir = maxRawAir - playerEntity.getAir();
@@ -180,6 +185,10 @@ public abstract class InGameHudMixin {
                                                 health,
                                                 0);
 
+        StatusEffectInstance hungerEffect = playerEntity.getStatusEffect(StatusEffects.HUNGER);
+        hungerEffectLevel = 0;
+        if(hungerEffect != null) hungerEffectLevel = hungerEffect.getAmplifier() + 1;
+
         hasFireResistance = playerEntity.hasStatusEffect(StatusEffects.FIRE_RESISTANCE);
 
         hasWaterBreathing = playerEntity.hasStatusEffect(StatusEffects.WATER_BREATHING);
@@ -228,7 +237,7 @@ public abstract class InGameHudMixin {
             witherBar();
             poisonBar();
             hungerBar();
-            if(config.badThings.showFire) fireBar();
+            if(config.badThings.showFireBar) fireBar();
             airBar();
             xpBar();
             if(config.showText) barText();
@@ -276,6 +285,8 @@ public abstract class InGameHudMixin {
     private void barText(){
         String value = Calculations.MakeFraction(health);
 
+        if (health < maxHealth && hunger < 3 && config.goodThings.showNaturalRegeneration)
+            value += "↑";
         if (regenerationHealth > 0 && config.healthEstimates)
             value += "→" + Calculations.MakeFraction(regenerationHealth);
         if (witherHealth < maxHealth && config.healthEstimates)
@@ -296,6 +307,10 @@ public abstract class InGameHudMixin {
             value += "-§m" + new TranslatableText("text.onebar.fire", fireMultiplier).getString() + "§r";
         if (hunger > 0)
             value += "-" + Calculations.MakeFraction(hunger);
+        if (hunger > 0 && saturation < 1 && config.experimental.showHungerDecreasing)
+            value += "↓";
+        if (hungerEffectLevel > 0)
+            value += "-" + new TranslatableText("text.onebar.hungerEffect", hungerEffectLevel).getString();
         if (isHardcore)
             value += "!";
 
