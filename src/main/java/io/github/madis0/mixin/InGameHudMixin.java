@@ -61,10 +61,9 @@ public abstract class InGameHudMixin {
 
     int maxHunger;
     int hunger;
-    float exhaustion;
-    float saturation;
-    float foodTickTimer;
-    float totalHungerExhaustion;
+    float rawSaturation;
+    int saturation;
+    int hungerEffectSaturationLoss;
 
     int maxRawAir;
     int rawAir;
@@ -185,12 +184,13 @@ public abstract class InGameHudMixin {
                                                 0);
 
         StatusEffectInstance hungerEffect = playerEntity.getStatusEffect(StatusEffects.HUNGER);
-        if(hungerEffect != null) totalHungerExhaustion = 0.005F * (float)(hungerEffect.getAmplifier() + 1) * (hungerEffect.getDuration() / (float)20);
-        exhaustion = ((HungerManagerMixin)hungerManager).getExhaustion();
-        saturation = hungerManager.getSaturationLevel();
-        foodTickTimer = ((HungerManagerMixin) hungerManager).getFoodStarvationTimer();
-
-        //playerEntity.getActiveItem().isFood();
+        hungerEffectSaturationLoss = 0;
+        if(hungerEffect != null) {
+            float hungerEffectExhaustionLoss = 0.005F * (float)(hungerEffect.getAmplifier() + 1) * hungerEffect.getDuration();
+            hungerEffectSaturationLoss = (int) Math.ceil(hungerEffectExhaustionLoss / (float)4); // Exhaustion is server-side, so lost saturation is rounded up to be approximate
+        }
+        rawSaturation = hungerManager.getSaturationLevel();
+        saturation = MathHelper.ceil(rawSaturation);
 
         hasFireResistance = playerEntity.hasStatusEffect(StatusEffects.FIRE_RESISTANCE);
 
@@ -246,7 +246,7 @@ public abstract class InGameHudMixin {
             xpBar();
             if(config.showText) barText();
 
-            debugText("sat " + MathHelper.ceil(saturation) + " exh " + Calculations.GetPreciseInt(exhaustion) + " tick " + Calculations.GetPreciseInt(foodTickTimer) + " hunger " + totalHungerExhaustion);
+            debugText(" sat " + MathHelper.ceil(rawSaturation) + " -sat " + hungerEffectSaturationLoss);
         }
     }
 
@@ -291,6 +291,8 @@ public abstract class InGameHudMixin {
     private void barText(){
         String value = Calculations.MakeFraction(health);
 
+        if (health < maxHealth && saturation > 0 && config.goodThings.showNaturalRegeneration)
+            value += "↑";
         if (regenerationHealth > 0 && config.healthEstimates)
             value += "→" + Calculations.MakeFraction(regenerationHealth);
         if (witherHealth < maxHealth && config.healthEstimates)
@@ -311,6 +313,8 @@ public abstract class InGameHudMixin {
             value += "-§m" + new TranslatableText("text.onebar.fire", fireMultiplier).getString() + "§r";
         if (hunger > 0)
             value += "-" + Calculations.MakeFraction(hunger);
+        if (hunger > 0 && saturation < 1 && config.badThings.showHungerDecreasing)
+            value += "↓";
         if (isHardcore)
             value += "!";
 

@@ -31,6 +31,7 @@ public class ModConfig implements ConfigData {
     public static class GoodThings {
         @ConfigEntry.ColorPicker(allowAlpha = true)
         public int healthColor = 0xFFD32F2F;
+        public boolean showNaturalRegeneration = true;
         public boolean showArmor = true;
         @ConfigEntry.ColorPicker(allowAlpha = true)
         public int armorColor = 0x99FFFFFF;
@@ -42,6 +43,7 @@ public class ModConfig implements ConfigData {
     public static class BadThings {
         @ConfigEntry.ColorPicker(allowAlpha = true)
         public int hungerColor = 0xBB3E2723;
+        public boolean showHungerDecreasing = true;
         @ConfigEntry.ColorPicker(allowAlpha = true)
         public int airColor = 0xBB1A237E;
         public boolean showFire = true;

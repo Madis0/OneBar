@@ -4,8 +4,7 @@
   "package": "io.github.madis0.mixin",
   "compatibilityLevel": "JAVA_8",
   "client": [
-    "InGameHudMixin",
-    "HungerManagerMixin"
+    "InGameHudMixin"
   ],
   "injectors": {
     "defaultRequire": 1

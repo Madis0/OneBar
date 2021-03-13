@@ -18,7 +18,7 @@ OneBar is meant to be contextual, showing you the values (and bar overlays) only
 
 For example, if you get hungry, the hunger overlay is displayed over the health by its value. If you eat, you'll lose the overlay and the value, because you no longer need it. However, if you are hungry and underwater, the water bar is displayed on top of health _and_ hunger because it is the most important value in this case.
 
-There are also settings for configuring the colors and visibility of various elements.
+The mod only uses client-side data, so it is never needed on a server. There are also settings for configuring the colors and visibility of various elements.
 
 [Feature roadmap](https://github.com/Madis0/OneBar/projects)
 
@@ -27,6 +27,7 @@ There are also settings for configuring the colors and visibility of various ele
 #### Positive (left-to-right)
 
 * Health - red bar, **number**
+* Natural regeneration - no bar, **↑** - shows when health is less than max and saturation is over 0
 * Armor - white bar on top, no number
 * Absorption - no bar, **+number**
 * Health boost - same as health, but changes bars widths to fit the max health
@@ -38,6 +39,7 @@ There are also settings for configuring the colors and visibility of various ele
 #### Negative (right-to-left)
 
 * Hunger - brown bar, **-number**
+* Zero saturation - no bar, **↓** - shows when saturation is 0 and hunger will actively decrease
 * Air - blue bar, **-anumber**
 * Fire - orange bar, **-fnumber×** where number is a rough damage multiplier (1× - burning, 2× - burning in fire, 4× - burning in lava)
 * Poison - yellowish green bar, **→number** where number is the resulting health
