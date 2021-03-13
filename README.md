@@ -27,7 +27,7 @@ The mod only uses client-side data, so it is never needed on a server. There are
 #### Positive (left-to-right)
 
 * Health - red bar, **number**
-* Natural regeneration - no bar, **↑** - shows when health is less than max and hunger is less than 3 (number estimation still WIP #8)
+* Natural regeneration - no bar, **↑** - shows when health is less than max and [hunger is less than 3](https://minecraft.gamepedia.com/Hunger#Mechanics)
 * Absorption - no bar, **+number**
 * Health boost - same as health, but changes bars widths to fit the max health
 * Resistance - no bar, **+number%** where number is the [effect level multiplier](https://minecraft.gamepedia.com/Resistance#Effect)
