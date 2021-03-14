@@ -4,6 +4,8 @@ A sleek HUD mod for Minecraft: Java Edition.
 
 Stable releases downloadable from [Curseforge](https://www.curseforge.com/minecraft/mc-mods/onebar) or [Modrinth](https://modrinth.com/mod/OneBar), automated builds available from [Actions tab](https://github.com/Madis0/OneBar/actions).
 
+![](https://i.ibb.co/wJkPKpL/2021-03-14-14.png)
+
 ## Installation
 
 1. Install Minecraft 1.16.x
@@ -57,8 +59,6 @@ The mod only uses client-side data, so it is never needed on a server. There are
 
 * Vanilla-like fractionated counters - shows values in vanilla hearts, e.g. 9,5 instead of 19
 * Zero saturation - no bar, **↓** - shows when saturation is 0 and hunger will decrease with activity
-
-![](https://i.ibb.co/Jcs3ys8/2021-02-19-20-01-43.png)
 
 ### FAQ
 
