@@ -33,7 +33,7 @@ The mod only uses client-side data, so it is never needed on a server. There are
 * Natural regeneration - no bar, **↑** - shows when health is less than max and [hunger is less than 3](https://minecraft.gamepedia.com/Hunger#Mechanics)
 * Absorption - no bar, **+number**
 * Resistance - no bar, **+number%** where number is the [effect level multiplier](https://minecraft.gamepedia.com/Resistance#Effect)
-* Regeneration - pink bar, **→number** where number is the resulting health
+* Regeneration - pink bar, **→number** where number is the resulting health¹
 * Fire Resistance - no bar, **-~fnumber×~** where number is a rough damage multiplier (1× - burning, 2× - burning in fire, 4× - burning in lava)
 * Water Breathing - blue bar, **-~anumber~**, number is usually zero and bar hidden unless you got water breathing _within_ water
 
@@ -42,9 +42,9 @@ The mod only uses client-side data, so it is never needed on a server. There are
 * Hunger - brown bar, **-number**
 * Air - blue bar, **-anumber**
 * Fire - orange full bar, **-fnumber×** where number is a rough damage multiplier (1× - burning, 2× - burning in fire, 4× - burning in lava)
-* Hunger effect - no bar, **-hnumber×** where number is the level of the hunger effect
-* Poison - yellowish green bar, **→number** where number is the resulting health
-* Wither - dark gray bar, **→number** where number is the resulting health
+* Hunger effect - no bar, **→number** where number is the resulting hunger¹
+* Poison - yellowish green bar, **→number** where number is the resulting health¹
+* Wither - dark gray bar, **→number** where number is the resulting health¹
 * Hardcore mode - no bar, **!**
 
 #### Others
@@ -59,6 +59,8 @@ The mod only uses client-side data, so it is never needed on a server. There are
 
 * Vanilla-like fractionated counters - shows values in vanilla hearts, e.g. 9,5 instead of 19
 * Zero saturation - no bar, **↓** - shows when saturation is 0 and hunger will decrease with activity
+
+¹ Best-guess estimate based on what the client knows at the time, can change by some server-side values and natural occurrences.
 
 ### FAQ
 

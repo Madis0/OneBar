@@ -65,7 +65,6 @@ public abstract class InGameHudMixin {
     int hunger;
     float rawSaturation;
     int saturation;
-    int hungerEffectSaturationLoss;
 
     int maxRawAir;
     int rawAir;
@@ -82,7 +81,8 @@ public abstract class InGameHudMixin {
     int witherHealth;
     boolean hasFireResistance;
     boolean hasWaterBreathing;
-    int hungerEffectLevel;
+    int hungerEffectSaturationLoss;
+    int hungerEffectEstimate;
     int naturalRegenerationHealth;
 
     int xpLevel;
@@ -201,13 +201,17 @@ public abstract class InGameHudMixin {
 
         StatusEffectInstance hungerEffect = playerEntity.getStatusEffect(StatusEffects.HUNGER);
         hungerEffectSaturationLoss = 0;
+        hungerEffectEstimate = hunger;
         if(hungerEffect != null) {
             float hungerEffectExhaustionLoss = 0.005F * (float)(hungerEffect.getAmplifier() + 1) * hungerEffect.getDuration();
-            hungerEffectSaturationLoss = (int) Math.ceil(hungerEffectExhaustionLoss / (float)4); // Exhaustion is server-side, so lost saturation is rounded up to be approximate
-        }
+            // Exhaustion is server-side, so lost saturation is rounded up to be approximate
+            hungerEffectSaturationLoss = (int) Math.ceil(hungerEffectExhaustionLoss / (float)4);
 
-        hungerEffectLevel = 0;
-        if(hungerEffect != null) hungerEffectLevel = hungerEffect.getAmplifier() + 1;
+            if(saturation >= hungerEffectSaturationLoss)
+                hungerEffectEstimate = hunger;
+            else
+                hungerEffectEstimate = Math.max(hunger + hungerEffectSaturationLoss, 0);
+        }
 
         naturalRegenerationHealth = 0;
         if(health < maxHealth && hunger < 3 ){
@@ -344,12 +348,12 @@ public abstract class InGameHudMixin {
             value += "-" + new TranslatableText("text.onebar.fire", fireMultiplier).getString();
         if (isOnFire && hasFireResistance && config.badThings.showFireText)
             value += "-§m" + new TranslatableText("text.onebar.fire", fireMultiplier).getString() + "§r";
-        if (hunger > 0)
+        if (hunger > 0 || (hungerEffectEstimate > hunger && config.healthEstimates))
             value += "-" + Calculations.MakeFraction(hunger);
         if (hunger > 0 && saturation < 1 && config.experimental.showHungerDecreasing)
             value += "↓";
-        if (hungerEffectLevel > 0 && config.badThings.showHungerEffectText)
-            value += "-" + new TranslatableText("text.onebar.hungerEffect", hungerEffectLevel).getString();
+        if (hungerEffectEstimate > hunger && config.healthEstimates)
+            value += "→" + Calculations.MakeFraction(hungerEffectEstimate);
         if (isHardcore)
             value += "!";
 

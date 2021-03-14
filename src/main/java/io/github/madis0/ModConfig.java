@@ -58,7 +58,6 @@ public class ModConfig implements ConfigData {
         public int poisonColor = 0xBB8C9900;
         @ConfigEntry.ColorPicker(allowAlpha = true)
         public int witherColor = 0xCC37474f;
-        public boolean showHungerEffectText = true;
     }
 
     public static class Entity {
