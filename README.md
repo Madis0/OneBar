@@ -2,6 +2,8 @@
 
 A sleek HUD mod for Minecraft: Java Edition. 
 
+[![Download from Curseforge](http://cf.way2muchnoise.eu/full_onebar_downloads%20on%20Curseforge.svg?badge_style=for_the_badge)](https://www.curseforge.com/minecraft/mc-mods/onebar)
+
 Stable releases downloadable from [Curseforge](https://www.curseforge.com/minecraft/mc-mods/onebar) or [Modrinth](https://modrinth.com/mod/OneBar), automated builds available from [Actions tab](https://github.com/Madis0/OneBar/actions).
 
 ![](https://i.ibb.co/wJkPKpL/2021-03-14-14.png)
@@ -62,7 +64,7 @@ The mod only uses client-side data, so it is never needed on a server. There are
 
 ¹ Best-guess estimate based on what the client knows at the time, can change by some server-side values and natural occurrences.
 
-### FAQ
+## FAQ
 
 **Q: Why do I have to download Cloth Config API separately?**
 
