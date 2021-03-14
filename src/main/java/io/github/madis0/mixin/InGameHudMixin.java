@@ -372,7 +372,7 @@ public abstract class InGameHudMixin {
 
             DrawableHelper.fill(stack, baseStartW, mountStartH, baseEndW, mountEndH, config.backgroundColor);
             DrawableHelper.fill(stack, baseStartW, mountStartH, baseRelativeEndW(Calculations.GetPreciseInt(mountRawHealth), Calculations.GetPreciseInt(mountMaxHealth)), mountEndH, config.entity.healthColor);
-            client.textRenderer.draw(stack, value, textX, textY, config.textColor);
+            if(config.showText) client.textRenderer.draw(stack, value, textX, textY, config.textColor);
         }
     }
 
