@@ -4,6 +4,8 @@ A sleek HUD mod for Minecraft: Java Edition.
 
 Stable releases downloadable from [Curseforge](https://www.curseforge.com/minecraft/mc-mods/onebar) or [Modrinth](https://modrinth.com/mod/OneBar), automated builds available from [Actions tab](https://github.com/Madis0/OneBar/actions).
 
+![](https://i.ibb.co/wJkPKpL/2021-03-14-14.png)
+
 ## Installation
 
 1. Install Minecraft 1.16.x
@@ -27,14 +29,13 @@ The mod only uses client-side data, so it is never needed on a server. There are
 #### Positive (left-to-right)
 
 * Health - red bar, **number**
-* Natural regeneration - no bar, **↑** - shows when health is less than max and hunger is less than 3 (number estimation still WIP #8)
-* Armor - white bar on top, no number
+* Health boost - red bar, **number**, bar width adapts to the max health
+* Natural regeneration - no bar, **↑** - shows when health is less than max and [hunger is less than 3](https://minecraft.gamepedia.com/Hunger#Mechanics)
 * Absorption - no bar, **+number**
-* Health boost - same as health, but changes bars widths to fit the max health
 * Resistance - no bar, **+number%** where number is the [effect level multiplier](https://minecraft.gamepedia.com/Resistance#Effect)
 * Regeneration - pink bar, **→number** where number is the resulting health
-* Fire Resistance - same as fire, but crossed number and no bar
-* Water Breathing - same as air, but crossed number
+* Fire Resistance - no bar, **-~fnumber×~** where number is a rough damage multiplier (1× - burning, 2× - burning in fire, 4× - burning in lava)
+* Water Breathing - blue bar, **-~anumber~**, number is usually zero and bar hidden unless you got water breathing _within_ water
 
 #### Negative (right-to-left)
 
@@ -48,6 +49,8 @@ The mod only uses client-side data, so it is never needed on a server. There are
 
 #### Others
 
+* Armor - white bar above OneBar, no number
+* Held food restored hunger bar - orange (wasted) or green (exact/less) bar below OneBar, no number
 * Mount health - orange bar above OneBar, similar style
 * Horse jump - brown vertical bar below crosshair
 * Experience points - level count and bar to the right of hotbar 
@@ -56,8 +59,6 @@ The mod only uses client-side data, so it is never needed on a server. There are
 
 * Vanilla-like fractionated counters - shows values in vanilla hearts, e.g. 9,5 instead of 19
 * Zero saturation - no bar, **↓** - shows when saturation is 0 and hunger will decrease with activity
-
-![](https://i.ibb.co/Jcs3ys8/2021-02-19-20-01-43.png)
 
 ### FAQ
 
