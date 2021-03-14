@@ -64,11 +64,18 @@ The mod only uses client-side data, so it is never needed on a server. There are
 
 ### FAQ
 
+**Q: Why do I have to download Cloth Config API separately?**
+
+A: Because it's big, gets updated a lot and you probably have a mod or two that requires it anyway. If one of your mods already bundles it, you don't have to download it at all :)
+
 **Q: Forge support?**
+
 A: No. Feel free to fork according to the license or [check out my resource pack that inspired this](https://www.curseforge.com/minecraft/texture-packs/material-design-hud).
 
 **Q: Backports?**
+
 A: No, Cloth Config isn't cross-compatible and I don't suggest using old versions anyway.
 
 **Q: Snapshots?**
+
 A: Somewhat. It probably runs, but config will crash. You've been warned!
