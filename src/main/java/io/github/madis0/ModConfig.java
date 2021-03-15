@@ -10,10 +10,11 @@ public class ModConfig implements ConfigData {
     public boolean showOneBar = true;
     public boolean showVanilla = false;
     public boolean showText = true;
+    @ConfigEntry.Gui.Tooltip
     public boolean healthEstimates = true;
     @ConfigEntry.Gui.PrefixText
     @ConfigEntry.ColorPicker(allowAlpha = true)
-    public int textColor = 0xAAFFFFFF;
+    public int textColor = 0xBBFFFFFF;
     @ConfigEntry.ColorPicker(allowAlpha = true)
     public int backgroundColor = 0xFF000000;
 
@@ -32,7 +33,7 @@ public class ModConfig implements ConfigData {
         @ConfigEntry.ColorPicker(allowAlpha = true)
         public int healthColor = 0xFFD32F2F;
         @ConfigEntry.ColorPicker(allowAlpha = true)
-        public int naturalRegenerationColor = 0xBBFFAB91;
+        public int naturalRegenerationColor = 0xBBFF8A65;
         @ConfigEntry.ColorPicker(allowAlpha = true)
         public int regenerationColor = 0xBBF48FB1;
         public boolean showArmorBar = true;
@@ -49,6 +50,8 @@ public class ModConfig implements ConfigData {
     public static class BadThings {
         @ConfigEntry.ColorPicker(allowAlpha = true)
         public int hungerColor = 0xBB3E2723;
+        @ConfigEntry.ColorPicker(allowAlpha = true)
+        public int hungerEffectColor = 0xBB827717;
         @ConfigEntry.ColorPicker(allowAlpha = true)
         public int airColor = 0xBB1A237E;
         public boolean showFireBar = true;

@@ -32,10 +32,10 @@ The mod only uses client-side data, so it is never needed on a server. There are
 
 * Health - red bar, **number**
 * Health boost - red bar, **number**, bar width adapts to the max health
-* Natural regeneration - no bar, **↑** - shows when health is less than max and [hunger is less than 3](https://minecraft.gamepedia.com/Hunger#Mechanics)
+* Natural regeneration - yellowish pink bar, **→number** where number is the resulting health¹
+* Regeneration - pink bar, **→number** where number is the resulting health¹
 * Absorption - no bar, **+number**
 * Resistance - no bar, **+number%** where number is the [effect level multiplier](https://minecraft.gamepedia.com/Resistance#Effect)
-* Regeneration - pink bar, **→number** where number is the resulting health¹
 * Fire Resistance - no bar, **-~fnumber×~** where number is a rough damage multiplier (1× - burning, 2× - burning in fire, 4× - burning in lava)
 * Water Breathing - blue bar, **-~anumber~**, number is usually zero and bar hidden unless you got water breathing _within_ water
 
@@ -44,7 +44,7 @@ The mod only uses client-side data, so it is never needed on a server. There are
 * Hunger - brown bar, **-number**
 * Air - blue bar, **-anumber**
 * Fire - orange full bar, **-fnumber×** where number is a rough damage multiplier (1× - burning, 2× - burning in fire, 4× - burning in lava)
-* Hunger effect - no bar, **→number** where number is the resulting hunger¹
+* Hunger effect - yellowish brown bar, **→number** where number is the resulting hunger¹
 * Poison - yellowish green bar, **→number** where number is the resulting health¹
 * Wither - dark gray bar, **→number** where number is the resulting health¹
 * Hardcore mode - no bar, **!**

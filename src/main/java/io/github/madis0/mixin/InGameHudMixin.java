@@ -212,10 +212,7 @@ public abstract class InGameHudMixin {
             // Exhaustion is server-side, so lost saturation is rounded up to be approximate
             hungerEffectSaturationLoss = (int) Math.ceil(hungerEffectExhaustionLoss / (float)4) - 1;
 
-            if (saturation >= hungerEffectSaturationLoss){
-                hungerEffectEstimate = hunger;
-            }
-            else if ((hunger + hungerEffectSaturationLoss) != (previousHungerEffectEstimate - 1)) { //TODO: something with duration?
+            if ((hunger + hungerEffectSaturationLoss) != (previousHungerEffectEstimate - 1)) {
                 hungerEffectEstimate = Math.max(hunger + hungerEffectSaturationLoss, 0);
                 previousHungerEffectEstimate = hungerEffectEstimate;
             }
@@ -228,10 +225,10 @@ public abstract class InGameHudMixin {
         naturalRegenerationAddition = 0;
         if(health < maxHealth && hunger < 3){
             // Approximate formula for calculating regeneration addition health: saturation * exhaustion max / 6 exhaustion per healed heart
-            if(saturation > 0)
+            if (saturation > 0)
                 naturalRegenerationAddition = MathHelper.ceil((float)saturation * (float)4 / (float)6);
             else
-                naturalRegenerationAddition = 1;
+                naturalRegenerationAddition = 1; // because saturation goes from 2 to 0 for some reason
 
             if((health + naturalRegenerationAddition) != (previousNaturalRegenerationHealth + 1)){
                 naturalRegenerationHealth = Math.min(health + naturalRegenerationAddition, maxHealth);
@@ -282,19 +279,18 @@ public abstract class InGameHudMixin {
         PlayerEntity playerEntity = this.getCameraPlayer();
         if (playerEntity != null) {
             barBackground();
-            naturalRegenerationBar();
-            regenerationBar();
+            if(config.healthEstimates) naturalRegenerationBar();
+            if(config.healthEstimates) regenerationBar();
             healthBar();
-            witherBar();
-            poisonBar();
+            if(config.healthEstimates) witherBar();
+            if(config.healthEstimates) poisonBar();
+            if(config.healthEstimates) hungerEffectBar();
             hungerBar();
             if(config.badThings.showFireBar) fireBar();
             airBar();
             xpBar();
             if(config.showText) barText();
             if(config.goodThings.heldFoodHungerBar) heldFoodBar();
-
-            debugText(" curr " + hungerEffectEstimate + " prev " + previousHungerEffectEstimate + " sat " + saturation);
         }
     }
 
@@ -317,9 +313,11 @@ public abstract class InGameHudMixin {
     }
 
     private void naturalRegenerationBar(){
-        float lessPreciseRegen = (float)naturalRegenerationHealth - (float)0.2; // Avoids regen being visible behind health if regen will not happen
+        if (naturalRegenerationHealth > health){ // The if and float avoid regen being visible behind health if regen will not happen, because health is shown in precise floats
+            float lessPreciseRegen = (float)naturalRegenerationHealth - (float)0.2;
 
-        DrawableHelper.fill(stack, baseStartW, baseStartH, baseRelativeEndW(Math.max(Calculations.GetPreciseInt(lessPreciseRegen), Calculations.GetPreciseInt(rawHealth)), Calculations.GetPreciseInt(maxRawHealth)), baseEndH, config.goodThings.naturalRegenerationColor);
+            DrawableHelper.fill(stack, baseStartW, baseStartH, baseRelativeEndW(Math.max(Calculations.GetPreciseInt(lessPreciseRegen), Calculations.GetPreciseInt(rawHealth)), Calculations.GetPreciseInt(maxRawHealth)), baseEndH, config.goodThings.naturalRegenerationColor);
+        }
     }
 
     private void regenerationBar(){
@@ -338,6 +336,12 @@ public abstract class InGameHudMixin {
         DrawableHelper.fill(stack, baseRelativeStartW(maxHealth - poisonHealth, maxHealth), baseStartH, baseEndW, baseEndH, config.badThings.poisonColor);
     }
 
+    private void hungerEffectBar(){
+        if (hungerEffectEstimate > hunger){
+            DrawableHelper.fill(stack, baseRelativeStartW(hungerEffectEstimate, maxHunger), baseStartH, baseEndW, baseEndH, config.badThings.hungerEffectColor);
+        }
+    }
+
     private void hungerBar(){
         DrawableHelper.fill(stack, baseRelativeStartW(hunger, maxHunger), baseStartH, baseEndW, baseEndH, config.badThings.hungerColor);
     }
@@ -347,7 +351,7 @@ public abstract class InGameHudMixin {
     }
 
     private void fireBar(){
-        if(isOnFire && !hasFireResistance){
+        if (isOnFire && !hasFireResistance){
             DrawableHelper.fill(stack, baseStartW, baseStartH, baseEndW, baseEndH, config.badThings.fireColor);
         }
     }
