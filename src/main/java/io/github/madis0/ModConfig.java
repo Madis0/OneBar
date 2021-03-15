@@ -31,13 +31,14 @@ public class ModConfig implements ConfigData {
     public static class GoodThings {
         @ConfigEntry.ColorPicker(allowAlpha = true)
         public int healthColor = 0xFFD32F2F;
-        public boolean showNaturalRegeneration = true;
+        @ConfigEntry.ColorPicker(allowAlpha = true)
+        public int naturalRegenerationColor = 0xBBFFAB91;
+        @ConfigEntry.ColorPicker(allowAlpha = true)
+        public int regenerationColor = 0xBBF48FB1;
         public boolean showArmorBar = true;
         @ConfigEntry.ColorPicker(allowAlpha = true)
         public int armorColor = 0x99FFFFFF;
         public boolean showResistance = true;
-        @ConfigEntry.ColorPicker(allowAlpha = true)
-        public int regenerationColor = 0xBBF48FB1;
         public boolean heldFoodHungerBar = true;
         @ConfigEntry.ColorPicker(allowAlpha = true)
         public int heldFoodHungerWasteColor = 0x99FFB04C;

@@ -81,10 +81,13 @@ public abstract class InGameHudMixin {
     int witherHealth;
     boolean hasFireResistance;
     boolean hasWaterBreathing;
+    
     int hungerEffectSaturationLoss;
     int hungerEffectEstimate;
     int previousHungerEffectEstimate;
+
     int naturalRegenerationHealth;
+    int previousNaturalRegenerationHealth;
 
     int xpLevel;
     int maxXp;
@@ -208,12 +211,10 @@ public abstract class InGameHudMixin {
             // Exhaustion is server-side, so lost saturation is rounded up to be approximate
             hungerEffectSaturationLoss = (int) Math.ceil(hungerEffectExhaustionLoss / (float)4) - 1;
 
-
-
             if (saturation >= hungerEffectSaturationLoss){
                 hungerEffectEstimate = hunger;
             }
-            else if ((hunger + hungerEffectSaturationLoss) != (previousHungerEffectEstimate - 1)) {
+            else if ((hunger + hungerEffectSaturationLoss) != (previousHungerEffectEstimate - 1)) { //TODO: something with duration?
                 hungerEffectEstimate = Math.max(hunger + hungerEffectSaturationLoss, 0);
                 previousHungerEffectEstimate = hungerEffectEstimate;
             }
@@ -223,13 +224,22 @@ public abstract class InGameHudMixin {
             previousHungerEffectEstimate = hungerEffectEstimate;
         }
 
-        naturalRegenerationHealth = 0;
-        if(health < maxHealth && hunger < 3 ){
+        if(health < maxHealth && hunger < 3){
             int regenerationAddition = 0;
             // Approximate formula for calculating regeneration addition health: saturation * exhaustion max / 6 exhaustion per healed heart
-            regenerationAddition = MathHelper.ceil((float)saturation * (float)4 / (float)6);
+            if(saturation > 0)
+                regenerationAddition = MathHelper.ceil((float)saturation * (float)4 / (float)6);
+            else
+                regenerationAddition = 1;
 
-            naturalRegenerationHealth = Math.min(health + regenerationAddition, maxHealth);
+            if((health + regenerationAddition) != (previousNaturalRegenerationHealth + 1)){
+                naturalRegenerationHealth = Math.min(health + regenerationAddition, maxHealth);
+                previousNaturalRegenerationHealth = naturalRegenerationHealth;                
+            }
+        }
+        else {
+            naturalRegenerationHealth = health;
+            previousNaturalRegenerationHealth = naturalRegenerationHealth;
         }
 
         hasFireResistance = playerEntity.hasStatusEffect(StatusEffects.FIRE_RESISTANCE);
@@ -272,6 +282,7 @@ public abstract class InGameHudMixin {
         PlayerEntity playerEntity = this.getCameraPlayer();
         if (playerEntity != null) {
             barBackground();
+            naturalRegenerationBar();
             regenerationBar();
             healthBar();
             witherBar();
@@ -283,7 +294,8 @@ public abstract class InGameHudMixin {
             if(config.showText) barText();
             if(config.goodThings.heldFoodHungerBar) heldFoodBar();
 
-            debugText(" curr " + hungerEffectEstimate + " prev " + previousHungerEffectEstimate + " sat " + saturation);
+            //debugText(" curr " + hungerEffectEstimate + " prev " + previousHungerEffectEstimate + " sat " + saturation);
+            debugText(" curr " + health + " nat " + naturalRegenerationHealth + " sat " + saturation);
         }
     }
 
@@ -303,6 +315,12 @@ public abstract class InGameHudMixin {
                 DrawableHelper.fill(stack, baseRelativeStartW(heldFoodHunger, maxHunger), baseEndH, baseEndW, baseEndH + 1, config.goodThings.heldFoodHungerWasteColor);
 
         }
+    }
+
+    private void naturalRegenerationBar(){
+        float lessPreciseRegen = (float)naturalRegenerationHealth - (float)0.2; // Avoids regen being visible behind health if regen will not happen
+
+        DrawableHelper.fill(stack, baseStartW, baseStartH, baseRelativeEndW(Math.max(Calculations.GetPreciseInt(lessPreciseRegen), Calculations.GetPreciseInt(rawHealth)), Calculations.GetPreciseInt(maxRawHealth)), baseEndH, config.goodThings.naturalRegenerationColor);
     }
 
     private void regenerationBar(){
@@ -338,8 +356,8 @@ public abstract class InGameHudMixin {
     private void barText(){
         String value = Calculations.MakeFraction(health);
 
-        if (health < maxHealth && hunger < 3 && config.goodThings.showNaturalRegeneration)
-            value += "↑";
+        if (naturalRegenerationHealth > health && config.healthEstimates)
+            value += "→" + Calculations.MakeFraction(naturalRegenerationHealth);
         if (regenerationHealth > 0 && config.healthEstimates)
             value += "→" + Calculations.MakeFraction(regenerationHealth);
         if (witherHealth < maxHealth && config.healthEstimates)
