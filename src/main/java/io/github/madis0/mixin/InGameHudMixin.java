@@ -83,6 +83,7 @@ public abstract class InGameHudMixin {
     boolean hasWaterBreathing;
     int hungerEffectSaturationLoss;
     int hungerEffectEstimate;
+    int previousHungerEffectEstimate;
     int naturalRegenerationHealth;
 
     int xpLevel;
@@ -201,16 +202,25 @@ public abstract class InGameHudMixin {
 
         StatusEffectInstance hungerEffect = playerEntity.getStatusEffect(StatusEffects.HUNGER);
         hungerEffectSaturationLoss = 0;
-        hungerEffectEstimate = hunger;
         if(hungerEffect != null) {
-            float hungerEffectExhaustionLoss = 0.005F * (float)(hungerEffect.getAmplifier() + 1) * hungerEffect.getDuration();
+            int duration = hungerEffect.getDuration();
+            float hungerEffectExhaustionLoss = 0.005F * (float)(hungerEffect.getAmplifier() + 1) * duration;
             // Exhaustion is server-side, so lost saturation is rounded up to be approximate
-            hungerEffectSaturationLoss = (int) Math.ceil(hungerEffectExhaustionLoss / (float)4);
+            hungerEffectSaturationLoss = (int) Math.ceil(hungerEffectExhaustionLoss / (float)4) - 1;
 
-            if(saturation >= hungerEffectSaturationLoss)
+
+
+            if (saturation >= hungerEffectSaturationLoss){
                 hungerEffectEstimate = hunger;
-            else
+            }
+            else if ((hunger + hungerEffectSaturationLoss) != (previousHungerEffectEstimate - 1)) {
                 hungerEffectEstimate = Math.max(hunger + hungerEffectSaturationLoss, 0);
+                previousHungerEffectEstimate = hungerEffectEstimate;
+            }
+        }
+        else {
+            hungerEffectEstimate = hunger;
+            previousHungerEffectEstimate = hungerEffectEstimate;
         }
 
         naturalRegenerationHealth = 0;
@@ -273,7 +283,7 @@ public abstract class InGameHudMixin {
             if(config.showText) barText();
             if(config.goodThings.heldFoodHungerBar) heldFoodBar();
 
-            debugText(" sat " + MathHelper.ceil(rawSaturation) + " -sat " + hungerEffectSaturationLoss);
+            debugText(" curr " + hungerEffectEstimate + " prev " + previousHungerEffectEstimate + " sat " + saturation);
         }
     }
 
