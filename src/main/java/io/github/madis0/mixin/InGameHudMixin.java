@@ -86,6 +86,7 @@ public abstract class InGameHudMixin {
     int hungerEffectEstimate;
     int previousHungerEffectEstimate;
 
+    int naturalRegenerationAddition;
     int naturalRegenerationHealth;
     int previousNaturalRegenerationHealth;
 
@@ -224,16 +225,16 @@ public abstract class InGameHudMixin {
             previousHungerEffectEstimate = hungerEffectEstimate;
         }
 
+        naturalRegenerationAddition = 0;
         if(health < maxHealth && hunger < 3){
-            int regenerationAddition = 0;
             // Approximate formula for calculating regeneration addition health: saturation * exhaustion max / 6 exhaustion per healed heart
             if(saturation > 0)
-                regenerationAddition = MathHelper.ceil((float)saturation * (float)4 / (float)6);
+                naturalRegenerationAddition = MathHelper.ceil((float)saturation * (float)4 / (float)6);
             else
-                regenerationAddition = 1;
+                naturalRegenerationAddition = 1;
 
-            if((health + regenerationAddition) != (previousNaturalRegenerationHealth + 1)){
-                naturalRegenerationHealth = Math.min(health + regenerationAddition, maxHealth);
+            if((health + naturalRegenerationAddition) != (previousNaturalRegenerationHealth + 1)){
+                naturalRegenerationHealth = Math.min(health + naturalRegenerationAddition, maxHealth);
                 previousNaturalRegenerationHealth = naturalRegenerationHealth;                
             }
         }
@@ -245,7 +246,6 @@ public abstract class InGameHudMixin {
         hasFireResistance = playerEntity.hasStatusEffect(StatusEffects.FIRE_RESISTANCE);
 
         hasWaterBreathing = playerEntity.hasStatusEffect(StatusEffects.WATER_BREATHING);
-
 
         // Method calls
 
@@ -294,8 +294,7 @@ public abstract class InGameHudMixin {
             if(config.showText) barText();
             if(config.goodThings.heldFoodHungerBar) heldFoodBar();
 
-            //debugText(" curr " + hungerEffectEstimate + " prev " + previousHungerEffectEstimate + " sat " + saturation);
-            debugText(" curr " + health + " nat " + naturalRegenerationHealth + " sat " + saturation);
+            debugText(" curr " + hungerEffectEstimate + " prev " + previousHungerEffectEstimate + " sat " + saturation);
         }
     }
 
