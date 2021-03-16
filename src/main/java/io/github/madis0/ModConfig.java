@@ -32,9 +32,9 @@ public class ModConfig implements ConfigData {
         @ConfigEntry.ColorPicker(allowAlpha = true)
         public int healthColor = 0xFFD32F2F;
         @ConfigEntry.ColorPicker(allowAlpha = true)
-        public int naturalRegenerationColor = 0xBBFF8A65;
+        public int naturalRegenerationColor = 0xFFF06292;
         @ConfigEntry.ColorPicker(allowAlpha = true)
-        public int regenerationColor = 0xBBF48FB1;
+        public int regenerationColor = 0xFFEC407A;
         public boolean showResistance = true;
     }
 

@@ -32,7 +32,7 @@ The mod only uses client-side data, so it is never needed on a server. There are
 
 * Health - red bar, **number**
 * Health boost - red bar, **number**, bar width adapts to the max health
-* Natural regeneration - yellowish pink bar, **→number** where number is the resulting health¹
+* Natural regeneration - yellow bar, **→number** where number is the resulting health¹
 * Regeneration - pink bar, **→number** where number is the resulting health¹
 * Absorption - no bar, **+number**
 * Resistance - no bar, **+number%** where number is the [effect level multiplier](https://minecraft.gamepedia.com/Resistance#Effect)
