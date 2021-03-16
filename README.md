@@ -51,10 +51,10 @@ The mod only uses client-side data, so it is never needed on a server. There are
 
 #### Others
 
-* Armor - white bar above OneBar, no number
-* Held food restored hunger bar - orange (wasted) or green (exact/less) bar below OneBar, no number
 * Mount health - orange bar above OneBar, similar style
 * Horse jump - brown vertical bar below crosshair
+* Armor - white bar above OneBar, no number
+* Held food restored hunger bar - orange (wasted) or green (exact/less) bar below OneBar, no number
 * Experience points - level count and bar to the right of hotbar 
 
 #### Experimental

@@ -8,7 +8,6 @@ import me.shedaniel.autoconfig.annotation.ConfigEntry;
 public class ModConfig implements ConfigData {
 
     public boolean showOneBar = true;
-    public boolean showVanilla = false;
     public boolean showText = true;
     @ConfigEntry.Gui.Tooltip
     public boolean healthEstimates = true;
@@ -25,7 +24,7 @@ public class ModConfig implements ConfigData {
     @ConfigEntry.Gui.CollapsibleObject
     public Entity entity = new Entity();
     @ConfigEntry.Gui.CollapsibleObject
-    public Experience experience = new Experience();
+    public OtherBars otherBars = new OtherBars();
     @ConfigEntry.Gui.CollapsibleObject
     public Experimental experimental = new Experimental();
 
@@ -36,15 +35,7 @@ public class ModConfig implements ConfigData {
         public int naturalRegenerationColor = 0xBBFF8A65;
         @ConfigEntry.ColorPicker(allowAlpha = true)
         public int regenerationColor = 0xBBF48FB1;
-        public boolean showArmorBar = true;
-        @ConfigEntry.ColorPicker(allowAlpha = true)
-        public int armorColor = 0x99FFFFFF;
         public boolean showResistance = true;
-        public boolean heldFoodHungerBar = true;
-        @ConfigEntry.ColorPicker(allowAlpha = true)
-        public int heldFoodHungerWasteColor = 0x99FFB04C;
-        @ConfigEntry.ColorPicker(allowAlpha = true)
-        public int heldFoodHungerGoodColor = 0xBB76FF03;
     }
 
     public static class BadThings {
@@ -72,10 +63,17 @@ public class ModConfig implements ConfigData {
         public int jumpColor = 0xFF795548;
     }
 
-    public static class Experience {
+    public static class OtherBars {
         @ConfigEntry.ColorPicker(allowAlpha = true)
         public int xpColor = 0xFF00C853;
-        public boolean leftHanded = false;
+        public boolean showArmorBar = true;
+        @ConfigEntry.ColorPicker(allowAlpha = true)
+        public int armorColor = 0x99FFFFFF;
+        public boolean heldFoodHungerBar = true;
+        @ConfigEntry.ColorPicker(allowAlpha = true)
+        public int heldFoodHungerWasteColor = 0x99FFB04C;
+        @ConfigEntry.ColorPicker(allowAlpha = true)
+        public int heldFoodHungerGoodColor = 0xBB76FF03;
     }
 
     public static class Experimental {

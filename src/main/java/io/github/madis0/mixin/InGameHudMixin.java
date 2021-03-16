@@ -6,6 +6,7 @@ import me.shedaniel.autoconfig.AutoConfig;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.DrawableHelper;
 import net.minecraft.client.gui.hud.InGameHud;
+import net.minecraft.client.options.AttackIndicator;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.effect.StatusEffectInstance;
@@ -15,6 +16,7 @@ import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.FoodComponent;
 import net.minecraft.item.ItemStack;
 import net.minecraft.text.TranslatableText;
+import net.minecraft.util.Arm;
 import net.minecraft.util.math.MathHelper;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
@@ -111,12 +113,15 @@ public abstract class InGameHudMixin {
         baseStartH = this.scaledHeight - 33;
         baseEndH = baseStartH + 9;
 
-        if(!config.experience.leftHanded){
-            xpStartW = baseEndW + 2;
-        }
-        else {
-            xpStartW = baseStartW - 28;
-        }
+        if (client.options.mainArm == Arm.RIGHT && client.options.attackIndicator != AttackIndicator.HOTBAR)
+            xpStartW = baseEndW + 6;
+        else if (client.options.mainArm == Arm.RIGHT)
+            xpStartW = baseEndW + 6 + 20;
+        else if (client.options.mainArm == Arm.LEFT && client.options.attackIndicator != AttackIndicator.HOTBAR)
+            xpStartW = baseStartW - 22;
+        else if (client.options.mainArm == Arm.LEFT)
+            xpStartW = baseStartW - 22 - 20;
+
         xpEndW = xpStartW + 18;
         xpStartH = baseStartH + 28;
         xpEndH = xpStartH + 1;
@@ -249,7 +254,7 @@ public abstract class InGameHudMixin {
         boolean barsVisible = !client.options.hudHidden && client.interactionManager.hasStatusBars();
 
         if(config.showOneBar && barsVisible) renderOneBar();
-        if(config.showOneBar && barsVisible && config.goodThings.showArmorBar) armorBar();
+        if(config.showOneBar && barsVisible && config.otherBars.showArmorBar) armorBar();
         if(config.showOneBar) mountBar();
     }
 
@@ -257,22 +262,24 @@ public abstract class InGameHudMixin {
 
     @Inject(method = "renderStatusBars", at = @At(value = "INVOKE"), cancellable = true)
     private void renderStatusBars(MatrixStack matrices, CallbackInfo ci){
-        if(!config.showVanilla) ci.cancel();
+        if(config.showOneBar) ci.cancel();
     }
     @Inject(method = "renderExperienceBar", at = @At(value = "INVOKE"), cancellable = true)
     private void renderExperienceBar(MatrixStack matrices, int x, CallbackInfo ci){
-        if(!config.showVanilla) ci.cancel();
+        if(config.showOneBar) ci.cancel();
     }
 
     @Inject(method = "renderMountJumpBar", at = @At(value = "INVOKE"), cancellable = true)
     private void renderMountJumpBar(MatrixStack matrices, int x, CallbackInfo ci) {
-        if(!config.showVanilla) ci.cancel();
-        if(config.showOneBar && config.entity.showHorseJump) jumpBar();
+        if(config.showOneBar) ci.cancel();
+        if(config.entity.showHorseJump) jumpBar();
     }
     @Inject(method = "renderMountHealth", at = @At(value = "INVOKE"), cancellable = true)
     private void renderMountHealth(MatrixStack matrices, CallbackInfo ci) {
-        if(!config.showVanilla) ci.cancel();
-        if(config.showOneBar) mountBar();
+        if(config.showOneBar){
+            ci.cancel();
+            mountBar();
+        }
     }
 
     private void renderOneBar(){
@@ -290,7 +297,7 @@ public abstract class InGameHudMixin {
             airBar();
             xpBar();
             if(config.showText) barText();
-            if(config.goodThings.heldFoodHungerBar) heldFoodBar();
+            if(config.otherBars.heldFoodHungerBar) heldFoodBar();
         }
     }
 
@@ -299,15 +306,15 @@ public abstract class InGameHudMixin {
     }
 
     private void armorBar(){
-        DrawableHelper.fill(stack, baseStartW, baseStartH - 1, baseRelativeEndW(armor, maxArmor), baseStartH, config.goodThings.armorColor);
+        DrawableHelper.fill(stack, baseStartW, baseStartH - 1, baseRelativeEndW(armor, maxArmor), baseStartH, config.otherBars.armorColor);
     }
 
     private void heldFoodBar(){
         if(hunger > 0){
             if(hunger >= heldFoodHunger)
-                DrawableHelper.fill(stack, baseRelativeStartW(heldFoodHunger, maxHunger), baseEndH, baseEndW, baseEndH + 1, config.goodThings.heldFoodHungerGoodColor);
+                DrawableHelper.fill(stack, baseRelativeStartW(heldFoodHunger, maxHunger), baseEndH, baseEndW, baseEndH + 1, config.otherBars.heldFoodHungerGoodColor);
             else
-                DrawableHelper.fill(stack, baseRelativeStartW(heldFoodHunger, maxHunger), baseEndH, baseEndW, baseEndH + 1, config.goodThings.heldFoodHungerWasteColor);
+                DrawableHelper.fill(stack, baseRelativeStartW(heldFoodHunger, maxHunger), baseEndH, baseEndW, baseEndH + 1, config.otherBars.heldFoodHungerWasteColor);
 
         }
     }
@@ -400,9 +407,9 @@ public abstract class InGameHudMixin {
         int textX = xpStartW + 3;
         int textY = xpStartH - 10;
 
-        client.textRenderer.drawWithShadow(stack, String.valueOf(xpLevel), textX, textY, config.experience.xpColor);
+        client.textRenderer.drawWithShadow(stack, String.valueOf(xpLevel), textX, textY, config.otherBars.xpColor);
         DrawableHelper.fill(stack, xpStartW, xpStartH, xpEndW, xpEndH, config.backgroundColor);
-        DrawableHelper.fill(stack, xpStartW, xpStartH, relativeEndW, xpEndH, config.experience.xpColor);
+        DrawableHelper.fill(stack, xpStartW, xpStartH, relativeEndW, xpEndH, config.otherBars.xpColor);
     }
 
     private void jumpBar(){
