@@ -215,7 +215,7 @@ public abstract class InGameHudMixin {
             int duration = hungerEffect.getDuration();
             float hungerEffectExhaustionLoss = 0.005F * (float)(hungerEffect.getAmplifier() + 1) * duration;
             // Exhaustion is server-side, so lost saturation is rounded up to be approximate
-            hungerEffectSaturationLoss = (int) Math.ceil(hungerEffectExhaustionLoss / (float)4) - 1;
+            hungerEffectSaturationLoss = (int) Math.ceil(hungerEffectExhaustionLoss / (float)4);
 
             if ((hunger + hungerEffectSaturationLoss) != (previousHungerEffectEstimate - 1)) {
                 hungerEffectEstimate = Math.max(hunger + hungerEffectSaturationLoss, 0);

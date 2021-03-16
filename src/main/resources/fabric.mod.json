@@ -8,7 +8,7 @@
     "Madis0"
   ],
   "contact": {
-    "homepage": "https://github.com/Madis0/OneBar",
+    "homepage": "https://www.curseforge.com/minecraft/mc-mods/onebar",
     "sources": "https://github.com/Madis0/OneBar",
     "issues": "https://github.com/Madis0/OneBar/issues"
   },
@@ -16,7 +16,7 @@
   "icon": "assets/onebar/icon.png",
   "environment": "client",
   "entrypoints": {
-    "main": [
+    "client": [
       "io.github.madis0.OneBar"
     ],
     "modmenu": [
@@ -27,8 +27,19 @@
     "onebar.mixins.json"
   ],
   "depends": {
-    "fabricloader": ">=0.7.4",
+    "fabricloader": ">=0.9.0",
+    "cloth-config2": ">=4",
     "fabric": "*",
     "minecraft": ">=1.16"
+  },
+  "suggests": {
+    "modmenu": "*"
+  },
+  "custom": {
+    "modmenu": {
+      "links": {
+        "modmenu.modrinth": "https://modrinth.com/mod/onebar"
+      }
+    }
   }
 }
