@@ -242,7 +242,7 @@ public abstract class InGameHudMixin {
 
         hasFireResistance = playerEntity.hasStatusEffect(StatusEffects.FIRE_RESISTANCE);
 
-        hasWaterBreathing = playerEntity.hasStatusEffect(StatusEffects.WATER_BREATHING);
+        hasWaterBreathing = playerEntity.hasStatusEffect(StatusEffects.WATER_BREATHING) || playerEntity.hasStatusEffect(StatusEffects.CONDUIT_POWER);
 
         // Method calls
 

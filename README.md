@@ -37,7 +37,7 @@ The mod only uses client-side data, so it is never needed on a server. There are
 * Absorption - no bar, **+number**
 * Resistance - no bar, **+number%** where number is the [effect level multiplier](https://minecraft.gamepedia.com/Resistance#Effect)
 * Fire Resistance - no bar, **-~fnumber×~** where number is a rough damage multiplier (1× - burning, 2× - burning in fire, 4× - burning in lava)
-* Water Breathing - blue bar, **-~anumber~**, number is usually zero and bar hidden unless you got water breathing _within_ water
+* Water Breathing/Conduit Power - blue bar, **-~anumber~**, number is usually zero and bar hidden unless you got water breathing _within_ water
 
 #### Negative (right-to-left)
 
