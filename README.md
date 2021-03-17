@@ -71,7 +71,7 @@ The mod only uses client-side data, so it is never needed on a server. There are
 
 ## FAQ
 
-**Q: Why do I have to download Cloth Config API separately?**
+**Q: Why do I have to download [Cloth Config API](https://www.curseforge.com/minecraft/mc-mods/cloth-config) separately?**
 
 A: Because it's big, gets updated a lot and you probably have a mod or two that requires it anyway. If one of your mods already bundles it, you don't have to download it at all :)
 
