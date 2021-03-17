@@ -62,7 +62,12 @@ The mod only uses client-side data, so it is never needed on a server. There are
 * Vanilla-like fractionated counters - shows values in vanilla hearts, e.g. 9,5 instead of 19
 * Zero saturation - no bar, **↓** - shows when saturation is 0 and hunger will decrease with activity
 
-¹ Best-guess estimate based on what the client knows at the time, can change by some server-side values and natural occurrences.
+¹ Best-guess estimate based on what the client knows at the time, can change by some server-side values and natural occurrences. Can be disabled in options.
+
+## Mods that work well with OneBar
+
+* [BerdinskiyBear's Armor HUD](https://www.curseforge.com/minecraft/mc-mods/berdinskiybears-armor-hud) - adds a customizable hotbar-like armor bar
+* [Food Highlight](https://www.curseforge.com/minecraft/mc-mods/food-highlight) - shows orange (wasted) and green (exact/less) indicators on food in hotbar and inventories
 
 ## FAQ
 
