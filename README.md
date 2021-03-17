@@ -68,6 +68,7 @@ The mod only uses client-side data, so it is never needed on a server. There are
 
 * [BerdinskiyBear's Armor HUD](https://www.curseforge.com/minecraft/mc-mods/berdinskiybears-armor-hud) - adds a customizable hotbar-like armor bar
 * [Food Highlight](https://www.curseforge.com/minecraft/mc-mods/food-highlight) - shows orange (wasted) and green (exact/less) indicators on food in hotbar and inventories
+* [Enhanced Attack Indicator](https://www.curseforge.com/minecraft/mc-mods/enhanced-attack-indicator) - adds more features to the attack cooldown, e.g drawing a bow
 
 ## FAQ
 
