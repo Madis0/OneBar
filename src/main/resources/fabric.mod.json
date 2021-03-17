@@ -16,7 +16,7 @@
   "icon": "assets/onebar/icon.png",
   "environment": "client",
   "entrypoints": {
-    "client": [
+    "main": [
       "io.github.madis0.OneBar"
     ],
     "modmenu": [
