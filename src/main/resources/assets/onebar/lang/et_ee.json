@@ -6,6 +6,7 @@
   "text.autoconfig.onebar.title": "OneBar seadistus",
   "text.autoconfig.onebar.option.showOneBar": "Kuva OneBar",
   "text.autoconfig.onebar.option.showText": "Kuva OneBaril arve ja sümboleid",
+  "text.autoconfig.onebar.option.showText.@Tooltip": "Keelamine kuvab siiski vanilli-sarnaselt neeldumise ja halastamatu režiimi tähiseid",
   "text.autoconfig.onebar.option.healthEstimates": "Võlujoogi- ja loomulike mõjude tervise ja nälja ennustused",
   "text.autoconfig.onebar.option.healthEstimates.@Tooltip": "Keelab ka (loomuliku) taastumise, näljamõju, mürgi ja närbumise ribad",
   "text.autoconfig.onebar.option.textColor.@PrefixText": "Iga värvi ees on läbipaistmatuse väärtus kuueteistkümnendsüsteemis",

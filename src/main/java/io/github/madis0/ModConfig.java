@@ -8,6 +8,7 @@ import me.shedaniel.autoconfig.annotation.ConfigEntry;
 public class ModConfig implements ConfigData {
 
     public boolean showOneBar = true;
+    @ConfigEntry.Gui.Tooltip
     public boolean showText = true;
     @ConfigEntry.Gui.Tooltip
     public boolean healthEstimates = true;

@@ -6,6 +6,7 @@
   "text.autoconfig.onebar.title": "OneBar configuration",
   "text.autoconfig.onebar.option.showOneBar": "Show OneBar",
   "text.autoconfig.onebar.option.showText": "Show numbers and symbols on OneBar",
+  "text.autoconfig.onebar.option.showText.@Tooltip": "Disabling will still show absorption and hardcore indicators, like vanilla",
   "text.autoconfig.onebar.option.healthEstimates": "Health and hunger estimates for potion and natural effects",
   "text.autoconfig.onebar.option.healthEstimates.@Tooltip": "Also disables the bars for (natural) regeneration, hunger effect, poison and wither",
   "text.autoconfig.onebar.option.textColor.@PrefixText": "Every color is preceded by the opacity value in hex",

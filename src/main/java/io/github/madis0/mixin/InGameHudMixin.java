@@ -296,7 +296,7 @@ public abstract class InGameHudMixin {
             if(config.badThings.showFireBar) fireBar();
             airBar();
             xpBar();
-            if(config.showText) barText();
+            barText();
             if(config.otherBars.heldFoodHungerBar) heldFoodBar();
         }
     }
@@ -364,34 +364,42 @@ public abstract class InGameHudMixin {
     }
 
     private void barText(){
-        String value = Calculations.MakeFraction(health);
+        String value = "";
+        if(config.showText) {
+            value = Calculations.MakeFraction(health);
 
-        if (naturalRegenerationHealth > health && config.healthEstimates)
-            value += "→" + Calculations.MakeFraction(naturalRegenerationHealth);
-        if (regenerationHealth > 0 && config.healthEstimates)
-            value += "→" + Calculations.MakeFraction(regenerationHealth);
-        if (witherHealth < maxHealth && config.healthEstimates)
-            value += "→" + Calculations.MakeFraction(witherHealth);
-        if (poisonHealth < maxHealth && config.healthEstimates)
-            value += "→" + Calculations.MakeFraction(poisonHealth);
+            if (naturalRegenerationHealth > health && config.healthEstimates)
+                value += "→" + Calculations.MakeFraction(naturalRegenerationHealth);
+            if (regenerationHealth > 0 && config.healthEstimates)
+                value += "→" + Calculations.MakeFraction(regenerationHealth);
+            if (witherHealth < maxHealth && config.healthEstimates)
+                value += "→" + Calculations.MakeFraction(witherHealth);
+            if (poisonHealth < maxHealth && config.healthEstimates)
+                value += "→" + Calculations.MakeFraction(poisonHealth);
+        }
+
         if (absorption > 0)
             value += "+" + Calculations.MakeFraction(absorption);
-        if (resistancePercent > 0 && config.goodThings.showResistance)
-            value += "+" + new TranslatableText("text.onebar.resistance", resistancePercent).getString();
-        if ((air > 0 || isUnderwater) && !hasWaterBreathing)
-            value += "-" + new TranslatableText("text.onebar.air", Calculations.MakeFraction(air)).getString();
-        if ((air > 0 || isUnderwater) && hasWaterBreathing)
-            value += "-§m" + new TranslatableText("text.onebar.air", Calculations.MakeFraction(air)).getString() + "§r";
-        if (isOnFire && !hasFireResistance && config.badThings.showFireText)
-            value += "-" + new TranslatableText("text.onebar.fire", fireMultiplier).getString();
-        if (isOnFire && hasFireResistance && config.badThings.showFireText)
-            value += "-§m" + new TranslatableText("text.onebar.fire", fireMultiplier).getString() + "§r";
-        if (hunger > 0 || (hungerEffectEstimate > hunger && config.healthEstimates))
-            value += "-" + Calculations.MakeFraction(hunger);
-        if (hunger > 0 && saturation < 1 && config.experimental.showHungerDecreasing)
-            value += "↓";
-        if (hungerEffectEstimate > hunger && config.healthEstimates)
-            value += "→" + Calculations.MakeFraction(hungerEffectEstimate);
+
+        if(config.showText) { // Separated if because order matters
+            if (resistancePercent > 0 && config.goodThings.showResistance)
+                value += "+" + new TranslatableText("text.onebar.resistance", resistancePercent).getString();
+            if ((air > 0 || isUnderwater) && !hasWaterBreathing)
+                value += "-" + new TranslatableText("text.onebar.air", Calculations.MakeFraction(air)).getString();
+            if ((air > 0 || isUnderwater) && hasWaterBreathing)
+                value += "-§m" + new TranslatableText("text.onebar.air", Calculations.MakeFraction(air)).getString() + "§r";
+            if (isOnFire && !hasFireResistance && config.badThings.showFireText)
+                value += "-" + new TranslatableText("text.onebar.fire", fireMultiplier).getString();
+            if (isOnFire && hasFireResistance && config.badThings.showFireText)
+                value += "-§m" + new TranslatableText("text.onebar.fire", fireMultiplier).getString() + "§r";
+            if (hunger > 0 || (hungerEffectEstimate > hunger && config.healthEstimates))
+                value += "-" + Calculations.MakeFraction(hunger);
+            if (hunger > 0 && saturation < 1 && config.experimental.showHungerDecreasing)
+                value += "↓";
+            if (hungerEffectEstimate > hunger && config.healthEstimates)
+                value += "→" + Calculations.MakeFraction(hungerEffectEstimate);
+        }
+
         if (isHardcore)
             value += "!";
 
