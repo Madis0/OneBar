@@ -286,7 +286,7 @@ public abstract class InGameHudMixin {
         PlayerEntity playerEntity = this.getCameraPlayer();
         if (playerEntity != null) {
             barBackground();
-            if(config.healthEstimates) naturalRegenerationBar();
+            if(config.healthEstimates && !config.uhcMode) naturalRegenerationBar();
             if(config.healthEstimates) regenerationBar();
             healthBar();
             if(config.healthEstimates) witherBar();
@@ -368,7 +368,7 @@ public abstract class InGameHudMixin {
         if(config.showText) {
             value = Calculations.MakeFraction(health);
 
-            if (naturalRegenerationHealth > health && config.healthEstimates)
+            if (naturalRegenerationHealth > health && config.healthEstimates && !config.uhcMode)
                 value += "→" + Calculations.MakeFraction(naturalRegenerationHealth);
             if (regenerationHealth > 0 && config.healthEstimates)
                 value += "→" + Calculations.MakeFraction(regenerationHealth);

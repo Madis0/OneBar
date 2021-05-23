@@ -12,6 +12,8 @@ public class ModConfig implements ConfigData {
     public boolean showText = true;
     @ConfigEntry.Gui.Tooltip
     public boolean healthEstimates = true;
+    @ConfigEntry.Gui.Tooltip
+    public boolean uhcMode = false;
     @ConfigEntry.Gui.PrefixText
     @ConfigEntry.ColorPicker(allowAlpha = true)
     public int textColor = 0xBBFFFFFF;
