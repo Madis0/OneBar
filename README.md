@@ -30,25 +30,25 @@ The mod only uses client-side data, so it is never needed on a server. There are
 
 #### Positive (left-to-right)
 
-* Health - red bar, **number**
+* Health - red bar, **number**, where number is your health points
 * Health boost - red bar, **number**, bar width adapts to the max health
 * Natural regeneration - yellow bar, **→number** where number is the resulting health¹
 * Regeneration - pink bar, **→number** where number is the resulting health¹
-* Absorption - no bar, **+number**
-* Resistance - no bar, **+number%** where number is the [effect level multiplier](https://minecraft.gamepedia.com/Resistance#Effect)
-* Fire Resistance - no bar, **-~bnumber×~** where number is a rough damage multiplier (1× - burning, 2× - burning in fire, 4× - burning in lava)
-* Water Breathing/Conduit Power - blue bar, **-~anumber~**, number is usually zero and bar hidden unless you got water breathing _within_ water
+* Absorption - no bar, **+number**, where number is your absorption health points
+* Resistance - no bar, **+⛨number%** or **+rnumber%** where number is the [effect level multiplier](https://minecraft.gamepedia.com/Resistance#Effect)²
+* Fire Resistance - no bar, **-~🔥number×~** or **-~bnumber×~** where number is a rough damage multiplier (1× - burning, 2× - burning in fire, 4× - burning in lava)²
+* Water Breathing/Conduit Power - blue bar, **-~⭘number~** or **-~anumber~**, number is usually zero and bar hidden unless you got water breathing _within_ water²
 
 #### Negative (right-to-left)
 
-* Hunger - brown bar, **-number**
-* Air - blue bar, **-anumber**
-* Freezing - light gray bar, **-fnumber**
-* Burning - orange full bar, **-bnumber×** where number is a rough damage multiplier (1× - burning, 2× - burning in fire, 4× - burning in lava)
+* Hunger - brown bar, **-number**, where number is calculated as 20-food points (e.g. if you had 15 food points, it would show 5)
+* Air - blue bar, **-⭘number**, where number is the counter up to 20 until drowning (the equivalent of broken bubbles in vanilla)²
+* Freezing - light gray bar, **-❄number** or **-fnumber**, where number is the counter up to 20 until freezing (the equivalent of frost fading in vanilla)²
+* Burning - orange full bar, **-🔥number×** or **-bnumber×** where number is a rough damage multiplier (1× - burning, 2× - burning in fire, 4× - burning in lava)²
 * Hunger effect - yellowish brown bar, **→number** where number is the resulting hunger¹
 * Poison - yellowish green bar, **→number** where number is the resulting health¹
 * Wither - dark gray bar, **→number** where number is the resulting health¹
-* Hardcore mode - no bar, **!**
+* Hardcore mode - no bar, **☠** or **HC**²
 
 #### Others
 
@@ -56,14 +56,12 @@ The mod only uses client-side data, so it is never needed on a server. There are
 * Horse jump - brown vertical bar below crosshair
 * Armor - white bar above OneBar, no number
 * Held food restored hunger bar - orange (wasted) or green (exact/less) bar below OneBar, no number
-* Experience points - level count and bar to the right of hotbar 
-
-#### Experimental
-
+* Experience points - level count and bar to the right of hotbar
 * Vanilla-like fractionated counters - shows values in vanilla hearts, e.g. 9,5 instead of 19
 * Zero saturation - no bar, **↓** - shows when saturation is 0 and hunger will decrease with activity
 
 ¹ Best-guess estimate based on what the client knows at the time, can change by some server-side values and natural occurrences. Can be disabled in options.
+² The emoji are white and look a bit different in-game. Can be disabled in settings to show letters instead (e.g. b for burning).
 
 ## Mods I recommend with OneBar
 

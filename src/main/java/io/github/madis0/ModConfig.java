@@ -36,7 +36,6 @@ public class ModConfig implements ConfigData {
         public boolean useEmoji = true;
         @ConfigEntry.Gui.Tooltip
         public boolean useFractions = false;
-        public boolean showHungerDecreasing = false;
     }
 
     public static class GoodThings {
@@ -54,6 +53,7 @@ public class ModConfig implements ConfigData {
         public int hungerColor = 0xBB3E2723;
         @ConfigEntry.ColorPicker(allowAlpha = true)
         public int hungerEffectColor = 0xBB827717;
+        public boolean showHungerDecreasing = false;
         @ConfigEntry.ColorPicker(allowAlpha = true)
         public int airColor = 0xBB1A237E;
         @ConfigEntry.ColorPicker(allowAlpha = true)

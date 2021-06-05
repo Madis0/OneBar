@@ -397,7 +397,7 @@ public abstract class InGameHudMixin {
 
         if(config.textSettings.showText) { // Separated if because order matters
             if (resistancePercent > 0 && config.goodThings.showResistance)
-                value += "+" + new TranslatableText("text.onebar.resistance", resistancePercent).getString();
+                value += "+" + new TranslatableText(config.textSettings.useEmoji ? "text.onebar.resistanceEmoji" : "text.onebar.resistance", resistancePercent).getString();
             if ((air > 0 || isUnderwater) && !hasWaterBreathing)
                 value += "-" + new TranslatableText(config.textSettings.useEmoji ? "text.onebar.airEmoji" : "text.onebar.air", Calculations.MakeFraction(air)).getString();
             if ((air > 0 || isUnderwater) && hasWaterBreathing)
@@ -410,14 +410,14 @@ public abstract class InGameHudMixin {
                 value += "-§m" + new TranslatableText(config.textSettings.useEmoji ? "text.onebar.fireEmoji" : "text.onebar.fire", fireMultiplier).getString() + "§r";
             if (hunger > 0 || (hungerEffectEstimate > hunger && config.healthEstimates))
                 value += "-" + Calculations.MakeFraction(hunger);
-            if (hunger > 0 && saturation < 1 && config.textSettings.showHungerDecreasing)
+            if (hunger > 0 && saturation < 1 && config.badThings.showHungerDecreasing)
                 value += "↓";
             if (hungerEffectEstimate > hunger && config.healthEstimates)
                 value += "→" + Calculations.MakeFraction(hungerEffectEstimate);
         }
 
         if (isHardcore)
-            value += "!";
+            value += new TranslatableText(config.textSettings.useEmoji ? "text.onebar.hardcoreEmoji" : "text.onebar.hardcore").getString();
 
         int textX = baseEndW - client.textRenderer.getWidth(value);
         int textY = baseStartH + 1;
