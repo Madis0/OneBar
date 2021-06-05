@@ -77,6 +77,11 @@ public abstract class InGameHudMixin {
     int fireSource;
     int fireMultiplier;
 
+    int maxRawFreeze;
+    int rawFreeze;
+    int freeze;
+    boolean isFreezing;
+
     int resistancePercent;
     int regenerationHealth;
     int poisonHealth;
@@ -160,6 +165,11 @@ public abstract class InGameHudMixin {
         if(fireSource == -20) fireMultiplier = 1;
         if(fireSource == 1) fireMultiplier = 2;
         if(fireSource == 0) fireMultiplier = 4;
+
+        maxRawFreeze = playerEntity.getMinFreezeDamageTicks();
+        rawFreeze = playerEntity.getFrozenTicks();
+        freeze = rawFreeze / 7;
+        isFreezing = rawFreeze > 0; // isFreezing() is true only when the player actually gets damage
 
         xpLevel = playerEntity.experienceLevel;
         maxXp = 183;
@@ -293,6 +303,7 @@ public abstract class InGameHudMixin {
             if(config.healthEstimates) hungerEffectBar();
             hungerBar();
             if(config.badThings.showFireBar) fireBar();
+            freezeBar();
             airBar();
             xpBar();
             barText();
@@ -356,6 +367,10 @@ public abstract class InGameHudMixin {
         DrawableHelper.fill(stack, baseRelativeStartW(rawAir, maxRawAir), baseStartH, baseEndW, baseEndH, config.badThings.airColor);
     }
 
+    private void freezeBar(){
+        DrawableHelper.fill(stack, baseRelativeStartW(rawFreeze, maxRawFreeze), baseStartH, baseEndW, baseEndH, config.badThings.freezeColor);
+    }
+
     private void fireBar(){
         if (isOnFire && !hasFireResistance){
             DrawableHelper.fill(stack, baseStartW, baseStartH, baseEndW, baseEndH, config.badThings.fireColor);
@@ -387,6 +402,8 @@ public abstract class InGameHudMixin {
                 value += "-" + new TranslatableText("text.onebar.air", Calculations.MakeFraction(air)).getString();
             if ((air > 0 || isUnderwater) && hasWaterBreathing)
                 value += "-§m" + new TranslatableText("text.onebar.air", Calculations.MakeFraction(air)).getString() + "§r";
+            if (freeze > 0 || isFreezing)
+                value += "-" + new TranslatableText("text.onebar.freeze", Calculations.MakeFraction(freeze)).getString();
             if (isOnFire && !hasFireResistance && config.badThings.showFireText)
                 value += "-" + new TranslatableText("text.onebar.fire", fireMultiplier).getString();
             if (isOnFire && hasFireResistance && config.badThings.showFireText)
