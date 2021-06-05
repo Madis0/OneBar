@@ -42,7 +42,7 @@ The mod only uses client-side data, so it is never needed on a server. There are
 #### Negative (right-to-left)
 
 * Hunger - brown bar, **-number**, where number is calculated as 20-food points (e.g. if you had 15 food points, it would show 5)
-* Air - blue bar, **-⭘number**, where number is the counter up to 20 until drowning (the equivalent of broken bubbles in vanilla)²
+* Air - blue bar, **-⭘number** or **-anumber**, where number is the counter up to 20 until drowning (the equivalent of broken bubbles in vanilla)²
 * Freezing - light gray bar, **-❄number** or **-fnumber**, where number is the counter up to 20 until freezing (the equivalent of frost fading in vanilla)²
 * Burning - orange full bar, **-🔥number×** or **-bnumber×** where number is a rough damage multiplier (1× - burning, 2× - burning in fire, 4× - burning in lava)²
 * Hunger effect - yellowish brown bar, **→number** where number is the resulting hunger¹
@@ -61,7 +61,8 @@ The mod only uses client-side data, so it is never needed on a server. There are
 * Zero saturation - no bar, **↓** - shows when saturation is 0 and hunger will decrease with activity
 
 ¹ Best-guess estimate based on what the client knows at the time, can change by some server-side values and natural occurrences. Can be disabled in options.
-² The emoji are white and look a bit different in-game. Can be disabled in settings to show letters instead (e.g. b for burning).
+
+² The emoji are white and look a bit different in-game. Can be disabled in settings to show letters instead.
 
 ## Mods I recommend with OneBar
 
