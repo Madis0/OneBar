@@ -9,17 +9,15 @@ public class ModConfig implements ConfigData {
 
     public boolean showOneBar = true;
     @ConfigEntry.Gui.Tooltip
-    public boolean showText = true;
-    @ConfigEntry.Gui.Tooltip
     public boolean healthEstimates = true;
     @ConfigEntry.Gui.Tooltip
     public boolean uhcMode = false;
     @ConfigEntry.Gui.PrefixText
     @ConfigEntry.ColorPicker(allowAlpha = true)
-    public int textColor = 0xBBFFFFFF;
-    @ConfigEntry.ColorPicker(allowAlpha = true)
     public int backgroundColor = 0xFF000000;
 
+    @ConfigEntry.Gui.CollapsibleObject
+    public TextSettings textSettings = new TextSettings();
     @ConfigEntry.Gui.CollapsibleObject
     public GoodThings goodThings = new GoodThings();
     @ConfigEntry.Gui.CollapsibleObject
@@ -28,8 +26,18 @@ public class ModConfig implements ConfigData {
     public Entity entity = new Entity();
     @ConfigEntry.Gui.CollapsibleObject
     public OtherBars otherBars = new OtherBars();
-    @ConfigEntry.Gui.CollapsibleObject
-    public Experimental experimental = new Experimental();
+
+    public static class TextSettings {
+        @ConfigEntry.Gui.Tooltip
+        public boolean showText = true;
+        @ConfigEntry.ColorPicker(allowAlpha = true)
+        public int textColor = 0xBBFFFFFF;
+        @ConfigEntry.Gui.Tooltip
+        public boolean useEmoji = true;
+        @ConfigEntry.Gui.Tooltip
+        public boolean useFractions = false;
+        public boolean showHungerDecreasing = false;
+    }
 
     public static class GoodThings {
         @ConfigEntry.ColorPicker(allowAlpha = true)
@@ -50,8 +58,7 @@ public class ModConfig implements ConfigData {
         public int airColor = 0xBB1A237E;
         @ConfigEntry.ColorPicker(allowAlpha = true)
         public int freezeColor = 0xBB8EACBB;
-        public boolean showFireBar = true;
-        public boolean showFireText = true;
+        public boolean showFire = true;
         @ConfigEntry.ColorPicker(allowAlpha = true)
         public int fireColor = 0x99C43E00;
         @ConfigEntry.ColorPicker(allowAlpha = true)
@@ -79,10 +86,5 @@ public class ModConfig implements ConfigData {
         public int heldFoodHungerWasteColor = 0x99FFB04C;
         @ConfigEntry.ColorPicker(allowAlpha = true)
         public int heldFoodHungerGoodColor = 0xBB76FF03;
-    }
-
-    public static class Experimental {
-        public boolean useFractions = false;
-        public boolean showHungerDecreasing = false;
     }
 }

@@ -302,7 +302,7 @@ public abstract class InGameHudMixin {
             if(config.healthEstimates) poisonBar();
             if(config.healthEstimates) hungerEffectBar();
             hungerBar();
-            if(config.badThings.showFireBar) fireBar();
+            if(config.badThings.showFire) fireBar();
             freezeBar();
             airBar();
             xpBar();
@@ -379,7 +379,7 @@ public abstract class InGameHudMixin {
 
     private void barText(){
         String value = "";
-        if(config.showText) {
+        if(config.textSettings.showText) {
             value = Calculations.MakeFraction(health);
 
             if (naturalRegenerationHealth > health && config.healthEstimates && !config.uhcMode)
@@ -395,22 +395,22 @@ public abstract class InGameHudMixin {
         if (absorption > 0)
             value += "+" + Calculations.MakeFraction(absorption);
 
-        if(config.showText) { // Separated if because order matters
+        if(config.textSettings.showText) { // Separated if because order matters
             if (resistancePercent > 0 && config.goodThings.showResistance)
                 value += "+" + new TranslatableText("text.onebar.resistance", resistancePercent).getString();
             if ((air > 0 || isUnderwater) && !hasWaterBreathing)
-                value += "-" + new TranslatableText("text.onebar.air", Calculations.MakeFraction(air)).getString();
+                value += "-" + new TranslatableText(config.textSettings.useEmoji ? "text.onebar.airEmoji" : "text.onebar.air", Calculations.MakeFraction(air)).getString();
             if ((air > 0 || isUnderwater) && hasWaterBreathing)
-                value += "-§m" + new TranslatableText("text.onebar.air", Calculations.MakeFraction(air)).getString() + "§r";
+                value += "-§m" + new TranslatableText(config.textSettings.useEmoji ? "text.onebar.airEmoji" : "text.onebar.air", Calculations.MakeFraction(air)).getString() + "§r";
             if (freeze > 0 || isFreezing)
-                value += "-" + new TranslatableText("text.onebar.freeze", Calculations.MakeFraction(freeze)).getString();
-            if (isOnFire && !hasFireResistance && config.badThings.showFireText)
-                value += "-" + new TranslatableText("text.onebar.fire", fireMultiplier).getString();
-            if (isOnFire && hasFireResistance && config.badThings.showFireText)
-                value += "-§m" + new TranslatableText("text.onebar.fire", fireMultiplier).getString() + "§r";
+                value += "-" + new TranslatableText(config.textSettings.useEmoji ? "text.onebar.freezeEmoji" : "text.onebar.freeze", Calculations.MakeFraction(freeze)).getString();
+            if (isOnFire && !hasFireResistance && config.badThings.showFire)
+                value += "-" + new TranslatableText(config.textSettings.useEmoji ? "text.onebar.fireEmoji" : "text.onebar.fire", fireMultiplier).getString();
+            if (isOnFire && hasFireResistance && config.badThings.showFire)
+                value += "-§m" + new TranslatableText(config.textSettings.useEmoji ? "text.onebar.fireEmoji" : "text.onebar.fire", fireMultiplier).getString() + "§r";
             if (hunger > 0 || (hungerEffectEstimate > hunger && config.healthEstimates))
                 value += "-" + Calculations.MakeFraction(hunger);
-            if (hunger > 0 && saturation < 1 && config.experimental.showHungerDecreasing)
+            if (hunger > 0 && saturation < 1 && config.textSettings.showHungerDecreasing)
                 value += "↓";
             if (hungerEffectEstimate > hunger && config.healthEstimates)
                 value += "→" + Calculations.MakeFraction(hungerEffectEstimate);
@@ -422,7 +422,7 @@ public abstract class InGameHudMixin {
         int textX = baseEndW - client.textRenderer.getWidth(value);
         int textY = baseStartH + 1;
 
-        client.textRenderer.draw(stack, value, textX, textY, config.textColor);
+        client.textRenderer.draw(stack, value, textX, textY, config.textSettings.textColor);
     }
 
     private void xpBar(){
@@ -458,12 +458,12 @@ public abstract class InGameHudMixin {
 
             DrawableHelper.fill(stack, baseStartW, mountStartH, baseEndW, mountEndH, config.backgroundColor);
             DrawableHelper.fill(stack, baseStartW, mountStartH, baseRelativeEndW(Calculations.GetPreciseInt(mountRawHealth), Calculations.GetPreciseInt(mountMaxHealth)), mountEndH, config.entity.healthColor);
-            if(config.showText) client.textRenderer.draw(stack, value, textX, textY, config.textColor);
+            if(config.textSettings.showText) client.textRenderer.draw(stack, value, textX, textY, config.textSettings.textColor);
         }
     }
 
     private void debugText(String value){
-        client.textRenderer.drawWithShadow(stack, value, baseEndW + 15, baseStartH + 1, config.textColor);
+        client.textRenderer.drawWithShadow(stack, value, baseEndW + 15, baseStartH + 1, config.textSettings.textColor);
     }
 
     private int baseRelativeEndW(int value, int total){

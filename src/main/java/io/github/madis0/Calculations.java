@@ -22,7 +22,7 @@ public class Calculations {
     public static String MakeFraction(int number){
         DecimalFormat df =  new DecimalFormat("0.#");
 
-        if(config.experimental.useFractions)
+        if(config.textSettings.useFractions)
             return df.format((float) number / 2);
         else
             return String.valueOf(number);
