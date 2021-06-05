@@ -6,7 +6,7 @@ import me.shedaniel.autoconfig.AutoConfig;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.DrawableHelper;
 import net.minecraft.client.gui.hud.InGameHud;
-import net.minecraft.client.options.AttackIndicator;
+import net.minecraft.client.option.AttackIndicator;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.effect.StatusEffectInstance;
@@ -18,7 +18,9 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.text.TranslatableText;
 import net.minecraft.util.Arm;
 import net.minecraft.util.math.MathHelper;
+import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
+import org.spongepowered.asm.mixin.Mutable;
 import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
@@ -27,13 +29,11 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 @Mixin(InGameHud.class)
 public abstract class InGameHudMixin {
     @Shadow protected abstract PlayerEntity getCameraPlayer();
-
     @Shadow private int scaledWidth;
     @Shadow private int scaledHeight;
-
+    @Final @Shadow private MinecraftClient client;
     @Shadow protected abstract LivingEntity getRiddenEntity();
 
-    private MinecraftClient client;
     private MatrixStack stack;
     private PlayerEntity playerEntity;
     private HungerManager hungerManager;
@@ -101,7 +101,6 @@ public abstract class InGameHudMixin {
 
     @Inject(at = @At("TAIL"), method = "render")
     public void render(MatrixStack matrixStack, float tickDelta, CallbackInfo info) {
-        client = MinecraftClient.getInstance();
         stack = matrixStack;
         playerEntity = this.getCameraPlayer();
         hungerManager = playerEntity.getHungerManager();
@@ -422,7 +421,7 @@ public abstract class InGameHudMixin {
 
     private void jumpBar(){
         int barHeight = Calculations.GetPreciseInt(1.0F);
-        int jumpHeight = Calculations.GetPreciseInt(client.player.method_3151());
+        int jumpHeight = Calculations.GetPreciseInt(client.player.getMountJumpStrength());
 
         int relativeStartH = Calculations.RelativeW(jumpEndH, jumpStartH, jumpHeight, barHeight);
         DrawableHelper.fill(stack, jumpStartW, jumpStartH, jumpEndW, jumpEndH, config.backgroundColor);
