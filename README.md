@@ -24,8 +24,6 @@ For example, if you get hungry, the hunger overlay is displayed over the health 
 
 The mod only uses client-side data, so it is never needed on a server. There are also settings for configuring the colors and visibility of various elements.
 
-[Feature roadmap](https://github.com/Madis0/OneBar/projects)
-
 ### Bars and values
 
 #### Positive (left-to-right)
