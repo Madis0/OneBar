@@ -412,52 +412,60 @@ public abstract class InGameHudMixin {
     private void barText(){
         String value = "";
         if(config.textSettings.showText) {
-            value = Calculations.MakeFraction(health);
+
+            // Health values
+
+            value = Calculations.MakeFraction(health, false);
 
             if(config.healthEstimates){
                 if (naturalRegenerationHealth > health && !config.uhcMode)
-                    value += "→" + Calculations.MakeFraction(naturalRegenerationHealth);
+                    value += "→" + Calculations.MakeFraction(naturalRegenerationHealth, config.textSettings.estimatesItalic);
                 if (regenerationHealth > 0 || hasRegeneration)
-                    value += "→" + Calculations.MakeFraction(regenerationHealth);
-                if (poisonHealth < maxHealth || hasPoison)
-                    value += "→" + Calculations.MakeFraction(poisonHealth);
-                if (witherHealth < maxHealth || hasWither)
-                    value += "→" + Calculations.MakeFraction(witherHealth);
+                    value += "→" + Calculations.MakeFraction(regenerationHealth, config.textSettings.estimatesItalic);
                 if (isStarving)
-                    value += "→" + Calculations.MakeFraction(starvationHealthEstimate);
+                    value += "→" + Calculations.MakeFraction(starvationHealthEstimate, config.textSettings.estimatesItalic);
+                if (poisonHealth < maxHealth || hasPoison)
+                    value += "→" + Calculations.MakeFraction(poisonHealth, config.textSettings.estimatesItalic);
+                if (witherHealth < maxHealth || hasWither)
+                    value += "→" + Calculations.MakeFraction(witherHealth, config.textSettings.estimatesItalic);
                 if (isGettingFreezeDamage && !difficulty.equals(Difficulty.PEACEFUL))
-                    value += "→0";
+                    value += "→" + Calculations.MakeFraction(0, config.textSettings.estimatesItalic);
                 if (isBurningOnFire)
-                    value += "→0";
+                    value += "→" + Calculations.MakeFraction(0, config.textSettings.estimatesItalic);
                 if (isDrowning)
-                    value += "→0";
+                    value += "→" + Calculations.MakeFraction(0, config.textSettings.estimatesItalic);
                 if (isSuffocating)
-                    value += "→0";
+                    value += "→" + Calculations.MakeFraction(0, config.textSettings.estimatesItalic);
             }
         }
 
+        // Additive values
+
         if (absorption > 0)
-            value += "+" + Calculations.MakeFraction(absorption);
+            value += "+" + Calculations.MakeFraction(absorption, false);
 
         if(config.textSettings.showText) { // Separated if because order matters
             if (resistancePercent > 0 && config.goodThings.showResistance)
                 value += "+" + new TranslatableText(config.textSettings.useEmoji ? "text.onebar.resistanceEmoji" : "text.onebar.resistance", resistancePercent).getString();
+
+            // Subtractive values
+
             if ((air > 0 || isUnderwater) && !hasWaterBreathing)
-                value += "-" + new TranslatableText(config.textSettings.useEmoji ? "text.onebar.airEmoji" : "text.onebar.air", Calculations.MakeFraction(air)).getString();
+                value += "-" + new TranslatableText(config.textSettings.useEmoji ? "text.onebar.airEmoji" : "text.onebar.air", Calculations.MakeFraction(air, false)).getString();
             if ((air > 0 || isUnderwater) && hasWaterBreathing)
-                value += "-§m" + new TranslatableText(config.textSettings.useEmoji ? "text.onebar.airEmoji" : "text.onebar.air", Calculations.MakeFraction(air)).getString() + "§r";
+                value += "-§m" + new TranslatableText(config.textSettings.useEmoji ? "text.onebar.airEmoji" : "text.onebar.air", Calculations.MakeFraction(air, false)).getString() + "§r";
             if (freeze > 0 || isFreezing)
-                value += "-" + new TranslatableText(config.textSettings.useEmoji ? "text.onebar.freezeEmoji" : "text.onebar.freeze", Calculations.MakeFraction(freeze)).getString();
+                value += "-" + new TranslatableText(config.textSettings.useEmoji ? "text.onebar.freezeEmoji" : "text.onebar.freeze", Calculations.MakeFraction(freeze, false)).getString();
             if (isBurning && !hasFireResistance && config.badThings.showFire)
                 value += "-" + new TranslatableText(config.textSettings.useEmoji ? "text.onebar.fireEmoji" : "text.onebar.fire", burningMultiplier).getString();
             if (isBurning && hasFireResistance && config.badThings.showFire)
                 value += "-§m" + new TranslatableText(config.textSettings.useEmoji ? "text.onebar.fireEmoji" : "text.onebar.fire", burningMultiplier).getString() + "§r";
             if ((hunger > 0 || (hungerEffectEstimate > hunger && !difficulty.equals(Difficulty.PEACEFUL))) && config.healthEstimates)
-                value += "-" + Calculations.MakeFraction(hunger);
+                value += "-" + Calculations.MakeFraction(hunger, false);
             if ((hunger > 0 && saturation < 1) && config.badThings.showHungerDecreasing)
                 value += "↓";
             if ((hungerEffectEstimate > hunger || hasHungerEffect) && config.healthEstimates && !difficulty.equals(Difficulty.PEACEFUL))
-                value += "→" + Calculations.MakeFraction(hungerEffectEstimate);
+                value += "→" + Calculations.MakeFraction(hungerEffectEstimate, config.textSettings.estimatesItalic);
         }
 
         if (isHardcore)

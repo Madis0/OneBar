@@ -22,6 +22,7 @@
   "text.autoconfig.onebar.option.textSettings.showText": "Show numbers and symbols on OneBar",
   "text.autoconfig.onebar.option.textSettings.showText.@Tooltip": "Disabling will still show absorption and hardcore indicators, like vanilla",
   "text.autoconfig.onebar.option.textSettings.textColor": "Text color",
+  "text.autoconfig.onebar.option.textSettings.estimatesItalic": "Show effect estimates (if enabled) in §oitalic§r",
   "text.autoconfig.onebar.option.textSettings.useEmoji": "Use emoji instead of letters",
   "text.autoconfig.onebar.option.textSettings.useEmoji.@Tooltip": "For example, burning will show \uD83D\uDD25 instead of b",
   "text.autoconfig.onebar.option.textSettings.useFractions": "Vanilla-like fractionated counters",

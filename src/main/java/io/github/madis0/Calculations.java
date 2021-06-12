@@ -19,13 +19,19 @@ public class Calculations {
         return MathHelper.ceil(number * precision);
     }
 
-    public static String MakeFraction(int number){
+    public static String MakeFraction(int number, boolean italic){
         DecimalFormat df =  new DecimalFormat("0.#");
+        String result;
 
         if(config.textSettings.useFractions)
-            return df.format((float) number / 2);
+            result = df.format((float) number / 2);
         else
-            return String.valueOf(number);
+            result = String.valueOf(number);
+
+        if(italic)
+            result = "§o" + result + "§r";
+        
+        return result;
     }
 
     public static int GetEstimatedHealthRegen(int constant, int rawLevel, int duration, int currentHealth, int maxHealth){

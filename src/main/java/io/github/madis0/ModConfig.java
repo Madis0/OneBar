@@ -32,6 +32,7 @@ public class ModConfig implements ConfigData {
         public boolean showText = true;
         @ConfigEntry.ColorPicker(allowAlpha = true)
         public int textColor = 0xBBFFFFFF;
+        public boolean estimatesItalic = true;
         @ConfigEntry.Gui.Tooltip
         public boolean useEmoji = true;
         @ConfigEntry.Gui.Tooltip

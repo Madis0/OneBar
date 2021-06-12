@@ -17,6 +17,7 @@
   "text.autoconfig.onebar.option.textSettings.showText": "Kuva OneBaril arve ja sümboleid",
   "text.autoconfig.onebar.option.textSettings.showText.@Tooltip": "Keelamine kuvab siiski vanilli-sarnaselt neeldumise ja halastamatu režiimi tähiseid",
   "text.autoconfig.onebar.option.textSettings.textColor": "Teksti värv",
+  "text.autoconfig.onebar.option.textSettings.estimatesItalic": "Kuva mõjude ennustusi (kui lubatud) §okaldkirjas§r",
   "text.autoconfig.onebar.option.textSettings.useEmoji": "Kasuta tähtede asemel emojisid",
   "text.autoconfig.onebar.option.textSettings.useEmoji.@Tooltip": "Näiteks põlemisel kuvatakse p asemel \uD83D\uDD25",
   "text.autoconfig.onebar.option.textSettings.useFractions": "Vanillisarnased murdarvudega loendurid",
