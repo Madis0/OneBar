@@ -8,6 +8,8 @@ Stable releases downloadable from [Curseforge](https://www.curseforge.com/minecr
 
 ![](https://i.ibb.co/XtPJdcy/image.png)
 
+Reviews by Niche Duck: [main mod](https://www.youtube.com/watch?v=-Exd6HXWSpc) (v1.2.2), [config](https://www.youtube.com/watch?v=fJbe21IGc7U) (v1.2.2). 
+
 ## Installation
 
 1. Install Minecraft 1.17 or later
