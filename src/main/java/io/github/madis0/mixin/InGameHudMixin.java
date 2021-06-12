@@ -92,6 +92,7 @@ public abstract class InGameHudMixin {
     int hungerEffectSaturationLoss;
     int hungerEffectEstimate;
     int previousHungerEffectEstimate;
+    boolean hasHungerEffect;
 
     int naturalRegenerationAddition;
     int naturalRegenerationHealth;
@@ -221,17 +222,19 @@ public abstract class InGameHudMixin {
         StatusEffectInstance hungerEffect = playerEntity.getStatusEffect(StatusEffects.HUNGER);
         hungerEffectSaturationLoss = 0;
         if(hungerEffect != null) {
+            hasHungerEffect = true;
             int duration = hungerEffect.getDuration();
             float hungerEffectExhaustionLoss = 0.005F * (float)(hungerEffect.getAmplifier() + 1) * duration;
             // Exhaustion is server-side, so lost saturation is rounded up to be approximate
             hungerEffectSaturationLoss = (int) Math.ceil(hungerEffectExhaustionLoss / (float)4);
 
             if ((hunger + hungerEffectSaturationLoss) != (previousHungerEffectEstimate - 1)) {
-                hungerEffectEstimate = Math.max(hunger + hungerEffectSaturationLoss, 0);
+                hungerEffectEstimate = Math.max(Math.min(hunger + hungerEffectSaturationLoss, maxHunger), 0);
                 previousHungerEffectEstimate = hungerEffectEstimate;
             }
         }
         else {
+            hasHungerEffect = false;
             hungerEffectEstimate = hunger;
             previousHungerEffectEstimate = hungerEffectEstimate;
         }
@@ -412,7 +415,7 @@ public abstract class InGameHudMixin {
                 value += "-" + Calculations.MakeFraction(hunger);
             if (hunger > 0 && saturation < 1 && config.badThings.showHungerDecreasing)
                 value += "↓";
-            if (hungerEffectEstimate > hunger && config.healthEstimates)
+            if (hungerEffectEstimate > hunger || (hasHungerEffect && config.healthEstimates))
                 value += "→" + Calculations.MakeFraction(hungerEffectEstimate);
         }
 
