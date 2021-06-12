@@ -75,6 +75,10 @@ The mod only uses client-side data, so it is never needed on a server. There are
 
 A: Because it's big, gets updated a lot and you probably have a mod or two that requires it anyway. If one of your mods already bundles it, you don't have to download it at all :)
 
+**Q: How do I edit the colors?**
+
+A: Click Esc -> Mods -> OneBar -> config button. Then, for each color field you can use [this tool](https://htmlcolorcodes.com/color-picker/) for choosing a color and [this list](https://gist.github.com/lopspower/03fb1cc0ac9f32ef38f4#all-hex-value-from-100-to-0-alpha) for choosing the transparency.
+
 **Q: Forge support?**
 
 A: No. Feel free to fork according to the license or [check out my resource pack that inspired this](https://www.curseforge.com/minecraft/texture-packs/material-design-hud).
