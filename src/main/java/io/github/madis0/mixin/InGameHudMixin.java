@@ -86,13 +86,16 @@ public abstract class InGameHudMixin {
     int regenerationHealth;
     int poisonHealth;
     int witherHealth;
+    boolean hasRegeneration;
+    boolean hasPoison;
+    boolean hasWither;
     boolean hasFireResistance;
     boolean hasWaterBreathing;
-    
+
+    boolean hasHungerEffect;
     int hungerEffectSaturationLoss;
     int hungerEffectEstimate;
     int previousHungerEffectEstimate;
-    boolean hasHungerEffect;
 
     int naturalRegenerationAddition;
     int naturalRegenerationHealth;
@@ -195,34 +198,34 @@ public abstract class InGameHudMixin {
 
         StatusEffectInstance regenerationEffect = playerEntity.getStatusEffect(StatusEffects.REGENERATION);
         regenerationHealth = 0;
-        if(regenerationEffect != null) regenerationHealth = Calculations.GetEstimatedHealthRegen(50,
-                regenerationEffect.getAmplifier(),
-                regenerationEffect.getDuration(),
-                health,
-                MathHelper.ceil(playerEntity.getMaxHealth()));
+        if(regenerationEffect != null) regenerationHealth =
+                Calculations.GetEstimatedHealthRegen(50,
+                                                     regenerationEffect.getAmplifier(),
+                                                     regenerationEffect.getDuration(),
+                                                     health,
+                                                     maxHealth);
 
         StatusEffectInstance poisonEffect = playerEntity.getStatusEffect(StatusEffects.POISON);
         poisonHealth = maxHealth;
         if(poisonEffect != null) poisonHealth =
                 Calculations.GetEstimatedHealthDamage(25,
-                                                poisonEffect.getAmplifier(),
-                                                poisonEffect.getDuration(),
-                                                health,
-                                                1);
+                                                      poisonEffect.getAmplifier(),
+                                                      poisonEffect.getDuration(),
+                                                      health,
+                                                      1);
 
         StatusEffectInstance witherEffect = playerEntity.getStatusEffect(StatusEffects.WITHER);
         witherHealth = maxHealth;
         if(witherEffect != null) witherHealth =
                 Calculations.GetEstimatedHealthDamage(40,
-                                                witherEffect.getAmplifier(),
-                                                witherEffect.getDuration(),
-                                                health,
-                                                0);
+                                                      witherEffect.getAmplifier(),
+                                                      witherEffect.getDuration(),
+                                                      health,
+                                                      0);
 
         StatusEffectInstance hungerEffect = playerEntity.getStatusEffect(StatusEffects.HUNGER);
         hungerEffectSaturationLoss = 0;
         if(hungerEffect != null) {
-            hasHungerEffect = true;
             int duration = hungerEffect.getDuration();
             float hungerEffectExhaustionLoss = 0.005F * (float)(hungerEffect.getAmplifier() + 1) * duration;
             // Exhaustion is server-side, so lost saturation is rounded up to be approximate
@@ -234,7 +237,6 @@ public abstract class InGameHudMixin {
             }
         }
         else {
-            hasHungerEffect = false;
             hungerEffectEstimate = hunger;
             previousHungerEffectEstimate = hungerEffectEstimate;
         }
@@ -257,9 +259,12 @@ public abstract class InGameHudMixin {
             previousNaturalRegenerationHealth = naturalRegenerationHealth;
         }
 
+        hasRegeneration = playerEntity.hasStatusEffect(StatusEffects.REGENERATION);
+        hasPoison = playerEntity.hasStatusEffect(StatusEffects.POISON);
+        hasWither = playerEntity.hasStatusEffect(StatusEffects.WITHER);
         hasFireResistance = playerEntity.hasStatusEffect(StatusEffects.FIRE_RESISTANCE);
-
         hasWaterBreathing = playerEntity.hasStatusEffect(StatusEffects.WATER_BREATHING) || playerEntity.hasStatusEffect(StatusEffects.CONDUIT_POWER);
+        hasHungerEffect = playerEntity.hasStatusEffect(StatusEffects.HUNGER);
 
         // Method calls
 
@@ -387,11 +392,11 @@ public abstract class InGameHudMixin {
 
             if (naturalRegenerationHealth > health && config.healthEstimates && !config.uhcMode)
                 value += "→" + Calculations.MakeFraction(naturalRegenerationHealth);
-            if (regenerationHealth > 0 && config.healthEstimates)
+            if (regenerationHealth > 0 || (hasRegeneration && config.healthEstimates))
                 value += "→" + Calculations.MakeFraction(regenerationHealth);
-            if (poisonHealth < maxHealth && config.healthEstimates)
+            if (poisonHealth < maxHealth || (hasPoison && config.healthEstimates))
                 value += "→" + Calculations.MakeFraction(poisonHealth);
-            if (witherHealth < maxHealth && config.healthEstimates)
+            if (witherHealth < maxHealth || (hasWither && config.healthEstimates))
                 value += "→" + Calculations.MakeFraction(witherHealth);
         }
 
