@@ -10,7 +10,6 @@ public class ModConfig implements ConfigData {
     public boolean showOneBar = true;
     @ConfigEntry.Gui.Tooltip
     public boolean healthEstimates = true;
-    @ConfigEntry.Gui.Tooltip
     public boolean uhcMode = false;
     @ConfigEntry.Gui.PrefixText
     @ConfigEntry.ColorPicker(allowAlpha = true)
@@ -33,9 +32,7 @@ public class ModConfig implements ConfigData {
         @ConfigEntry.ColorPicker(allowAlpha = true)
         public int textColor = 0xBBFFFFFF;
         public boolean estimatesItalic = true;
-        @ConfigEntry.Gui.Tooltip
         public boolean useEmoji = true;
-        @ConfigEntry.Gui.Tooltip
         public boolean useFractions = false;
     }
 
