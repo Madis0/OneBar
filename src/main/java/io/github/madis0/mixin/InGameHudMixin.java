@@ -18,9 +18,9 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.text.TranslatableText;
 import net.minecraft.util.Arm;
 import net.minecraft.util.math.MathHelper;
+import net.minecraft.world.Difficulty;
 import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
-import org.spongepowered.asm.mixin.Mutable;
 import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
@@ -38,6 +38,8 @@ public abstract class InGameHudMixin {
     private PlayerEntity playerEntity;
     private HungerManager hungerManager;
     private final ModConfig config = AutoConfig.getConfigHolder(ModConfig.class).getConfig();
+
+    Difficulty difficulty;
 
     int baseStartW;
     int baseEndW;
@@ -65,6 +67,7 @@ public abstract class InGameHudMixin {
 
     int maxHunger;
     int hunger;
+    boolean isStarving;
     float rawSaturation;
     int saturation;
 
@@ -72,15 +75,20 @@ public abstract class InGameHudMixin {
     int rawAir;
     int air;
     boolean isUnderwater;
+    boolean isDrowning;
 
-    boolean isOnFire;
-    int fireSource;
-    int fireMultiplier;
+    boolean isSuffocating;
+
+    boolean isBurning;
+    boolean isBurningOnFire;
+    int burnSource;
+    int burningMultiplier;
 
     int maxRawFreeze;
     int rawFreeze;
     int freeze;
     boolean isFreezing;
+    boolean isGettingFreezeDamage;
 
     int resistancePercent;
     int regenerationHealth;
@@ -96,6 +104,7 @@ public abstract class InGameHudMixin {
     int hungerEffectSaturationLoss;
     int hungerEffectEstimate;
     int previousHungerEffectEstimate;
+    int starvationHealthEstimate;
 
     int naturalRegenerationAddition;
     int naturalRegenerationHealth;
@@ -113,6 +122,7 @@ public abstract class InGameHudMixin {
         stack = matrixStack;
         playerEntity = this.getCameraPlayer();
         hungerManager = playerEntity.getHungerManager();
+        difficulty = playerEntity.world.getDifficulty();
 
         // Dimensions and locations
 
@@ -155,6 +165,7 @@ public abstract class InGameHudMixin {
 
         maxHunger = 20;
         hunger = maxHunger - hungerManager.getFoodLevel();
+        isStarving = hunger >= maxHunger;
         rawSaturation = hungerManager.getSaturationLevel();
         saturation = MathHelper.ceil(rawSaturation);
 
@@ -162,18 +173,22 @@ public abstract class InGameHudMixin {
         rawAir = maxRawAir - playerEntity.getAir();
         air = Math.min(rawAir, maxRawAir) / 15;
         isUnderwater =  playerEntity.isSubmergedInWater();
+        isDrowning = rawAir >= maxRawAir;
 
-        isOnFire = playerEntity.doesRenderOnFire();
-        fireSource = playerEntity.getFireTicks();
+        isSuffocating = playerEntity.isInsideWall();
 
-        if(fireSource == -20) fireMultiplier = 1;
-        if(fireSource == 1) fireMultiplier = 2;
-        if(fireSource == 0) fireMultiplier = 4;
+        isBurning = playerEntity.doesRenderOnFire();
+        burnSource = playerEntity.getFireTicks();
+        if(burnSource == -20) burningMultiplier = 1;
+        if(burnSource == 1) burningMultiplier = 2;
+        if(burnSource == 0) burningMultiplier = 4;
+        isBurningOnFire = (burningMultiplier == 2 || burningMultiplier == 4);
 
         maxRawFreeze = playerEntity.getMinFreezeDamageTicks();
         rawFreeze = playerEntity.getFrozenTicks();
         freeze = rawFreeze / 7;
-        isFreezing = rawFreeze > 0; // isFreezing() is true only when the player actually gets damage
+        isFreezing = rawFreeze > 0;
+        isGettingFreezeDamage = playerEntity.isFreezing();
 
         xpLevel = playerEntity.experienceLevel;
         maxXp = 183;
@@ -241,8 +256,17 @@ public abstract class InGameHudMixin {
             previousHungerEffectEstimate = hungerEffectEstimate;
         }
 
+        if(isStarving){
+            if(difficulty == Difficulty.EASY)
+                starvationHealthEstimate = Math.min(10, health);
+            else if(difficulty == Difficulty.NORMAL)
+                starvationHealthEstimate = Math.min(1, health);
+            else if(difficulty == Difficulty.HARD)
+                starvationHealthEstimate = 0;
+        }
+
         naturalRegenerationAddition = 0;
-        if(health < maxHealth && hunger < 3){
+        if(health < maxHealth && (hunger < 3 || difficulty.equals(Difficulty.PEACEFUL))){
             // Approximate formula for calculating regeneration addition health: saturation * exhaustion max / 6 exhaustion per healed heart
             if (saturation > 0)
                 naturalRegenerationAddition = MathHelper.ceil((float)saturation * (float)4 / (float)6);
@@ -362,7 +386,7 @@ public abstract class InGameHudMixin {
     }
 
     private void hungerEffectBar(){
-        if (hungerEffectEstimate > hunger){
+        if (hungerEffectEstimate > hunger && !difficulty.equals(Difficulty.PEACEFUL)){
             DrawableHelper.fill(stack, baseRelativeStartW(hungerEffectEstimate, maxHunger), baseStartH, baseEndW, baseEndH, config.badThings.hungerEffectColor);
         }
     }
@@ -380,7 +404,7 @@ public abstract class InGameHudMixin {
     }
 
     private void fireBar(){
-        if (isOnFire && !hasFireResistance){
+        if (isBurning && !hasFireResistance){
             DrawableHelper.fill(stack, baseStartW, baseStartH, baseEndW, baseEndH, config.badThings.fireColor);
         }
     }
@@ -390,14 +414,26 @@ public abstract class InGameHudMixin {
         if(config.textSettings.showText) {
             value = Calculations.MakeFraction(health);
 
-            if (naturalRegenerationHealth > health && config.healthEstimates && !config.uhcMode)
-                value += "→" + Calculations.MakeFraction(naturalRegenerationHealth);
-            if (regenerationHealth > 0 || (hasRegeneration && config.healthEstimates))
-                value += "→" + Calculations.MakeFraction(regenerationHealth);
-            if (poisonHealth < maxHealth || (hasPoison && config.healthEstimates))
-                value += "→" + Calculations.MakeFraction(poisonHealth);
-            if (witherHealth < maxHealth || (hasWither && config.healthEstimates))
-                value += "→" + Calculations.MakeFraction(witherHealth);
+            if(config.healthEstimates){
+                if (naturalRegenerationHealth > health && !config.uhcMode)
+                    value += "→" + Calculations.MakeFraction(naturalRegenerationHealth);
+                if (regenerationHealth > 0 || hasRegeneration)
+                    value += "→" + Calculations.MakeFraction(regenerationHealth);
+                if (poisonHealth < maxHealth || hasPoison)
+                    value += "→" + Calculations.MakeFraction(poisonHealth);
+                if (witherHealth < maxHealth || hasWither)
+                    value += "→" + Calculations.MakeFraction(witherHealth);
+                if (isStarving)
+                    value += "→" + Calculations.MakeFraction(starvationHealthEstimate);
+                if (isGettingFreezeDamage && !difficulty.equals(Difficulty.PEACEFUL))
+                    value += "→0";
+                if (isBurningOnFire)
+                    value += "→0";
+                if (isDrowning)
+                    value += "→0";
+                if (isSuffocating)
+                    value += "→0";
+            }
         }
 
         if (absorption > 0)
@@ -412,15 +448,15 @@ public abstract class InGameHudMixin {
                 value += "-§m" + new TranslatableText(config.textSettings.useEmoji ? "text.onebar.airEmoji" : "text.onebar.air", Calculations.MakeFraction(air)).getString() + "§r";
             if (freeze > 0 || isFreezing)
                 value += "-" + new TranslatableText(config.textSettings.useEmoji ? "text.onebar.freezeEmoji" : "text.onebar.freeze", Calculations.MakeFraction(freeze)).getString();
-            if (isOnFire && !hasFireResistance && config.badThings.showFire)
-                value += "-" + new TranslatableText(config.textSettings.useEmoji ? "text.onebar.fireEmoji" : "text.onebar.fire", fireMultiplier).getString();
-            if (isOnFire && hasFireResistance && config.badThings.showFire)
-                value += "-§m" + new TranslatableText(config.textSettings.useEmoji ? "text.onebar.fireEmoji" : "text.onebar.fire", fireMultiplier).getString() + "§r";
-            if (hunger > 0 || (hungerEffectEstimate > hunger && config.healthEstimates))
+            if (isBurning && !hasFireResistance && config.badThings.showFire)
+                value += "-" + new TranslatableText(config.textSettings.useEmoji ? "text.onebar.fireEmoji" : "text.onebar.fire", burningMultiplier).getString();
+            if (isBurning && hasFireResistance && config.badThings.showFire)
+                value += "-§m" + new TranslatableText(config.textSettings.useEmoji ? "text.onebar.fireEmoji" : "text.onebar.fire", burningMultiplier).getString() + "§r";
+            if ((hunger > 0 || (hungerEffectEstimate > hunger && !difficulty.equals(Difficulty.PEACEFUL))) && config.healthEstimates)
                 value += "-" + Calculations.MakeFraction(hunger);
-            if (hunger > 0 && saturation < 1 && config.badThings.showHungerDecreasing)
+            if ((hunger > 0 && saturation < 1) && config.badThings.showHungerDecreasing)
                 value += "↓";
-            if (hungerEffectEstimate > hunger || (hasHungerEffect && config.healthEstimates))
+            if ((hungerEffectEstimate > hunger || hasHungerEffect) && config.healthEstimates && !difficulty.equals(Difficulty.PEACEFUL))
                 value += "→" + Calculations.MakeFraction(hungerEffectEstimate);
         }
 
