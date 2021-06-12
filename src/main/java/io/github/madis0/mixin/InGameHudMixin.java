@@ -301,8 +301,8 @@ public abstract class InGameHudMixin {
             if(config.healthEstimates && !config.uhcMode) naturalRegenerationBar();
             if(config.healthEstimates) regenerationBar();
             healthBar();
-            if(config.healthEstimates) witherBar();
             if(config.healthEstimates) poisonBar();
+            if(config.healthEstimates) witherBar();
             if(config.healthEstimates) hungerEffectBar();
             hungerBar();
             if(config.badThings.showFire) fireBar();
@@ -348,12 +348,12 @@ public abstract class InGameHudMixin {
         DrawableHelper.fill(stack, baseStartW, baseStartH, baseRelativeEndW(Calculations.GetPreciseInt(rawHealth), Calculations.GetPreciseInt(maxRawHealth)), baseEndH, config.goodThings.healthColor);
     }
 
-    private void witherBar(){
-        DrawableHelper.fill(stack, baseRelativeStartW(maxHealth - witherHealth, maxHealth), baseStartH, baseEndW, baseEndH, config.badThings.witherColor);
-    }
-
     private void poisonBar(){
         DrawableHelper.fill(stack, baseRelativeStartW(maxHealth - poisonHealth, maxHealth), baseStartH, baseEndW, baseEndH, config.badThings.poisonColor);
+    }
+
+    private void witherBar(){
+        DrawableHelper.fill(stack, baseRelativeStartW(maxHealth - witherHealth, maxHealth), baseStartH, baseEndW, baseEndH, config.badThings.witherColor);
     }
 
     private void hungerEffectBar(){
@@ -389,10 +389,10 @@ public abstract class InGameHudMixin {
                 value += "→" + Calculations.MakeFraction(naturalRegenerationHealth);
             if (regenerationHealth > 0 && config.healthEstimates)
                 value += "→" + Calculations.MakeFraction(regenerationHealth);
-            if (witherHealth < maxHealth && config.healthEstimates)
-                value += "→" + Calculations.MakeFraction(witherHealth);
             if (poisonHealth < maxHealth && config.healthEstimates)
                 value += "→" + Calculations.MakeFraction(poisonHealth);
+            if (witherHealth < maxHealth && config.healthEstimates)
+                value += "→" + Calculations.MakeFraction(witherHealth);
         }
 
         if (absorption > 0)
