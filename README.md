@@ -32,8 +32,8 @@ The mod only uses client-side data, so it is never needed on a server. There are
 
 * Health - red bar, **number**, where number is your health points
 * Health boost - red bar, **number**, bar width adapts to the max health
-* Natural regeneration - yellow bar, **→_number_** where number is the resulting health¹
-* Regeneration - pink bar, **→_number_** where number is the resulting health¹
+* Natural regeneration - yellow bar, **→ _number_** where number is the resulting health¹
+* Regeneration - pink bar, **→ _number_** where number is the resulting health¹
 * Absorption - no bar, **+number**, where number is your absorption health points
 * Resistance - no bar, **+⛨number%** or **+rnumber%** where number is the [effect level multiplier](https://minecraft.gamepedia.com/Resistance#Effect)²
 * Fire Resistance - no bar, **-~🔥number×~** or **-~bnumber×~** where number is a rough damage multiplier (1× - burning, 2× - burning in fire, 4× - burning in lava)²
@@ -42,13 +42,13 @@ The mod only uses client-side data, so it is never needed on a server. There are
 #### Negative (right-to-left)
 
 * Hunger - brown bar, **-number**, where number is calculated as 20-food points (e.g. if you had 15 food points, it would show 5)
-* Air - blue bar, **-⭘number** or **-anumber**, where number is the counter up to 20 until drowning (the equivalent of broken bubbles in vanilla)², drowning will also show **→_number_** where number is the resulting health¹
-* Freezing - light gray bar, **-❄number** or **-fnumber**, where number is the counter up to 20 until freezing (the equivalent of frost fading in vanilla)², freezing damage will also show **→_number_** where number is the resulting health¹
-* Burning - orange full bar, **-🔥number×** or **-bnumber×** where number is a rough damage multiplier (1× - burning, 2× - burning in fire, 4× - burning in lava)², burning on a block will also show **→_number_** where number is the resulting health¹
-* Hunger effect - yellowish brown bar, **→_number_** where number is the resulting hunger¹, starvation will also show **→_number_** where number is the resulting health¹
-* Poison - yellowish green bar, **→_number_** where number is the resulting health¹
-* Wither - dark gray bar, **→_number_** where number is the resulting health¹
-* Suffocation - no bar, **→_number_** where number is the resulting health¹
+* Air - blue bar, **-⭘number** or **-anumber**, where number is the counter up to 20 until drowning (the equivalent of broken bubbles in vanilla)², drowning will also show **→ _number_** where number is the resulting health¹
+* Freezing - light gray bar, **-❄number** or **-fnumber**, where number is the counter up to 20 until freezing (the equivalent of frost fading in vanilla)², freezing damage will also show **→ _number_** where number is the resulting health¹
+* Burning - orange full bar, **-🔥number×** or **-bnumber×** where number is a rough damage multiplier (1× - burning, 2× - burning in fire, 4× - burning in lava)², burning on a block will also show **→ _number_** where number is the resulting health¹
+* Hunger effect - yellowish brown bar, **→ _number_** where number is the resulting hunger¹, starvation will also show **→ _number_** where number is the resulting health¹
+* Poison - yellowish green bar, **→ _number_** where number is the resulting health¹
+* Wither - dark gray bar, **→ _number_** where number is the resulting health¹
+* Suffocation - no bar, **→ _number_** where number is the resulting health¹
 * Hardcore mode - no bar, **☠** or **HC**²
 
 #### Others
