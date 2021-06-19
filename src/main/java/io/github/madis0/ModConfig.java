@@ -32,6 +32,7 @@ public class ModConfig implements ConfigData {
         @ConfigEntry.ColorPicker(allowAlpha = true)
         public int textColor = 0xBBFFFFFF;
         public boolean estimatesItalic = true;
+        public boolean estimatesParentheses = true;
         public boolean useEmoji = true;
         public boolean useFractions = false;
     }

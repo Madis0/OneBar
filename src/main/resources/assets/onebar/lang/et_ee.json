@@ -17,6 +17,7 @@
   "text.autoconfig.onebar.option.textSettings.showText.@Tooltip": "Keelamine kuvab siiski neeldumise ja halastamatu režiimi tähiseid",
   "text.autoconfig.onebar.option.textSettings.textColor": "Teksti värv",
   "text.autoconfig.onebar.option.textSettings.estimatesItalic": "Kuva mõjude ennustusi (kui lubatud) §okaldkirjas§r",
+  "text.autoconfig.onebar.option.textSettings.estimatesParentheses": "Kuva mõjude ennustuste (kui lubatud) ümber vajadusel sulgusid",
   "text.autoconfig.onebar.option.textSettings.useEmoji": "Kasuta tähtede asemel emojisid (nt p asemel \uD83D\uDD25)",
   "text.autoconfig.onebar.option.textSettings.useFractions": "Vanillisarnased murdarvud (nt 19 asemel 9,5)",
   "text.autoconfig.onebar.option.goodThings": "Head mõjud ja olekud",

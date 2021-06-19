@@ -22,6 +22,7 @@
   "text.autoconfig.onebar.option.textSettings.showText.@Tooltip": "Disabling will still show absorption and hardcore indicators",
   "text.autoconfig.onebar.option.textSettings.textColor": "Text color",
   "text.autoconfig.onebar.option.textSettings.estimatesItalic": "Show effect estimates (if enabled) in §oitalic§r",
+  "text.autoconfig.onebar.option.textSettings.estimatesParentheses": "Show parentheses around effect estimates (if enabled) where needed",
   "text.autoconfig.onebar.option.textSettings.useEmoji": "Use emoji instead of letters (e.g. \uD83D\uDD25 instead of b)",
   "text.autoconfig.onebar.option.textSettings.useFractions": "Vanilla-like fractions (e.g 9,5 instead of 19)",
   "text.autoconfig.onebar.option.goodThings": "Good effects and states",
