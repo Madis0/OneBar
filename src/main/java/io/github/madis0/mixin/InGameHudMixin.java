@@ -417,7 +417,7 @@ public abstract class InGameHudMixin {
 
             // Health values
 
-            if (config.healthEstimates && config.textSettings.estimatesParentheses && (hasHunger || hasHungerEffect) &&
+            if (config.healthEstimates && config.textSettings.estimatesParentheses && (hasHunger || hasHungerEffect || isUnderwater || isFreezing || isBurning) &&
                     ((naturalRegenerationHealth > health && !config.uhcMode) || hasRegeneration || isStarving || hasPoison || hasWither || isGettingFreezeDamage || isBurningOnFire || isDrowning || isSuffocating))
                 value += "(";
 
@@ -442,7 +442,7 @@ public abstract class InGameHudMixin {
                     value += "→" + Calculations.MakeFraction(0, config.textSettings.estimatesItalic);
                 if (isSuffocating)
                     value += "→" + Calculations.MakeFraction(0, config.textSettings.estimatesItalic);
-                if (config.textSettings.estimatesParentheses && (hasHunger || hasHungerEffect) &&
+                if (config.textSettings.estimatesParentheses && (hasHunger || hasHungerEffect || isUnderwater || isFreezing || isBurning) &&
                         ((naturalRegenerationHealth > health && !config.uhcMode) || hasRegeneration || isStarving || hasPoison || hasWither || isGettingFreezeDamage || isBurningOnFire || isDrowning || isSuffocating))
                     value += ")";
             }
