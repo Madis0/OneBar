@@ -266,12 +266,12 @@ public abstract class InGameHudMixin {
         }
 
         naturalRegenerationAddition = 0;
-        if(health < maxHealth && (hunger < 3 || difficulty.equals(Difficulty.PEACEFUL))){
-            // Approximate formula for calculating regeneration addition health: saturation * exhaustion max / 6 exhaustion per healed heart
-            if (saturation > 0)
-                naturalRegenerationAddition = MathHelper.ceil((float)saturation * (float)4 / (float)6);
-            else
-                naturalRegenerationAddition = 1; // because saturation goes from 2 to 0 for some reason
+        if(health < maxHealth){
+            // Approximate formula for calculating regeneration addition health: saturation + (2.5 - hunger) * exhaustion max / 6 exhaustion per healed heart
+            if (hunger < 3 && !difficulty.equals(Difficulty.PEACEFUL))
+                naturalRegenerationAddition = MathHelper.ceil((((float)saturation + (float)(2.5 - hunger)) * (float)4 / (float)6));
+            else if(difficulty.equals(Difficulty.PEACEFUL))
+                naturalRegenerationAddition = maxHealth - health; // because saturation goes from 2 to 0 for some reason
 
             if((health + naturalRegenerationAddition) != (previousNaturalRegenerationHealth + 1)){
                 naturalRegenerationHealth = Math.min(health + naturalRegenerationAddition, maxHealth);
