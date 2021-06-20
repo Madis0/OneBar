@@ -30,7 +30,7 @@ public class ModConfig implements ConfigData {
         @ConfigEntry.Gui.Tooltip
         public boolean showText = true;
         @ConfigEntry.ColorPicker(allowAlpha = true)
-        public int textColor = 0xBBFFFFFF;
+        public int textColor = 0xB3FFFFFF;
         public boolean estimatesItalic = true;
         public boolean estimatesParentheses = true;
         public boolean useEmoji = true;
@@ -49,21 +49,21 @@ public class ModConfig implements ConfigData {
 
     public static class BadThings {
         @ConfigEntry.ColorPicker(allowAlpha = true)
-        public int hungerColor = 0xBB3E2723;
+        public int hungerColor = 0xBF3E2723;
         @ConfigEntry.ColorPicker(allowAlpha = true)
-        public int hungerEffectColor = 0xBB827717;
+        public int hungerEffectColor = 0xA6827717;
         public boolean showHungerDecreasing = false;
         @ConfigEntry.ColorPicker(allowAlpha = true)
-        public int airColor = 0xBB1A237E;
+        public int airColor = 0xA61A237E;
         @ConfigEntry.ColorPicker(allowAlpha = true)
-        public int freezeColor = 0xBB8EACBB;
+        public int freezeColor = 0xA68EACBB;
         public boolean showFire = true;
         @ConfigEntry.ColorPicker(allowAlpha = true)
-        public int fireColor = 0x99C43E00;
+        public int fireColor = 0xA6C43E00;
         @ConfigEntry.ColorPicker(allowAlpha = true)
-        public int poisonColor = 0xBB8C9900;
+        public int poisonColor = 0xA68C9900;
         @ConfigEntry.ColorPicker(allowAlpha = true)
-        public int witherColor = 0xCC37474f;
+        public int witherColor = 0xA637474f;
     }
 
     public static class Entity {
@@ -79,11 +79,11 @@ public class ModConfig implements ConfigData {
         public int xpColor = 0xFF00C853;
         public boolean showArmorBar = true;
         @ConfigEntry.ColorPicker(allowAlpha = true)
-        public int armorColor = 0x99FFFFFF;
+        public int armorColor = 0xA6FFFFFF;
         public boolean heldFoodHungerBar = true;
         @ConfigEntry.ColorPicker(allowAlpha = true)
-        public int heldFoodHungerWasteColor = 0x99FFB04C;
+        public int heldFoodHungerWasteColor = 0xA6FFB04C;
         @ConfigEntry.ColorPicker(allowAlpha = true)
-        public int heldFoodHungerGoodColor = 0xBB76FF03;
+        public int heldFoodHungerGoodColor = 0xBF76FF03;
     }
 }
