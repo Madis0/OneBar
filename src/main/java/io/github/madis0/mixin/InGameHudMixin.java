@@ -61,6 +61,7 @@ public abstract class InGameHudMixin {
     int health;
     int maxHealth;
     int absorption;
+    boolean hasAbsorption;
 
     int maxArmor;
     int armor;
@@ -95,6 +96,7 @@ public abstract class InGameHudMixin {
     int regenerationHealth;
     int poisonHealth;
     int witherHealth;
+    boolean hasResistance;
     boolean hasRegeneration;
     boolean hasPoison;
     boolean hasWither;
@@ -160,6 +162,7 @@ public abstract class InGameHudMixin {
         health = MathHelper.ceil(rawHealth);
         maxHealth = MathHelper.ceil(maxRawHealth);
         absorption = MathHelper.ceil(playerEntity.getAbsorptionAmount());
+        hasAbsorption = absorption > 0;
 
         maxArmor = 20;
         armor = playerEntity.getArmor();
@@ -285,6 +288,7 @@ public abstract class InGameHudMixin {
             previousNaturalRegenerationHealth = naturalRegenerationHealth;
         }
 
+        hasResistance = playerEntity.hasStatusEffect(StatusEffects.RESISTANCE);
         hasRegeneration = playerEntity.hasStatusEffect(StatusEffects.REGENERATION);
         hasPoison = playerEntity.hasStatusEffect(StatusEffects.POISON);
         hasWither = playerEntity.hasStatusEffect(StatusEffects.WITHER);
@@ -417,7 +421,7 @@ public abstract class InGameHudMixin {
 
             // Health values
 
-            if (config.healthEstimates && config.textSettings.estimatesParentheses && (hasHunger || hasHungerEffect || isUnderwater || isFreezing || isBurning) &&
+            if (config.healthEstimates && config.textSettings.estimatesParentheses && (hasHunger || hasHungerEffect || isUnderwater || isFreezing || isBurning || hasAbsorption || (hasResistance && config.goodThings.showResistance)) &&
                     ((naturalRegenerationHealth > health && !config.uhcMode) || hasRegeneration || isStarving || hasPoison || hasWither || isGettingFreezeDamage || isBurningOnFire || isDrowning || isSuffocating))
                 value += "(";
 
@@ -442,7 +446,7 @@ public abstract class InGameHudMixin {
                     value += "→" + Calculations.MakeFraction(0, config.textSettings.estimatesItalic);
                 if (isSuffocating)
                     value += "→" + Calculations.MakeFraction(0, config.textSettings.estimatesItalic);
-                if (config.textSettings.estimatesParentheses && (hasHunger || hasHungerEffect || isUnderwater || isFreezing || isBurning) &&
+                if (config.textSettings.estimatesParentheses && (hasHunger || hasHungerEffect || isUnderwater || isFreezing || isBurning || hasAbsorption || (hasResistance && config.goodThings.showResistance)) &&
                         ((naturalRegenerationHealth > health && !config.uhcMode) || hasRegeneration || isStarving || hasPoison || hasWither || isGettingFreezeDamage || isBurningOnFire || isDrowning || isSuffocating))
                     value += ")";
             }
@@ -450,11 +454,11 @@ public abstract class InGameHudMixin {
 
         // Additive values
 
-        if (absorption > 0)
+        if (hasAbsorption)
             value += "+" + Calculations.MakeFraction(absorption, false);
 
         if(config.textSettings.showText) { // Separated if because order matters
-            if (resistancePercent > 0 && config.goodThings.showResistance)
+            if (hasResistance && config.goodThings.showResistance)
                 value += "+" + new TranslatableText(config.textSettings.useEmoji ? "text.onebar.resistanceEmoji" : "text.onebar.resistance", resistancePercent).getString();
 
             // Subtractive values
