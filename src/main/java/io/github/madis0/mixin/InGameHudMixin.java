@@ -174,7 +174,7 @@ public abstract class InGameHudMixin {
         maxRawAir = playerEntity.getMaxAir();
         rawAir = maxRawAir - playerEntity.getAir();
         air = Math.min(rawAir, maxRawAir) / 15;
-        isUnderwater =  playerEntity.isSubmergedInWater();
+        isUnderwater =  playerEntity.isSubmergedInWater() || rawAir > 0;
         isDrowning = rawAir >= maxRawAir;
 
         isSuffocating = playerEntity.isInsideWall();
