@@ -41,7 +41,7 @@
   "text.autoconfig.onebar.option.entity.jumpColor": "Hüppe värv",
   "text.autoconfig.onebar.option.otherBars": "Teised ribad",
   "text.autoconfig.onebar.option.otherBars.xpColor": "Kogemustasemete arvu/riba värv",
-  "text.autoconfig.onebar.option.otherBars.showArmorBar": "Rüüriba (õhuke riba OneBari kohal)",
+  "text.autoconfig.onebar.option.otherBars.showArmorBar": "Rüüriba (õhuke riba OneBari kohal, ka ratsutataval hobusel)",
   "text.autoconfig.onebar.option.otherBars.armorColor": "Rüü värv",
   "text.autoconfig.onebar.option.otherBars.heldFoodHungerBar": "Kuva, kui palju taastab käes olev toit nälga (õhuke riba OneBari all)",
   "text.autoconfig.onebar.option.otherBars.heldFoodHungerWasteColor": "Käesoleva toidu taastatava nälja värv: raisatud",

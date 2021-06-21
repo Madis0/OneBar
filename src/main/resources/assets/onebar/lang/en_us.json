@@ -46,7 +46,7 @@
   "text.autoconfig.onebar.option.entity.jumpColor": "Jump color",
   "text.autoconfig.onebar.option.otherBars": "Other bars",
   "text.autoconfig.onebar.option.otherBars.xpColor": "Experience level number/bar color",
-  "text.autoconfig.onebar.option.otherBars.showArmorBar": "Armor line (thin bar above OneBar)",
+  "text.autoconfig.onebar.option.otherBars.showArmorBar": "Armor line (thin bar above OneBar, incl. ridden horse)",
   "text.autoconfig.onebar.option.otherBars.armorColor": "Armor color",
   "text.autoconfig.onebar.option.otherBars.heldFoodHungerBar": "Show how much will held food restore hunger (thin bar below OneBar)",
   "text.autoconfig.onebar.option.otherBars.heldFoodHungerWasteColor": "Held food restored hunger color: wasted",

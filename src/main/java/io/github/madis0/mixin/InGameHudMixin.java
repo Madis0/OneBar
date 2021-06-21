@@ -301,7 +301,6 @@ public abstract class InGameHudMixin {
         boolean barsVisible = !client.options.hudHidden && client.interactionManager.hasStatusBars();
 
         if(config.showOneBar && barsVisible) renderOneBar();
-        if(config.showOneBar && barsVisible && config.otherBars.showArmorBar) armorBar();
         if(config.showOneBar) mountBar();
     }
 
@@ -346,6 +345,7 @@ public abstract class InGameHudMixin {
             xpBar();
             barText();
             if(config.otherBars.heldFoodHungerBar) heldFoodBar();
+            if(config.otherBars.showArmorBar) armorBar();
         }
     }
 
@@ -522,6 +522,8 @@ public abstract class InGameHudMixin {
             float mountRawHealth = mountEntity.getHealth();
             float mountMaxHealth = mountEntity.getMaxHealth();
             int health = (int) Math.ceil(mountRawHealth);
+            int horseArmor = mountEntity.getArmor();
+            int horseMaxArmor = 11; // Diamond horse armor
 
             String value = String.valueOf(health);
             int textX = baseEndW - client.textRenderer.getWidth(value);
@@ -529,6 +531,7 @@ public abstract class InGameHudMixin {
 
             DrawableHelper.fill(stack, baseStartW, mountStartH, baseEndW, mountEndH, config.backgroundColor);
             DrawableHelper.fill(stack, baseStartW, mountStartH, baseRelativeEndW(Calculations.GetPreciseInt(mountRawHealth), Calculations.GetPreciseInt(mountMaxHealth)), mountEndH, config.entity.healthColor);
+            if(config.otherBars.showArmorBar) DrawableHelper.fill(stack, baseStartW, mountStartH - 1, baseRelativeEndW(horseArmor, horseMaxArmor), mountStartH, config.otherBars.armorColor);
             if(config.textSettings.showText) client.textRenderer.draw(stack, value, textX, textY, config.textSettings.textColor);
         }
     }
