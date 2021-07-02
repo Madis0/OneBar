@@ -23,34 +23,39 @@ public abstract class InGameHudMixin {
 
     private final ModConfig config = AutoConfig.getConfigHolder(ModConfig.class).getConfig();
     private OneBarElements oneBarElements;
+    private boolean showOneBar = false;
 
     @Inject(at = @At("TAIL"), method = "render")
     public void render(MatrixStack matrixStack, float tickDelta, CallbackInfo info) {
         oneBarElements = new OneBarElements(matrixStack);
+        showOneBar = config.showOneBar; // This var exists because it also shows whether oneBarElements is initialized
 
         boolean barsVisible = !client.options.hudHidden && Objects.requireNonNull(client.interactionManager).hasStatusBars();
-        if(config.showOneBar && barsVisible) oneBarElements.renderOneBar();
+        if(showOneBar && barsVisible) oneBarElements.renderOneBar();
     }
 
     // Injections to vanilla methods
 
     @Inject(method = "renderStatusBars", at = @At(value = "INVOKE"), cancellable = true)
     private void renderStatusBars(MatrixStack matrices, CallbackInfo ci){
-        if(config.showOneBar) ci.cancel();
+        if(showOneBar) ci.cancel();
     }
     @Inject(method = "renderExperienceBar", at = @At(value = "INVOKE"), cancellable = true)
     private void renderExperienceBar(MatrixStack matrices, int x, CallbackInfo ci){
-        if(config.showOneBar) ci.cancel();
+        if(showOneBar) ci.cancel();
     }
 
     @Inject(method = "renderMountJumpBar", at = @At(value = "INVOKE"), cancellable = true)
     private void renderMountJumpBar(MatrixStack matrices, int x, CallbackInfo ci) {
-        if(config.showOneBar) ci.cancel();
-        if(config.entity.showHorseJump) oneBarElements.jumpBar();
+        if(showOneBar) {
+            ci.cancel();
+            if(config.entity.showHorseJump)
+                oneBarElements.jumpBar();
+        }
     }
     @Inject(method = "renderMountHealth", at = @At(value = "INVOKE"), cancellable = true)
     private void renderMountHealth(MatrixStack matrices, CallbackInfo ci) {
-        if(config.showOneBar){
+        if(showOneBar){
             ci.cancel();
             oneBarElements.mountBar(getRiddenEntity());
         }
