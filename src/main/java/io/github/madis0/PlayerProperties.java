@@ -5,60 +5,60 @@ import net.minecraft.entity.effect.StatusEffectInstance;
 import net.minecraft.entity.effect.StatusEffects;
 import net.minecraft.entity.player.HungerManager;
 import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.item.FoodComponent;
-import net.minecraft.item.ItemStack;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.world.Difficulty;
 
+import java.util.Objects;
+
 public class PlayerProperties {
-    public float rawHealth;
-    public float maxRawHealth;
-    public int health;
-    public int maxHealth;
-    public int absorption;
-    public boolean hasAbsorption;
+    public final float rawHealth;
+    public final float maxRawHealth;
+    public final int health;
+    public final int maxHealth;
+    public final int absorption;
+    public final boolean hasAbsorption;
 
-    public int maxArmor;
-    public int armor;
+    public final int maxArmor;
+    public final int armor;
 
-    public int maxHunger;
-    public int hunger;
-    public boolean hasHunger;
-    public boolean isStarving;
-    public float rawSaturation;
-    public int saturation;
+    public final int maxHunger;
+    public final int hunger;
+    public final boolean hasHunger;
+    public final boolean isStarving;
+    public final float rawSaturation;
+    public final int saturation;
 
-    public int maxRawAir;
-    public int rawAir;
-    public int air;
-    public boolean isUnderwater;
-    public boolean isDrowning;
+    public final int maxRawAir;
+    public final int rawAir;
+    public final int air;
+    public final boolean isUnderwater;
+    public final boolean isDrowning;
 
-    public boolean isSuffocating;
+    public final boolean isSuffocating;
 
-    public boolean isBurning;
-    public boolean isBurningOnFire;
-    public int burnSource;
+    public final boolean isBurning;
+    public final boolean isBurningOnFire;
+    public final int burnSource;
     public int burningMultiplier;
 
-    public int maxRawFreeze;
-    public int rawFreeze;
-    public int freeze;
-    public boolean isFreezing;
-    public boolean isGettingFreezeDamage;
+    public final int maxRawFreeze;
+    public final int rawFreeze;
+    public final int freeze;
+    public final boolean isFreezing;
+    public final boolean isGettingFreezeDamage;
 
     public int resistancePercent;
     public int regenerationHealth;
     public int poisonHealth;
     public int witherHealth;
-    public boolean hasResistance;
-    public boolean hasRegeneration;
-    public boolean hasPoison;
-    public boolean hasWither;
-    public boolean hasFireResistance;
-    public boolean hasWaterBreathing;
+    public final boolean hasResistance;
+    public final boolean hasRegeneration;
+    public final boolean hasPoison;
+    public final boolean hasWither;
+    public final boolean hasFireResistance;
+    public final boolean hasWaterBreathing;
 
-    public boolean hasHungerEffect;
+    public final boolean hasHungerEffect;
     public int hungerEffectSaturationLoss;
     public int hungerEffectEstimate;
     public int previousHungerEffectEstimate;
@@ -68,14 +68,13 @@ public class PlayerProperties {
     public int naturalRegenerationHealth;
     public int previousNaturalRegenerationHealth;
 
-    public int xpLevel;
-    public int maxXp;
-    public int xp;
+    public final int xpLevel;
+    public final int maxXp;
+    public final int xp;
 
     public PlayerProperties(){
         PlayerEntity playerEntity = MinecraftClient.getInstance().player;
-        assert playerEntity != null;
-        HungerManager hungerManager = playerEntity.getHungerManager();
+        HungerManager hungerManager = Objects.requireNonNull(playerEntity).getHungerManager();
         Difficulty difficulty = playerEntity.world.getDifficulty();
 
         // Player property calculations

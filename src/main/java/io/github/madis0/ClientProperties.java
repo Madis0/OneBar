@@ -1,32 +1,33 @@
 package io.github.madis0;
 
 import net.minecraft.client.MinecraftClient;
-import net.minecraft.client.gui.hud.InGameHud;
 import net.minecraft.client.option.AttackIndicator;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.FoodComponent;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.Arm;
 
+import java.util.Objects;
+
 public class ClientProperties {
 
-    public int baseStartW;
-    public int baseEndW;
-    public int baseStartH;
-    public int baseEndH;
+    public final int baseStartW;
+    public final int baseEndW;
+    public final int baseStartH;
+    public final int baseEndH;
     public int xpStartW;
-    public int xpEndW;
-    public int xpStartH;
-    public int xpEndH;
-    public int jumpStartW;
-    public int jumpEndW;
-    public int jumpStartH;
-    public int jumpEndH;
-    public int mountStartH;
-    public int mountEndH;
+    public final int xpEndW;
+    public final int xpStartH;
+    public final int xpEndH;
+    public final int jumpStartW;
+    public final int jumpEndW;
+    public final int jumpStartH;
+    public final int jumpEndH;
+    public final int mountStartH;
+    public final int mountEndH;
 
     public int heldFoodHunger;
-    public boolean isHardcore;
+    public final boolean isHardcore;
 
     public ClientProperties(){
         MinecraftClient client = MinecraftClient.getInstance();
@@ -61,12 +62,12 @@ public class ClientProperties {
         mountEndH = mountStartH + 9;
 
         heldFoodHunger = 0;
-        ItemStack heldItem = playerEntity.getMainHandStack();
+        ItemStack heldItem = Objects.requireNonNull(playerEntity).getMainHandStack();
         if(!heldItem.isFood()) heldItem = playerEntity.getOffHandStack();
 
         if(heldItem.isFood()){
             FoodComponent itemFood = heldItem.getItem().getFoodComponent();
-            heldFoodHunger = itemFood.getHunger();
+            heldFoodHunger = Objects.requireNonNull(itemFood).getHunger();
         }
 
         isHardcore = playerEntity.world.getLevelProperties().isHardcore();

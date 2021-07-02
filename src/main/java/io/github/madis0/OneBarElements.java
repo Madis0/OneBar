@@ -11,20 +11,15 @@ import net.minecraft.world.Difficulty;
 import java.util.Objects;
 
 public class OneBarElements {
-    private final ModConfig config;
-    private final ClientProperties clientProperties;
-    private final PlayerProperties playerProperties;
-    private final MinecraftClient client;
-    private final Difficulty difficulty;
+    private final ModConfig config = AutoConfig.getConfigHolder(ModConfig.class).getConfig();
+    private final ClientProperties clientProperties = new ClientProperties();
+    private final PlayerProperties playerProperties = new PlayerProperties();
+    private final MinecraftClient client = MinecraftClient.getInstance();
+    private final Difficulty difficulty = Objects.requireNonNull(client.getCameraEntity()).world.getDifficulty();
     private final MatrixStack stack;
 
     public OneBarElements(MatrixStack matrixStack){
         stack = matrixStack;
-        config = AutoConfig.getConfigHolder(ModConfig.class).getConfig();
-        client = MinecraftClient.getInstance();
-        clientProperties = new ClientProperties();
-        playerProperties = new PlayerProperties();
-        difficulty = Objects.requireNonNull(client.getCameraEntity()).world.getDifficulty();
     }
 
     public void renderOneBar(){
@@ -208,7 +203,7 @@ public class OneBarElements {
 
     public void jumpBar(){
         int barHeight = Calculations.GetPreciseInt(1.0F);
-        int jumpHeight = Calculations.GetPreciseInt(client.player.getMountJumpStrength());
+        int jumpHeight = Calculations.GetPreciseInt(Objects.requireNonNull(client.player).getMountJumpStrength());
 
         int relativeStartH = Calculations.RelativeW(clientProperties.jumpEndH, clientProperties.jumpStartH, jumpHeight, barHeight);
         DrawableHelper.fill(stack, clientProperties.jumpStartW, clientProperties.jumpStartH, clientProperties.jumpEndW, clientProperties.jumpEndH, config.backgroundColor);

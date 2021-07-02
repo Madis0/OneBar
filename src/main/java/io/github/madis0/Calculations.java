@@ -5,7 +5,7 @@ import net.minecraft.util.math.MathHelper;
 import java.text.DecimalFormat;
 
 public class Calculations {
-    private static ModConfig config = AutoConfig.getConfigHolder(ModConfig.class).getConfig();
+    private static final ModConfig config = AutoConfig.getConfigHolder(ModConfig.class).getConfig();
 
     public static int RelativeW(int start, int end, int value, int total){
         if(value < total)

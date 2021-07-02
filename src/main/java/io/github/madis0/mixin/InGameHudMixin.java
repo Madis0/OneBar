@@ -14,22 +14,21 @@ import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
+import java.util.Objects;
+
 @Mixin(InGameHud.class)
 public abstract class InGameHudMixin {
     @Final @Shadow private MinecraftClient client;
     @Shadow protected abstract LivingEntity getRiddenEntity();
 
-    private ModConfig config;
+    private final ModConfig config = AutoConfig.getConfigHolder(ModConfig.class).getConfig();
     private OneBarElements oneBarElements;
 
     @Inject(at = @At("TAIL"), method = "render")
     public void render(MatrixStack matrixStack, float tickDelta, CallbackInfo info) {
-        config = AutoConfig.getConfigHolder(ModConfig.class).getConfig();
         oneBarElements = new OneBarElements(matrixStack);
 
-        // Method calls
-
-        boolean barsVisible = !client.options.hudHidden && client.interactionManager.hasStatusBars();
+        boolean barsVisible = !client.options.hudHidden && Objects.requireNonNull(client.interactionManager).hasStatusBars();
         if(config.showOneBar && barsVisible) oneBarElements.renderOneBar();
     }
 
