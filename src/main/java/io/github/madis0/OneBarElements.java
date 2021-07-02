@@ -1,6 +1,7 @@
 package io.github.madis0;
 
 import me.shedaniel.autoconfig.AutoConfig;
+import net.fabricmc.loader.api.FabricLoader;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.DrawableHelper;
 import net.minecraft.client.util.math.MatrixStack;
@@ -40,6 +41,10 @@ public class OneBarElements {
             barText();
             if(config.otherBars.heldFoodHungerBar) heldFoodBar();
             if(config.otherBars.showArmorBar) armorBar();
+            if(FabricLoader.getInstance().isModLoaded("health_levels")) healthLevelsXpBar();
+            if(FabricLoader.getInstance().isModLoaded("dehydration")){
+                //...
+            }
         }
     }
 
@@ -201,6 +206,20 @@ public class OneBarElements {
         client.textRenderer.drawWithShadow(stack, String.valueOf(playerProperties.xpLevel), textX, textY, config.otherBars.xpColor);
         DrawableHelper.fill(stack, clientProperties.xpStartW, clientProperties.xpStartH, clientProperties.xpEndW, clientProperties.xpEndH, config.backgroundColor);
         DrawableHelper.fill(stack, clientProperties.xpStartW, clientProperties.xpStartH, relativeEndW, clientProperties.xpEndH, config.otherBars.xpColor);
+    }
+
+    private void healthLevelsXpBar(){
+        int xpStartH = clientProperties.xpStartH - 17;
+        int xpEndH = xpStartH + 1;
+
+        int relativeEndW = Calculations.RelativeW(clientProperties.xpStartW, clientProperties.xpEndW, playerProperties.xp, playerProperties.maxXp);
+
+        int textX = clientProperties.xpStartW + 3;
+        int textY = xpStartH - 10;
+
+        client.textRenderer.drawWithShadow(stack, String.valueOf(playerProperties.xpLevel), textX, textY, config.otherBars.healthLevelsModXpColor);
+        DrawableHelper.fill(stack, clientProperties.xpStartW, xpStartH, clientProperties.xpEndW, xpEndH, config.backgroundColor);
+        DrawableHelper.fill(stack, clientProperties.xpStartW, xpStartH, relativeEndW, xpEndH, config.otherBars.healthLevelsModXpColor);
     }
 
     public void jumpBar(){

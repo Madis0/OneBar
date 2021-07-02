@@ -5,11 +5,13 @@
   "text.onebar.freeze": "f%s",
   "text.onebar.fire": "b%s×",
   "text.onebar.hardcore": "HC",
+  "text.onebar.hydrationMod": "t%s",
   "text.onebar.resistanceEmoji": "\u26E8%s%%",
   "text.onebar.airEmoji": "\u2B58%s",
   "text.onebar.freezeEmoji": "\u2744%s",
   "text.onebar.fireEmoji": "\uD83D\uDD25%s×",
   "text.onebar.hardcoreEmoji": "\u2620",
+  "text.onebar.hydrationModEmoji": "\u2660%s",
   "text.autoconfig.onebar.title": "OneBar configuration",
   "text.autoconfig.onebar.option.showOneBar": "Show OneBar",
   "text.autoconfig.onebar.option.healthEstimates": "Estimates for potion and natural effects",
@@ -50,5 +52,8 @@
   "text.autoconfig.onebar.option.otherBars.armorColor": "Armor color",
   "text.autoconfig.onebar.option.otherBars.heldFoodHungerBar": "Show how much will held food restore hunger (thin bar below OneBar)",
   "text.autoconfig.onebar.option.otherBars.heldFoodHungerWasteColor": "Held food restored hunger color: wasted",
-  "text.autoconfig.onebar.option.otherBars.heldFoodHungerGoodColor": "Held food restored hunger color: exact or less"
+  "text.autoconfig.onebar.option.otherBars.heldFoodHungerGoodColor": "Held food restored hunger color: exact or less",
+  "text.autoconfig.onebar.option.otherBars.hydrationModColor": "Hydration mod: thirst color",
+  "text.autoconfig.onebar.option.otherBars.hydrationModThirstColor": "Hydration mod: thirst effect color",
+  "text.autoconfig.onebar.option.otherBars.healthLevelsModXpColor": "Health levels mod: XP level/bar color"
 }

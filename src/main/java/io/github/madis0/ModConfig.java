@@ -85,5 +85,11 @@ public class ModConfig implements ConfigData {
         public int heldFoodHungerWasteColor = 0xA6FFB04C;
         @ConfigEntry.ColorPicker(allowAlpha = true)
         public int heldFoodHungerGoodColor = 0xBF76FF03;
+        @ConfigEntry.ColorPicker(allowAlpha = true)
+        public int hydrationModColor = 0xA642A5F5;
+        @ConfigEntry.ColorPicker(allowAlpha = true)
+        public int hydrationModThirstColor = 0xA6D4E157;
+        @ConfigEntry.ColorPicker(allowAlpha = true)
+        public int healthLevelsModXpColor = 0xFFE53935;
     }
 }
