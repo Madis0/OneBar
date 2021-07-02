@@ -53,10 +53,10 @@ public class OneBarElements {
 
     private void heldFoodBar(){
         if(playerProperties.hasHunger){
-            if(playerProperties.hunger >= clientProperties.heldFoodHunger)
-                DrawableHelper.fill(stack, clientProperties.baseRelativeStartW(clientProperties.heldFoodHunger, playerProperties.maxHunger), clientProperties.baseEndH, clientProperties.baseEndW, clientProperties.baseEndH + 1, config.otherBars.heldFoodHungerGoodColor);
+            if(playerProperties.hunger >= playerProperties.heldFoodHunger)
+                DrawableHelper.fill(stack, clientProperties.baseRelativeStartW(playerProperties.heldFoodHunger, playerProperties.maxHunger), clientProperties.baseEndH, clientProperties.baseEndW, clientProperties.baseEndH + 1, config.otherBars.heldFoodHungerGoodColor);
             else
-                DrawableHelper.fill(stack, clientProperties.baseRelativeStartW(clientProperties.heldFoodHunger, playerProperties.maxHunger), clientProperties.baseEndH, clientProperties.baseEndW, clientProperties.baseEndH + 1, config.otherBars.heldFoodHungerWasteColor);
+                DrawableHelper.fill(stack, clientProperties.baseRelativeStartW(playerProperties.heldFoodHunger, playerProperties.maxHunger), clientProperties.baseEndH, clientProperties.baseEndW, clientProperties.baseEndH + 1, config.otherBars.heldFoodHungerWasteColor);
 
         }
     }

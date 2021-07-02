@@ -6,12 +6,22 @@ import net.minecraft.entity.effect.StatusEffectInstance;
 import net.minecraft.entity.effect.StatusEffects;
 import net.minecraft.entity.player.HungerManager;
 import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.item.FoodComponent;
+import net.minecraft.item.ItemStack;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.world.Difficulty;
 
 import java.util.Objects;
 
 public class PlayerProperties {
+    public final boolean hasResistance;
+    public final boolean hasRegeneration;
+    public final boolean hasPoison;
+    public final boolean hasWither;
+    public final boolean hasFireResistance;
+    public final boolean hasWaterBreathing;
+    public final boolean hasHungerEffect;
+
     public final float rawHealth;
     public final float maxRawHealth;
     public final int health;
@@ -51,14 +61,7 @@ public class PlayerProperties {
     public int regenerationHealth;
     public int poisonHealth;
     public int witherHealth;
-    public final boolean hasResistance;
-    public final boolean hasRegeneration;
-    public final boolean hasPoison;
-    public final boolean hasWither;
-    public final boolean hasFireResistance;
-    public final boolean hasWaterBreathing;
 
-    public final boolean hasHungerEffect;
     public int hungerEffectSaturationLoss;
     public int hungerEffectEstimate;
     public int previousHungerEffectEstimate;
@@ -71,6 +74,9 @@ public class PlayerProperties {
     public final int xpLevel;
     public final int maxXp;
     public final int xp;
+
+    public int heldFoodHunger;
+
 
     public PlayerProperties(){
         PlayerEntity playerEntity = MinecraftClient.getInstance().player;
@@ -205,6 +211,15 @@ public class PlayerProperties {
         else {
             naturalRegenerationHealth = health;
             previousNaturalRegenerationHealth = naturalRegenerationHealth;
+        }
+
+        heldFoodHunger = 0;
+        ItemStack heldItem = Objects.requireNonNull(playerEntity).getMainHandStack();
+        if(!heldItem.isFood()) heldItem = playerEntity.getOffHandStack();
+
+        if(heldItem.isFood()){
+            FoodComponent itemFood = heldItem.getItem().getFoodComponent();
+            heldFoodHunger = Objects.requireNonNull(itemFood).getHunger();
         }
     }
 }

@@ -2,15 +2,11 @@ package io.github.madis0;
 
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.option.AttackIndicator;
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.item.FoodComponent;
-import net.minecraft.item.ItemStack;
 import net.minecraft.util.Arm;
 
 import java.util.Objects;
 
 public class ClientProperties {
-
     public final int baseStartW;
     public final int baseEndW;
     public final int baseStartH;
@@ -26,12 +22,10 @@ public class ClientProperties {
     public final int mountStartH;
     public final int mountEndH;
 
-    public int heldFoodHunger;
     public final boolean isHardcore;
 
     public ClientProperties(){
         MinecraftClient client = MinecraftClient.getInstance();
-        PlayerEntity playerEntity = client.player;
         int scaledWidth = client.getWindow().getScaledWidth();
         int scaledHeight = client.getWindow().getScaledHeight();
 
@@ -61,16 +55,7 @@ public class ClientProperties {
         mountStartH = baseStartH - 12;
         mountEndH = mountStartH + 9;
 
-        heldFoodHunger = 0;
-        ItemStack heldItem = Objects.requireNonNull(playerEntity).getMainHandStack();
-        if(!heldItem.isFood()) heldItem = playerEntity.getOffHandStack();
-
-        if(heldItem.isFood()){
-            FoodComponent itemFood = heldItem.getItem().getFoodComponent();
-            heldFoodHunger = Objects.requireNonNull(itemFood).getHunger();
-        }
-
-        isHardcore = playerEntity.world.getLevelProperties().isHardcore();
+        isHardcore = Objects.requireNonNull(client.world).getLevelProperties().isHardcore();
     }
 
     public int baseRelativeEndW(int value, int total){
