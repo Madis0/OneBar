@@ -1,5 +1,6 @@
 package io.github.madis0;
 
+import net.minecraft.block.Blocks;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.entity.effect.StatusEffectInstance;
 import net.minecraft.entity.effect.StatusEffects;
@@ -38,7 +39,6 @@ public class PlayerProperties {
 
     public final boolean isBurning;
     public final boolean isBurningOnFire;
-    public final int burnSource;
     public int burningMultiplier;
 
     public final int maxRawFreeze;
@@ -78,6 +78,13 @@ public class PlayerProperties {
         Difficulty difficulty = playerEntity.world.getDifficulty();
 
         // Player property calculations
+        hasResistance = playerEntity.hasStatusEffect(StatusEffects.RESISTANCE);
+        hasRegeneration = playerEntity.hasStatusEffect(StatusEffects.REGENERATION);
+        hasPoison = playerEntity.hasStatusEffect(StatusEffects.POISON);
+        hasWither = playerEntity.hasStatusEffect(StatusEffects.WITHER);
+        hasFireResistance = playerEntity.hasStatusEffect(StatusEffects.FIRE_RESISTANCE);
+        hasWaterBreathing = playerEntity.hasStatusEffect(StatusEffects.WATER_BREATHING) || playerEntity.hasStatusEffect(StatusEffects.CONDUIT_POWER);
+        hasHungerEffect = playerEntity.hasStatusEffect(StatusEffects.HUNGER) && !difficulty.equals(Difficulty.PEACEFUL);
 
         rawHealth = playerEntity.getHealth();
         maxRawHealth = playerEntity.getMaxHealth();
@@ -105,11 +112,12 @@ public class PlayerProperties {
         isSuffocating = playerEntity.isInsideWall();
 
         isBurning = playerEntity.doesRenderOnFire();
-        burnSource = playerEntity.getFireTicks();
-        if(burnSource == -20) burningMultiplier = 1;
-        if(burnSource == 1) burningMultiplier = 2;
-        if(burnSource == 0) burningMultiplier = 4;
-        isBurningOnFire = (burningMultiplier == 2 || burningMultiplier == 4);
+        int rawBurningSource = playerEntity.getFireTicks();
+        if(rawBurningSource == -20) burningMultiplier = 1;
+        if(rawBurningSource == 1) burningMultiplier = 2;
+        //TODO: Soul fire detection currently only works at the center of the block
+        if(rawBurningSource == 0 || playerEntity.world.getBlockState(playerEntity.getBlockPos()).isOf(Blocks.SOUL_FIRE)) burningMultiplier = 4;
+        isBurningOnFire = (burningMultiplier == 2 || burningMultiplier == 4) && !hasFireResistance;
 
         maxRawFreeze = playerEntity.getMinFreezeDamageTicks();
         rawFreeze = playerEntity.getFrozenTicks();
@@ -198,13 +206,5 @@ public class PlayerProperties {
             naturalRegenerationHealth = health;
             previousNaturalRegenerationHealth = naturalRegenerationHealth;
         }
-
-        hasResistance = playerEntity.hasStatusEffect(StatusEffects.RESISTANCE);
-        hasRegeneration = playerEntity.hasStatusEffect(StatusEffects.REGENERATION);
-        hasPoison = playerEntity.hasStatusEffect(StatusEffects.POISON);
-        hasWither = playerEntity.hasStatusEffect(StatusEffects.WITHER);
-        hasFireResistance = playerEntity.hasStatusEffect(StatusEffects.FIRE_RESISTANCE);
-        hasWaterBreathing = playerEntity.hasStatusEffect(StatusEffects.WATER_BREATHING) || playerEntity.hasStatusEffect(StatusEffects.CONDUIT_POWER);
-        hasHungerEffect = playerEntity.hasStatusEffect(StatusEffects.HUNGER) && !difficulty.equals(Difficulty.PEACEFUL);
     }
 }
