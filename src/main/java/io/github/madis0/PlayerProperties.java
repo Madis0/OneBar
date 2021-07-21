@@ -1,6 +1,5 @@
 package io.github.madis0;
 
-import net.minecraft.block.Blocks;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.entity.effect.StatusEffectInstance;
 import net.minecraft.entity.effect.StatusEffects;
@@ -49,6 +48,7 @@ public class PlayerProperties {
 
     public final boolean isBurning;
     public final boolean isBurningOnFire;
+    public static boolean isBurningOnSoulFire;
     public int burningMultiplier;
 
     public final int maxRawFreeze;
@@ -76,7 +76,6 @@ public class PlayerProperties {
     public final int xp;
 
     public int heldFoodHunger;
-
 
     public PlayerProperties(){
         PlayerEntity playerEntity = MinecraftClient.getInstance().player;
@@ -119,10 +118,13 @@ public class PlayerProperties {
 
         isBurning = playerEntity.doesRenderOnFire();
         int rawBurningSource = playerEntity.getFireTicks();
+
+        // Reset soul fire state if burning state changes
+        if(rawBurningSource != 1) isBurningOnSoulFire = false;
+
         if(rawBurningSource == -20) burningMultiplier = 1;
         if(rawBurningSource == 1) burningMultiplier = 2;
-        //TODO: Soul fire detection currently only works at the center of the block
-        if(rawBurningSource == 0 || playerEntity.world.getBlockState(playerEntity.getBlockPos()).isOf(Blocks.SOUL_FIRE)) burningMultiplier = 4;
+        if(rawBurningSource == 0 || isBurningOnSoulFire) burningMultiplier = 4;
         isBurningOnFire = (burningMultiplier == 2 || burningMultiplier == 4) && !hasFireResistance;
 
         maxRawFreeze = playerEntity.getMinFreezeDamageTicks();
@@ -221,5 +223,9 @@ public class PlayerProperties {
             FoodComponent itemFood = heldItem.getItem().getFoodComponent();
             heldFoodHunger = Objects.requireNonNull(itemFood).getHunger();
         }
+    }
+
+    public static void SetPlayerBurningOnSoulFire(boolean isBurning){
+        isBurningOnSoulFire = isBurning;
     }
 }
