@@ -52,6 +52,7 @@ public class OneBarElements {
     }
 
     private void heldFoodBar(){
+        //TODO: needs saturation logic as well
         if(playerProperties.hasHunger){
             if(playerProperties.hunger >= playerProperties.heldFoodHunger)
                 DrawableHelper.fill(stack, clientProperties.baseRelativeStartW(playerProperties.heldFoodHunger, playerProperties.maxHunger), clientProperties.baseEndH, clientProperties.baseEndW, clientProperties.baseEndH + 1, config.otherBars.heldFoodHungerGoodColor);
@@ -174,7 +175,7 @@ public class OneBarElements {
             if (playerProperties.hasHungerEffect && config.healthEstimates && config.textSettings.estimatesParentheses)
                 value += "(";
             if (playerProperties.hasHunger || (playerProperties.hasHungerEffect && config.healthEstimates))
-                value += Calculations.MakeFraction(playerProperties.hunger, false);
+                value += playerProperties.hungerSaturationMerge;
             if (playerProperties.hasHunger && playerProperties.saturation < 1 && config.badThings.showHungerDecreasing)
                 value += "↓";
             if (playerProperties.hasHungerEffect && config.healthEstimates)
