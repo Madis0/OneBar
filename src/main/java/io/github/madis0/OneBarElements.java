@@ -93,7 +93,7 @@ public class OneBarElements {
     }
 
     private void hungerBar(){
-        DrawableHelper.fill(stack, clientProperties.baseRelativeStartW(playerProperties.hunger, playerProperties.maxHunger), clientProperties.baseStartH, clientProperties.baseEndW, clientProperties.baseEndH, config.badThings.hungerColor);
+        DrawableHelper.fill(stack, clientProperties.baseRelativeStartW(Calculations.GetPreciseInt(playerProperties.hungerSaturationMerge), playerProperties.maxHungerSaturation * 10000), clientProperties.baseStartH, clientProperties.baseEndW, clientProperties.baseEndH, config.badThings.hungerColor);
     }
 
     private void airBar(){
