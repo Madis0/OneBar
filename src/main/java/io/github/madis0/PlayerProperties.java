@@ -39,6 +39,7 @@ public class PlayerProperties {
     public final float rawSaturation;
     public final int saturation;
     public final int saturationLoss;
+    public final boolean hasSaturation;
 
     public final int maxRawAir;
     public final int rawAir;
@@ -106,11 +107,12 @@ public class PlayerProperties {
         maxHunger = 20;
         foodLevel = hungerManager.getFoodLevel();
         hunger = maxHunger - foodLevel;
+        hasHunger = hunger > 0;
         isStarving = hunger >= maxHunger;
         rawSaturation = hungerManager.getSaturationLevel();
         saturation = MathHelper.ceil(rawSaturation);
         saturationLoss = maxHunger - saturation;
-        hasHunger = hunger > 0;
+        hasSaturation = saturation > 0;
 
 
         maxRawAir = playerEntity.getMaxAir();

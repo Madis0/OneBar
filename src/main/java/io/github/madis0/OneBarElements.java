@@ -38,6 +38,7 @@ public class OneBarElements {
             airBar();
             xpBar();
             barText();
+            if(config.otherBars.saturationBar) saturationBar();
             if(config.otherBars.heldFoodHungerBar) heldFoodBar();
             if(config.otherBars.showArmorBar) armorBar();
         }
@@ -49,6 +50,11 @@ public class OneBarElements {
 
     private void armorBar(){
         DrawableHelper.fill(stack, clientProperties.baseStartW, clientProperties.baseStartH - 1, clientProperties.baseRelativeEndW(playerProperties.armor, playerProperties.maxArmor), clientProperties.baseStartH, config.otherBars.armorColor);
+    }
+
+    private void saturationBar(){
+        if(config.otherBars.saturationThin) DrawableHelper.fill(stack, clientProperties.baseStartW, clientProperties.baseEndH, clientProperties.baseRelativeEndW(playerProperties.saturation, playerProperties.maxHunger), clientProperties.baseEndH + 1, config.otherBars.saturationColor);
+        else DrawableHelper.fill(stack, clientProperties.baseStartW, clientProperties.baseStartH, clientProperties.baseRelativeEndW(playerProperties.saturation, playerProperties.maxHunger), clientProperties.baseEndH, config.otherBars.saturationColor);
     }
 
     private void heldFoodBar(){
@@ -157,6 +163,8 @@ public class OneBarElements {
         if(config.textSettings.showText) { // Separated if because order matters
             if (playerProperties.hasResistance && config.goodThings.showResistance)
                 value += "+" + new TranslatableText(config.textSettings.useEmoji ? "text.onebar.resistanceEmoji" : "text.onebar.resistance", playerProperties.resistancePercent).getString();
+            if (playerProperties.hasSaturation && config.otherBars.saturationBar)
+                value += "+" + new TranslatableText(config.textSettings.useEmoji ? "text.onebar.saturationEmoji" : "text.onebar.saturation", playerProperties.saturation).getString();
 
             // Subtractive values
 

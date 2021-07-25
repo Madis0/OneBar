@@ -80,6 +80,10 @@ public class ModConfig implements ConfigData {
         public boolean showArmorBar = true;
         @ConfigEntry.ColorPicker(allowAlpha = true)
         public int armorColor = 0xA6FFFFFF;
+        public boolean saturationBar = true; //TODO: opt-in and translate
+        public boolean saturationThin = true; //TODO: remove
+        @ConfigEntry.ColorPicker(allowAlpha = true)
+        public int saturationColor = 0xA6F9A825;
         public boolean heldFoodHungerBar = true;
         @ConfigEntry.ColorPicker(allowAlpha = true)
         public int heldFoodHungerWasteColor = 0xA6FFB04C;
