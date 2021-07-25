@@ -53,13 +53,12 @@ The mod only uses client-side data, so it is never needed on a server. There are
 
 #### Others
 
+* Experience points - level count and bar to the right of hotbar
 * Mount health - orange bar above OneBar, similar style
 * Horse jump - brown vertical bar below crosshair
 * Armor - white bar above OneBar for you and your horse, no number
+* Saturation - optional orange bar below OneBar, no number
 * Held food restored hunger bar - orange (wasted) or green (exact/less) bar below OneBar, no number (similar to AppleSkin)
-* Experience points - level count and bar to the right of hotbar
-* Vanilla-like fractions (optional) - shows values like vanilla hearts, e.g. 9,5 instead of 19
-* Zero saturation (optional) - no bar, **↓** - shows when saturation is 0 and hunger will decrease with activity
 
 ¹ Best-guess estimate based on what the client knows at the time, can change by some server-side values and natural occurrences. Can be disabled in options.
 
