@@ -78,7 +78,9 @@ public class PlayerProperties {
     public final int maxXp;
     public final int xp;
 
+    public boolean isHoldingFood;
     public int heldFoodHunger;
+    public int heldFoodHungerEstimate;
 
     public PlayerProperties(){
         PlayerEntity playerEntity = MinecraftClient.getInstance().player;
@@ -113,7 +115,6 @@ public class PlayerProperties {
         saturation = MathHelper.ceil(rawSaturation);
         saturationLoss = maxHunger - saturation;
         hasSaturation = saturation > 0;
-
 
         maxRawAir = playerEntity.getMaxAir();
         rawAir = maxRawAir - playerEntity.getAir();
@@ -227,9 +228,15 @@ public class PlayerProperties {
         if(!heldItem.isFood()) heldItem = playerEntity.getOffHandStack();
 
         if(heldItem.isFood()){
+            isHoldingFood = true;
             FoodComponent itemFood = heldItem.getItem().getFoodComponent();
             heldFoodHunger = Objects.requireNonNull(itemFood).getHunger();
         }
+        else {
+            isHoldingFood = false;
+        }
+
+        heldFoodHungerEstimate = hunger - heldFoodHunger;
     }
 
     public static void SetPlayerBurningOnSoulFire(boolean isBurning){

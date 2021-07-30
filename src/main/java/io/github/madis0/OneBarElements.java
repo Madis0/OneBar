@@ -60,9 +60,9 @@ public class OneBarElements {
         //TODO: rethink for hunger, health and saturation display
         if(playerProperties.hasHunger){
             if(playerProperties.hunger >= playerProperties.heldFoodHunger)
-                DrawableHelper.fill(stack, clientProperties.baseRelativeStartW(playerProperties.heldFoodHunger, playerProperties.maxHunger), clientProperties.baseEndH, clientProperties.baseEndW, clientProperties.baseEndH + 1, config.otherBars.heldFoodHungerGoodColor);
+                DrawableHelper.fill(stack, clientProperties.baseRelativeStartW(playerProperties.heldFoodHunger, playerProperties.maxHunger), clientProperties.baseStartH, clientProperties.baseEndW, clientProperties.baseEndH, config.otherBars.heldFoodHungerGoodColor);
             else
-                DrawableHelper.fill(stack, clientProperties.baseRelativeStartW(playerProperties.heldFoodHunger, playerProperties.maxHunger), clientProperties.baseEndH, clientProperties.baseEndW, clientProperties.baseEndH + 1, config.otherBars.heldFoodHungerWasteColor);
+                DrawableHelper.fill(stack, clientProperties.baseRelativeStartW(playerProperties.heldFoodHunger, playerProperties.maxHunger), clientProperties.baseStartH, clientProperties.baseEndW, clientProperties.baseEndH, config.otherBars.heldFoodHungerWasteColor);
 
         }
     }
@@ -117,15 +117,17 @@ public class OneBarElements {
 
     private void barText(){
         String value = "";
-        boolean showParentheses = config.textSettings.estimatesParentheses &&
+        boolean showHealthParentheses = config.textSettings.estimatesParentheses &&
                 (playerProperties.hasHunger || playerProperties.hasHungerEffect || playerProperties.isUnderwater || playerProperties.isFreezing || playerProperties.isBurning || playerProperties.hasAbsorption || (playerProperties.hasResistance && config.goodThings.showResistance)) &&
                 ((playerProperties.naturalRegenerationHealth > playerProperties.health && !config.uhcMode) || playerProperties.hasRegeneration || playerProperties.isStarving || playerProperties.hasPoison || playerProperties.hasWither || playerProperties.isGettingFreezeDamage || playerProperties.isBurningOnFire || playerProperties.isDrowning || playerProperties.isSuffocating);
-        
+
+        boolean showHungerParentheses = config.textSettings.estimatesParentheses && config.healthEstimates && (playerProperties.hasHungerEffect || (playerProperties.hasHunger && playerProperties.isHoldingFood && config.otherBars.heldFoodHungerBar));
+
         if(config.textSettings.showText) {
 
             // Health values
 
-            if (config.healthEstimates && showParentheses)
+            if (config.healthEstimates && showHealthParentheses)
                 value += "(";
 
             value += Calculations.MakeFraction(playerProperties.health, false);
@@ -149,7 +151,7 @@ public class OneBarElements {
                     value += "→" + Calculations.MakeFraction(0, config.textSettings.estimatesItalic);
                 if (playerProperties.isSuffocating)
                     value += "→" + Calculations.MakeFraction(0, config.textSettings.estimatesItalic);
-                if (showParentheses)
+                if (showHealthParentheses)
                     value += ")";
             }
         }
@@ -177,7 +179,7 @@ public class OneBarElements {
                 value += "-§m" + new TranslatableText(config.textSettings.useEmoji ? "text.onebar.fireEmoji" : "text.onebar.fire", playerProperties.burningMultiplier).getString() + "§r";
             if (playerProperties.hasHunger || (playerProperties.hasHungerEffect && config.healthEstimates))
                 value += "-";
-            if (playerProperties.hasHungerEffect && config.healthEstimates && config.textSettings.estimatesParentheses)
+            if (showHungerParentheses)
                 value += "(";
             if (playerProperties.hasHunger || (playerProperties.hasHungerEffect && config.healthEstimates))
                 value += Calculations.MakeFraction(playerProperties.hunger, false);
@@ -185,7 +187,9 @@ public class OneBarElements {
                 value += "↓";
             if (playerProperties.hasHungerEffect && config.healthEstimates)
                 value += "→" + Calculations.MakeFraction(playerProperties.hungerEffectEstimate, config.textSettings.estimatesItalic);
-            if (playerProperties.hasHungerEffect && config.healthEstimates && config.textSettings.estimatesParentheses)
+            if (playerProperties.hasHunger && playerProperties.isHoldingFood && config.otherBars.heldFoodHungerBar)
+                value += "→" + Calculations.MakeFraction(playerProperties.heldFoodHungerEstimate, config.textSettings.estimatesItalic);
+            if (showHungerParentheses)
                 value += ")";
         }
 
