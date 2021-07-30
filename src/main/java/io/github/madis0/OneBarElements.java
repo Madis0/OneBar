@@ -37,10 +37,10 @@ public class OneBarElements {
             freezeBar();
             airBar();
             xpBar();
-            barText();
-            if(config.otherBars.showSaturationBar) saturationBar();
             if(config.otherBars.heldFoodHungerBar) heldFoodBar();
+            barText();
             if(config.otherBars.showArmorBar) armorBar();
+            if(config.otherBars.showSaturationBar) saturationBar();
         }
     }
 
@@ -123,74 +123,83 @@ public class OneBarElements {
 
         boolean showHungerParentheses = config.textSettings.estimatesParentheses && config.healthEstimates && (playerProperties.hasHungerEffect || (playerProperties.hasHunger && playerProperties.isHoldingFood && config.otherBars.heldFoodHungerBar));
 
+        String arrowRight = "→";
+        String arrowDown = "↓";
+        String plus = "+";
+        String minus = "-";
+        String para = "§";
+        String pStart = "(";
+        String pEnd = ")";
+
         if(config.textSettings.showText) {
 
             // Health values
 
             if (config.healthEstimates && showHealthParentheses)
-                value += "(";
+                value += pStart;
 
             value += Calculations.MakeFraction(playerProperties.health, false);
 
             if(config.healthEstimates){
                 if (playerProperties.naturalRegenerationHealth > playerProperties.health && !config.uhcMode)
-                    value += "→" + Calculations.MakeFraction(playerProperties.naturalRegenerationHealth, config.textSettings.estimatesItalic);
+                    value += arrowRight + Calculations.MakeFraction(playerProperties.naturalRegenerationHealth, config.textSettings.estimatesItalic);
                 if (playerProperties.hasRegeneration)
-                    value += "→" + Calculations.MakeFraction(playerProperties.regenerationHealth, config.textSettings.estimatesItalic);
+                    value += arrowRight + Calculations.MakeFraction(playerProperties.regenerationHealth, config.textSettings.estimatesItalic);
                 if (playerProperties.isStarving)
-                    value += "→" + Calculations.MakeFraction(playerProperties.starvationHealthEstimate, config.textSettings.estimatesItalic);
+                    value += arrowRight + Calculations.MakeFraction(playerProperties.starvationHealthEstimate, config.textSettings.estimatesItalic);
                 if (playerProperties.hasPoison)
-                    value += "→" + Calculations.MakeFraction(playerProperties.poisonHealth, config.textSettings.estimatesItalic);
+                    value += arrowRight + Calculations.MakeFraction(playerProperties.poisonHealth, config.textSettings.estimatesItalic);
                 if (playerProperties.hasWither)
-                    value += "→" + Calculations.MakeFraction(playerProperties.witherHealth, config.textSettings.estimatesItalic);
+                    value += arrowRight + Calculations.MakeFraction(playerProperties.witherHealth, config.textSettings.estimatesItalic);
                 if (playerProperties.isGettingFreezeDamage)
-                    value += "→" + Calculations.MakeFraction(0, config.textSettings.estimatesItalic);
+                    value += arrowRight + Calculations.MakeFraction(0, config.textSettings.estimatesItalic);
                 if (playerProperties.isBurningOnFire)
-                    value += "→" + Calculations.MakeFraction(0, config.textSettings.estimatesItalic);
+                    value += arrowRight + Calculations.MakeFraction(0, config.textSettings.estimatesItalic);
                 if (playerProperties.isDrowning)
-                    value += "→" + Calculations.MakeFraction(0, config.textSettings.estimatesItalic);
+                    value += arrowRight + Calculations.MakeFraction(0, config.textSettings.estimatesItalic);
                 if (playerProperties.isSuffocating)
-                    value += "→" + Calculations.MakeFraction(0, config.textSettings.estimatesItalic);
+                    value += arrowRight + Calculations.MakeFraction(0, config.textSettings.estimatesItalic);
                 if (showHealthParentheses)
-                    value += ")";
+                    value += pEnd;
             }
         }
 
         // Additive values
 
         if (playerProperties.hasAbsorption)
-            value += "+" + Calculations.MakeFraction(playerProperties.absorption, false);
+            value += plus + Calculations.MakeFraction(playerProperties.absorption, false);
 
         if(config.textSettings.showText) { // Separated if because order matters
             if (playerProperties.hasResistance && config.goodThings.showResistance)
-                value += "+" + new TranslatableText(config.textSettings.useEmoji ? "text.onebar.resistanceEmoji" : "text.onebar.resistance", playerProperties.resistancePercent).getString();
+                value += plus + new TranslatableText(config.textSettings.useEmoji ? "text.onebar.resistanceEmoji" : "text.onebar.resistance", playerProperties.resistancePercent).getString();
 
             // Subtractive values
 
             if (playerProperties.isUnderwater && !playerProperties.hasWaterBreathing)
-                value += "-" + new TranslatableText(config.textSettings.useEmoji ? "text.onebar.airEmoji" : "text.onebar.air", Calculations.MakeFraction(playerProperties.air, false)).getString();
+                value += minus + new TranslatableText(config.textSettings.useEmoji ? "text.onebar.airEmoji" : "text.onebar.air", Calculations.MakeFraction(playerProperties.air, false)).getString();
             if (playerProperties.isUnderwater && playerProperties.hasWaterBreathing)
-                value += "-§m" + new TranslatableText(config.textSettings.useEmoji ? "text.onebar.airEmoji" : "text.onebar.air", Calculations.MakeFraction(playerProperties.air, false)).getString() + "§r";
+                value += minus + para + "m" + new TranslatableText(config.textSettings.useEmoji ? "text.onebar.airEmoji" : "text.onebar.air", Calculations.MakeFraction(playerProperties.air, false)).getString() + para + "r";
             if (playerProperties.isFreezing)
-                value += "-" + new TranslatableText(config.textSettings.useEmoji ? "text.onebar.freezeEmoji" : "text.onebar.freeze", Calculations.MakeFraction(playerProperties.freeze, false)).getString();
+                value += minus + new TranslatableText(config.textSettings.useEmoji ? "text.onebar.freezeEmoji" : "text.onebar.freeze", Calculations.MakeFraction(playerProperties.freeze, false)).getString();
             if (playerProperties.isBurning && !playerProperties.hasFireResistance && config.badThings.showFire)
-                value += "-" + new TranslatableText(config.textSettings.useEmoji ? "text.onebar.fireEmoji" : "text.onebar.fire", playerProperties.burningMultiplier).getString();
+                value += minus + new TranslatableText(config.textSettings.useEmoji ? "text.onebar.fireEmoji" : "text.onebar.fire", playerProperties.burningMultiplier).getString();
             if (playerProperties.isBurning && playerProperties.hasFireResistance && config.badThings.showFire)
-                value += "-§m" + new TranslatableText(config.textSettings.useEmoji ? "text.onebar.fireEmoji" : "text.onebar.fire", playerProperties.burningMultiplier).getString() + "§r";
+                value += minus + para + "m" + new TranslatableText(config.textSettings.useEmoji ? "text.onebar.fireEmoji" : "text.onebar.fire", playerProperties.burningMultiplier).getString() + para + "r";
             if (playerProperties.hasHunger || (playerProperties.hasHungerEffect && config.healthEstimates))
-                value += "-";
+                value += minus;
+
             if (showHungerParentheses)
-                value += "(";
+                value += pStart;
             if (playerProperties.hasHunger || (playerProperties.hasHungerEffect && config.healthEstimates))
                 value += Calculations.MakeFraction(playerProperties.hunger, false);
             if (playerProperties.hasHunger && playerProperties.saturation < 1 && config.badThings.showHungerDecreasing)
-                value += "↓";
+                value += arrowDown;
             if (playerProperties.hasHungerEffect && config.healthEstimates)
-                value += "→" + Calculations.MakeFraction(playerProperties.hungerEffectEstimate, config.textSettings.estimatesItalic);
+                value += arrowRight + Calculations.MakeFraction(playerProperties.hungerEffectEstimate, config.textSettings.estimatesItalic);
             if (playerProperties.hasHunger && playerProperties.isHoldingFood && config.otherBars.heldFoodHungerBar)
-                value += "→" + Calculations.MakeFraction(playerProperties.heldFoodHungerEstimate, config.textSettings.estimatesItalic);
+                value += arrowRight + Calculations.MakeFraction(playerProperties.heldFoodHungerEstimate, config.textSettings.estimatesItalic);
             if (showHungerParentheses)
-                value += ")";
+                value += pEnd;
         }
 
         if (clientProperties.isHardcore)

@@ -15,8 +15,7 @@ public class Calculations {
     }
 
     public static int GetPreciseInt(float number){
-        float precision = 10000.0F;
-        return MathHelper.ceil(number * precision);
+        return MathHelper.ceil(number * 10000.0F);
     }
 
     public static String MakeFraction(int number, boolean italic){
@@ -27,6 +26,9 @@ public class Calculations {
             result = df.format((float) number / 2);
         else
             result = String.valueOf(number);
+
+        // Replace minus with hyphen (\u8208) to make it 2 px shorter and therefore more aesthetic
+        if(number < 0) result = result.replace("-", "‐");
 
         if(italic)
             result = "§o" + result + "§r";
