@@ -31,7 +31,7 @@ public class PlayerProperties {
     public final int maxArmor;
     public final int armor;
 
-    public final int maxHunger;
+    public final int maxFoodLevel;
     public final int foodLevel;
     public final int hunger;
     public final boolean hasHunger;
@@ -106,14 +106,14 @@ public class PlayerProperties {
         maxArmor = 20;
         armor = playerEntity.getArmor();
 
-        maxHunger = 20;
+        maxFoodLevel = 20;
         foodLevel = hungerManager.getFoodLevel();
-        hunger = maxHunger - foodLevel;
+        hunger = maxFoodLevel - foodLevel;
         hasHunger = hunger > 0;
-        isStarving = hunger >= maxHunger;
+        isStarving = hunger >= maxFoodLevel;
         rawSaturation = hungerManager.getSaturationLevel();
         saturation = MathHelper.ceil(rawSaturation);
-        saturationLoss = maxHunger - saturation;
+        saturationLoss = maxFoodLevel - saturation;
         hasSaturation = saturation > 0;
 
         maxRawAir = playerEntity.getMaxAir();
@@ -187,7 +187,7 @@ public class PlayerProperties {
             hungerEffectSaturationLoss = (int) Math.ceil(hungerEffectExhaustionLoss / (float)4);
 
             if ((hunger + hungerEffectSaturationLoss) != (previousHungerEffectEstimate - 1)) {
-                hungerEffectEstimate = Math.max(Math.min(hunger + hungerEffectSaturationLoss, maxHunger), 0);
+                hungerEffectEstimate = Math.max(Math.min(hunger + hungerEffectSaturationLoss, maxFoodLevel), 0);
                 previousHungerEffectEstimate = hungerEffectEstimate;
             }
         }

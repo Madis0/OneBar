@@ -53,14 +53,16 @@ public class OneBarElements {
     }
 
     private void saturationBar(){
-        DrawableHelper.fill(stack, clientProperties.baseStartW, clientProperties.baseEndH, clientProperties.baseRelativeEndW(playerProperties.saturation, playerProperties.maxHunger), clientProperties.baseEndH + 1, config.otherBars.saturationColor);
+        DrawableHelper.fill(stack, clientProperties.baseStartW, clientProperties.baseEndH, clientProperties.baseRelativeEndW(playerProperties.saturation, playerProperties.maxFoodLevel), clientProperties.baseEndH + 1, config.otherBars.saturationColor);
     }
 
     private void heldFoodBar(){
         //TODO: rethink for hunger, health and saturation display
         if(playerProperties.hasHunger){
-            int color = playerProperties.hunger >= playerProperties.heldFoodHunger ? config.otherBars.heldFoodHungerGoodColor : config.otherBars.heldFoodHungerWasteColor;
-            DrawableHelper.fill(stack, clientProperties.baseRelativeStartW(playerProperties.heldFoodHunger, playerProperties.maxHunger), clientProperties.baseStartH, clientProperties.baseEndW, clientProperties.baseEndH, color);
+            if(playerProperties.heldFoodHungerEstimate >= 0)
+                DrawableHelper.fill(stack, clientProperties.baseRelativeStartW(playerProperties.hunger, playerProperties.maxFoodLevel), clientProperties.baseStartH, clientProperties.baseRelativeEndW(playerProperties.maxFoodLevel - playerProperties.heldFoodHungerEstimate, playerProperties.maxFoodLevel), clientProperties.baseEndH, config.otherBars.heldFoodHungerGoodColor);
+            else // Wasted food
+                DrawableHelper.fill(stack, clientProperties.baseRelativeStartW(playerProperties.heldFoodHunger, playerProperties.maxFoodLevel), clientProperties.baseStartH, clientProperties.baseEndW, clientProperties.baseEndH, config.otherBars.heldFoodHungerWasteColor);
         }
     }
 
@@ -90,12 +92,12 @@ public class OneBarElements {
 
     private void hungerEffectBar(){
         if (playerProperties.hungerEffectEstimate > playerProperties.hunger && !difficulty.equals(Difficulty.PEACEFUL)){
-            DrawableHelper.fill(stack, clientProperties.baseRelativeStartW(playerProperties.hungerEffectEstimate, playerProperties.maxHunger), clientProperties.baseStartH, clientProperties.baseEndW, clientProperties.baseEndH, config.badThings.hungerEffectColor);
+            DrawableHelper.fill(stack, clientProperties.baseRelativeStartW(playerProperties.hungerEffectEstimate, playerProperties.maxFoodLevel), clientProperties.baseStartH, clientProperties.baseEndW, clientProperties.baseEndH, config.badThings.hungerEffectColor);
         }
     }
 
     private void hungerBar(){
-        DrawableHelper.fill(stack, clientProperties.baseRelativeStartW(playerProperties.hunger, playerProperties.maxHunger), clientProperties.baseStartH, clientProperties.baseEndW, clientProperties.baseEndH, config.badThings.hungerColor);
+        DrawableHelper.fill(stack, clientProperties.baseRelativeStartW(playerProperties.hunger, playerProperties.maxFoodLevel), clientProperties.baseStartH, clientProperties.baseEndW, clientProperties.baseEndH, config.badThings.hungerColor);
     }
 
     private void airBar(){
