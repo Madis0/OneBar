@@ -27,8 +27,8 @@ public class Calculations {
         else
             result = String.valueOf(number);
 
-        // Replace minus with hyphen (\u8208) to make it 2 px shorter and therefore more aesthetic
-        if(number < 0) result = result.replace("-", "‐");
+        if(number < 0) // Replace minus with hyphen (\u8208) to make it 2 px shorter and therefore more aesthetic
+            result = result.replace("-", "‐");
 
         if(italic)
             result = "§o" + result + "§r";

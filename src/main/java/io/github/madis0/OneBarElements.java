@@ -59,11 +59,8 @@ public class OneBarElements {
     private void heldFoodBar(){
         //TODO: rethink for hunger, health and saturation display
         if(playerProperties.hasHunger){
-            if(playerProperties.hunger >= playerProperties.heldFoodHunger)
-                DrawableHelper.fill(stack, clientProperties.baseRelativeStartW(playerProperties.heldFoodHunger, playerProperties.maxHunger), clientProperties.baseStartH, clientProperties.baseEndW, clientProperties.baseEndH, config.otherBars.heldFoodHungerGoodColor);
-            else
-                DrawableHelper.fill(stack, clientProperties.baseRelativeStartW(playerProperties.heldFoodHunger, playerProperties.maxHunger), clientProperties.baseStartH, clientProperties.baseEndW, clientProperties.baseEndH, config.otherBars.heldFoodHungerWasteColor);
-
+            int color = playerProperties.hunger >= playerProperties.heldFoodHunger ? config.otherBars.heldFoodHungerGoodColor : config.otherBars.heldFoodHungerWasteColor;
+            DrawableHelper.fill(stack, clientProperties.baseRelativeStartW(playerProperties.heldFoodHunger, playerProperties.maxHunger), clientProperties.baseStartH, clientProperties.baseEndW, clientProperties.baseEndH, color);
         }
     }
 
@@ -125,6 +122,7 @@ public class OneBarElements {
 
         String arrowRight = "→";
         String arrowDown = "↓";
+        String arrowUpRight = client.options.forceUnicodeFont ? "↱" : "┎⏵";
         String plus = "+";
         String minus = "-";
         String para = "§";
@@ -197,7 +195,7 @@ public class OneBarElements {
             if (playerProperties.hasHungerEffect && config.healthEstimates)
                 value += arrowRight + Calculations.MakeFraction(playerProperties.hungerEffectEstimate, config.textSettings.estimatesItalic);
             if (playerProperties.hasHunger && playerProperties.isHoldingFood && config.otherBars.heldFoodHungerBar)
-                value += arrowRight + Calculations.MakeFraction(playerProperties.heldFoodHungerEstimate, config.textSettings.estimatesItalic);
+                value += arrowUpRight + Calculations.MakeFraction(playerProperties.heldFoodHungerEstimate, config.textSettings.estimatesItalic);
             if (showHungerParentheses)
                 value += pEnd;
         }
