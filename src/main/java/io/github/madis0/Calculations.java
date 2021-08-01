@@ -54,4 +54,9 @@ public class Calculations {
         int newHealth = currentHealth - removedHealth;
         return Math.max(newHealth, minHealth);
     }
+
+    public static int GetNaturalRegenAddition(float rawSaturation, int hunger){
+        // Approximate formula for calculating regeneration addition health: saturation + (2.5 - hunger) * exhaustion max / 6 exhaustion per healed heart
+        return MathHelper.ceil(((rawSaturation + (float)(2.5 - hunger)) * (float)4 / (float)6));
+    }
 }

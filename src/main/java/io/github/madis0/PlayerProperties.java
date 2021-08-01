@@ -13,6 +13,8 @@ import net.minecraft.world.Difficulty;
 import java.util.Objects;
 
 public class PlayerProperties {
+    Difficulty difficulty;
+
     public final boolean hasResistance;
     public final boolean hasRegeneration;
     public final boolean hasPoison;
@@ -32,12 +34,14 @@ public class PlayerProperties {
     public final int armor;
 
     public final int maxFoodLevel;
+    public final float maxFoodLevelRaw;
     public final int foodLevel;
     public final int hunger;
     public final boolean hasHunger;
     public final boolean isStarving;
     public final float rawSaturation;
     public final int saturation;
+    public float saturationPlusTwo;
     public final int saturationLoss;
     public final boolean hasSaturation;
 
@@ -71,8 +75,9 @@ public class PlayerProperties {
     public int starvationHealthEstimate;
 
     public int naturalRegenerationAddition;
+    //public float naturalRegenerationHealthRaw;
     public int naturalRegenerationHealth;
-    public int previousNaturalRegenerationHealth;
+    public float previousNaturalRegenerationHealth;
 
     public final int xpLevel;
     public final int maxXp;
@@ -81,11 +86,15 @@ public class PlayerProperties {
     public boolean isHoldingFood;
     public int heldFoodHunger;
     public int heldFoodHungerEstimate;
+    public float heldFoodSaturation;
+    public float heldFoodSaturationEstimate;
+    //public float heldFoodHealthEstimateRaw;
+    public int heldFoodHealthEstimate;
 
     public PlayerProperties(){
         PlayerEntity playerEntity = MinecraftClient.getInstance().player;
         HungerManager hungerManager = Objects.requireNonNull(playerEntity).getHungerManager();
-        Difficulty difficulty = playerEntity.world.getDifficulty();
+        difficulty = playerEntity.world.getDifficulty();
 
         // Player property calculations
         hasResistance = playerEntity.hasStatusEffect(StatusEffects.RESISTANCE);
@@ -107,12 +116,14 @@ public class PlayerProperties {
         armor = playerEntity.getArmor();
 
         maxFoodLevel = 20;
+        maxFoodLevelRaw = (float)maxFoodLevel; // Used for saturation calculations
         foodLevel = hungerManager.getFoodLevel();
         hunger = maxFoodLevel - foodLevel;
         hasHunger = hunger > 0;
         isStarving = hunger >= maxFoodLevel;
         rawSaturation = hungerManager.getSaturationLevel();
         saturation = MathHelper.ceil(rawSaturation);
+        saturationPlusTwo = hunger < 3 ? rawSaturation + hunger : rawSaturation;
         saturationLoss = maxFoodLevel - saturation;
         hasSaturation = saturation > 0;
 
@@ -207,11 +218,10 @@ public class PlayerProperties {
 
         naturalRegenerationAddition = 0;
         if(health < maxHealth){
-            // Approximate formula for calculating regeneration addition health: saturation + (2.5 - hunger) * exhaustion max / 6 exhaustion per healed heart
             if (hunger < 3 && !difficulty.equals(Difficulty.PEACEFUL))
-                naturalRegenerationAddition = MathHelper.ceil((((float)saturation + (float)(2.5 - hunger)) * (float)4 / (float)6));
+                naturalRegenerationAddition = Calculations.GetNaturalRegenAddition(rawSaturation, hunger);
             else if(difficulty.equals(Difficulty.PEACEFUL))
-                naturalRegenerationAddition = maxHealth - health; // because saturation goes from 2 to 0 for some reason
+                naturalRegenerationAddition = maxHealth - health;
 
             if((health + naturalRegenerationAddition) != (previousNaturalRegenerationHealth + 1)){
                 naturalRegenerationHealth = Math.min(health + naturalRegenerationAddition, maxHealth);
@@ -231,12 +241,19 @@ public class PlayerProperties {
             isHoldingFood = true;
             FoodComponent itemFood = heldItem.getItem().getFoodComponent();
             heldFoodHunger = Objects.requireNonNull(itemFood).getHunger();
+            heldFoodSaturation = Objects.requireNonNull(itemFood).getSaturationModifier() * heldFoodHunger * 2.0F; // See HungerManager -> add() for more info
         }
         else {
             isHoldingFood = false;
         }
 
         heldFoodHungerEstimate = hunger - heldFoodHunger;
+        heldFoodSaturationEstimate = isHoldingFood && hasHunger ? Math.max(heldFoodSaturation - (maxRawHealth - rawHealth), 0) : 0;
+
+        if (isHoldingFood && hasHunger)
+            heldFoodHealthEstimate = !difficulty.equals(Difficulty.PEACEFUL) ? Math.min(health + Calculations.GetNaturalRegenAddition(saturationPlusTwo + heldFoodSaturation, hunger), maxFoodLevel) : maxHealth - health;
+        else
+            heldFoodHealthEstimate = 0;
     }
 
     public static void SetPlayerBurningOnSoulFire(boolean isBurning){

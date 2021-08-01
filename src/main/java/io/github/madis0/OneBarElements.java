@@ -27,20 +27,22 @@ public class OneBarElements {
         if (playerEntity != null) {
             barBackground();
             if(config.healthEstimates && !config.uhcMode) naturalRegenerationBar();
+            //if(config.healthEstimates && !config.uhcMode && config.otherBars.heldFoodHungerBar) heldFoodHealthBar();
             if(config.healthEstimates) regenerationBar();
             healthBar();
             if(config.healthEstimates) poisonBar();
             if(config.healthEstimates) witherBar();
             if(config.healthEstimates) hungerEffectBar();
             hungerBar();
+            if(config.otherBars.heldFoodHungerBar) heldFoodHungerBar();
             if(config.badThings.showFire) fireBar();
             freezeBar();
             airBar();
             xpBar();
-            if(config.otherBars.heldFoodHungerBar) heldFoodBar();
             barText();
             if(config.otherBars.showArmorBar) armorBar();
             if(config.otherBars.showSaturationBar) saturationBar();
+            if(config.otherBars.showSaturationBar && config.otherBars.heldFoodHungerBar) heldFoodSaturationBar();
         }
     }
 
@@ -53,16 +55,27 @@ public class OneBarElements {
     }
 
     private void saturationBar(){
-        DrawableHelper.fill(stack, clientProperties.baseStartW, clientProperties.baseEndH, clientProperties.baseRelativeEndW(playerProperties.saturation, playerProperties.maxFoodLevel), clientProperties.baseEndH + 1, config.otherBars.saturationColor);
+        DrawableHelper.fill(stack, clientProperties.baseStartW, clientProperties.baseEndH, clientProperties.baseRelativeEndW(Calculations.GetPreciseInt(playerProperties.rawSaturation), Calculations.GetPreciseInt(playerProperties.maxFoodLevelRaw)), clientProperties.baseEndH + 1, config.otherBars.saturationColor);
     }
 
-    private void heldFoodBar(){
-        //TODO: rethink for hunger, health and saturation display
+    private void heldFoodHungerBar(){
         if(playerProperties.hasHunger){
             if(playerProperties.heldFoodHungerEstimate >= 0)
                 DrawableHelper.fill(stack, clientProperties.baseRelativeStartW(playerProperties.hunger, playerProperties.maxFoodLevel), clientProperties.baseStartH, clientProperties.baseRelativeEndW(playerProperties.maxFoodLevel - playerProperties.heldFoodHungerEstimate, playerProperties.maxFoodLevel), clientProperties.baseEndH, config.otherBars.heldFoodHungerGoodColor);
             else // Wasted food
                 DrawableHelper.fill(stack, clientProperties.baseRelativeStartW(playerProperties.heldFoodHunger, playerProperties.maxFoodLevel), clientProperties.baseStartH, clientProperties.baseEndW, clientProperties.baseEndH, config.otherBars.heldFoodHungerWasteColor);
+        }
+    }
+
+    private void heldFoodSaturationBar(){
+        DrawableHelper.fill(stack, clientProperties.baseStartW, clientProperties.baseEndH, clientProperties.baseRelativeEndW(Calculations.GetPreciseInt(playerProperties.heldFoodSaturationEstimate), Calculations.GetPreciseInt(playerProperties.maxFoodLevelRaw)), clientProperties.baseEndH + 1, config.otherBars.heldFoodHungerGoodColor);
+    }
+
+    private void heldFoodHealthBar(){
+        if(config.otherBars.showSaturationBar && playerProperties.heldFoodHealthEstimate > playerProperties.health) {
+            float lessPreciseRegen = (float) playerProperties.heldFoodHealthEstimate - (float) 0.2;
+
+            DrawableHelper.fill(stack, clientProperties.baseStartW, clientProperties.baseStartH, clientProperties.baseRelativeEndW(Math.max(Calculations.GetPreciseInt(lessPreciseRegen), Calculations.GetPreciseInt(playerProperties.rawHealth)), Calculations.GetPreciseInt(playerProperties.maxRawHealth)), clientProperties.baseEndH, config.goodThings.naturalRegenerationColor);
         }
     }
 
@@ -143,6 +156,8 @@ public class OneBarElements {
             if(config.healthEstimates){
                 if (playerProperties.naturalRegenerationHealth > playerProperties.health && !config.uhcMode)
                     value += arrowRight + Calculations.MakeFraction(playerProperties.naturalRegenerationHealth, config.textSettings.estimatesItalic);
+                //if (playerProperties.hasHunger && playerProperties.isHoldingFood && config.otherBars.heldFoodHungerBar && playerProperties.heldFoodHealthEstimate > playerProperties.health)
+                //    value += arrowUpRight + Calculations.MakeFraction(playerProperties.heldFoodHealthEstimate, config.textSettings.estimatesItalic);
                 if (playerProperties.hasRegeneration)
                     value += arrowRight + Calculations.MakeFraction(playerProperties.regenerationHealth, config.textSettings.estimatesItalic);
                 if (playerProperties.isStarving)
