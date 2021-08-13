@@ -207,8 +207,8 @@ public class PlayerProperties {
             // Exhaustion is server-side, so lost saturation is rounded up to be approximate
             hungerEffectSaturationLoss = hungerEffectExhaustionLoss / (float)4;
 
-            if ((hungerRaw + hungerEffectSaturationLoss) != (previousHungerEffectEstimate - 1)) {
-                hungerEffectEstimateRaw = Math.max(Math.min(hungerRaw + hungerEffectSaturationLoss, maxFoodLevelRaw), 0);
+            if (Math.ceil(hungerRaw + hungerEffectSaturationLoss) != (Math.ceil(previousHungerEffectEstimate) - 1)) {
+                hungerEffectEstimateRaw = !hasSaturation ? Math.max(Math.min(hungerRaw + hungerEffectSaturationLoss, maxFoodLevelRaw), 0) : hungerRaw;
                 previousHungerEffectEstimate = hungerEffectEstimateRaw;
             }
         }
@@ -234,7 +234,7 @@ public class PlayerProperties {
             else if(difficulty.equals(Difficulty.PEACEFUL))
                 naturalRegenerationAddition = maxHealthRaw - healthRaw;
 
-            if((health + naturalRegenerationAddition) != (previousNaturalRegenerationHealth + 1)){
+            if(Math.ceil(health + naturalRegenerationAddition) != (Math.ceil(previousNaturalRegenerationHealth) + 1)){
                 naturalRegenerationHealthRaw = Math.min(healthRaw + naturalRegenerationAddition, maxHealthRaw);
                 previousNaturalRegenerationHealth = naturalRegenerationHealth;
             }
