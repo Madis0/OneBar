@@ -133,10 +133,11 @@ public class OneBarElements {
                 (playerProperties.hasHunger || playerProperties.hasHungerEffect || playerProperties.isUnderwater || playerProperties.isFreezing || playerProperties.isBurning || playerProperties.hasAbsorption || (playerProperties.hasResistance && config.goodThings.showResistance)) &&
                 ((playerProperties.naturalRegenerationHealth > playerProperties.health && !config.uhcMode) || playerProperties.hasRegeneration || playerProperties.isStarving || playerProperties.hasPoison || playerProperties.hasWither || playerProperties.isGettingFreezeDamage || playerProperties.isBurningOnFire || playerProperties.isDrowning || playerProperties.isSuffocating);
 
-        boolean showHungerParentheses = config.textSettings.estimatesParentheses && config.healthEstimates && playerProperties.hasHungerEffect;
+        boolean showHungerParentheses = config.textSettings.estimatesParentheses && config.healthEstimates && (playerProperties.hasHungerEffect || (playerProperties.hasHunger && playerProperties.isHoldingFood && config.otherBars.heldFoodHungerBar));
 
         String arrowRight = "→";
         String arrowDown = "↓";
+        String arrowUpRight = client.options.forceUnicodeFont ? "↱" : "┎⏵";
         String plus = "+";
         String minus = "-";
         String para = "§";
@@ -204,16 +205,14 @@ public class OneBarElements {
 
             if (showHungerParentheses)
                 value += pStart;
-            if (playerProperties.hasHunger && playerProperties.isHoldingFood && config.otherBars.heldFoodHungerBar)
-                value += para + "7" + para + "m";
             if (playerProperties.hasHunger || (playerProperties.hasHungerEffect && config.healthEstimates))
                 value += Calculations.MakeFraction(playerProperties.hunger, false);
-            if (playerProperties.hasHunger && playerProperties.isHoldingFood && config.otherBars.heldFoodHungerBar)
-                value += para + "r" + Calculations.MakeFraction(playerProperties.heldFoodHungerEstimate, false);
             if (playerProperties.hasHunger && playerProperties.saturation < 1 && config.badThings.showHungerDecreasing)
                 value += arrowDown;
             if (playerProperties.hasHungerEffect && config.healthEstimates)
                 value += arrowRight + Calculations.MakeFraction(playerProperties.hungerEffectEstimate, config.textSettings.estimatesItalic);
+            if (playerProperties.hasHunger && playerProperties.isHoldingFood && config.otherBars.heldFoodHungerBar)
+                value += arrowUpRight + Calculations.MakeFraction(playerProperties.heldFoodHungerEstimate, config.textSettings.estimatesItalic);
             if (showHungerParentheses)
                 value += pEnd;
         }
