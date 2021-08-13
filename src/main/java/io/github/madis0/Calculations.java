@@ -36,23 +36,20 @@ public class Calculations {
         return result;
     }
 
-    public static int GetEstimatedHealthRegen(int constant, int rawLevel, int duration, int currentHealth, int maxHealth){
+    public static int GetEstimatedHealthDelta(int constant, int rawLevel, int duration){
         // See canApplyUpdateEffect and https://www.geeksforgeeks.org/bitwise-shift-operators-in-java/
         int ticks = Math.max(constant >> rawLevel, 1);
         float healthPerSec = 20 / (float)ticks;
         float durationPerSec = (float)duration / 20;
-        int addedHealth = (int)(healthPerSec * durationPerSec);
-        int newHealth = currentHealth + addedHealth;
-        return Math.min(newHealth, maxHealth);
+        return (int)(healthPerSec * durationPerSec);
+    }
+
+    public static int GetEstimatedHealthRegen(int constant, int rawLevel, int duration, int currentHealth, int maxHealth){
+        return Math.min(currentHealth + GetEstimatedHealthDelta(constant, rawLevel, duration), maxHealth);
     }
 
     public static int GetEstimatedHealthDamage(int constant, int rawLevel, int duration, int currentHealth, int minHealth){
-        int ticks = Math.max(constant >> rawLevel, 1);
-        float healthPerSec = 20 / (float)ticks;
-        float durationPerSec = (float)duration / 20;
-        int removedHealth = (int)(healthPerSec * durationPerSec);
-        int newHealth = currentHealth - removedHealth;
-        return Math.max(newHealth, minHealth);
+        return Math.max(currentHealth - GetEstimatedHealthDelta(constant, rawLevel, duration), minHealth);
     }
 
     public static int GetNaturalRegenAddition(float rawSaturation, int hunger){
