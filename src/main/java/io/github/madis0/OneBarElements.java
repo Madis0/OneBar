@@ -60,7 +60,7 @@ public class OneBarElements {
 
     private void heldFoodHungerBar(){
         if(playerProperties.hasHunger){
-            if(playerProperties.heldFoodHungerEstimate >= 0)
+            if(playerProperties.heldFoodHungerEstimate >= 0) // Used food
                 DrawableHelper.fill(stack, clientProperties.baseRelativeStartW(playerProperties.hunger, playerProperties.maxFoodLevel), clientProperties.baseStartH, clientProperties.baseRelativeEndW(playerProperties.maxFoodLevel - playerProperties.heldFoodHungerEstimate, playerProperties.maxFoodLevel), clientProperties.baseEndH, config.otherBars.heldFoodHungerGoodColor);
             else // Wasted food
                 DrawableHelper.fill(stack, clientProperties.baseRelativeStartW(playerProperties.heldFoodHunger, playerProperties.maxFoodLevel), clientProperties.baseStartH, clientProperties.baseEndW, clientProperties.baseEndH, config.otherBars.heldFoodHungerWasteColor);
@@ -137,7 +137,6 @@ public class OneBarElements {
 
         String arrowRight = "→";
         String arrowDown = "↓";
-        String arrowUpRight = client.options.forceUnicodeFont ? "↱" : "┎⏵";
         String plus = "+";
         String minus = "-";
         String para = "§";
@@ -212,7 +211,7 @@ public class OneBarElements {
             if (playerProperties.hasHungerEffect && config.healthEstimates)
                 value += arrowRight + Calculations.MakeFraction(playerProperties.hungerEffectEstimate, config.textSettings.estimatesItalic);
             if (playerProperties.hasHunger && playerProperties.isHoldingFood && config.otherBars.heldFoodHungerBar)
-                value += arrowUpRight + Calculations.MakeFraction(playerProperties.heldFoodHungerEstimate, config.textSettings.estimatesItalic);
+                value += arrowRight + Calculations.MakeFraction(playerProperties.heldFoodHungerEstimate, config.textSettings.estimatesItalic);
             if (showHungerParentheses)
                 value += pEnd;
         }
