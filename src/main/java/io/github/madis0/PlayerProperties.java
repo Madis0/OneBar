@@ -204,7 +204,6 @@ public class PlayerProperties {
         if(hungerEffect != null) {
             int duration = hungerEffect.getDuration();
             float hungerEffectExhaustionLoss = 0.005F * (float)(hungerEffect.getAmplifier() + 1) * duration;
-            // Exhaustion is server-side, so lost saturation is rounded up to be approximate
             hungerEffectSaturationLoss = hungerEffectExhaustionLoss / (float)4;
 
             if (Math.ceil(hungerRaw + hungerEffectSaturationLoss) != (Math.ceil(previousHungerEffectEstimate) - 1)) {
@@ -240,8 +239,8 @@ public class PlayerProperties {
             }
         }
         else {
-            naturalRegenerationHealthRaw = health;
-            previousNaturalRegenerationHealth = naturalRegenerationHealth;
+            naturalRegenerationHealthRaw = healthRaw;
+            previousNaturalRegenerationHealth = naturalRegenerationHealthRaw;
         }
         naturalRegenerationHealth = (int) Math.ceil(naturalRegenerationHealthRaw);
 
