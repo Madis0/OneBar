@@ -23,9 +23,9 @@ public class PlayerProperties {
     public final boolean hasWaterBreathing;
     public final boolean hasHungerEffect;
 
-    public final float rawHealth;
-    public final float maxRawHealth;
+    public final float healthRaw;
     public final int health;
+    public final float maxHealthRaw;
     public final int maxHealth;
     public final int absorption;
     public final boolean hasAbsorption;
@@ -37,16 +37,17 @@ public class PlayerProperties {
     public final float maxFoodLevelRaw;
     public final int foodLevel;
     public final int hunger;
+    public final float hungerRaw;
     public final boolean hasHunger;
     public final boolean isStarving;
-    public final float rawSaturation;
+    public final float saturationRaw;
     public final int saturation;
     public float saturationPlusTwo;
     public final int saturationLoss;
     public final boolean hasSaturation;
 
-    public final int maxRawAir;
-    public final int rawAir;
+    public final int maxAirRaw;
+    public final int airRaw;
     public final int air;
     public final boolean isUnderwater;
     public final boolean isDrowning;
@@ -58,24 +59,28 @@ public class PlayerProperties {
     public static boolean isBurningOnSoulFire;
     public int burningMultiplier;
 
-    public final int maxRawFreeze;
-    public final int rawFreeze;
+    public final int maxFreezeRaw;
+    public final int freezeRaw;
     public final int freeze;
     public final boolean isFreezing;
     public final boolean isGettingFreezeDamage;
 
     public int resistancePercent;
+    public float regenerationHealthRaw;
     public int regenerationHealth;
+    public float poisonHealthRaw;
     public int poisonHealth;
+    public float witherHealthRaw;
     public int witherHealth;
 
-    public int hungerEffectSaturationLoss;
+    public float hungerEffectSaturationLoss;
     public int hungerEffectEstimate;
-    public int previousHungerEffectEstimate;
+    public float hungerEffectEstimateRaw;
+    public float previousHungerEffectEstimate;
     public int starvationHealthEstimate;
 
-    public int naturalRegenerationAddition;
-    //public float naturalRegenerationHealthRaw;
+    public float naturalRegenerationAddition;
+    public float naturalRegenerationHealthRaw;
     public int naturalRegenerationHealth;
     public float previousNaturalRegenerationHealth;
 
@@ -87,8 +92,8 @@ public class PlayerProperties {
     public int heldFoodHunger;
     public int heldFoodHungerEstimate;
     public float heldFoodSaturation;
-    public float heldFoodSaturationEstimate;
-    //public float heldFoodHealthEstimateRaw;
+    public float heldFoodSaturationEstimateRaw;
+    public float heldFoodHealthEstimateRaw;
     public int heldFoodHealthEstimate;
 
     public PlayerProperties(){
@@ -105,10 +110,10 @@ public class PlayerProperties {
         hasWaterBreathing = playerEntity.hasStatusEffect(StatusEffects.WATER_BREATHING) || playerEntity.hasStatusEffect(StatusEffects.CONDUIT_POWER);
         hasHungerEffect = playerEntity.hasStatusEffect(StatusEffects.HUNGER) && !difficulty.equals(Difficulty.PEACEFUL);
 
-        rawHealth = playerEntity.getHealth();
-        maxRawHealth = playerEntity.getMaxHealth();
-        health = MathHelper.ceil(rawHealth);
-        maxHealth = MathHelper.ceil(maxRawHealth);
+        healthRaw = playerEntity.getHealth();
+        maxHealthRaw = playerEntity.getMaxHealth();
+        health = MathHelper.ceil(healthRaw);
+        maxHealth = MathHelper.ceil(maxHealthRaw);
         absorption = MathHelper.ceil(playerEntity.getAbsorptionAmount());
         hasAbsorption = absorption > 0;
 
@@ -119,19 +124,20 @@ public class PlayerProperties {
         maxFoodLevelRaw = (float)maxFoodLevel; // Used for saturation calculations
         foodLevel = hungerManager.getFoodLevel();
         hunger = maxFoodLevel - foodLevel;
+        hungerRaw = (float)hunger;
         hasHunger = hunger > 0;
         isStarving = hunger >= maxFoodLevel;
-        rawSaturation = hungerManager.getSaturationLevel();
-        saturation = MathHelper.ceil(rawSaturation);
-        saturationPlusTwo = hunger < 3 ? rawSaturation + hunger : rawSaturation;
+        saturationRaw = hungerManager.getSaturationLevel();
+        saturation = MathHelper.ceil(saturationRaw);
+        saturationPlusTwo = hunger < 3 ? saturationRaw + hunger : saturationRaw;
         saturationLoss = maxFoodLevel - saturation;
-        hasSaturation = saturation > 0;
+        hasSaturation = saturationRaw > 0;
 
-        maxRawAir = playerEntity.getMaxAir();
-        rawAir = maxRawAir - playerEntity.getAir();
-        air = Math.min(rawAir, maxRawAir) / 15;
-        isUnderwater =  playerEntity.isSubmergedInWater() || rawAir > 0;
-        isDrowning = rawAir >= maxRawAir;
+        maxAirRaw = playerEntity.getMaxAir();
+        airRaw = maxAirRaw - playerEntity.getAir();
+        air = Math.min(airRaw, maxAirRaw) / 15;
+        isUnderwater =  playerEntity.isSubmergedInWater() || airRaw > 0;
+        isDrowning = airRaw >= maxAirRaw;
 
         isSuffocating = playerEntity.isInsideWall();
 
@@ -146,10 +152,10 @@ public class PlayerProperties {
         if(rawBurningSource == 0 || isBurningOnSoulFire) burningMultiplier = 4;
         isBurningOnFire = (burningMultiplier == 2 || burningMultiplier == 4) && !hasFireResistance;
 
-        maxRawFreeze = playerEntity.getMinFreezeDamageTicks();
-        rawFreeze = playerEntity.getFrozenTicks();
-        freeze = rawFreeze / 7;
-        isFreezing = rawFreeze > 0;
+        maxFreezeRaw = playerEntity.getMinFreezeDamageTicks();
+        freezeRaw = playerEntity.getFrozenTicks();
+        freeze = freezeRaw / 7;
+        isFreezing = freezeRaw > 0;
         isGettingFreezeDamage = playerEntity.isFreezing() && !difficulty.equals(Difficulty.PEACEFUL);
 
         xpLevel = playerEntity.experienceLevel;
@@ -163,31 +169,35 @@ public class PlayerProperties {
         if(resistanceEffect != null) resistancePercent = (resistanceEffect.getAmplifier() + 1) * 20;
 
         StatusEffectInstance regenerationEffect = playerEntity.getStatusEffect(StatusEffects.REGENERATION);
-        regenerationHealth = 0;
-        if(regenerationEffect != null) regenerationHealth =
+        regenerationHealthRaw = 0;
+        if(regenerationEffect != null) regenerationHealthRaw =
                 Calculations.GetEstimatedHealthRegen(50,
                         regenerationEffect.getAmplifier(),
                         regenerationEffect.getDuration(),
-                        health,
-                        maxHealth);
+                        healthRaw,
+                        maxHealthRaw);
+        regenerationHealth = MathHelper.ceil(regenerationHealthRaw);
 
         StatusEffectInstance poisonEffect = playerEntity.getStatusEffect(StatusEffects.POISON);
-        poisonHealth = maxHealth;
-        if(poisonEffect != null) poisonHealth =
+        poisonHealthRaw = maxHealthRaw;
+        if(poisonEffect != null) poisonHealthRaw =
                 Calculations.GetEstimatedHealthDamage(25,
                         poisonEffect.getAmplifier(),
                         poisonEffect.getDuration(),
-                        health,
+                        healthRaw,
                         1);
+        poisonHealth = MathHelper.ceil(poisonHealthRaw);
+
 
         StatusEffectInstance witherEffect = playerEntity.getStatusEffect(StatusEffects.WITHER);
-        witherHealth = maxHealth;
-        if(witherEffect != null) witherHealth =
+        witherHealthRaw = maxHealthRaw;
+        if(witherEffect != null) witherHealthRaw =
                 Calculations.GetEstimatedHealthDamage(40,
                         witherEffect.getAmplifier(),
                         witherEffect.getDuration(),
-                        health,
+                        healthRaw,
                         0);
+        witherHealth = MathHelper.ceil(witherHealthRaw);
 
         StatusEffectInstance hungerEffect = playerEntity.getStatusEffect(StatusEffects.HUNGER);
         hungerEffectSaturationLoss = 0;
@@ -195,17 +205,18 @@ public class PlayerProperties {
             int duration = hungerEffect.getDuration();
             float hungerEffectExhaustionLoss = 0.005F * (float)(hungerEffect.getAmplifier() + 1) * duration;
             // Exhaustion is server-side, so lost saturation is rounded up to be approximate
-            hungerEffectSaturationLoss = (int) Math.ceil(hungerEffectExhaustionLoss / (float)4);
+            hungerEffectSaturationLoss = hungerEffectExhaustionLoss / (float)4;
 
-            if ((hunger + hungerEffectSaturationLoss) != (previousHungerEffectEstimate - 1)) {
-                hungerEffectEstimate = Math.max(Math.min(hunger + hungerEffectSaturationLoss, maxFoodLevel), 0);
-                previousHungerEffectEstimate = hungerEffectEstimate;
+            if ((hungerRaw + hungerEffectSaturationLoss) != (previousHungerEffectEstimate - 1)) {
+                hungerEffectEstimateRaw = Math.max(Math.min(hungerRaw + hungerEffectSaturationLoss, maxFoodLevelRaw), 0);
+                previousHungerEffectEstimate = hungerEffectEstimateRaw;
             }
         }
         else {
-            hungerEffectEstimate = hunger;
-            previousHungerEffectEstimate = hungerEffectEstimate;
+            hungerEffectEstimateRaw = hungerRaw;
+            previousHungerEffectEstimate = hungerEffectEstimateRaw;
         }
+        hungerEffectEstimate = (int) Math.ceil(hungerEffectEstimateRaw);
 
         if(isStarving){
             if(difficulty == Difficulty.EASY)
@@ -219,19 +230,20 @@ public class PlayerProperties {
         naturalRegenerationAddition = 0;
         if(health < maxHealth){
             if (hunger < 3 && !difficulty.equals(Difficulty.PEACEFUL))
-                naturalRegenerationAddition = Calculations.GetNaturalRegenAddition(rawSaturation, hunger);
+                naturalRegenerationAddition = Calculations.GetNaturalRegenAddition(saturationRaw, hungerRaw);
             else if(difficulty.equals(Difficulty.PEACEFUL))
-                naturalRegenerationAddition = maxHealth - health;
+                naturalRegenerationAddition = maxHealthRaw - healthRaw;
 
             if((health + naturalRegenerationAddition) != (previousNaturalRegenerationHealth + 1)){
-                naturalRegenerationHealth = Math.min(health + naturalRegenerationAddition, maxHealth);
+                naturalRegenerationHealthRaw = Math.min(healthRaw + naturalRegenerationAddition, maxHealthRaw);
                 previousNaturalRegenerationHealth = naturalRegenerationHealth;
             }
         }
         else {
-            naturalRegenerationHealth = health;
+            naturalRegenerationHealthRaw = health;
             previousNaturalRegenerationHealth = naturalRegenerationHealth;
         }
+        naturalRegenerationHealth = (int) Math.ceil(naturalRegenerationHealthRaw);
 
         heldFoodHunger = 0;
         ItemStack heldItem = Objects.requireNonNull(playerEntity).getMainHandStack();
@@ -248,12 +260,13 @@ public class PlayerProperties {
         }
 
         heldFoodHungerEstimate = hunger - heldFoodHunger;
-        heldFoodSaturationEstimate = isHoldingFood && hasHunger ? Math.max(heldFoodSaturation - (maxRawHealth - rawHealth), 0) : 0;
+        heldFoodSaturationEstimateRaw = isHoldingFood && hasHunger ? Math.max(heldFoodSaturation - (maxHealthRaw - healthRaw), 0) : 0;
 
         if (isHoldingFood && hasHunger)
-            heldFoodHealthEstimate = !difficulty.equals(Difficulty.PEACEFUL) ? Math.min(health + Calculations.GetNaturalRegenAddition(saturationPlusTwo + heldFoodSaturation, hunger), maxFoodLevel) : maxHealth - health;
+            heldFoodHealthEstimateRaw = !difficulty.equals(Difficulty.PEACEFUL) ? Math.min(healthRaw + Calculations.GetNaturalRegenAddition(saturationPlusTwo + heldFoodSaturation, hungerRaw), maxFoodLevelRaw) : maxHealthRaw - healthRaw;
         else
-            heldFoodHealthEstimate = 0;
+            heldFoodHealthEstimateRaw = 0;
+        heldFoodHealthEstimate = (int) Math.ceil(heldFoodHealthEstimateRaw);
     }
 
     public static void SetPlayerBurningOnSoulFire(boolean isBurning){

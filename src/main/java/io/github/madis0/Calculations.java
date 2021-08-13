@@ -36,24 +36,24 @@ public class Calculations {
         return result;
     }
 
-    public static int GetEstimatedHealthDelta(int constant, int rawLevel, int duration){
+    public static float GetEstimatedHealthDelta(int constant, int rawLevel, int duration){
         // See canApplyUpdateEffect and https://www.geeksforgeeks.org/bitwise-shift-operators-in-java/
         int ticks = Math.max(constant >> rawLevel, 1);
         float healthPerSec = 20 / (float)ticks;
         float durationPerSec = (float)duration / 20;
-        return (int)(healthPerSec * durationPerSec);
+        return healthPerSec * durationPerSec;
     }
 
-    public static int GetEstimatedHealthRegen(int constant, int rawLevel, int duration, int currentHealth, int maxHealth){
-        return Math.min(currentHealth + GetEstimatedHealthDelta(constant, rawLevel, duration), maxHealth);
+    public static float GetEstimatedHealthRegen(int constant, int rawLevel, int duration, float currentRawHealth, float maxRawHealth){
+        return Math.min(currentRawHealth + GetEstimatedHealthDelta(constant, rawLevel, duration), maxRawHealth);
     }
 
-    public static int GetEstimatedHealthDamage(int constant, int rawLevel, int duration, int currentHealth, int minHealth){
-        return Math.max(currentHealth - GetEstimatedHealthDelta(constant, rawLevel, duration), minHealth);
+    public static float GetEstimatedHealthDamage(int constant, int rawLevel, int duration, float currentRawHealth, float minRawHealth){
+        return Math.max(currentRawHealth - GetEstimatedHealthDelta(constant, rawLevel, duration), minRawHealth);
     }
 
-    public static int GetNaturalRegenAddition(float rawSaturation, int hunger){
+    public static float GetNaturalRegenAddition(float rawSaturation, float hunger){
         // Approximate formula for calculating regeneration addition health: saturation + (2.5 - hunger) * exhaustion max / 6 exhaustion per healed heart
-        return MathHelper.ceil(((rawSaturation + (float)(2.5 - hunger)) * (float)4 / (float)6));
+        return (rawSaturation + (float)(2.5 - hunger)) * (float)4 / (float)6;
     }
 }

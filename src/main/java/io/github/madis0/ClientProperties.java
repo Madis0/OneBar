@@ -65,4 +65,12 @@ public class ClientProperties {
     public int baseRelativeStartW(int value, int total){
         return Calculations.RelativeW(baseEndW, baseStartW, value, total);
     }
+
+    public int baseRelativeEndW(float value, float total){
+        return baseRelativeEndW(Calculations.GetPreciseInt(value), Calculations.GetPreciseInt(total));
+    }
+
+    public int baseRelativeStartW(float value, float total){
+        return baseRelativeStartW(Calculations.GetPreciseInt(value), Calculations.GetPreciseInt(total));
+    }
 }
