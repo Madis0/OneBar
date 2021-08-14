@@ -170,33 +170,33 @@ public class PlayerProperties {
 
         StatusEffectInstance regenerationEffect = playerEntity.getStatusEffect(StatusEffects.REGENERATION);
         regenerationHealthRaw = 0;
-        if(regenerationEffect != null) regenerationHealthRaw =
-                Calculations.GetEstimatedHealthRegen(50,
-                        regenerationEffect.getAmplifier(),
-                        regenerationEffect.getDuration(),
-                        healthRaw,
-                        maxHealthRaw);
+        if(regenerationEffect != null)
+            regenerationHealthRaw = Calculations.GetEstimatedHealthRegen(50,
+                                                    regenerationEffect.getAmplifier(),
+                                                    regenerationEffect.getDuration(),
+                                                    healthRaw,
+                                                    maxHealthRaw);
         regenerationHealth = MathHelper.ceil(regenerationHealthRaw);
 
         StatusEffectInstance poisonEffect = playerEntity.getStatusEffect(StatusEffects.POISON);
         poisonHealthRaw = maxHealthRaw;
-        if(poisonEffect != null) poisonHealthRaw =
-                Calculations.GetEstimatedHealthDamage(25,
-                        poisonEffect.getAmplifier(),
-                        poisonEffect.getDuration(),
-                        healthRaw,
-                        1);
+        if(poisonEffect != null)
+            poisonHealthRaw = Calculations.GetEstimatedHealthDamage(25,
+                                                    poisonEffect.getAmplifier(),
+                                                    poisonEffect.getDuration(),
+                                                    healthRaw,
+                                                    1);
         poisonHealth = MathHelper.ceil(poisonHealthRaw);
 
 
         StatusEffectInstance witherEffect = playerEntity.getStatusEffect(StatusEffects.WITHER);
         witherHealthRaw = maxHealthRaw;
-        if(witherEffect != null) witherHealthRaw =
-                Calculations.GetEstimatedHealthDamage(40,
-                        witherEffect.getAmplifier(),
-                        witherEffect.getDuration(),
-                        healthRaw,
-                        0);
+        if(witherEffect != null)
+            witherHealthRaw = Calculations.GetEstimatedHealthDamage(40,
+                                                    witherEffect.getAmplifier(),
+                                                    witherEffect.getDuration(),
+                                                    healthRaw,
+                                                    0);
         witherHealth = MathHelper.ceil(witherHealthRaw);
 
         StatusEffectInstance hungerEffect = playerEntity.getStatusEffect(StatusEffects.HUNGER);
