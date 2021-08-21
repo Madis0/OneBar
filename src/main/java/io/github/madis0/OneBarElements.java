@@ -42,7 +42,7 @@ public class OneBarElements {
             barText();
             if(config.otherBars.showArmorBar) armorBar();
             if(config.otherBars.showSaturationBar) saturationBar();
-            if(config.otherBars.showSaturationBar && config.otherBars.heldFoodHungerBar) heldFoodSaturationBar();
+            //if(config.otherBars.showSaturationBar && config.otherBars.heldFoodHungerBar) heldFoodSaturationBar();
         }
     }
 
@@ -152,7 +152,7 @@ public class OneBarElements {
                 if (playerProperties.naturalRegenerationHealth > playerProperties.health && !config.uhcMode)
                     value += arrowRight + Calculations.MakeFraction(playerProperties.naturalRegenerationHealth, config.textSettings.estimatesItalic);
                 //if (playerProperties.hasHunger && playerProperties.isHoldingFood && config.otherBars.heldFoodHungerBar && playerProperties.heldFoodHealthEstimate > playerProperties.health)
-                //    value += arrowUpRight + Calculations.MakeFraction(playerProperties.heldFoodHealthEstimate, config.textSettings.estimatesItalic);
+                //    value += arrowRight + Calculations.MakeFraction(playerProperties.heldFoodHealthEstimate, config.textSettings.estimatesItalic);
                 if (playerProperties.hasRegeneration)
                     value += arrowRight + Calculations.MakeFraction(playerProperties.regenerationHealth, config.textSettings.estimatesItalic);
                 if (playerProperties.isStarving)
