@@ -42,7 +42,7 @@ public class PlayerProperties {
     public final boolean isStarving;
     public final float saturationRaw;
     public final int saturation;
-    public float saturationPlusTwo;
+    public float extraRegenFoodLevel;
     public final int saturationLoss;
     public final boolean hasSaturation;
 
@@ -129,7 +129,7 @@ public class PlayerProperties {
         isStarving = hunger >= maxFoodLevel;
         saturationRaw = hungerManager.getSaturationLevel();
         saturation = MathHelper.ceil(saturationRaw);
-        saturationPlusTwo = hunger < 3 ? saturationRaw + hunger : saturationRaw;
+        extraRegenFoodLevel = hunger < 3 ? hunger : 0;
         saturationLoss = maxFoodLevel - saturation;
         hasSaturation = saturationRaw > 0;
 
@@ -259,12 +259,15 @@ public class PlayerProperties {
         }
 
         heldFoodHungerEstimate = hunger - heldFoodHunger;
-        heldFoodSaturationEstimateRaw = isHoldingFood && hasHunger ? Math.max(heldFoodSaturation - (maxHealthRaw - healthRaw), 0) : 0;
 
-        if (isHoldingFood && hasHunger)
-            heldFoodHealthEstimateRaw = !difficulty.equals(Difficulty.PEACEFUL) ? Math.min(healthRaw + Calculations.GetNaturalRegenAddition(saturationPlusTwo + heldFoodSaturation, hungerRaw), maxFoodLevelRaw) : maxHealthRaw - healthRaw;
-        else
+        if (isHoldingFood && hasHunger){
+            heldFoodHealthEstimateRaw = !difficulty.equals(Difficulty.PEACEFUL) ? Math.min(healthRaw + Calculations.GetNaturalRegenAddition(saturationRaw + extraRegenFoodLevel + heldFoodSaturation, hungerRaw), maxFoodLevelRaw) : maxHealthRaw - healthRaw;
+            heldFoodSaturationEstimateRaw = Math.max(heldFoodSaturation - (maxHealthRaw - healthRaw) - extraRegenFoodLevel, 0);
+        }
+        else {
             heldFoodHealthEstimateRaw = 0;
+            heldFoodSaturationEstimateRaw = 0;
+        }
         heldFoodHealthEstimate = (int) Math.ceil(heldFoodHealthEstimateRaw);
     }
 
