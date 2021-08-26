@@ -30,6 +30,9 @@
   "text.autoconfig.onebar.option.goodThings.naturalRegenerationColor": "Natural regeneration color",
   "text.autoconfig.onebar.option.goodThings.regenerationColor": "Regeneration effect color",
   "text.autoconfig.onebar.option.goodThings.showResistance": "Resistance percent",
+  "text.autoconfig.onebar.option.goodThings.heldFoodHungerBar": "Food level restoration by held food (bar on top of hunger bar)",
+  "text.autoconfig.onebar.option.goodThings.heldFoodHungerWasteColor": "Food level restoration color: wasted",
+  "text.autoconfig.onebar.option.goodThings.heldFoodHungerGoodColor": "Food level restoration color: exact or less",
   "text.autoconfig.onebar.option.badThings": "Bad effects and states",
   "text.autoconfig.onebar.option.badThings.hungerColor": "Hunger color",
   "text.autoconfig.onebar.option.badThings.hungerEffectColor": "Hunger effect color",
@@ -49,8 +52,5 @@
   "text.autoconfig.onebar.option.otherBars.showArmorBar": "Armor line (thin bar above OneBar, also for ridden horses)",
   "text.autoconfig.onebar.option.otherBars.armorColor": "Armor color",
   "text.autoconfig.onebar.option.otherBars.showSaturationBar": "Saturation line (thin bar below OneBar)",
-  "text.autoconfig.onebar.option.otherBars.saturationColor": "Saturation color",
-  "text.autoconfig.onebar.option.otherBars.heldFoodHungerBar": "Show how much will held food restore hunger (thin bar below OneBar)",
-  "text.autoconfig.onebar.option.otherBars.heldFoodHungerWasteColor": "Held food restored hunger color: wasted",
-  "text.autoconfig.onebar.option.otherBars.heldFoodHungerGoodColor": "Held food restored hunger color: exact or less"
+  "text.autoconfig.onebar.option.otherBars.saturationColor": "Saturation color"
 }

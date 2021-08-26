@@ -25,6 +25,9 @@
   "text.autoconfig.onebar.option.goodThings.naturalRegenerationColor": "Loomuliku taastumise värv",
   "text.autoconfig.onebar.option.goodThings.regenerationColor": "Taastumise mõju värv",
   "text.autoconfig.onebar.option.goodThings.showResistance": "Vastupanu protsent",
+  "text.autoconfig.onebar.option.goodThings.heldFoodHungerBar": "Toidutaseme taastamine käesoleva toiduga (riba näljariba peal)",
+  "text.autoconfig.onebar.option.goodThings.heldFoodHungerWasteColor": "Toidutaseme taastamise värv: raisatud",
+  "text.autoconfig.onebar.option.goodThings.heldFoodHungerGoodColor": "Toidutaseme taastamise värv: täpne või vähem",
   "text.autoconfig.onebar.option.badThings": "Halvad mõjud ja olekud",
   "text.autoconfig.onebar.option.badThings.hungerColor": "Nälja värv",
   "text.autoconfig.onebar.option.badThings.hungerEffectColor": "Näljamõju värv",
@@ -39,13 +42,10 @@
   "text.autoconfig.onebar.option.entity.healthColor": "Tervise värv",
   "text.autoconfig.onebar.option.entity.showHorseJump": "Hobuse hüpperiba (vertikaalne riba sihtimisristi all)",
   "text.autoconfig.onebar.option.entity.jumpColor": "Hüppe värv",
-  "text.autoconfig.onebar.option.otherBars": "Teised ribad",
+  "text.autoconfig.onebar.option.otherBars": "Muud ribad",
   "text.autoconfig.onebar.option.otherBars.xpColor": "Kogemustasemete arvu/riba värv",
   "text.autoconfig.onebar.option.otherBars.showArmorBar": "Rüüriba (õhuke riba OneBari kohal, ka ratsutataval hobusel)",
   "text.autoconfig.onebar.option.otherBars.armorColor": "Rüü värv",
   "text.autoconfig.onebar.option.otherBars.showSaturationBar": "Küllastusriba (õhuke riba OneBari all)",
-  "text.autoconfig.onebar.option.otherBars.saturationColor": "Küllastuse värv",
-  "text.autoconfig.onebar.option.otherBars.heldFoodHungerBar": "Kuva, kui palju taastab käes olev toit nälga (õhuke riba OneBari all)",
-  "text.autoconfig.onebar.option.otherBars.heldFoodHungerWasteColor": "Käesoleva toidu taastatava nälja värv: raisatud",
-  "text.autoconfig.onebar.option.otherBars.heldFoodHungerGoodColor": "Käesoleva toidu taastatava nälja värv: täpne või vähem"
+  "text.autoconfig.onebar.option.otherBars.saturationColor": "Küllastuse värv"
 }

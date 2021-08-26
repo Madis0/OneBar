@@ -45,6 +45,11 @@ public class ModConfig implements ConfigData {
         @ConfigEntry.ColorPicker(allowAlpha = true)
         public int regenerationColor = 0xFFEC407A;
         public boolean showResistance = true;
+        public boolean heldFoodHungerBar = true;
+        @ConfigEntry.ColorPicker(allowAlpha = true)
+        public int heldFoodHungerWasteColor = 0xA6FFB04C;
+        @ConfigEntry.ColorPicker(allowAlpha = true)
+        public int heldFoodHungerGoodColor = 0xBF76FF03;
     }
 
     public static class BadThings {
@@ -83,10 +88,5 @@ public class ModConfig implements ConfigData {
         public boolean showSaturationBar = false;
         @ConfigEntry.ColorPicker(allowAlpha = true)
         public int saturationColor = 0xE6F9A825;
-        public boolean heldFoodHungerBar = true;
-        @ConfigEntry.ColorPicker(allowAlpha = true)
-        public int heldFoodHungerWasteColor = 0xA6FFB04C;
-        @ConfigEntry.ColorPicker(allowAlpha = true)
-        public int heldFoodHungerGoodColor = 0xBF76FF03;
     }
 }

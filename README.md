@@ -38,6 +38,7 @@ The mod only uses client-side data, so it is never needed on a server. There are
 * Resistance - no bar, **+⛨number%** or **+rnumber%** where number is the [effect level multiplier](https://minecraft.gamepedia.com/Resistance#Effect)²
 * Fire Resistance - no bar, **-~🔥number×~** or **-~bnumber×~** where number is a rough damage multiplier (1× - burning, 2× - burning in fire, 4× - burning in lava)²
 * Water Breathing/Conduit Power - blue bar, **-~⭘number~** or **-~anumber~**, number is usually zero and bar hidden unless you got water breathing _within_ water²
+* Held food restored hunger bar - green (exact/less) or orange (wasted) bar on top of hunger bar where number is the resulting hunger (negative if wasted; feature similar to AppleSkin)
 
 #### Negative (right-to-left)
 
@@ -58,7 +59,6 @@ The mod only uses client-side data, so it is never needed on a server. There are
 * Horse jump - brown vertical bar below crosshair
 * Armor - white bar above OneBar for you and your horse, no number
 * Saturation - optional orange bar below OneBar, no number
-* Held food restored hunger bar - orange (wasted) or green (exact/less) bar below OneBar, no number (similar to AppleSkin)
 
 ¹ Best-guess estimate based on what the client knows at the time, can change by some server-side values and natural occurrences. Can be disabled in options.
 
