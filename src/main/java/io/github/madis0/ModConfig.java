@@ -11,6 +11,8 @@ public class ModConfig implements ConfigData {
     @ConfigEntry.Gui.Tooltip
     public boolean healthEstimates = true;
     public boolean uhcMode = false;
+    @ConfigEntry.Gui.Tooltip
+    public boolean disableHunger = false;
     @ConfigEntry.Gui.PrefixText
     @ConfigEntry.ColorPicker(allowAlpha = true)
     public int backgroundColor = 0xFF000000;

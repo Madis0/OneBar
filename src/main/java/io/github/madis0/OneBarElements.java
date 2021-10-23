@@ -18,6 +18,8 @@ public class OneBarElements {
     private final Difficulty difficulty = Objects.requireNonNull(client.getCameraEntity()).world.getDifficulty();
     private final MatrixStack stack;
 
+    boolean hasHunger = playerProperties.hasHunger && !config.disableHunger;
+
     public OneBarElements(MatrixStack matrixStack){
         stack = matrixStack;
     }
@@ -59,7 +61,7 @@ public class OneBarElements {
     }
 
     private void heldFoodHungerBar(){
-        if(playerProperties.hasHunger){
+        if(hasHunger){
             if(playerProperties.heldFoodHungerEstimate >= 0) // Used food
                 DrawableHelper.fill(stack, clientProperties.baseRelativeStartW(playerProperties.hunger, playerProperties.maxFoodLevel), clientProperties.baseStartH, clientProperties.baseRelativeEndW(playerProperties.maxFoodLevel - playerProperties.heldFoodHungerEstimate, playerProperties.maxFoodLevel), clientProperties.baseEndH, config.goodThings.heldFoodHungerGoodColor);
             else // Wasted food
@@ -67,11 +69,11 @@ public class OneBarElements {
         }
     }
 
-    private void heldFoodSaturationBar(){
+    private void heldFoodSaturationBar(){ // Still WIP
         DrawableHelper.fill(stack, clientProperties.baseStartW, clientProperties.baseEndH, clientProperties.baseRelativeEndW(playerProperties.heldFoodSaturationEstimateRaw, playerProperties.maxFoodLevelRaw), clientProperties.baseEndH + 1, config.goodThings.heldFoodHungerGoodColor);
     }
 
-    private void heldFoodHealthBar(){
+    private void heldFoodHealthBar(){ // Still WIP
         if(playerProperties.heldFoodHealthEstimateRaw > playerProperties.healthRaw) {
             DrawableHelper.fill(stack, clientProperties.baseStartW, clientProperties.baseStartH, clientProperties.baseRelativeEndW(Math.max(playerProperties.heldFoodHealthEstimateRaw, playerProperties.healthRaw), playerProperties.maxHealthRaw), clientProperties.baseEndH, config.goodThings.naturalRegenerationColor);
         }
@@ -100,13 +102,14 @@ public class OneBarElements {
     }
 
     private void hungerEffectBar(){
-        if (playerProperties.hungerEffectEstimateRaw > playerProperties.hunger && !difficulty.equals(Difficulty.PEACEFUL)){
+        if (playerProperties.hungerEffectEstimateRaw > playerProperties.hunger && !difficulty.equals(Difficulty.PEACEFUL) && !config.disableHunger){
             DrawableHelper.fill(stack, clientProperties.baseRelativeStartW(playerProperties.hungerEffectEstimateRaw, playerProperties.maxFoodLevelRaw), clientProperties.baseStartH, clientProperties.baseEndW, clientProperties.baseEndH, config.badThings.hungerEffectColor);
         }
     }
 
     private void hungerBar(){
-        DrawableHelper.fill(stack, clientProperties.baseRelativeStartW(playerProperties.hungerRaw, playerProperties.maxFoodLevelRaw), clientProperties.baseStartH, clientProperties.baseEndW, clientProperties.baseEndH, config.badThings.hungerColor);
+        if(hasHunger)
+            DrawableHelper.fill(stack, clientProperties.baseRelativeStartW(playerProperties.hungerRaw, playerProperties.maxFoodLevelRaw), clientProperties.baseStartH, clientProperties.baseEndW, clientProperties.baseEndH, config.badThings.hungerColor);
     }
 
     private void airBar(){
@@ -126,10 +129,10 @@ public class OneBarElements {
     private void barText(){
         String value = "";
         boolean showHealthParentheses = config.textSettings.estimatesParentheses &&
-                (playerProperties.hasHunger || playerProperties.hasHungerEffect || playerProperties.isUnderwater || playerProperties.isFreezing || playerProperties.isBurning || playerProperties.hasAbsorption || (playerProperties.hasResistance && config.goodThings.showResistance)) &&
-                ((playerProperties.naturalRegenerationHealth > playerProperties.health && !config.uhcMode) || playerProperties.hasRegeneration || playerProperties.isStarving || playerProperties.hasPoison || playerProperties.hasWither || playerProperties.isGettingFreezeDamage || playerProperties.isBurningOnFire || playerProperties.isDrowning || playerProperties.isSuffocating);
+                (hasHunger || playerProperties.hasHungerEffect && !config.disableHunger || playerProperties.isUnderwater || playerProperties.isFreezing || playerProperties.isBurning || playerProperties.hasAbsorption || (playerProperties.hasResistance && config.goodThings.showResistance)) &&
+                ((playerProperties.naturalRegenerationHealth > playerProperties.health && !config.uhcMode) || playerProperties.hasRegeneration || playerProperties.isStarving && !config.disableHunger || playerProperties.hasPoison || playerProperties.hasWither || playerProperties.isGettingFreezeDamage || playerProperties.isBurningOnFire || playerProperties.isDrowning || playerProperties.isSuffocating);
 
-        boolean showHungerParentheses = config.textSettings.estimatesParentheses && config.healthEstimates && (playerProperties.hasHungerEffect || (playerProperties.hasHunger && playerProperties.isHoldingFood && config.goodThings.heldFoodHungerBar));
+        boolean showHungerParentheses = config.textSettings.estimatesParentheses && config.healthEstimates && (playerProperties.hasHungerEffect && !config.disableHunger || (hasHunger && playerProperties.isHoldingFood && config.goodThings.heldFoodHungerBar));
 
         String arrowRight = "→";
         String arrowDown = "↓";
@@ -151,11 +154,11 @@ public class OneBarElements {
             if(config.healthEstimates){
                 if (playerProperties.naturalRegenerationHealth > playerProperties.health && !config.uhcMode)
                     value += arrowRight + Calculations.MakeFraction(playerProperties.naturalRegenerationHealth, config.textSettings.estimatesItalic);
-                //if (playerProperties.hasHunger && playerProperties.isHoldingFood && playerProperties.heldFoodHealthEstimate > playerProperties.health)
+                //if (hasHunger && playerProperties.isHoldingFood && playerProperties.heldFoodHealthEstimate > playerProperties.health)
                 //    value += arrowRight + Calculations.MakeFraction(playerProperties.heldFoodHealthEstimate, config.textSettings.estimatesItalic);
                 if (playerProperties.hasRegeneration)
                     value += arrowRight + Calculations.MakeFraction(playerProperties.regenerationHealth, config.textSettings.estimatesItalic);
-                if (playerProperties.isStarving)
+                if (playerProperties.isStarving && hasHunger)
                     value += arrowRight + Calculations.MakeFraction(playerProperties.starvationHealthEstimate, config.textSettings.estimatesItalic);
                 if (playerProperties.hasPoison)
                     value += arrowRight + Calculations.MakeFraction(playerProperties.poisonHealth, config.textSettings.estimatesItalic);
@@ -195,18 +198,18 @@ public class OneBarElements {
                 value += minus + new TranslatableText(config.textSettings.useEmoji ? "text.onebar.fireEmoji" : "text.onebar.fire", playerProperties.burningMultiplier).getString();
             if (playerProperties.isBurning && playerProperties.hasFireResistance && config.badThings.showFire)
                 value += minus + para + "m" + new TranslatableText(config.textSettings.useEmoji ? "text.onebar.fireEmoji" : "text.onebar.fire", playerProperties.burningMultiplier).getString() + para + "r";
-            if (playerProperties.hasHunger || (playerProperties.hasHungerEffect && config.healthEstimates))
+            if (hasHunger || (playerProperties.hasHungerEffect && config.healthEstimates && !config.disableHunger))
                 value += minus;
 
             if (showHungerParentheses)
                 value += pStart;
-            if (playerProperties.hasHunger || (playerProperties.hasHungerEffect && config.healthEstimates))
+            if (hasHunger || (playerProperties.hasHungerEffect && config.healthEstimates && !config.disableHunger))
                 value += Calculations.MakeFraction(playerProperties.hunger, false);
-            if (playerProperties.hasHunger && playerProperties.saturation < 1 && config.badThings.showHungerDecreasing)
+            if (hasHunger && playerProperties.saturation < 1 && config.badThings.showHungerDecreasing)
                 value += arrowDown;
-            if (playerProperties.hasHungerEffect && config.healthEstimates)
+            if (playerProperties.hasHungerEffect && !config.disableHunger && config.healthEstimates)
                 value += arrowRight + Calculations.MakeFraction(playerProperties.hungerEffectEstimate, config.textSettings.estimatesItalic);
-            if (playerProperties.hasHunger && playerProperties.isHoldingFood && config.goodThings.heldFoodHungerBar)
+            if (hasHunger && playerProperties.isHoldingFood && config.goodThings.heldFoodHungerBar)
                 value += arrowRight + Calculations.MakeFraction(playerProperties.heldFoodHungerEstimate, config.textSettings.estimatesItalic);
             if (showHungerParentheses)
                 value += pEnd;
