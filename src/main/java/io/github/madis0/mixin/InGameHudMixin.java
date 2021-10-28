@@ -16,7 +16,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 import java.util.Objects;
 
-@Mixin(InGameHud.class)
+@Mixin(value = InGameHud.class, priority = 999)
 public abstract class InGameHudMixin {
     @Final @Shadow private MinecraftClient client;
     @Shadow protected abstract LivingEntity getRiddenEntity();
@@ -36,16 +36,16 @@ public abstract class InGameHudMixin {
 
     // Injections to vanilla methods
 
-    @Inject(method = "renderStatusBars", at = @At(value = "INVOKE"), cancellable = true)
+    @Inject(method = "renderStatusBars", at = @At(value = "HEAD"), cancellable = true)
     private void renderStatusBars(MatrixStack matrices, CallbackInfo ci){
         if(showOneBar) ci.cancel();
     }
-    @Inject(method = "renderExperienceBar", at = @At(value = "INVOKE"), cancellable = true)
+    @Inject(method = "renderExperienceBar", at = @At(value = "HEAD"), cancellable = true)
     private void renderExperienceBar(MatrixStack matrices, int x, CallbackInfo ci){
         if(showOneBar) ci.cancel();
     }
 
-    @Inject(method = "renderMountJumpBar", at = @At(value = "INVOKE"), cancellable = true)
+    @Inject(method = "renderMountJumpBar", at = @At(value = "HEAD"), cancellable = true)
     private void renderMountJumpBar(MatrixStack matrices, int x, CallbackInfo ci) {
         if(showOneBar) {
             ci.cancel();
@@ -53,7 +53,7 @@ public abstract class InGameHudMixin {
                 oneBarElements.jumpBar();
         }
     }
-    @Inject(method = "renderMountHealth", at = @At(value = "INVOKE"), cancellable = true)
+    @Inject(method = "renderMountHealth", at = @At(value = "HEAD"), cancellable = true)
     private void renderMountHealth(MatrixStack matrices, CallbackInfo ci) {
         if(showOneBar){
             ci.cancel();
