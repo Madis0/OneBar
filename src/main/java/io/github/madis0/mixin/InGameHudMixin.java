@@ -16,7 +16,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 import java.util.Objects;
 
-@Mixin(InGameHud.class)
+@Mixin(value = InGameHud.class, priority = 999)
 public abstract class InGameHudMixin {
     @Final @Shadow private MinecraftClient client;
     @Shadow protected abstract LivingEntity getRiddenEntity();
