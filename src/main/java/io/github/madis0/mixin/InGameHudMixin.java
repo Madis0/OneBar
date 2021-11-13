@@ -38,38 +38,38 @@ public abstract class InGameHudMixin {
 
     @Inject(method = "renderStatusBars", at = @At(value = "TAIL"), cancellable = true)
     private void hideHudCompat(MatrixStack matrices, CallbackInfo ci){
-        if(config.compatibilityMode) genericCancel(ci);
+        if(config.otherBars.compatibilityMode) genericCancel(ci);
     }
     @Inject(method = "renderExperienceBar", at = @At(value = "TAIL"), cancellable = true)
     private void hideXpBarCompat(MatrixStack matrices, int x, CallbackInfo ci){
-        if(config.compatibilityMode) genericCancel(ci);
+        if(config.otherBars.compatibilityMode) genericCancel(ci);
     }
     @Inject(method = "renderMountJumpBar", at = @At(value = "TAIL"), cancellable = true)
     private void hideHorseJumpCompat(MatrixStack matrices, int x, CallbackInfo ci) {
-        if(config.compatibilityMode) mountJump(ci);
+        if(config.otherBars.compatibilityMode) mountJump(ci);
     }
     @Inject(method = "renderMountHealth", at = @At(value = "TAIL"), cancellable = true)
     private void hideHorseHealthCompat(MatrixStack matrices, CallbackInfo ci) {
-        if(config.compatibilityMode) mountHealth(ci);
+        if(config.otherBars.compatibilityMode) mountHealth(ci);
     }
 
     // "Override" injections
 
     @Inject(method = "renderStatusBars", at = @At(value = "HEAD"), cancellable = true)
     private void hideHud(MatrixStack matrices, CallbackInfo ci){
-        if(!config.compatibilityMode) genericCancel(ci);
+        if(!config.otherBars.compatibilityMode) genericCancel(ci);
     }
     @Inject(method = "renderExperienceBar", at = @At(value = "HEAD"), cancellable = true)
     private void hideXpBar(MatrixStack matrices, int x, CallbackInfo ci){
-        if(!config.compatibilityMode) genericCancel(ci);
+        if(!config.otherBars.compatibilityMode) genericCancel(ci);
     }
     @Inject(method = "renderMountJumpBar", at = @At(value = "HEAD"), cancellable = true)
     private void hideHorseJump(MatrixStack matrices, int x, CallbackInfo ci) {
-        if(!config.compatibilityMode) mountJump(ci);
+        if(!config.otherBars.compatibilityMode) mountJump(ci);
     }
     @Inject(method = "renderMountHealth", at = @At(value = "HEAD"), cancellable = true)
     private void hideHorseHealth(MatrixStack matrices, CallbackInfo ci) {
-        if(!config.compatibilityMode) mountHealth(ci);
+        if(!config.otherBars.compatibilityMode) mountHealth(ci);
     }
 
     private void genericCancel(CallbackInfo ci){

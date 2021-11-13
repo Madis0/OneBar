@@ -8,7 +8,6 @@ import me.shedaniel.autoconfig.annotation.ConfigEntry;
 public class ModConfig implements ConfigData {
 
     public boolean showOneBar = true;
-    public boolean compatibilityMode = false;
     @ConfigEntry.Gui.Tooltip
     public boolean healthEstimates = true;
     public boolean uhcMode = false;
@@ -91,5 +90,7 @@ public class ModConfig implements ConfigData {
         public boolean showSaturationBar = false;
         @ConfigEntry.ColorPicker(allowAlpha = true)
         public int saturationColor = 0xE6F9A825;
+        @ConfigEntry.Gui.Tooltip
+        public boolean compatibilityMode = false;
     }
 }
