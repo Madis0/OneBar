@@ -49,10 +49,6 @@ public abstract class InGameHudMixin {
     private void hideHorseJumpCompat(MatrixStack matrices, int x, CallbackInfo ci) {
         if(config.otherBars.compatibilityMode) mountJump(ci);
     }
-    @Inject(method = "renderMountHealth", at = @At(value = "TAIL"), cancellable = true)
-    private void hideHorseHealthCompat(MatrixStack matrices, CallbackInfo ci) {
-        if(config.otherBars.compatibilityMode) mountHealth(ci);
-    }
 
     // "Override" injections
 
@@ -70,7 +66,10 @@ public abstract class InGameHudMixin {
     }
     @Inject(method = "renderMountHealth", at = @At(value = "HEAD"), cancellable = true)
     private void hideHorseHealth(MatrixStack matrices, CallbackInfo ci) {
-        if(!config.otherBars.compatibilityMode) mountHealth(ci);
+        if(showOneBar){
+            ci.cancel();
+            oneBarElements.mountBar(getRiddenEntity());
+        }
     }
 
     private void genericCancel(CallbackInfo ci){
@@ -82,13 +81,6 @@ public abstract class InGameHudMixin {
             ci.cancel();
             if(config.entity.showHorseJump)
                 oneBarElements.jumpBar();
-        }
-    }
-
-    private void mountHealth(CallbackInfo ci){
-        if(showOneBar){
-            ci.cancel();
-            oneBarElements.mountBar(getRiddenEntity());
         }
     }
 }
