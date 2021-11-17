@@ -36,7 +36,8 @@ public abstract class InGameHudMixin {
 
     // "Compatibility" injections
 
-    @Inject(method = "renderStatusBars", at = @At(value = "TAIL"), cancellable = true)
+
+    @Inject(method = "renderStatusBars", at = @At(value = "INVOKE", target = "Lnet/minecraft/util/profiler/Profiler;push(Ljava/lang/String;)V"), cancellable = true)
     private void hideHudCompat(MatrixStack matrices, CallbackInfo ci){
         if(config.otherBars.compatibilityMode) genericCancel(ci);
     }
