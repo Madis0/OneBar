@@ -27,10 +27,9 @@
     "onebar.mixins.json"
   ],
   "depends": {
-    "fabricloader": ">=0.12.5",
     "fabric": "*",
-    "minecraft": ">=1.18-",
-    "cloth-config2": ">=5"
+    "cloth-config2": "*",
+    "minecraft": ">=1.18-"
   },
   "suggests": {
     "modmenu": "*"
