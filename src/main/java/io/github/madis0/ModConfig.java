@@ -87,6 +87,10 @@ public class ModConfig implements ConfigData {
         public boolean showArmorBar = true;
         @ConfigEntry.ColorPicker(allowAlpha = true)
         public int armorColor = 0xA6FFFFFF;
+        @ConfigEntry.Gui.Tooltip
+        public boolean showArmorDurabilityBar = false;
+        @ConfigEntry.ColorPicker(allowAlpha = true)
+        public int armorDurabilityColor = 0xA600B8D4;
         public boolean showSaturationBar = false;
         @ConfigEntry.ColorPicker(allowAlpha = true)
         public int saturationColor = 0xE6F9A825;

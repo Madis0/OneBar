@@ -58,6 +58,7 @@ The mod only uses client-side data, so it is never needed on a server. There are
 * Mount health - orange bar above OneBar, similar style
 * Horse jump - brown vertical bar below crosshair
 * Armor - white bar above OneBar for you and your horse, no number
+* Armor durability - optional light blue bar overlay on armor bar
 * Saturation - optional orange bar below OneBar, no number
 
 ¹ Best-guess estimate based on what the client knows at the time, can change by some server-side values and natural occurrences. Can be disabled in options.

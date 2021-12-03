@@ -32,6 +32,10 @@ public class PlayerProperties {
 
     public final int maxArmor;
     public final int armor;
+    public int rawMaxArmorDurability;
+    public int rawArmorDurability;
+    public final float maxArmorDurability;
+    public final float armorDurability;
 
     public final int maxFoodLevel;
     public final float maxFoodLevelRaw;
@@ -119,6 +123,14 @@ public class PlayerProperties {
 
         maxArmor = 20;
         armor = playerEntity.getArmor();
+        for (ItemStack armorItem : playerEntity.getArmorItems()) {
+            rawArmorDurability += armorItem.getMaxDamage() - armorItem.getDamage();
+        }
+        for (ItemStack armorItem : playerEntity.getArmorItems()) {
+            rawMaxArmorDurability += armorItem.getMaxDamage();
+        }
+        maxArmorDurability = (float)armor; // Abstraction
+        armorDurability = rawArmorDurability > 0 ? (((float)rawArmorDurability / rawMaxArmorDurability) * maxArmorDurability) : 0;
 
         maxFoodLevel = 20;
         maxFoodLevelRaw = (float)maxFoodLevel; // Used for saturation calculations

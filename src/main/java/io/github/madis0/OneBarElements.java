@@ -43,6 +43,7 @@ public class OneBarElements {
             xpBar();
             barText();
             if(config.otherBars.showArmorBar) armorBar();
+            if(config.otherBars.showArmorDurabilityBar) armorDurabilityBar();
             if(config.otherBars.showSaturationBar) saturationBar();
             //if(config.healthEstimates && config.otherBars.showSaturationBar) heldFoodSaturationBar();
         }
@@ -54,6 +55,11 @@ public class OneBarElements {
 
     private void armorBar(){
         DrawableHelper.fill(stack, clientProperties.baseStartW, clientProperties.baseStartH - 1, clientProperties.baseRelativeEndW(playerProperties.armor, playerProperties.maxArmor), clientProperties.baseStartH, config.otherBars.armorColor);
+    }
+
+    private void armorDurabilityBar(){
+        if(playerProperties.maxArmorDurability > 0)
+            DrawableHelper.fill(stack, clientProperties.baseStartW, clientProperties.baseStartH - 1, clientProperties.baseRelativeEndW(playerProperties.armorDurability, playerProperties.maxArmor), clientProperties.baseStartH, config.otherBars.armorDurabilityColor);
     }
 
     private void saturationBar(){

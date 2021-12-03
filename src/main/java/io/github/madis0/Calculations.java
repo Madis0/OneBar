@@ -8,10 +8,7 @@ public class Calculations {
     private static final ModConfig config = AutoConfig.getConfigHolder(ModConfig.class).getConfig();
 
     public static int RelativeW(int start, int end, int value, int total){
-        if(value < total)
-            return MathHelper.ceil(start + ((float)(end - start) / total * value));
-        else
-            return end;
+        return value < total ? MathHelper.ceil(start + ((float) (end - start) / total * value)) : end;
     }
 
     public static int GetPreciseInt(float number){
