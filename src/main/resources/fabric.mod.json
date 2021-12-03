@@ -29,7 +29,8 @@
   "depends": {
     "fabric": "*",
     "cloth-config2": "*",
-    "minecraft": ">=1.18-"
+    "minecraft": ">=1.17-",
+    "java": ">=17"
   },
   "suggests": {
     "modmenu": "*"
