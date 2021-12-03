@@ -1,12 +1,15 @@
 package io.github.madis0;
 
 import net.minecraft.client.MinecraftClient;
+import net.minecraft.entity.EquipmentSlot;
 import net.minecraft.entity.effect.StatusEffectInstance;
 import net.minecraft.entity.effect.StatusEffects;
 import net.minecraft.entity.player.HungerManager;
 import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.item.ElytraItem;
 import net.minecraft.item.FoodComponent;
 import net.minecraft.item.ItemStack;
+import net.minecraft.item.Items;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.world.Difficulty;
 
@@ -36,6 +39,9 @@ public class PlayerProperties {
     public int rawArmorDurability;
     public final float maxArmorDurability;
     public final float armorDurability;
+    public int elytraDurability;
+    public int elytraMaxDurability;
+    public final boolean isFlyingWithElytra;
 
     public final int maxFoodLevel;
     public final float maxFoodLevelRaw;
@@ -124,13 +130,22 @@ public class PlayerProperties {
         maxArmor = 20;
         armor = playerEntity.getArmor();
         for (ItemStack armorItem : playerEntity.getArmorItems()) {
-            rawArmorDurability += armorItem.getMaxDamage() - armorItem.getDamage();
+            if(!armorItem.isOf(Items.ELYTRA))
+                rawArmorDurability += armorItem.getMaxDamage() - armorItem.getDamage();
         }
         for (ItemStack armorItem : playerEntity.getArmorItems()) {
-            rawMaxArmorDurability += armorItem.getMaxDamage();
+            if(!armorItem.isOf(Items.ELYTRA))
+                rawMaxArmorDurability += armorItem.getMaxDamage();
         }
         maxArmorDurability = (float)armor; // Abstraction
         armorDurability = rawArmorDurability > 0 ? (((float)rawArmorDurability / rawMaxArmorDurability) * maxArmorDurability) : 0;
+
+        ItemStack chestItem = playerEntity.getEquippedStack(EquipmentSlot.CHEST);
+        if (chestItem.isOf(Items.ELYTRA) && ElytraItem.isUsable(chestItem)) {
+            elytraDurability = chestItem.getMaxDamage() - chestItem.getDamage();
+            elytraMaxDurability = chestItem.getMaxDamage();
+        }
+        isFlyingWithElytra = playerEntity.isFallFlying();
 
         maxFoodLevel = 20;
         maxFoodLevelRaw = (float)maxFoodLevel; // Used for saturation calculations

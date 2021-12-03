@@ -44,6 +44,7 @@ public class OneBarElements {
             barText();
             if(config.otherBars.showArmorBar) armorBar();
             if(config.otherBars.showArmorDurabilityBar) armorDurabilityBar();
+            if(config.otherBars.showElytraDurabilityBar) elytraDurabilityBar();
             if(config.otherBars.showSaturationBar) saturationBar();
             //if(config.healthEstimates && config.otherBars.showSaturationBar) heldFoodSaturationBar();
         }
@@ -60,6 +61,11 @@ public class OneBarElements {
     private void armorDurabilityBar(){
         if(playerProperties.maxArmorDurability > 0)
             DrawableHelper.fill(stack, clientProperties.baseStartW, clientProperties.baseStartH - 1, clientProperties.baseRelativeEndW(playerProperties.armorDurability, playerProperties.maxArmor), clientProperties.baseStartH, config.otherBars.armorDurabilityColor);
+    }
+
+    private void elytraDurabilityBar(){
+        if(playerProperties.isFlyingWithElytra)
+            DrawableHelper.fill(stack, clientProperties.baseStartW, clientProperties.baseStartH - 1, clientProperties.baseRelativeEndW(playerProperties.elytraDurability, playerProperties.elytraMaxDurability), clientProperties.baseStartH, config.otherBars.elytraDurabilityColor);
     }
 
     private void saturationBar(){
