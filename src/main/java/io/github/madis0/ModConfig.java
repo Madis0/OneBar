@@ -17,15 +17,20 @@ public class ModConfig implements ConfigData {
     @ConfigEntry.ColorPicker(allowAlpha = true)
     public int backgroundColor = 0xFF000000;
 
-    @ConfigEntry.Gui.CollapsibleObject
+    @ConfigEntry.Category("textSettings")
+    @ConfigEntry.Gui.TransitiveObject
     public TextSettings textSettings = new TextSettings();
-    @ConfigEntry.Gui.CollapsibleObject
+    @ConfigEntry.Category("goodThings")
+    @ConfigEntry.Gui.TransitiveObject
     public GoodThings goodThings = new GoodThings();
-    @ConfigEntry.Gui.CollapsibleObject
+    @ConfigEntry.Category("badThings")
+    @ConfigEntry.Gui.TransitiveObject
     public BadThings badThings = new BadThings();
-    @ConfigEntry.Gui.CollapsibleObject
+    @ConfigEntry.Category("entity")
+    @ConfigEntry.Gui.TransitiveObject
     public Entity entity = new Entity();
-    @ConfigEntry.Gui.CollapsibleObject
+    @ConfigEntry.Category("otherBars")
+    @ConfigEntry.Gui.TransitiveObject
     public OtherBars otherBars = new OtherBars();
 
     public static class TextSettings {
