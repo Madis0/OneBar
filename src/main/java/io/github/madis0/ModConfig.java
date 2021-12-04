@@ -18,22 +18,6 @@ public class ModConfig implements ConfigData {
     @ConfigEntry.ColorPicker(allowAlpha = true)
     public int backgroundColor = 0xFF000000;
 
-    @ConfigEntry.Category("textSettings")
-    @ConfigEntry.Gui.TransitiveObject
-    public TextSettings textSettings = new TextSettings();
-    @ConfigEntry.Category("goodThings")
-    @ConfigEntry.Gui.TransitiveObject
-    public GoodThings goodThings = new GoodThings();
-    @ConfigEntry.Category("badThings")
-    @ConfigEntry.Gui.TransitiveObject
-    public BadThings badThings = new BadThings();
-    @ConfigEntry.Category("entity")
-    @ConfigEntry.Gui.TransitiveObject
-    public Entity entity = new Entity();
-    @ConfigEntry.Category("otherBars")
-    @ConfigEntry.Gui.TransitiveObject
-    public OtherBars otherBars = new OtherBars();
-
     public static class TextSettings {
         @ConfigEntry.Gui.Tooltip
         public boolean showText = true;
@@ -118,4 +102,20 @@ public class ModConfig implements ConfigData {
         @ConfigEntry.Gui.Tooltip
         public boolean compatibilityMode = false;
     }
+
+    @ConfigEntry.Category("textSettings")
+    @ConfigEntry.Gui.TransitiveObject
+    public TextSettings textSettings = new TextSettings();
+    @ConfigEntry.Category("goodThings")
+    @ConfigEntry.Gui.TransitiveObject
+    public GoodThings goodThings = new GoodThings();
+    @ConfigEntry.Category("badThings")
+    @ConfigEntry.Gui.TransitiveObject
+    public BadThings badThings = new BadThings();
+    @ConfigEntry.Category("entity")
+    @ConfigEntry.Gui.TransitiveObject
+    public Entity entity = new Entity();
+    @ConfigEntry.Category("otherBars")
+    @ConfigEntry.Gui.TransitiveObject
+    public OtherBars otherBars = new OtherBars();
 }
