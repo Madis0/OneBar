@@ -12,7 +12,7 @@ Reviews by Niche Duck: [main mod](https://www.youtube.com/watch?v=-Exd6HXWSpc) (
 
 ## Installation
 
-1. Install Minecraft 1.17 or later
+1. Install Minecraft 1.16 or later
 2. Install [Fabric Loader](https://fabricmc.net/use/)
 3. Download OneBar, [Fabric API](https://www.curseforge.com/minecraft/mc-mods/fabric-api), [Mod Menu](https://www.curseforge.com/minecraft/mc-mods/modmenu), [Cloth Config API](https://www.curseforge.com/minecraft/mc-mods/cloth-config)
 4. Place the JARs you downloaded to your Minecraft's mods folder
