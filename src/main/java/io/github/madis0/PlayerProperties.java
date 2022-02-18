@@ -304,6 +304,7 @@ public class PlayerProperties {
         wardenDanger = playerEntity.hasStatusEffect(StatusEffects.DARKNESS) ? 10 : 0;
 
         ;
+        //MinecraftClient.getInstance().getSoundManager().registerListener(this);
     }
 
     public static void SetPlayerBurningOnSoulFire(boolean isBurning){
