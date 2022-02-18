@@ -69,6 +69,10 @@ public class ModConfig implements ConfigData {
         public int poisonColor = 0xA68C9900;
         @ConfigEntry.ColorPicker(allowAlpha = true)
         public int witherColor = 0xA637474f;
+        @ConfigEntry.Gui.Tooltip
+        public boolean showWarden = true;
+        @ConfigEntry.ColorPicker(allowAlpha = true)
+        public int wardenColor = 0xF2000000;
     }
 
     public static class Entity {

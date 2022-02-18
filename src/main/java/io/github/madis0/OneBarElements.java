@@ -37,6 +37,7 @@ public class OneBarElements {
             if(config.healthEstimates) hungerEffectBar();
             hungerBar();
             if(config.goodThings.heldFoodHungerBar) heldFoodHungerBar();
+            if(config.badThings.showWarden) wardenBar();
             if(config.badThings.showFire) fireBar();
             freezeBar();
             airBar();
@@ -112,6 +113,10 @@ public class OneBarElements {
 
     private void witherBar(){
         DrawableHelper.fill(stack, clientProperties.baseRelativeStartW(playerProperties.maxHealthRaw - playerProperties.witherHealthRaw, playerProperties.maxHealthRaw), clientProperties.baseStartH, clientProperties.baseEndW, clientProperties.baseEndH, config.badThings.witherColor);
+    }
+
+    private void wardenBar(){
+        DrawableHelper.fill(stack, clientProperties.baseRelativeStartW(playerProperties.wardenDanger, playerProperties.maxWardenDanger), clientProperties.baseStartH, clientProperties.baseEndW, clientProperties.baseEndH, config.badThings.wardenColor);
     }
 
     private void hungerEffectBar(){
@@ -201,6 +206,8 @@ public class OneBarElements {
 
             // Subtractive values
 
+            if(playerProperties.wardenDanger > 0)
+                value += minus + new TranslatableText(config.textSettings.useEmoji ? "text.onebar.wardenEmoji" : "text.onebar.warden", Calculations.MakeFraction(playerProperties.wardenDanger, false)).getString();
             if (playerProperties.isUnderwater && !playerProperties.hasWaterBreathing)
                 value += minus + new TranslatableText(config.textSettings.useEmoji ? "text.onebar.airEmoji" : "text.onebar.air", Calculations.MakeFraction(playerProperties.air, false)).getString();
             if (playerProperties.isUnderwater && playerProperties.hasWaterBreathing)
