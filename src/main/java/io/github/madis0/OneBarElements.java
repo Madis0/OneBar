@@ -140,7 +140,7 @@ public class OneBarElements {
 
     private void fireBar(){
         if (playerProperties.isBurning && !playerProperties.hasFireResistance){
-            DrawableHelper.fill(stack, clientProperties.baseStartW, clientProperties.baseStartH, clientProperties.baseEndW, clientProperties.baseEndH, config.badThings.fireColor);
+            DrawableHelper.fill(stack, clientProperties.baseRelativeStartW((playerProperties.maxHealthRaw - playerProperties.healthRaw) + playerProperties.burningMultiplier, playerProperties.maxHealthRaw), clientProperties.baseStartH, clientProperties.baseEndW, clientProperties.baseEndH, config.badThings.fireColor);
         }
     }
 
