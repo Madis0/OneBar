@@ -303,7 +303,6 @@ public class PlayerProperties {
         maxWardenDanger = 20;
         wardenDanger = playerEntity.hasStatusEffect(StatusEffects.DARKNESS) ? 10 : 0;
 
-        ;
         //MinecraftClient.getInstance().getSoundManager().registerListener(this);
     }
 
