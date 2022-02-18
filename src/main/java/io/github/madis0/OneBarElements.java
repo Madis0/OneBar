@@ -116,7 +116,7 @@ public class OneBarElements {
     }
 
     private void wardenBar(){
-        DrawableHelper.fill(stack, clientProperties.baseRelativeStartW(playerProperties.wardenDanger, playerProperties.maxWardenDanger), clientProperties.baseStartH, clientProperties.baseEndW, clientProperties.baseEndH, config.badThings.wardenColor);
+        DrawableHelper.fill(stack, clientProperties.baseRelativeStartW(playerProperties.rawWardenDanger, playerProperties.rawMaxWardenDanger), clientProperties.baseStartH, clientProperties.baseEndW, clientProperties.baseEndH, config.badThings.wardenColor);
     }
 
     private void hungerEffectBar(){

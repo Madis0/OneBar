@@ -1,6 +1,9 @@
 package io.github.madis0;
 
 import net.minecraft.client.MinecraftClient;
+import net.minecraft.client.sound.SoundInstance;
+import net.minecraft.client.sound.SoundInstanceListener;
+import net.minecraft.client.sound.WeightedSoundSet;
 import net.minecraft.entity.EquipmentSlot;
 import net.minecraft.entity.effect.StatusEffectInstance;
 import net.minecraft.entity.effect.StatusEffects;
@@ -108,6 +111,8 @@ public class PlayerProperties {
 
     public int wardenDanger;
     public int maxWardenDanger;
+    public int rawWardenDanger;
+    public int rawMaxWardenDanger;
 
     public PlayerProperties(){
         PlayerEntity playerEntity = MinecraftClient.getInstance().player;
@@ -300,10 +305,15 @@ public class PlayerProperties {
         }
         heldFoodHealthEstimate = (int) Math.ceil(heldFoodHealthEstimateRaw);
 
+        rawMaxWardenDanger = 620; //31 sec in ticks
         maxWardenDanger = 20;
-        wardenDanger = playerEntity.hasStatusEffect(StatusEffects.DARKNESS) ? 10 : 0;
 
-        //MinecraftClient.getInstance().getSoundManager().registerListener(this);
+        if(playerEntity.hasStatusEffect(StatusEffects.DARKNESS)){
+            rawWardenDanger = playerEntity.getStatusEffect(StatusEffects.DARKNESS).getDuration();
+            wardenDanger = rawWardenDanger / 31;
+        }
+
+        var aa = MinecraftClient.getInstance().getSoundManager();
     }
 
     public static void SetPlayerBurningOnSoulFire(boolean isBurning){
