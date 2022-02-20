@@ -183,7 +183,7 @@ public class PlayerProperties {
         freezeRaw = playerEntity.getFrozenTicks();
         freeze = freezeRaw / 7;
         isFreezing = freezeRaw > 0;
-        isGettingFreezeDamage = playerEntity.isFreezing() && !difficulty.equals(Difficulty.PEACEFUL);
+        isGettingFreezeDamage = playerEntity.isFrozen() && !difficulty.equals(Difficulty.PEACEFUL);
 
         xpLevel = playerEntity.experienceLevel;
         maxXp = 183;
