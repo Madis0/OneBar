@@ -176,7 +176,8 @@ public class PlayerProperties {
 
         if(rawBurningSource == -20) burningMultiplier = 1;
         if(rawBurningSource == 1) burningMultiplier = 2;
-        if(rawBurningSource == 0 || isBurningOnSoulFire) burningMultiplier = 4;
+        if(isBurningOnSoulFire) burningMultiplier = 3;
+        if(rawBurningSource == 0) burningMultiplier = 4;
         isBurningOnFire = (burningMultiplier == 2 || burningMultiplier == 4) && !hasFireResistance;
 
         maxFreezeRaw = playerEntity.getMinFreezeDamageTicks();
