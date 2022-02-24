@@ -3,6 +3,7 @@ package io.github.madis0;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.sound.SoundInstance;
 import net.minecraft.client.sound.SoundInstanceListener;
+import net.minecraft.client.sound.SoundManager;
 import net.minecraft.client.sound.WeightedSoundSet;
 import net.minecraft.entity.EquipmentSlot;
 import net.minecraft.entity.effect.StatusEffectInstance;
@@ -192,7 +193,7 @@ public class PlayerProperties {
         freezeRaw = playerEntity.getFrozenTicks();
         freeze = freezeRaw / 7;
         isFreezing = freezeRaw > 0;
-        isGettingFreezeDamage = playerEntity.isFrozen() && !difficulty.equals(Difficulty.PEACEFUL);
+        isGettingFreezeDamage = playerEntity.isFreezing() && !difficulty.equals(Difficulty.PEACEFUL);
 
         xpLevel = playerEntity.experienceLevel;
         maxXp = 183;
