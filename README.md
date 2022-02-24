@@ -20,10 +20,16 @@ Reviews by Niche Duck: [main mod](https://www.youtube.com/watch?v=-Exd6HXWSpc) (
 
 ## How it works
 
-OneBar is meant to be contextual, showing you the values (and bar overlays) only when you need them. The positive effects, including health itself, are displayed left-to-right, negative effects right-to-left. 
+OneBar is meant to be contextual, showing the values and bars only when you need them. Tips:
 
-For example, if you get hungry, the hunger overlay is displayed over the health by its value. If you eat, you'll lose the overlay and the value, because you no longer need it. However, if you are hungry and underwater, the water bar is displayed on top of health _and_ hunger because it is the most important value in this case. Tip: health is _always_ the first number and hunger is _almost always_ the last number (except when you have the hunger effect), everything in between is an estimate, additional health or damage source.
-
+* The positive effects, including health itself, are displayed left-to-right; negative effects are displayed right-to-left. 
+* If you get hungry, the hunger overlay is displayed over the health by its value. 
+  * If you eat, you'll lose the overlay and the value, because you no longer need it. 
+  * If you are also underwater, the water bar is displayed on top of health _and_ hunger because it is the most important value in this case. 
+* Health is _always_ the first number and hunger is _almost always_ the last number (except when you have the hunger effect).
+  * Everything in between is an estimate, additional health or damage source (can be disabled).
+* Remember [old Minecraft without hunger and experience](https://minecraft.fandom.com/wiki/File:Beta_1.7.png)? This mod gives you a visually similar experience without losing modern functionality.
+ 
 The mod only uses client-side data, so it is never needed on a server. There are also a lot of settings for configuring the colors and visibility of various elements.
 
 ### Bars and values
@@ -35,8 +41,8 @@ The mod only uses client-side data, so it is never needed on a server. There are
 * Natural regeneration - yellow bar, **→ _number_** where number is the resulting health¹
 * Regeneration - pink bar, **→ _number_** where number is the resulting health¹
 * Absorption - no bar, **+number**, where number is your absorption health points
-* Resistance - no bar, **+⛨number%** or **+rnumber%** where number is the [effect level multiplier](https://minecraft.gamepedia.com/Resistance#Effect)²
-* Fire Resistance - no bar, **-~🔥number×~** or **-~bnumber×~** where number is a rough damage multiplier (1× - burning, 2× - burning in fire, 4× - burning in lava/soul fire)²
+* Resistance - no bar, **+⛨number%** or **+rnumber%** where number is [the effect level × 20%](https://minecraft.gamepedia.com/Resistance#Effect)²
+* Fire Resistance - no bar, **-~🔥number×~** or **-~bnumber×~** where number is a rough damage multiplier (1× - burning, 2× - in fire, 3× - in soul fire, 4× - in lava)²
 * Water Breathing/Conduit Power - blue bar, **-~⭘number~** or **-~anumber~**, number is usually zero and bar hidden unless you got water breathing _within_ water²
 * Held food restored hunger bar - green (exact/less) or orange (wasted) bar on top of hunger bar, **→ _number_** where number is the resulting hunger (negative if wasted; feature similar to AppleSkin)
 
@@ -45,7 +51,7 @@ The mod only uses client-side data, so it is never needed on a server. There are
 * Hunger - brown bar, **-number**, where number is calculated as 20-food points (e.g. if you had 15 food points, it would show 5)
 * Air - blue bar, **-⭘number** or **-anumber**, where number is the counter up to 20 until drowning (the equivalent of broken bubbles in vanilla)², drowning will also show **→ _number_** where number is the resulting health¹
 * Freezing - light gray bar, **-❄number** or **-fnumber**, where number is the counter up to 20 until freezing (the equivalent of frost fading in vanilla)², freezing damage will also show **→ _number_** where number is the resulting health¹
-* Burning - orange bar, **-🔥number×** or **-bnumber×** where number is a rough damage multiplier (1× - burning, 2× - burning in fire, 4× - burning in lava/soul fire)², burning on a block will also show **→ _number_** where number is the resulting health¹
+* Burning - orange bar, **-🔥number×** or **-bnumber×** where number is a rough damage multiplier (1× - burning, 2× - in fire, 3× - in soul fire, 4× - in lava)², burning on a block will also show **→ _number_** where number is the resulting health¹
 * Hunger effect - yellowish brown bar, **→ _number_** where number is the resulting hunger¹, starvation will also show **→ _number_** where number is the resulting health¹
 * Poison - yellowish green bar, **→ _number_** where number is the resulting health¹
 * Wither - dark gray bar, **→ _number_** where number is the resulting health¹

@@ -184,14 +184,15 @@ public class PlayerProperties {
 
         if(rawBurningSource == -20) burningMultiplier = 1;
         if(rawBurningSource == 1) burningMultiplier = 2;
-        if(rawBurningSource == 0 || isBurningOnSoulFire) burningMultiplier = 4;
+        if(isBurningOnSoulFire) burningMultiplier = 3;
+        if(rawBurningSource == 0) burningMultiplier = 4;
         isBurningOnFire = (burningMultiplier == 2 || burningMultiplier == 4) && !hasFireResistance;
 
         maxFreezeRaw = playerEntity.getMinFreezeDamageTicks();
         freezeRaw = playerEntity.getFrozenTicks();
         freeze = freezeRaw / 7;
         isFreezing = freezeRaw > 0;
-        isGettingFreezeDamage = playerEntity.isFreezing() && !difficulty.equals(Difficulty.PEACEFUL);
+        isGettingFreezeDamage = playerEntity.isFrozen() && !difficulty.equals(Difficulty.PEACEFUL);
 
         xpLevel = playerEntity.experienceLevel;
         maxXp = 183;

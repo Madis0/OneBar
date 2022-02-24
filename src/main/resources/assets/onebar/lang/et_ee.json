@@ -48,7 +48,7 @@
   "text.autoconfig.onebar.option.badThings.airColor": "Õhu värv (vee all)",
   "text.autoconfig.onebar.option.badThings.freezeColor": "Külmumise värv",
   "text.autoconfig.onebar.option.badThings.showFire": "Põlemise riba ja kahju kordaja",
-  "text.autoconfig.onebar.option.badThings.showFire.@Tooltip": "1× - põlemine, 2× - tules põlemine, 4× - laavas/hingetules põlemine",
+  "text.autoconfig.onebar.option.badThings.showFire.@Tooltip": "1× - põled, 2× - oled tules, 3× - oled hingetules, 4× - oled laavas",
   "text.autoconfig.onebar.option.badThings.fireColor": "Põlemise värv",
   "text.autoconfig.onebar.option.badThings.poisonColor": "Mürgi värv",
   "text.autoconfig.onebar.option.badThings.witherColor": "Närbumise värv",

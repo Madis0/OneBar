@@ -54,7 +54,7 @@
   "text.autoconfig.onebar.option.badThings.airColor": "Air color (underwater)",
   "text.autoconfig.onebar.option.badThings.freezeColor": "Freezing color",
   "text.autoconfig.onebar.option.badThings.showFire": "Burning bar and damage multiplier",
-  "text.autoconfig.onebar.option.badThings.showFire.@Tooltip": "1× - burning, 2× - burning in fire, 4× - burning in lava/soul fire",
+  "text.autoconfig.onebar.option.badThings.showFire.@Tooltip": "1× - burning, 2× - in fire, 3× - in soul fire, 4× - in lava",
   "text.autoconfig.onebar.option.badThings.fireColor": "Burning color",
   "text.autoconfig.onebar.option.badThings.poisonColor": "Poison color",
   "text.autoconfig.onebar.option.badThings.witherColor": "Wither color",
