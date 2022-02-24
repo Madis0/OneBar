@@ -28,7 +28,7 @@ OneBar is meant to be contextual, showing the values and bars only when you need
   * If you are also underwater, the water bar is displayed on top of health _and_ hunger because it is the most important value in this case. 
 * Health is _always_ the first number and hunger is _almost always_ the last number (except when you have the hunger effect).
   * Everything in between is an estimate, additional health or damage source (can be disabled).
-* Remember [old Minecraft without hunger and experience](https://static.wikia.nocookie.net/minecraft_gamepedia/images/b/ba/Beta_1.7.png/)? This mod gives you a visually similar experience without losing modern functionality.
+* Remember [old Minecraft without hunger and experience](https://minecraft.fandom.com/wiki/File:Beta_1.7.png)? This mod gives you a visually similar experience without losing modern functionality.
  
 The mod only uses client-side data, so it is never needed on a server. There are also a lot of settings for configuring the colors and visibility of various elements.
 
