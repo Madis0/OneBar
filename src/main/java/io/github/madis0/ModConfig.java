@@ -81,6 +81,8 @@ public class ModConfig implements ConfigData {
     }
 
     public static class OtherBars {
+        @ConfigEntry.Gui.Tooltip
+        public boolean adaptiveXpBar = true;
         @ConfigEntry.ColorPicker(allowAlpha = true)
         public int xpColor = 0xFF00C853;
         @ConfigEntry.Gui.Tooltip

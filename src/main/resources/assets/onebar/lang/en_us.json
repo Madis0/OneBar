@@ -62,6 +62,8 @@
   "text.autoconfig.onebar.option.entity.showHorseJump.@Tooltip": "Vertical bar below crosshair",
   "text.autoconfig.onebar.option.entity.jumpColor": "Jump color",
   "text.autoconfig.onebar.category.otherBars": "Other bars",
+  "text.autoconfig.onebar.option.otherBars.adaptiveXpBar": "Adaptive experience indicator",
+  "text.autoconfig.onebar.option.otherBars.adaptiveXpBar.@Tooltip": "Hides the experience level and/or bar when the value is zero",
   "text.autoconfig.onebar.option.otherBars.xpColor": "Experience level/bar color",
   "text.autoconfig.onebar.option.otherBars.showArmorBar": "Armor bar",
   "text.autoconfig.onebar.option.otherBars.showArmorBar.@Tooltip": "Thin bar above OneBar, also for ridden horses",

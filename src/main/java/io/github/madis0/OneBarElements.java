@@ -7,6 +7,7 @@ import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.text.TranslatableText;
+import net.minecraft.util.Arm;
 import net.minecraft.world.Difficulty;
 import java.util.Objects;
 
@@ -240,22 +241,84 @@ public class OneBarElements {
     private void xpBar(){
         int relativeEndW = Calculations.RelativeW(clientProperties.xpStartW, clientProperties.xpEndW, playerProperties.xp, playerProperties.maxXp);
 
-        int alignmentNumber = -5;
-        if(playerProperties.xpLevel >= 0 && playerProperties.xpLevel <= 9)
-            alignmentNumber = 6;
-        if(playerProperties.xpLevel >= 10 && playerProperties.xpLevel <= 99)
-            alignmentNumber = 3;
-        if(playerProperties.xpLevel >= 100 && playerProperties.xpLevel <= 999)
-            alignmentNumber = 0;
-        if(playerProperties.xpLevel >= 1000 && playerProperties.xpLevel <= 9999)
-            alignmentNumber = -3;
+        int alignmentNumber;
+        if(client.options.forceUnicodeFont)
+            alignmentNumber = -1;
+        else
+            alignmentNumber = -5;
+
+        if(playerProperties.xpLevel >= 0 && playerProperties.xpLevel <= 9){
+            if(client.options.forceUnicodeFont)
+                alignmentNumber = 7;
+            else
+                alignmentNumber = 6;
+        }
+        if(playerProperties.xpLevel >= 10 && playerProperties.xpLevel <= 99){
+            if(client.options.forceUnicodeFont)
+                alignmentNumber = 6;
+            else
+                alignmentNumber = 3;
+
+        }
+        if(playerProperties.xpLevel >= 100 && playerProperties.xpLevel <= 999){
+            if(client.options.forceUnicodeFont)
+                alignmentNumber = 4;
+            else
+                alignmentNumber = 0;
+        }
+        if(playerProperties.xpLevel >= 1000 && playerProperties.xpLevel <= 9999){
+            if(client.options.forceUnicodeFont)
+                alignmentNumber = 1;
+            else
+                alignmentNumber = -3;
+        }
+        if(playerProperties.xpLevel >= 10000 && playerProperties.xpLevel <= 99999 && client.options.mainArm == Arm.LEFT){
+            if(client.options.forceUnicodeFont)
+                alignmentNumber = -1;
+            else
+                alignmentNumber = -9;
+        }
+        if(playerProperties.xpLevel >= 100000 && playerProperties.xpLevel <= 999999 && client.options.mainArm == Arm.LEFT){
+            if(client.options.forceUnicodeFont)
+                alignmentNumber = -5;
+            else
+                alignmentNumber = -15;
+        }
+        if(playerProperties.xpLevel >= 1000000 && playerProperties.xpLevel <= 9999999 && client.options.mainArm == Arm.LEFT){
+            if(client.options.forceUnicodeFont)
+                alignmentNumber = -9;
+            else
+                alignmentNumber = -20;
+        }
+        if(playerProperties.xpLevel >= 10000000 && playerProperties.xpLevel <= 99999999 && client.options.mainArm == Arm.LEFT){
+            if(client.options.forceUnicodeFont)
+                alignmentNumber = -13;
+            else
+                alignmentNumber = -27;
+        }
+        if(playerProperties.xpLevel >= 100000000 && playerProperties.xpLevel <= 999999999 && client.options.mainArm == Arm.LEFT){
+            if(client.options.forceUnicodeFont)
+                alignmentNumber = -17;
+            else
+                alignmentNumber = -34;
+        }
+        if(playerProperties.xpLevel >= 1000000000 && client.options.mainArm == Arm.LEFT){
+            if(client.options.forceUnicodeFont)
+                alignmentNumber = -17;
+            else
+                alignmentNumber = -40;
+        }
 
         int textX = clientProperties.xpStartW + alignmentNumber;
         int textY = clientProperties.xpStartH - 10;
 
-        client.textRenderer.drawWithShadow(stack, String.valueOf(playerProperties.xpLevel), textX, textY, config.otherBars.xpColor);
-        DrawableHelper.fill(stack, clientProperties.xpStartW, clientProperties.xpStartH, clientProperties.xpEndW, clientProperties.xpEndH, config.backgroundColor);
-        DrawableHelper.fill(stack, clientProperties.xpStartW, clientProperties.xpStartH, relativeEndW, clientProperties.xpEndH, config.otherBars.xpColor);
+        if(!config.otherBars.adaptiveXpBar || playerProperties.xpLevel > 0){
+            client.textRenderer.drawWithShadow(stack, String.valueOf(playerProperties.xpLevel), textX, textY, config.otherBars.xpColor);
+        }
+        if(!config.otherBars.adaptiveXpBar || playerProperties.xp > 0){
+            DrawableHelper.fill(stack, clientProperties.xpStartW, clientProperties.xpStartH, clientProperties.xpEndW, clientProperties.xpEndH, config.backgroundColor);
+            DrawableHelper.fill(stack, clientProperties.xpStartW, clientProperties.xpStartH, relativeEndW, clientProperties.xpEndH, config.otherBars.xpColor);
+        }
     }
 
     public void jumpBar(){
