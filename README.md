@@ -60,7 +60,7 @@ The mod only uses client-side data, so it is never needed on a server. There are
 
 #### Others
 
-* Experience points - level count and bar to the right of hotbar
+* Experience points - level count and bar to the right of hotbar (shown if you have any XP)
 * Mount health - orange bar above OneBar, similar style
 * Horse jump - brown vertical bar below crosshair
 * Armor - thin white bar above OneBar for you and your horse, no number
