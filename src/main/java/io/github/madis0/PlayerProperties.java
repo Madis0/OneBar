@@ -136,7 +136,7 @@ public class PlayerProperties {
         absorption = MathHelper.ceil(playerEntity.getAbsorptionAmount());
         hasAbsorption = absorption > 0;
 
-        maxArmor = 20;
+        maxArmor = playerEntity.defaultMaxHealth;;
         armor = playerEntity.getArmor();
         for (ItemStack armorItem : playerEntity.getArmorItems()) {
             if(!armorItem.isOf(Items.ELYTRA))
@@ -156,7 +156,7 @@ public class PlayerProperties {
         }
         isFlyingWithElytra = playerEntity.isFallFlying();
 
-        maxFoodLevel = 20;
+        maxFoodLevel = playerEntity.defaultMaxHealth;
         maxFoodLevelRaw = (float)maxFoodLevel; // Used for saturation calculations
         foodLevel = hungerManager.getFoodLevel();
         hunger = maxFoodLevel - foodLevel;
