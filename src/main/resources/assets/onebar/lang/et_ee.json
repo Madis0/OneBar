@@ -61,6 +61,8 @@
   "text.autoconfig.onebar.option.entity.showHorseJump.@Tooltip": "Vertikaalne riba sihtimisristi all",
   "text.autoconfig.onebar.option.entity.jumpColor": "Hüppe värv",
   "text.autoconfig.onebar.category.otherBars": "Muud ribad",
+  "text.autoconfig.onebar.option.otherBars.adaptiveXpBar": "Kohanduv kogemusindikaator",
+  "text.autoconfig.onebar.option.otherBars.adaptiveXpBar.@Tooltip": "Peidab kogemustasemed ja/või -riba, kui väärtus on null",
   "text.autoconfig.onebar.option.otherBars.xpColor": "Kogemustasemete/-riba värv",
   "text.autoconfig.onebar.option.otherBars.showArmorBar": "Rüüriba",
   "text.autoconfig.onebar.option.otherBars.showArmorBar.@Tooltip": "Õhuke riba OneBari kohal, ka ratsutataval hobusel",
