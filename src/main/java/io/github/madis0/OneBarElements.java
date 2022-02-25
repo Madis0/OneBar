@@ -240,7 +240,17 @@ public class OneBarElements {
     private void xpBar(){
         int relativeEndW = Calculations.RelativeW(clientProperties.xpStartW, clientProperties.xpEndW, playerProperties.xp, playerProperties.maxXp);
 
-        int textX = clientProperties.xpStartW + 3;
+        int alignmentNumber = -5;
+        if(playerProperties.xpLevel >= 0 && playerProperties.xpLevel <= 9)
+            alignmentNumber = 6;
+        if(playerProperties.xpLevel >= 10 && playerProperties.xpLevel <= 99)
+            alignmentNumber = 3;
+        if(playerProperties.xpLevel >= 100 && playerProperties.xpLevel <= 999)
+            alignmentNumber = 0;
+        if(playerProperties.xpLevel >= 1000 && playerProperties.xpLevel <= 9999)
+            alignmentNumber = -3;
+
+        int textX = clientProperties.xpStartW + alignmentNumber;
         int textY = clientProperties.xpStartH - 10;
 
         client.textRenderer.drawWithShadow(stack, String.valueOf(playerProperties.xpLevel), textX, textY, config.otherBars.xpColor);
