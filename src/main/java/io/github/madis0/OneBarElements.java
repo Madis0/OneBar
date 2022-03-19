@@ -2,6 +2,7 @@ package io.github.madis0;
 
 import me.shedaniel.autoconfig.AutoConfig;
 import net.minecraft.client.MinecraftClient;
+import net.minecraft.client.font.TextRenderer;
 import net.minecraft.client.gui.DrawableHelper;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.entity.LivingEntity;
@@ -241,79 +242,46 @@ public class OneBarElements {
     private void xpBar(){
         int relativeEndW = Calculations.RelativeW(clientProperties.xpStartW, clientProperties.xpEndW, playerProperties.xp, playerProperties.maxXp);
 
-        int alignmentNumber;
-        if(client.options.forceUnicodeFont)
-            alignmentNumber = -1;
-        else
-            alignmentNumber = -5;
-
-        if(playerProperties.xpLevel >= 0 && playerProperties.xpLevel <= 9){
-            if(client.options.forceUnicodeFont)
-                alignmentNumber = 7;
-            else
-                alignmentNumber = 6;
-        }
-        if(playerProperties.xpLevel >= 10 && playerProperties.xpLevel <= 99){
-            if(client.options.forceUnicodeFont)
-                alignmentNumber = 6;
-            else
-                alignmentNumber = 3;
-
-        }
-        if(playerProperties.xpLevel >= 100 && playerProperties.xpLevel <= 999){
-            if(client.options.forceUnicodeFont)
-                alignmentNumber = 4;
-            else
-                alignmentNumber = 0;
-        }
-        if(playerProperties.xpLevel >= 1000 && playerProperties.xpLevel <= 9999){
-            if(client.options.forceUnicodeFont)
-                alignmentNumber = 1;
-            else
-                alignmentNumber = -3;
-        }
-        if(playerProperties.xpLevel >= 10000 && playerProperties.xpLevel <= 99999 && client.options.mainArm == Arm.LEFT){
-            if(client.options.forceUnicodeFont)
-                alignmentNumber = -1;
-            else
-                alignmentNumber = -9;
-        }
-        if(playerProperties.xpLevel >= 100000 && playerProperties.xpLevel <= 999999 && client.options.mainArm == Arm.LEFT){
-            if(client.options.forceUnicodeFont)
-                alignmentNumber = -5;
-            else
-                alignmentNumber = -15;
-        }
-        if(playerProperties.xpLevel >= 1000000 && playerProperties.xpLevel <= 9999999 && client.options.mainArm == Arm.LEFT){
-            if(client.options.forceUnicodeFont)
-                alignmentNumber = -9;
-            else
-                alignmentNumber = -20;
-        }
-        if(playerProperties.xpLevel >= 10000000 && playerProperties.xpLevel <= 99999999 && client.options.mainArm == Arm.LEFT){
-            if(client.options.forceUnicodeFont)
-                alignmentNumber = -13;
-            else
-                alignmentNumber = -27;
-        }
-        if(playerProperties.xpLevel >= 100000000 && playerProperties.xpLevel <= 999999999 && client.options.mainArm == Arm.LEFT){
-            if(client.options.forceUnicodeFont)
-                alignmentNumber = -17;
-            else
-                alignmentNumber = -34;
-        }
-        if(playerProperties.xpLevel >= 1000000000 && client.options.mainArm == Arm.LEFT){
-            if(client.options.forceUnicodeFont)
-                alignmentNumber = -17;
-            else
-                alignmentNumber = -40;
-        }
-
-        int textX = clientProperties.xpStartW + alignmentNumber;
+        int textX = clientProperties.xpStartW + 9;
         int textY = clientProperties.xpStartH - 10;
 
+        var lapisText = "";
+        if(config.otherBars.lapisCounter)
+        {
+            if(config.otherBars.lapisTimesEnchantable) {
+                lapisText = Calculations.GetSubscriptNumber(playerProperties.lapisLazuliMax) + "ₓ";
+                if((config.otherBars.adaptiveXpBar && playerProperties.lapisLazuliMax < 1))
+                    lapisText = "";
+            }
+            else {
+                lapisText = Calculations.GetSubscriptNumber(playerProperties.lapisLazuli) + "";
+                if(config.otherBars.adaptiveXpBar && playerProperties.lapisLazuli < 1)
+                    lapisText = "";
+            }
+        }
+        
         if(!config.otherBars.adaptiveXpBar || playerProperties.xpLevel > 0){
-            client.textRenderer.drawWithShadow(stack, String.valueOf(playerProperties.xpLevel), textX, textY, config.otherBars.xpColor);
+            int sizeLimit = !client.options.forceUnicodeFont ? 10000 : 1000000;
+            int edgeAlignedConst = 13;
+
+            if(playerProperties.xpLevel >= 0 && playerProperties.xpLevel < sizeLimit){
+                DrawableHelper.drawCenteredText(stack, client.textRenderer, String.valueOf(playerProperties.xpLevel), textX, textY, config.otherBars.xpColor);
+            }
+            else if(playerProperties.xpLevel >= sizeLimit){
+                if(client.options.mainArm == Arm.RIGHT)
+                    client.textRenderer.drawWithShadow(stack, String.valueOf(playerProperties.xpLevel), textX - edgeAlignedConst, textY, config.otherBars.xpColor);
+                else if(client.options.mainArm == Arm.LEFT)
+                    client.textRenderer.drawWithShadow(stack, String.valueOf(playerProperties.xpLevel), textX + edgeAlignedConst - client.textRenderer.getWidth(String.valueOf(playerProperties.xpLevel)), textY, config.otherBars.xpColor);
+            }
+
+            if(config.otherBars.lapisCounter){
+                var lapisTextX = clientProperties.xpEndW + 1;
+                if(client.options.mainArm == Arm.LEFT)
+                    lapisTextX = clientProperties.xpStartW - 1 - client.textRenderer.getWidth(lapisText);
+
+                var lapisTextY = clientProperties.xpStartH - 5;
+                client.textRenderer.drawWithShadow(stack, lapisText, lapisTextX, lapisTextY, config.otherBars.lapisColor);
+            }
         }
         if(!config.otherBars.adaptiveXpBar || playerProperties.xp > 0){
             DrawableHelper.fill(stack, clientProperties.xpStartW, clientProperties.xpStartH, clientProperties.xpEndW, clientProperties.xpEndH, config.backgroundColor);

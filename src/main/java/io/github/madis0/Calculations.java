@@ -53,4 +53,19 @@ public class Calculations {
         // Approximate formula for calculating regeneration addition health: saturation + (2.5 - hunger) * exhaustion max / 6 exhaustion per healed heart
         return (rawSaturation + (float)(2.5 - hunger)) * (float)4 / (float)6;
     }
+
+    public static String GetSubscriptNumber(Object number){ // assumes any number type
+        return String.valueOf(number)
+                .replace('0', '₀')
+                .replace('1', '₁')
+                .replace('2', '₂')
+                .replace('3', '₃')
+                .replace('4', '₄')
+                .replace('5', '₅')
+                .replace('6', '₆')
+                .replace('7', '₇')
+                .replace('8', '₈')
+                .replace('9', '₉');
+    }
+
 }

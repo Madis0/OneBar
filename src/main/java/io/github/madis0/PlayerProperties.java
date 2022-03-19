@@ -1,6 +1,8 @@
 package io.github.madis0;
 
 import net.minecraft.client.MinecraftClient;
+import net.minecraft.client.gui.screen.ingame.EnchantmentScreen;
+import net.minecraft.client.gui.screen.ingame.HandledScreen;
 import net.minecraft.entity.EquipmentSlot;
 import net.minecraft.entity.effect.StatusEffectInstance;
 import net.minecraft.entity.effect.StatusEffects;
@@ -15,8 +17,11 @@ import net.minecraft.world.Difficulty;
 
 import java.util.Objects;
 
+import static net.minecraft.item.Items.LAPIS_BLOCK;
+
 public class PlayerProperties {
     Difficulty difficulty;
+    private final MinecraftClient client = MinecraftClient.getInstance();
 
     public final boolean hasResistance;
     public final boolean hasRegeneration;
@@ -97,6 +102,9 @@ public class PlayerProperties {
     public final int xpLevel;
     public final int maxXp;
     public final int xp;
+
+    public int lapisLazuli;
+    public int lapisLazuliMax;
 
     public boolean isHoldingFood;
     public int heldFoodHunger;
@@ -187,8 +195,26 @@ public class PlayerProperties {
         isGettingFreezeDamage = playerEntity.isFrozen() && !difficulty.equals(Difficulty.PEACEFUL);
 
         xpLevel = playerEntity.experienceLevel;
-        maxXp = 183;
+        maxXp = 183; //renderExperienceBar @ InGameHud.class
         xp = (int)(playerEntity.experienceProgress * maxXp);
+        lapisLazuli = playerEntity.getInventory().count(Items.LAPIS_LAZULI) +
+                (playerEntity.getInventory().count(LAPIS_BLOCK) * 9);
+
+        if(client.currentScreen instanceof EnchantmentScreen){
+            lapisLazuli += ((EnchantmentScreen) client.currentScreen).getScreenHandler().getLapisCount();
+        }
+
+        if (client.currentScreen != null && client.currentScreen instanceof HandledScreen<?>){
+            var pickedUpItemInInventory = ((HandledScreen<?>) client.currentScreen).getScreenHandler().getCursorStack();
+            if(pickedUpItemInInventory.isOf(Items.LAPIS_BLOCK)) lapisLazuli += pickedUpItemInInventory.getCount() * 9;
+            if(pickedUpItemInInventory.isOf(Items.LAPIS_LAZULI)) lapisLazuli += pickedUpItemInInventory.getCount();
+        }
+
+        lapisLazuliMax = 0;
+
+        int timesCanEnchant = (xpLevel - 27) / 3;
+        int lapisCanEnchant = lapisLazuli / 3;
+        if(timesCanEnchant > 0) lapisLazuliMax = Math.min(timesCanEnchant, lapisCanEnchant);
 
         // Potion effects
 
