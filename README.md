@@ -61,6 +61,7 @@ The mod only uses client-side data, so it is never needed on a server. There are
 #### Others
 
 * Experience points - green level count and bar to the right of hotbar (shown if you have any XP)
+* Lapis Lazuli counter (opt-in) - blue counter next to XP bar, shows either the raw count or times enchantable maxed out (XP level 30+)
 * Mount health - orange bar above OneBar, similar style
 * Horse jump - brown vertical bar below crosshair
 * Armor - thin white bar above OneBar for you and your horse, no number

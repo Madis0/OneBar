@@ -88,7 +88,7 @@ public class ModConfig implements ConfigData {
         @ConfigEntry.Gui.Tooltip
         public boolean lapisCounter = false;
         @ConfigEntry.Gui.Tooltip
-        public boolean lapisTimesEnchantable = true;
+        public boolean lapisTimesEnchantable = false;
         @ConfigEntry.ColorPicker(allowAlpha = true)
         public int lapisColor = 0xFF2196F3;
         @ConfigEntry.Gui.Tooltip

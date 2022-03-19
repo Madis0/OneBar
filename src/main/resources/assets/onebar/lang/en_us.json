@@ -1,5 +1,5 @@
 {
-  "modmenu.descriptionTranslation.onebar": "A contextual HUD mod",
+  "modmenu.descriptionTranslation.onebar": "HUD mod that shows the values and bars only when you need them.",
   "text.onebar.resistance": "r%s%%",
   "text.onebar.air": "a%s",
   "text.onebar.freeze": "f%s",
