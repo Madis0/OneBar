@@ -333,12 +333,12 @@ public class PlayerProperties {
         }
         heldFoodHealthEstimate = (int) Math.ceil(heldFoodHealthEstimateRaw);
 
-        rawMaxWardenDanger = 620; //31 sec in ticks
+        rawMaxWardenDanger = 140; //7 sec in ticks - the actual max is 12, but it fluctuates above 7 while in radius
         maxWardenDanger = 20;
 
         if(playerEntity.hasStatusEffect(StatusEffects.DARKNESS)){
             rawWardenDanger = playerEntity.getStatusEffect(StatusEffects.DARKNESS).getDuration();
-            wardenDanger = rawWardenDanger / 31;
+            wardenDanger = Math.min(rawWardenDanger / 7, 20);
         }
 
         var aa = MinecraftClient.getInstance().getSoundManager();
