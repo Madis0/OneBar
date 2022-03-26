@@ -267,22 +267,22 @@ public class OneBarElements {
         }
         
         if(!config.otherBars.adaptiveXpBar || playerProperties.xpLevel > 0){
-            int sizeLimit = !client.options.forceUnicodeFont ? 10000 : 1000000;
+            int sizeLimit = !client.options.method_42437().getValue() ? 10000 : 1000000;
             int edgeAlignedConst = 13;
 
             if(playerProperties.xpLevel >= 0 && playerProperties.xpLevel < sizeLimit){
                 DrawableHelper.drawCenteredText(stack, client.textRenderer, String.valueOf(playerProperties.xpLevel), textX, textY, config.otherBars.xpColor);
             }
             else if(playerProperties.xpLevel >= sizeLimit){
-                if(client.options.mainArm == Arm.RIGHT)
+                if(client.options.method_42552().getValue() == Arm.RIGHT)
                     client.textRenderer.drawWithShadow(stack, String.valueOf(playerProperties.xpLevel), textX - edgeAlignedConst, textY, config.otherBars.xpColor);
-                else if(client.options.mainArm == Arm.LEFT)
+                else if(client.options.method_42552().getValue()  == Arm.LEFT)
                     client.textRenderer.drawWithShadow(stack, String.valueOf(playerProperties.xpLevel), textX + edgeAlignedConst - client.textRenderer.getWidth(String.valueOf(playerProperties.xpLevel)), textY, config.otherBars.xpColor);
             }
 
             if(config.otherBars.lapisCounter){
                 var lapisTextX = clientProperties.xpEndW + 1;
-                if(client.options.mainArm == Arm.LEFT)
+                if(client.options.method_42552().getValue()  == Arm.LEFT)
                     lapisTextX = clientProperties.xpStartW - 1 - client.textRenderer.getWidth(lapisText);
 
                 var lapisTextY = clientProperties.xpStartH - 5;

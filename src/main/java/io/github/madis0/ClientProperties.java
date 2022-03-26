@@ -34,14 +34,14 @@ public class ClientProperties {
         baseStartH = scaledHeight - 33;
         baseEndH = baseStartH + 9;
 
-        if (client.options.mainArm == Arm.RIGHT){
+        if (client.options.method_42552().getValue()  == Arm.RIGHT){
             xpStartW = baseEndW + 4;
-            if(client.options.attackIndicator == AttackIndicator.HOTBAR)
+            if(client.options.method_42565().getValue() == AttackIndicator.HOTBAR)
                 xpStartW = xpStartW + 20;
         }
-        else if (client.options.mainArm == Arm.LEFT) {
+        else if (client.options.method_42552().getValue()  == Arm.LEFT) {
             xpStartW = baseStartW - 22;
-            if(client.options.attackIndicator == AttackIndicator.HOTBAR)
+            if(client.options.method_42565().getValue() == AttackIndicator.HOTBAR)
                 xpStartW = xpStartW - 20;
         }
 
