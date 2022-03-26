@@ -1,5 +1,5 @@
 {
-  "modmenu.descriptionTranslation.onebar": "Kontekstipõhine liidese mod",
+  "modmenu.descriptionTranslation.onebar": "Liidese mod, mis kuvab väärtuseid ja ribasid vaid siis, kui neid vajad.",
   "text.onebar.resistance": "v%s%%",
   "text.onebar.air": "õ%s",
   "text.onebar.freeze": "k%s",
@@ -64,6 +64,11 @@
   "text.autoconfig.onebar.option.otherBars.adaptiveXpBar": "Kohanduv kogemusindikaator",
   "text.autoconfig.onebar.option.otherBars.adaptiveXpBar.@Tooltip": "Peidab kogemustasemed ja/või -riba, kui väärtus on null",
   "text.autoconfig.onebar.option.otherBars.xpColor": "Kogemustasemete/-riba värv",
+  "text.autoconfig.onebar.option.otherBars.lapisCounter": "Lasuriidiloendur",
+  "text.autoconfig.onebar.option.otherBars.lapisCounter.@Tooltip": "Loendur kogemusindikaatori kõrval, mis kuvab lasuriidi esemete/plokkide hulka seljakotis",
+  "text.autoconfig.onebar.option.otherBars.lapisTimesEnchantable": "Lasuriidiloendur: kuva maksimaalse loitsimise kordi",
+  "text.autoconfig.onebar.option.otherBars.lapisTimesEnchantable.@Tooltip": "Toorväärtuse asemel kuvab, mitu korda saad maksimaalselt loitsida 30+ kogemustaseme omamisel",
+  "text.autoconfig.onebar.option.otherBars.lapisColor": "Lasuriidiloenduri värv",
   "text.autoconfig.onebar.option.otherBars.showArmorBar": "Rüüriba",
   "text.autoconfig.onebar.option.otherBars.showArmorBar.@Tooltip": "Õhuke riba OneBari kohal, ka ratsutataval hobusel",
   "text.autoconfig.onebar.option.otherBars.armorColor": "Rüü värv",

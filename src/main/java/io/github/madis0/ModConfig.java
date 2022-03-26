@@ -90,6 +90,12 @@ public class ModConfig implements ConfigData {
         @ConfigEntry.ColorPicker(allowAlpha = true)
         public int xpColor = 0xFF00C853;
         @ConfigEntry.Gui.Tooltip
+        public boolean lapisCounter = false;
+        @ConfigEntry.Gui.Tooltip
+        public boolean lapisTimesEnchantable = false;
+        @ConfigEntry.ColorPicker(allowAlpha = true)
+        public int lapisColor = 0xFF2196F3;
+        @ConfigEntry.Gui.Tooltip
         public boolean showArmorBar = true;
         @ConfigEntry.ColorPicker(allowAlpha = true)
         public int armorColor = 0xA6FFFFFF;
