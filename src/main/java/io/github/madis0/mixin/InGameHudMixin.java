@@ -12,6 +12,7 @@ import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
+import org.spongepowered.asm.mixin.injection.ModifyVariable;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 import java.util.Objects;
@@ -70,6 +71,18 @@ public abstract class InGameHudMixin {
             ci.cancel();
             oneBarElements.mountBar(getRiddenEntity());
         }
+    }
+
+    @ModifyVariable(method = "renderHeldItemTooltip", at = @At(value = "STORE"), ordinal = 2)
+    private int renderHeldItemTooltip(int k){
+        if(showOneBar && config.otherBars.hotbarTooltipsDown) {
+            if (getRiddenEntity() == null && !Objects.requireNonNull(client.interactionManager).hasCreativeInventory())
+                return k + 14;
+            else if (Objects.requireNonNull(client.interactionManager).hasCreativeInventory())
+                return k + 12;
+            return k + 2;
+        }
+        return k;
     }
 
     private void genericCancel(CallbackInfo ci){

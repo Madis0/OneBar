@@ -82,6 +82,8 @@
   "text.autoconfig.onebar.option.otherBars.showSaturationBar": "Saturation bar",
   "text.autoconfig.onebar.option.otherBars.showSaturationBar.@Tooltip": "Thin bar below OneBar",
   "text.autoconfig.onebar.option.otherBars.saturationColor": "Saturation color",
+  "text.autoconfig.onebar.option.otherBars.hotbarTooltipsDown": "Hotbar item tooltip down",
+  "text.autoconfig.onebar.option.otherBars.hotbarTooltipsDown.@Tooltip": "Dynamically moves the hotbar selected item tooltip further down",
   "text.autoconfig.onebar.option.otherBars.compatibilityMode": "Compatibility mode",
   "text.autoconfig.onebar.option.otherBars.compatibilityMode.@Tooltip": "Allows some other mods to show their HUD elements around OneBar"
 }

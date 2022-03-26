@@ -108,6 +108,8 @@ public class ModConfig implements ConfigData {
         @ConfigEntry.ColorPicker(allowAlpha = true)
         public int saturationColor = 0xE6F9A825;
         @ConfigEntry.Gui.Tooltip
+        public boolean hotbarTooltipsDown = true;
+        @ConfigEntry.Gui.Tooltip
         public boolean compatibilityMode = false;
     }
 

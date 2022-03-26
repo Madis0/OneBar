@@ -77,6 +77,8 @@
   "text.autoconfig.onebar.option.otherBars.showSaturationBar": "Küllastusriba",
   "text.autoconfig.onebar.option.otherBars.showSaturationBar.@Tooltip": "Õhuke riba OneBari all",
   "text.autoconfig.onebar.option.otherBars.saturationColor": "Küllastuse värv",
+  "text.autoconfig.onebar.option.otherBars.hotbarTooltipsDown": "Plokiriba eseme hüpiktekst alla",
+  "text.autoconfig.onebar.option.otherBars.hotbarTooltipsDown.@Tooltip": "Liigutab plokiriba valitud eseme hüpikteksti dünaamiliselt allapoole",
   "text.autoconfig.onebar.option.otherBars.compatibilityMode": "Ühilduvusrežiim",
   "text.autoconfig.onebar.option.otherBars.compatibilityMode.@Tooltip": "Võimaldab teatud teistel modidel kuvada OneBari ümber nende liideseelemente"
 }
