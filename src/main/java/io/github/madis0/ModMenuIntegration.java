@@ -1,4 +1,4 @@
-package io.github.madis0;
+/*package io.github.madis0;
 
 import com.terraformersmc.modmenu.api.ConfigScreenFactory;
 import com.terraformersmc.modmenu.api.ModMenuApi;
@@ -10,3 +10,4 @@ public class ModMenuIntegration implements ModMenuApi {
         return parent -> AutoConfig.getConfigScreen(ModConfig.class, parent).get();
     }
 }
+ */
