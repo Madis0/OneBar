@@ -31,7 +31,7 @@ public class ClientProperties {
 
         baseStartW = scaledWidth / 2 - 91;
         baseEndW = baseStartW + 182;
-        baseStartH = scaledHeight - 33;
+        baseStartH = scaledHeight - 11;
         baseEndH = baseStartH + 9;
 
         if (client.options.mainArm == Arm.RIGHT){

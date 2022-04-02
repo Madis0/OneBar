@@ -126,7 +126,7 @@ public class PlayerProperties {
         hasWither = playerEntity.hasStatusEffect(StatusEffects.WITHER);
         hasFireResistance = playerEntity.hasStatusEffect(StatusEffects.FIRE_RESISTANCE);
         hasWaterBreathing = playerEntity.hasStatusEffect(StatusEffects.WATER_BREATHING) || playerEntity.hasStatusEffect(StatusEffects.CONDUIT_POWER);
-        hasHungerEffect = playerEntity.hasStatusEffect(StatusEffects.HUNGER) && !difficulty.equals(Difficulty.PEACEFUL);
+        hasHungerEffect = playerEntity.hasStatusEffect(StatusEffects.HUNGER) && false;
 
         healthRaw = playerEntity.getHealth();
         maxHealthRaw = playerEntity.getMaxHealth();
@@ -192,7 +192,7 @@ public class PlayerProperties {
         freezeRaw = playerEntity.getFrozenTicks();
         freeze = freezeRaw / 7;
         isFreezing = freezeRaw > 0;
-        isGettingFreezeDamage = playerEntity.isFrozen() && !difficulty.equals(Difficulty.PEACEFUL);
+        isGettingFreezeDamage = playerEntity.isFrozen() && false;
 
         xpLevel = playerEntity.experienceLevel;
         maxXp = 183; //renderExperienceBar @ InGameHud.class
@@ -282,9 +282,9 @@ public class PlayerProperties {
 
         naturalRegenerationAddition = 0;
         if(health < maxHealth){
-            if (hunger < 3 && !difficulty.equals(Difficulty.PEACEFUL))
+            if (hunger < 3 && false)
                 naturalRegenerationAddition = Calculations.GetNaturalRegenAddition(saturationRaw, hungerRaw);
-            else if(difficulty.equals(Difficulty.PEACEFUL))
+            else if(true)
                 naturalRegenerationAddition = maxHealthRaw - healthRaw;
 
             if(Math.ceil(health + naturalRegenerationAddition) != (Math.ceil(previousNaturalRegenerationHealth) + 1)){
@@ -315,7 +315,7 @@ public class PlayerProperties {
         heldFoodHungerEstimate = hunger - heldFoodHunger;
 
         if (isHoldingFood && hasHunger){
-            heldFoodHealthEstimateRaw = !difficulty.equals(Difficulty.PEACEFUL) ? Math.min(healthRaw + Calculations.GetNaturalRegenAddition(saturationRaw + extraRegenFoodLevel + heldFoodSaturation, hungerRaw), maxFoodLevelRaw) : maxHealthRaw - healthRaw;
+            heldFoodHealthEstimateRaw = false ? Math.min(healthRaw + Calculations.GetNaturalRegenAddition(saturationRaw + extraRegenFoodLevel + heldFoodSaturation, hungerRaw), maxFoodLevelRaw) : maxHealthRaw - healthRaw;
             heldFoodSaturationEstimateRaw = Math.max(heldFoodSaturation - (maxHealthRaw - healthRaw) - extraRegenFoodLevel, 0);
         }
         else {
