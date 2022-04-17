@@ -30,7 +30,7 @@ dependencies {
 	modImplementation "net.fabricmc.fabric-api:fabric-api:${project.fabric_version}"
 	
 	//Mod Menu config integration
-	//modImplementation "com.terraformersmc:modmenu:3.1.0"
+	modImplementation "com.terraformersmc:modmenu:4.0.0-beta.2"
 
 	// Cloth Config API
 	modApi("me.shedaniel.cloth:cloth-config-fabric:6.2.57") {
