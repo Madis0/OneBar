@@ -6,7 +6,7 @@ import net.minecraft.client.gui.DrawableHelper;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.text.TranslatableText;
+import net.minecraft.text.Text;
 import net.minecraft.util.Arm;
 import net.minecraft.world.Difficulty;
 import java.util.Objects;
@@ -203,24 +203,25 @@ public class OneBarElements {
 
         if(config.textSettings.showText) { // Separated if because order matters
             if (playerProperties.hasResistance && config.goodThings.showResistance)
-                value += plus + new TranslatableText(config.textSettings.useEmoji ? "text.onebar.resistanceEmoji" : "text.onebar.resistance", playerProperties.resistancePercent).getString();
+                value += plus + Text.translatable(config.textSettings.useEmoji ? "text.onebar.resistanceEmoji" : "text.onebar.resistance", playerProperties.resistancePercent).getString();
 
             // Subtractive values
 
             if(playerProperties.wardenDanger > 0)
-                value += minus + new TranslatableText(config.textSettings.useEmoji ? "text.onebar.wardenEmoji" : "text.onebar.warden", Calculations.MakeFraction(playerProperties.wardenDanger, false)).getString();
+                value += minus + Text.translatable(config.textSettings.useEmoji ? "text.onebar.wardenEmoji" : "text.onebar.warden", Calculations.MakeFraction(playerProperties.wardenDanger, false)).getString();
             if (playerProperties.isUnderwater && !playerProperties.hasWaterBreathing)
-                value += minus + new TranslatableText(config.textSettings.useEmoji ? "text.onebar.airEmoji" : "text.onebar.air", Calculations.MakeFraction(playerProperties.air, false)).getString();
+                value += minus + Text.translatable(config.textSettings.useEmoji ? "text.onebar.airEmoji" : "text.onebar.air", Calculations.MakeFraction(playerProperties.air, false)).getString();
             if (playerProperties.isUnderwater && playerProperties.hasWaterBreathing)
-                value += minus + para + "m" + new TranslatableText(config.textSettings.useEmoji ? "text.onebar.airEmoji" : "text.onebar.air", Calculations.MakeFraction(playerProperties.air, false)).getString() + para + "r";
+                value += minus + para + "m" + Text.translatable(config.textSettings.useEmoji ? "text.onebar.airEmoji" : "text.onebar.air", Calculations.MakeFraction(playerProperties.air, false)).getString() + para + "r";
             if (playerProperties.isFreezing)
-                value += minus + new TranslatableText(config.textSettings.useEmoji ? "text.onebar.freezeEmoji" : "text.onebar.freeze", Calculations.MakeFraction(playerProperties.freeze, false)).getString();
+                value += minus + Text.translatable(config.textSettings.useEmoji ? "text.onebar.freezeEmoji" : "text.onebar.freeze", Calculations.MakeFraction(playerProperties.freeze, false)).getString();
             if (playerProperties.isBurning && !playerProperties.hasFireResistance && config.badThings.showFire)
-                value += minus + new TranslatableText(config.textSettings.useEmoji ? "text.onebar.fireEmoji" : "text.onebar.fire", playerProperties.burningMultiplier).getString();
+                value += minus + Text.translatable(config.textSettings.useEmoji ? "text.onebar.fireEmoji" : "text.onebar.fire", playerProperties.burningMultiplier).getString();
             if (playerProperties.isBurning && playerProperties.hasFireResistance && config.badThings.showFire)
-                value += minus + para + "m" + new TranslatableText(config.textSettings.useEmoji ? "text.onebar.fireEmoji" : "text.onebar.fire", playerProperties.burningMultiplier).getString() + para + "r";
+                value += minus + para + "m" + Text.translatable(config.textSettings.useEmoji ? "text.onebar.fireEmoji" : "text.onebar.fire", playerProperties.burningMultiplier).getString() + para + "r";
             if (hasHunger || (playerProperties.hasHungerEffect && config.healthEstimates && !config.disableHunger))
                 value += minus;
+
 
             if (showHungerParentheses)
                 value += pStart;
@@ -237,7 +238,7 @@ public class OneBarElements {
         }
 
         if (clientProperties.isHardcore)
-            value += new TranslatableText(config.textSettings.useEmoji ? "text.onebar.hardcoreEmoji" : "text.onebar.hardcore").getString();
+            value += Text.translatable(config.textSettings.useEmoji ? "text.onebar.hardcoreEmoji" : "text.onebar.hardcore").getString();
 
         int textX = clientProperties.baseEndW - client.textRenderer.getWidth(value);
         int textY = clientProperties.baseStartH + 1;
