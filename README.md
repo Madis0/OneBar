@@ -18,6 +18,8 @@ Reviews by Niche Duck: [main mod](https://www.youtube.com/watch?v=-Exd6HXWSpc) (
 4. Place the JARs you downloaded to your Minecraft's mods folder
 5. Run the game!
 
+Currently also works on [Quilt](https://quiltmc.org), though no effort has yet been made to explicitly support it. See [#21](https://github.com/Madis0/OneBar/issues/21).
+
 ## How it works
 
 OneBar is meant to be contextual, showing the values and bars only when you need them. Tips:
