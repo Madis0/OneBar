@@ -73,6 +73,8 @@ public class ModConfig implements ConfigData {
         public boolean showWarden = true;
         @ConfigEntry.ColorPicker(allowAlpha = true)
         public int wardenColor = 0xBF004d40;
+        @ConfigEntry.Gui.Tooltip
+        public boolean showBadOmen = true;
     }
 
     public static class Entity {

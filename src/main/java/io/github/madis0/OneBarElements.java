@@ -203,22 +203,24 @@ public class OneBarElements {
 
         if(config.textSettings.showText) { // Separated if because order matters
             if (playerProperties.hasResistance && config.goodThings.showResistance)
-                value += plus + Text.translatable(config.textSettings.useEmoji ? "text.onebar.resistanceEmoji" : "text.onebar.resistance", playerProperties.resistancePercent).getString();
+                value += plus + Calculations.EmojiOrText("text.onebar.resistanceEmoji","text.onebar.resistance", playerProperties.resistancePercent);
 
             // Subtractive values
 
             if(playerProperties.wardenDanger > 0)
-                value += minus + Text.translatable(config.textSettings.useEmoji ? "text.onebar.wardenEmoji" : "text.onebar.warden", Calculations.MakeFraction(playerProperties.wardenDanger, false)).getString();
+                value += minus + Calculations.EmojiOrText("text.onebar.wardenEmoji","text.onebar.warden", Calculations.MakeFraction(playerProperties.wardenDanger, false));
             if (playerProperties.isUnderwater && !playerProperties.hasWaterBreathing)
-                value += minus + Text.translatable(config.textSettings.useEmoji ? "text.onebar.airEmoji" : "text.onebar.air", Calculations.MakeFraction(playerProperties.air, false)).getString();
+                value += minus + Calculations.EmojiOrText("text.onebar.airEmoji", "text.onebar.air", Calculations.MakeFraction(playerProperties.air, false));
             if (playerProperties.isUnderwater && playerProperties.hasWaterBreathing)
-                value += minus + para + "m" + Text.translatable(config.textSettings.useEmoji ? "text.onebar.airEmoji" : "text.onebar.air", Calculations.MakeFraction(playerProperties.air, false)).getString() + para + "r";
+                value += minus + para + "m" + Calculations.EmojiOrText("text.onebar.airEmoji","text.onebar.air", Calculations.MakeFraction(playerProperties.air, false)) + para + "r";
             if (playerProperties.isFreezing)
-                value += minus + Text.translatable(config.textSettings.useEmoji ? "text.onebar.freezeEmoji" : "text.onebar.freeze", Calculations.MakeFraction(playerProperties.freeze, false)).getString();
+                value += minus + Calculations.EmojiOrText("text.onebar.freezeEmoji", "text.onebar.freeze", Calculations.MakeFraction(playerProperties.freeze, false));
             if (playerProperties.isBurning && !playerProperties.hasFireResistance && config.badThings.showFire)
-                value += minus + Text.translatable(config.textSettings.useEmoji ? "text.onebar.fireEmoji" : "text.onebar.fire", playerProperties.burningMultiplier).getString();
+                value += minus + Calculations.EmojiOrText("text.onebar.fireEmoji","text.onebar.fire", playerProperties.burningMultiplier);
             if (playerProperties.isBurning && playerProperties.hasFireResistance && config.badThings.showFire)
-                value += minus + para + "m" + Text.translatable(config.textSettings.useEmoji ? "text.onebar.fireEmoji" : "text.onebar.fire", playerProperties.burningMultiplier).getString() + para + "r";
+                value += minus + para + "m" + Calculations.EmojiOrText("text.onebar.fireEmoji","text.onebar.fire", playerProperties.burningMultiplier) + para + "r";
+            if (playerProperties.hasBadOmen && config.badThings.showBadOmen)
+                value += minus + Calculations.EmojiOrText("text.onebar.badOmenEmoji","text.onebar.badOmen", playerProperties.badOmenLevel);
             if (hasHunger || (playerProperties.hasHungerEffect && config.healthEstimates && !config.disableHunger))
                 value += minus;
 
@@ -238,7 +240,7 @@ public class OneBarElements {
         }
 
         if (clientProperties.isHardcore)
-            value += Text.translatable(config.textSettings.useEmoji ? "text.onebar.hardcoreEmoji" : "text.onebar.hardcore").getString();
+            value += Calculations.EmojiOrText("text.onebar.hardcoreEmoji","text.onebar.hardcore");
 
         int textX = clientProperties.baseEndW - client.textRenderer.getWidth(value);
         int textY = clientProperties.baseStartH + 1;
