@@ -30,6 +30,7 @@ public class PlayerProperties {
     public final boolean hasFireResistance;
     public final boolean hasWaterBreathing;
     public final boolean hasHungerEffect;
+    public final boolean hasBadOmen;
 
     public final float healthRaw;
     public final int health;
@@ -81,10 +82,13 @@ public class PlayerProperties {
     public final boolean isGettingFreezeDamage;
 
     public int resistancePercent;
+
     public float regenerationHealthRaw;
     public int regenerationHealth;
+
     public float poisonHealthRaw;
     public int poisonHealth;
+
     public float witherHealthRaw;
     public int witherHealth;
 
@@ -93,6 +97,8 @@ public class PlayerProperties {
     public float hungerEffectEstimateRaw;
     public float previousHungerEffectEstimate;
     public int starvationHealthEstimate;
+
+    public int badOmenLevel;
 
     public float naturalRegenerationAddition;
     public float naturalRegenerationHealthRaw;
@@ -127,6 +133,7 @@ public class PlayerProperties {
         hasFireResistance = playerEntity.hasStatusEffect(StatusEffects.FIRE_RESISTANCE);
         hasWaterBreathing = playerEntity.hasStatusEffect(StatusEffects.WATER_BREATHING) || playerEntity.hasStatusEffect(StatusEffects.CONDUIT_POWER);
         hasHungerEffect = playerEntity.hasStatusEffect(StatusEffects.HUNGER) && !difficulty.equals(Difficulty.PEACEFUL);
+        hasBadOmen = playerEntity.hasStatusEffect(StatusEffects.BAD_OMEN) && !difficulty.equals(Difficulty.PEACEFUL);
 
         healthRaw = playerEntity.getHealth();
         maxHealthRaw = playerEntity.getMaxHealth();
@@ -193,6 +200,8 @@ public class PlayerProperties {
         freeze = freezeRaw / 7;
         isFreezing = freezeRaw > 0;
         isGettingFreezeDamage = playerEntity.isFrozen() && !difficulty.equals(Difficulty.PEACEFUL);
+
+        badOmenLevel = hasBadOmen ? Objects.requireNonNull(playerEntity.getStatusEffect(StatusEffects.BAD_OMEN)).getAmplifier() + 1: 0;
 
         xpLevel = playerEntity.experienceLevel;
         maxXp = 183; //renderExperienceBar @ InGameHud.class

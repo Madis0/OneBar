@@ -6,7 +6,6 @@ import net.minecraft.client.gui.DrawableHelper;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.text.TranslatableText;
 import net.minecraft.util.Arm;
 import net.minecraft.world.Difficulty;
 import java.util.Objects;
@@ -212,6 +211,8 @@ public class OneBarElements {
                 value += minus + Calculations.EmojiOrText("text.onebar.fireEmoji","text.onebar.fire", playerProperties.burningMultiplier);
             if (playerProperties.isBurning && playerProperties.hasFireResistance && config.badThings.showFire)
                 value += minus + para + "m" + Calculations.EmojiOrText("text.onebar.fireEmoji","text.onebar.fire", playerProperties.burningMultiplier) + para + "r";
+            if (playerProperties.hasBadOmen && config.badThings.showBadOmen)
+                value += minus + Calculations.EmojiOrText("text.onebar.badOmenEmoji","text.onebar.badOmen", playerProperties.badOmenLevel);
             if (hasHunger || (playerProperties.hasHungerEffect && config.healthEstimates && !config.disableHunger))
                 value += minus;
 
