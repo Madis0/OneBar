@@ -1,6 +1,7 @@
 package io.github.madis0;
 
 import me.shedaniel.autoconfig.AutoConfig;
+import net.minecraft.text.TranslatableText;
 import net.minecraft.util.math.MathHelper;
 import java.text.DecimalFormat;
 
@@ -68,4 +69,11 @@ public class Calculations {
                 .replace('9', '₉');
     }
 
+    public static String EmojiOrText(String emojiPhrase, String textPhrase, Object... args){
+        return new TranslatableText(config.textSettings.useEmoji ? emojiPhrase : textPhrase, args).getString();
+    }
+
+    public static String EmojiOrText(String emojiPhrase, String textPhrase){
+        return EmojiOrText(emojiPhrase, textPhrase, (Object) null);
+    }
 }
