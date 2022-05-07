@@ -70,11 +70,11 @@ public class ModConfig implements ConfigData {
         @ConfigEntry.ColorPicker(allowAlpha = true)
         public int witherColor = 0xA637474f;
         @ConfigEntry.Gui.Tooltip
+        public boolean showBadOmen = true;
+        @ConfigEntry.Gui.Tooltip
         public boolean showWarden = true;
         @ConfigEntry.ColorPicker(allowAlpha = true)
         public int wardenColor = 0xBF004d40;
-        @ConfigEntry.Gui.Tooltip
-        public boolean showBadOmen = true;
     }
 
     public static class Entity {

@@ -1,7 +1,7 @@
 package io.github.madis0;
 
 import me.shedaniel.autoconfig.AutoConfig;
-import net.minecraft.text.TranslatableText;
+import net.minecraft.text.Text;
 import net.minecraft.util.math.MathHelper;
 import java.text.DecimalFormat;
 
@@ -70,7 +70,7 @@ public class Calculations {
     }
 
     public static String EmojiOrText(String emojiPhrase, String textPhrase, Object... args){
-        return new TranslatableText(config.textSettings.useEmoji ? emojiPhrase : textPhrase, args).getString();
+        return Text.translatable(config.textSettings.useEmoji ? emojiPhrase : textPhrase, args).getString();
     }
 
     public static String EmojiOrText(String emojiPhrase, String textPhrase){
