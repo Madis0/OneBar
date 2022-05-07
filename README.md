@@ -59,6 +59,7 @@ The mod only uses client-side data, so it is never needed on a server. There are
 * Wither - dark gray bar, **→ _number_** where number is the resulting health¹
 * Suffocation - no bar, **→ _number_** where number is the resulting health¹
 * Hardcore mode - no bar, **☠** or **HC**²
+* Warden danger level (experimental) - dark teal bar, **-🔔number** or **-snumber** where the number is "the level of potential Warden danger" (currently based on just the darkness effect duration)
 
 #### Others
 
