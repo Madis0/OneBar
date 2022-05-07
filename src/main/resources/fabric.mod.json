@@ -3,7 +3,7 @@
   "id": "onebar",
   "version": "${version}",
   "name": "OneBar",
-  "description": "A contextual HUD mod",
+  "description": "HUD mod that shows the values and bars only when you need them.",
   "authors": [
     "Madis0"
   ],
