@@ -6,7 +6,6 @@ import net.minecraft.client.gui.DrawableHelper;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.text.Text;
 import net.minecraft.util.Arm;
 import net.minecraft.world.Difficulty;
 import java.util.Objects;
