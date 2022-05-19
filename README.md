@@ -2,9 +2,9 @@
 
 A sleek HUD mod for Minecraft: Java Edition using Fabric mod loader. 
 
-[![Download from Curseforge](https://cf.way2muchnoise.eu/full_onebar_downloads%20on%20Curseforge.svg?badge_style=for_the_badge)](https://www.curseforge.com/minecraft/mc-mods/onebar)
+[![Download from Curseforge](https://cf.way2muchnoise.eu/full_onebar_downloads%20on%20Curseforge.svg?badge_style=for_the_badge)](https://www.curseforge.com/minecraft/mc-mods/onebar) [![Modrinth](https://img.shields.io/modrinth/dt/onebar?color=4&label=Download%20from%20Modrinth&style=for-the-badge)](https://modrinth.com/mod/onebar) 
 
-Stable releases downloadable from [Curseforge](https://www.curseforge.com/minecraft/mc-mods/onebar) or [Modrinth](https://modrinth.com/mod/OneBar), automated builds available from [Actions tab](https://github.com/Madis0/OneBar/actions).
+Automated dev builds available from [Actions tab](https://github.com/Madis0/OneBar/actions).
 
 ![](https://i.ibb.co/XtPJdcy/image.png)
 
