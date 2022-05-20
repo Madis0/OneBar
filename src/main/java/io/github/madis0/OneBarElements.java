@@ -223,7 +223,6 @@ public class OneBarElements {
             if (hasHunger || (playerProperties.hasHungerEffect && config.healthEstimates && !config.disableHunger))
                 value += minus;
 
-
             if (showHungerParentheses)
                 value += pStart;
             if (hasHunger || (playerProperties.hasHungerEffect && config.healthEstimates && !config.disableHunger))
