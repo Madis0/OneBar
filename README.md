@@ -104,4 +104,4 @@ A: No, Cloth Config isn't cross-compatible and I don't suggest using old version
 
 **Q: Snapshots?**
 
-A: Somewhat. It probably runs, but config will crash. You've been warned!
+A: It probably runs, but config might crash if it's not up to date.
