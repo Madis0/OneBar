@@ -18,7 +18,7 @@
   "text.autoconfig.onebar.category.default": "General",
   "text.autoconfig.onebar.option.showOneBar": "Show OneBar",
   "text.autoconfig.onebar.option.showOneBar.@Tooltip": "Disabling will show vanilla HUD instead",
-  "text.autoconfig.onebar.option.healthEstimates": "Estimates for potion and natural effects",
+  "text.autoconfig.onebar.option.healthEstimates": "Effect estimates",
   "text.autoconfig.onebar.option.healthEstimates.@Tooltip": "Toggles the texts and bars for (natural) regeneration, hunger effect, poison etc.",
   "text.autoconfig.onebar.option.uhcMode": "UHC mode",
   "text.autoconfig.onebar.option.uhcMode.@Tooltip": "Disables natural regen estimates, if effect estimates are enabled",
