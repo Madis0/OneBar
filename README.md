@@ -61,15 +61,23 @@ The mod only uses client-side data, so it is never needed on a server. There are
 | Effect | Color | Bar | Emoji | Text | Description/comment |
 |-|-|-|-|-|-|
 | Hunger | Brown | █ | -1 | -1 | Number is 20 minus food points (e.g. if you had 15 food points, it would show 5) |
+| Hunger effect | Yellowish brown | █ | _→1_ | _→1_ | Number is the resulting hunger |
+| Getting hungrier |  |  | ↓ | ↓ | Opt-in, shown when saturation is zero |
 | Air | Blue | █ | -⭘1 | -a1 | Number is the equivalent of the _lack of_ bubbles in vanilla |
 | Freezing | Light gray | █ | -❄1 | -f1 | Number is the equivalent of frost fading in vanilla |
 | Burning | Orange | █ | -🔥1× | -b1× | Number is a rough damage multiplier (1× - burning, 2× - in fire, 3× - in soul fire, 4× - in lava) |
-| Hunger effect | Yellowish brown | █ | _→1_ | _→1_ | Number is the resulting hunger |
 | Poison | Yellowish green | █ | _→1_ | _→1_ | Number is the resulting health |
 | Wither | Dark gray | █ | _→1_ | _→1_ | Number is the resulting health |
 | Bad Omen |  |  | -🪓1× | -BO1× | Number is [the effect level](https://minecraft.fandom.com/wiki/Bad_Omen#Effect) |
 | Impending death |  |  | _→0_ | _→0_ | Drowning, freezing damage, burning in fire/lava, starvation, suffocation. Zero is the resulting health (death) |
 | Hardcore mode |  |  | ☠ | HC | The vanilla one, not the UHC mode of OneBar which has no indicators |
+
+#### Mounts
+
+| Effect | Color | Bar | Text | Where | Description/comment |
+|-|-|-|-|-|-|
+| Mount health | Orange | █ | 1 | Above OneBar | Similar to OneBar itself |
+| Horse jump | Brown | ▄ |  | Below crosshair | Vertical bar | 
 
 #### Others
 
@@ -77,8 +85,6 @@ The mod only uses client-side data, so it is never needed on a server. There are
 |-|-|-|-|-|-|
 | Experience bar | Green | ▁ | 1 | Next to hotbar | Shown only when you have any XP (configurable) |
 | Lapis Lazuli counter | Blue |  | 1 or 1× | Next to experience bar | Opt-in, shows either the raw count or times enchantable maxed out (XP level 30+) |
-| Mount health | Orange | █ | 1 | Above OneBar | Similar to OneBar itself |
-| Horse jump | Brown | ▄ |  | Below crosshair | Vertical bar | 
 | Armor | White | ▔ |  | Above OneBar, above mount health | Equivalent of vanilla's armor indicator; also shown for horses if applicable |
 | Armor durability | Light blue | ▔ |  | Overlaid on armor bar | Opt-in, width adapts to armor bar |
 | Elytra durability | Purple | ▔ |  | Overlaid on armor bar | Shown only when flying |
