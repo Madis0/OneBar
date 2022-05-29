@@ -47,14 +47,14 @@ The mod only uses client-side data, so it is never needed on a server. There are
 |-|-|-|-|-|-|
 | Health | Red | █ | 1 | 1 | Number is your health points |
 | Health boost | Red | █ | 1 | 1 | Bar width adapts to max health |
-| Natural regeneration | Yellow | █ | →1 | →1 | Number is the resulting health |
-| Regeneration | Pink | █ | →1 | →1 | Number is the resulting health |
+| Natural regeneration | Yellow | █ | _→1_ | _→1_ | Number is the resulting health |
+| Regeneration | Pink | █ | _→1_ | _→1_ | Number is the resulting health |
 | Absorption |  |  | +1 | +1 | Number is your absorption health points |
 | Resistance |  |  | +⛨1% | +r1% | Number is [the effect level × 20%](https://minecraft.gamepedia.com/Resistance#Effect) |
 | Fire resistance |  |  | -~🔥1×~ | -~b1×~ | Number is a rough damage multiplier (1× - burning, 2× - in fire, 3× - in soul fire, 4× - in lava) |
-| Water Breathing / Conduit Power | Blue | █ | -~⭘1~ | -~a1~ | The bar is only shown if you got the effect after losing air |
-| Held food restored hunger: exact/less | Green | █ | → _1_ | → _1_ | Overlaid on hunger bar; number is the resulting hunger (like AppleSkin) | 
-| Held food restored hunger: wasted | Orange | █ | → _-1_ | → _-1_ | Overlaid on hunger bar; number is the waste of hunger (how much more than needed) | 
+| Water Breathing, Conduit Power | Blue | █ | -~⭘1~ | -~a1~ | The bar is only shown if you got the effect after losing air |
+| Held food restored hunger: exact/less | Green | █ | _→1_ | _→1_ | Overlaid on hunger bar; number is the resulting hunger (like AppleSkin) | 
+| Held food restored hunger: wasted | Orange | █ | _→-1_ | _→-1_ | Overlaid on hunger bar; number is the waste of hunger (how much more than needed) | 
 
 #### Negative (right-to-left)
 
@@ -64,11 +64,11 @@ The mod only uses client-side data, so it is never needed on a server. There are
 | Air | Blue | █ | -⭘1 | -a1 | Number is the equivalent of the _lack of_ bubbles in vanilla |
 | Freezing | Light gray | █ | -❄1 | -f1 | Number is the equivalent of frost fading in vanilla |
 | Burning | Orange | █ | -🔥1× | -b1× | Number is a rough damage multiplier (1× - burning, 2× - in fire, 3× - in soul fire, 4× - in lava) |
-| Hunger effect | Yellowish brown | █ | →1 | →1 | Number is the resulting hunger |
-| Poison | Yellowish green | █ | →1 | →1 | Number is the resulting hunger |
-| Wither | Dark gray | █ | →1 | →1 | Number is the resulting hunger |
+| Hunger effect | Yellowish brown | █ | _→1_ | _→1_ | Number is the resulting hunger |
+| Poison | Yellowish green | █ | _→1_ | _→1_ | Number is the resulting health |
+| Wither | Dark gray | █ | _→1_ | _→1_ | Number is the resulting health |
 | Bad Omen |  |  | -🪓1× | -BO1× | Number is [the effect level](https://minecraft.fandom.com/wiki/Bad_Omen#Effect) |
-| Impending death |  |  | →0 | →0 | Drowning, freezing damage, burning in fire/lava, starvation, suffocation. Zero is the resulting health (death) |
+| Impending death |  |  | _→0_ | _→0_ | Drowning, freezing damage, burning in fire/lava, starvation, suffocation. Zero is the resulting health (death) |
 | Hardcore mode |  |  | ☠ | HC | The vanilla one, not the UHC mode of OneBar which has no indicators |
 
 #### Others
