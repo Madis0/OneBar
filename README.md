@@ -69,7 +69,7 @@ The mod only uses client-side data, so it is never needed on a server. There are
 | Wither | Dark gray | █ | →1 | →1 | Number is the resulting hunger |
 | Bad Omen |  |  | -🪓1× | -BO1× | Number is [the effect level](https://minecraft.fandom.com/wiki/Bad_Omen#Effect) |
 | Impending death |  |  | →0 | →0 | Drowning, freezing damage, burning in fire/lava, starvation, suffocation. Zero is the resulting health (death) |
-| Hardcore mode |  |  | ☠ | HC | The vanilla one, not the UHC toggle of OneBar which has no indicators |
+| Hardcore mode |  |  | ☠ | HC | The vanilla one, not the UHC mode of OneBar which has no indicators |
 
 #### Others
 
