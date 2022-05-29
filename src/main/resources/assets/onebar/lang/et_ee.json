@@ -10,7 +10,7 @@
   "text.autoconfig.onebar.category.default": "Üldine",
   "text.autoconfig.onebar.option.showOneBar": "Kuva OneBar",
   "text.autoconfig.onebar.option.showOneBar.@Tooltip": "Keelates kuvatakse selle asemel vanilli ribad",
-  "text.autoconfig.onebar.option.healthEstimates": "Võlujoogi- ja loomulike mõjude ennustused",
+  "text.autoconfig.onebar.option.healthEstimates": "Mõjude ennustused",
   "text.autoconfig.onebar.option.healthEstimates.@Tooltip": "Lülitab (loomuliku) taastumise, näljamõju, mürgi jt väärtuseid ja ribasid",
   "text.autoconfig.onebar.option.uhcMode": "UHC-režiim",
   "text.autoconfig.onebar.option.uhcMode.@Tooltip": "Keelab loomuliku taastumise ennustused, kui mõjude ennustused on lubatud",
