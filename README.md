@@ -38,8 +38,8 @@ The mod only uses client-side data, so it is never needed on a server. There are
 ### Bars and values
 
 * **1** represents any number. 
-* All emoji are white and look a bit different in-game. Text is shown when emoji is disabled.
-* Estimates are a best guess based on what the client knows at the time, can change by server-side changes or natural occurences. Can be disabled in options.
+* All emoji are white and look a bit different in-game. Text is shown when emoji are disabled (recommended for unicode or custom fonts).
+* Estimates are a best guess based on what the client knows at the time, can change by server-side changes or natural occurences, displayed _in italic_. Can be disabled in options.
 
 #### Positive (left-to-right)
 
