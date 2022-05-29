@@ -105,7 +105,7 @@ A: Because it's big, gets updated a lot and you probably have a mod or two that 
 
 **Q: How do I edit the colors?**
 
-A: Click Esc -> Mods -> OneBar -> config button. Colors are formatted as opacity + RGB in HEX, so choose an opacity from [this list](https://gist.github.com/lopspower/03fb1cc0ac9f32ef38f4#all-hex-value-from-100-to-0-alpha) and use [any HEX color picker](https://rgbacolorpicker.com/hex-color-picker) for choosing a color. For example if I want 80% opacity (`CC`) on blue (`0000FF`), I will enter `#CC0000FF`.
+A: Click `Esc` → `Mods` → `OneBar` → `config button`. Colors are formatted as opacity + RGB in HEX, so choose an opacity from [this list](https://gist.github.com/lopspower/03fb1cc0ac9f32ef38f4#all-hex-value-from-100-to-0-alpha) and use [any HEX color picker](https://rgbacolorpicker.com/hex-color-picker) for choosing a color. For example if I want 80% opacity (`CC`) on blue (`0000FF`), I will enter `#CC0000FF`.
 
 **Q: Forge support?**
 
