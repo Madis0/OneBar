@@ -37,46 +37,53 @@ The mod only uses client-side data, so it is never needed on a server. There are
 
 ### Bars and values
 
+* **1** represents any number. 
+* All emoji are white and look a bit different in-game. Text is shown when emoji is disabled.
+* Estimates are a best guess based on what the client knows at the time, can change by server-side changes or natural occurences. Can be disabled in options.
+
 #### Positive (left-to-right)
 
-* Health - red bar, **number**, where number is your health points
-* Health boost - red bar, **number**, bar width adapts to the max health
-* Natural regeneration - yellow bar, **→ _number_**, where number is the resulting health¹
-* Regeneration - pink bar, **→ _number_**, where number is the resulting health¹
-* Absorption - no bar, **+number**, where number is your absorption health points
-* Resistance - no bar, **+⛨number%** or **+rnumber%**, where number is [the effect level × 20%](https://minecraft.gamepedia.com/Resistance#Effect)²
-* Fire Resistance - no bar, **-~🔥number×~** or **-~bnumber×~**, where number is a rough damage multiplier (1× - burning, 2× - in fire, 3× - in soul fire, 4× - in lava)²
-* Water Breathing/Conduit Power - blue bar, **-~⭘number~** or **-~anumber~**, number is usually zero and bar hidden unless you got water breathing _within_ water²
-* Held food restored hunger bar - green (exact/less) or orange (wasted) bar on top of hunger bar, **→ _number_**, where number is the resulting hunger (negative if wasted; feature similar to AppleSkin)
+| Effect | Color | Bar | Emoji | Text | Description/comment |
+|-|-|-|-|-|-|
+| Health | Red | █ | 1 | 1 | Number is your health points |
+| Health boost | Red | █ | 1 | 1 | Bar width adapts to max health |
+| Natural regeneration | Yellow | █ | →1 | →1 | Number is the resulting health |
+| Regeneration | Pink | █ | →1 | →1 | Number is the resulting health |
+| Absorption |  |  | +1 | +1 | Number is your absorption health points |
+| Resistance |  |  | +⛨1% | +r1% | Number is [the effect level × 20%](https://minecraft.gamepedia.com/Resistance#Effect) |
+| Fire resistance |  |  | -~🔥1×~ | -~b1×~ | Number is a rough damage multiplier (1× - burning, 2× - in fire, 3× - in soul fire, 4× - in lava) |
+| Water Breathing / Conduit Power | Blue | █ | -~⭘1~ | -~a1~ | Number is usually zero and bar hidden unless you got water breathing _within_ water |
+| Held food restored hunger: exact/less | Green | █ | → _1_ | → _1_ | Overlaid on hunger bar; number is the resulting hunger (like AppleSkin) | 
+| Held food restored hunger: wasted | Orange | █ | → _-1_ | → _-1_ | Overlaid on hunger bar; number is the waste of hunger (how much more than needed) | 
 
 #### Negative (right-to-left)
 
-* Hunger - brown bar, **-number**, where number is calculated as 20-food points (e.g. if you had 15 food points, it would show 5)
-* Air - blue bar, **-⭘number** or **-anumber**, where number is the counter up to 20 until drowning (the equivalent of broken bubbles in vanilla)², drowning will also show **→ _number_**, where number is the resulting health¹
-* Freezing - light gray bar, **-❄number** or **-fnumber**, where number is the counter up to 20 until freezing (the equivalent of frost fading in vanilla)², freezing damage will also show **→ _number_**, where number is the resulting health¹
-* Burning - orange bar, **-🔥number×** or **-bnumber×**, where number is a rough damage multiplier (1× - burning, 2× - in fire, 3× - in soul fire, 4× - in lava)², burning on a block will also show **→ _number_**, where number is the resulting health¹
-* Hunger effect - yellowish brown bar, **→ _number_**, where number is the resulting hunger¹, starvation will also show **→ _number_**, where number is the resulting health¹
-* Poison - yellowish green bar, **→ _number_**, where number is the resulting health¹
-* Wither - dark gray bar, **→ _number_**, where number is the resulting health¹
-* Bad Omen - no bar, **-🪓number×** or **-BOnumber×**, where number is [the effect level](https://minecraft.fandom.com/wiki/Bad_Omen#Effect)
-* Suffocation - no bar, **→ _number_**, where number is the resulting health¹
-* Hardcore mode - no bar, **☠** or **HC**²
-* Warden danger level (experimental) - dark teal bar, **-🔔number** or **-snumber** where the number is "the level of potential Warden danger" (currently based on just the darkness effect duration)
+| Effect | Color | Bar | Emoji | Text | Description/comment |
+|-|-|-|-|-|-|
+| Hunger | Brown | █ | -1 | -1 | Number is 20 minus food points (e.g. if you had 15 food points, it would show 5) |
+| Air | Blue | █ | -⭘1 | -a1 | Number is the equivalent of the _lack of_ bubbles in vanilla |
+| Freezing | Light gray | █ | -❄1 | -f1 | Number is the equivalent of frost fading in vanilla |
+| Burning | Orange | █ | -🔥1× | -b1× | Number is a rough damage multiplier (1× - burning, 2× - in fire, 3× - in soul fire, 4× - in lava) |
+| Hunger effect | Yellowish brown | █ | →1 | →1 | Number is the resulting hunger |
+| Poison | Yellowish green | █ | →1 | →1 | Number is the resulting hunger |
+| Wither | Dark gray | █ | →1 | →1 | Number is the resulting hunger |
+| Warden danger | dark teal | █ | -🔔1 | -s1 | Experimental, number is "the level of potential Warden danger" (currently based on just the darkness effect duration)
+| Bad Omen |  |  | -🪓1× | -BO1× | Number is [the effect level](https://minecraft.fandom.com/wiki/Bad_Omen#Effect) |
+| Impending death |  |  | →0 | →0 | Drowning, freezing damage, burning in fire/lava, starvation, suffocation. Zero is the resulting health (death) |
+| Hardcore mode |  |  | ☠ | HC | The vanilla one, not the UHC toggle of OneBar which has no indicators |
 
 #### Others
 
-* Experience points - green level count and bar to the right of hotbar (shown if you have any XP)
-* Lapis Lazuli counter (opt-in) - blue counter next to XP bar, shows either the raw count or times enchantable maxed out (XP level 30+)
-* Mount health - orange bar above OneBar, similar style
-* Horse jump - brown vertical bar below crosshair
-* Armor - thin white bar above OneBar for you and your horse, no number
-* Armor durability (opt-in) - light blue bar overlay on armor bar, width adapts to armor bar
-* Elytra durability - thin purple bar above OneBar, shown only when flying
-* Saturation (opt-in) - thin orange bar below OneBar, no number
-
-¹ Best-guess estimate based on what the client knows at the time, can change by some server-side values and natural occurrences. Can be disabled in options.
-
-² The emoji are white and look a bit different in-game. Can be disabled in settings to show letters instead.
+| Effect | Color | Bar | Text | Where | Description/comment |
+|-|-|-|-|-|-|
+| Experience bar | Green | ▁ | 1 | Next to hotbar | Shown only when you have any XP (configurable) |
+| Lapis Lazuli counter | Blue |  | 1 or 1× | Next to experience bar | Opt-in, shows either the raw count or times enchantable maxed out (XP level 30+) |
+| Mount health | Orange | █ | 1 | Above OneBar | Similar to OneBar itself |
+| Horse jump | Brown | ▄ |  | Below crosshair | Vertical bar | 
+| Armor | White | ▔ |  | Above OneBar, above mount health | Equivalent of vanilla's armor indicator; also shown for horses if applicable |
+| Armor durability | Light blue | ▔ |  | Overlaid on armor bar | Opt-in, width adapts to armor bar |
+| Elytra durability | Purple | ▔ |  | Overlaid on armor bar | Shown only when flying |
+| Saturation | Orange | ▁ |  | Below OneBar | Opt-in |
 
 ## Mods I recommend with OneBar
 
@@ -105,4 +112,4 @@ A: No, Cloth Config isn't cross-compatible and I don't suggest using old version
 
 **Q: Snapshots?**
 
-A: Somewhat. It probably runs, but config will crash. You've been warned!
+A: It probably runs, but config might crash if it's not up to date.
