@@ -52,7 +52,7 @@ The mod only uses client-side data, so it is never needed on a server. There are
 | Absorption |  |  | +1 | +1 | Number is your absorption health points |
 | Resistance |  |  | +⛨1% | +r1% | Number is [the effect level × 20%](https://minecraft.gamepedia.com/Resistance#Effect) |
 | Fire resistance |  |  | -~🔥1×~ | -~b1×~ | Number is a rough damage multiplier (1× - burning, 2× - in fire, 3× - in soul fire, 4× - in lava) |
-| Water Breathing / Conduit Power | Blue | █ | -~⭘1~ | -~a1~ | Number is usually zero and bar hidden unless you got water breathing _within_ water |
+| Water Breathing / Conduit Power | Blue | █ | -~⭘1~ | -~a1~ | Text and bar are only shown if you got the effect after losing air |
 | Held food restored hunger: exact/less | Green | █ | → _1_ | → _1_ | Overlaid on hunger bar; number is the resulting hunger (like AppleSkin) | 
 | Held food restored hunger: wasted | Orange | █ | → _-1_ | → _-1_ | Overlaid on hunger bar; number is the waste of hunger (how much more than needed) | 
 
