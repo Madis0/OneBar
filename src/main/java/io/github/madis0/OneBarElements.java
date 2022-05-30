@@ -8,6 +8,8 @@ import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.util.Arm;
 import net.minecraft.world.Difficulty;
+
+import java.util.Locale;
 import java.util.Objects;
 
 public class OneBarElements {
@@ -293,9 +295,22 @@ public class OneBarElements {
         int barHeight = Calculations.GetPreciseInt(1.0F);
         int jumpHeight = Calculations.GetPreciseInt(Objects.requireNonNull(client.player).getMountJumpStrength());
 
+        double heightInBlocks = Double.parseDouble(
+                                                    String.format(
+                                                            Locale.US, "%,.1f",(
+                                                                    Calculations.HorseJumpStrengthToJumpHeight(
+                                                                            Objects.requireNonNull(client.player).getMountJumpStrength()
+                                                                    )
+                                                            )
+                                                    )
+                                            );
+
         int relativeStartH = Calculations.RelativeW(clientProperties.jumpEndH, clientProperties.jumpStartH, jumpHeight, barHeight);
         DrawableHelper.fill(stack, clientProperties.jumpStartW, clientProperties.jumpStartH, clientProperties.jumpEndW, clientProperties.jumpEndH, config.backgroundColor);
         DrawableHelper.fill(stack, clientProperties.jumpStartW, clientProperties.jumpEndH, clientProperties.jumpEndW, relativeStartH, config.entity.jumpColor);
+
+        if(config.textSettings.showText && config.entity.showHorseJumpNumber)
+            client.textRenderer.draw(stack, Calculations.GetSubscriptNumber(heightInBlocks), clientProperties.jumpEndW, clientProperties.jumpEndH, config.textSettings.textColor);
     }
 
     public void mountBar(LivingEntity mountEntity){
@@ -306,7 +321,7 @@ public class OneBarElements {
             int horseArmor = mountEntity.getArmor();
             int horseMaxArmor = 11; // Diamond horse armor
 
-            String value = String.valueOf(health);
+            String value = Calculations.MakeFraction(health, false);
             int textX = clientProperties.baseEndW - client.textRenderer.getWidth(value);
             int textY = clientProperties.mountStartH + 1;
 

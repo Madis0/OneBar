@@ -76,4 +76,9 @@ public class Calculations {
     public static String EmojiOrText(String emojiPhrase, String textPhrase){
         return EmojiOrText(emojiPhrase, textPhrase, (Object) null);
     }
+
+    // https://github.com/d4rkm0nkey/HorseStatsVanilla/blob/main/src/main/java/monkey/lumpy/horse/stats/vanilla/util/Converter.java
+    public static double HorseJumpStrengthToJumpHeight(double strength) {
+        return -0.1817584952 * strength * strength * strength + 3.689713992 * strength * strength + 2.128599134 * strength - 0.343930367;
+    }
 }
