@@ -295,41 +295,36 @@ public class OneBarElements {
         int barHeight = Calculations.GetPreciseInt(1.0F);
         int jumpHeight = Calculations.GetPreciseInt(Objects.requireNonNull(client.player).getMountJumpStrength());
 
-        double heightInBlocks = Double.parseDouble(
-                                                    String.format(
-                                                            Locale.US, "%,.1f",(
-                                                                    Calculations.HorseJumpStrengthToJumpHeight(
-                                                                            Objects.requireNonNull(client.player).getMountJumpStrength()
-                                                                    )
-                                                            )
-                                                    )
-                                            );
+        double heightInBlocks = Math.max(0, Calculations.HorseJumpStrengthToJumpHeight(Objects.requireNonNull(client.player).getMountJumpStrength()));
+
+        if(config.entity.normalizeHorseJumpText && (heightInBlocks + 1) < 1.99) heightInBlocks += 1;
+
+        double roundedHeightInBlocks = Double.parseDouble(String.format( Locale.US, "%,.1f",(heightInBlocks)));
 
         int relativeStartH = Calculations.RelativeW(clientProperties.jumpEndH, clientProperties.jumpStartH, jumpHeight, barHeight);
         DrawableHelper.fill(stack, clientProperties.jumpStartW, clientProperties.jumpStartH, clientProperties.jumpEndW, clientProperties.jumpEndH, config.backgroundColor);
         DrawableHelper.fill(stack, clientProperties.jumpStartW, clientProperties.jumpEndH, clientProperties.jumpEndW, relativeStartH, config.entity.jumpColor);
 
-        if(config.textSettings.showText && config.entity.showHorseJumpNumber)
-            client.textRenderer.draw(stack, Calculations.GetSubscriptNumber(heightInBlocks), clientProperties.jumpEndW, clientProperties.jumpEndH, config.textSettings.textColor);
+        if(config.textSettings.showText && config.entity.showHorseJumpText)
+            client.textRenderer.draw(stack, Calculations.GetSubscriptNumber(roundedHeightInBlocks), clientProperties.jumpEndW, clientProperties.jumpEndH, config.textSettings.textColor);
     }
 
     public void mountBar(LivingEntity mountEntity){
-        if (mountEntity != null) {
-            float mountRawHealth = mountEntity.getHealth();
-            float mountMaxHealth = mountEntity.getMaxHealth();
-            int health = (int) Math.ceil(mountRawHealth);
-            int horseArmor = mountEntity.getArmor();
-            int horseMaxArmor = 11; // Diamond horse armor
+        if (mountEntity == null) {return;}
+        float mountRawHealth = mountEntity.getHealth();
+        float mountMaxHealth = mountEntity.getMaxHealth();
+        int health = (int) Math.ceil(mountRawHealth);
+        int horseArmor = mountEntity.getArmor();
+        int horseMaxArmor = 11; // Diamond horse armor
 
-            String value = Calculations.MakeFraction(health, false);
-            int textX = clientProperties.baseEndW - client.textRenderer.getWidth(value);
-            int textY = clientProperties.mountStartH + 1;
+        String value = Calculations.MakeFraction(health, false);
+        int textX = clientProperties.baseEndW - client.textRenderer.getWidth(value);
+        int textY = clientProperties.mountStartH + 1;
 
-            DrawableHelper.fill(stack, clientProperties.baseStartW, clientProperties.mountStartH, clientProperties.baseEndW, clientProperties.mountEndH, config.backgroundColor);
-            DrawableHelper.fill(stack, clientProperties.baseStartW, clientProperties.mountStartH, clientProperties.baseRelativeEndW(Calculations.GetPreciseInt(mountRawHealth), Calculations.GetPreciseInt(mountMaxHealth)), clientProperties.mountEndH, config.entity.healthColor);
-            if(config.otherBars.showArmorBar) DrawableHelper.fill(stack, clientProperties.baseStartW, clientProperties.mountStartH - 1, clientProperties.baseRelativeEndW(horseArmor, horseMaxArmor), clientProperties.mountStartH, config.otherBars.armorColor);
-            if(config.textSettings.showText) client.textRenderer.draw(stack, value, textX, textY, config.textSettings.textColor);
-        }
+        DrawableHelper.fill(stack, clientProperties.baseStartW, clientProperties.mountStartH, clientProperties.baseEndW, clientProperties.mountEndH, config.backgroundColor);
+        DrawableHelper.fill(stack, clientProperties.baseStartW, clientProperties.mountStartH, clientProperties.baseRelativeEndW(Calculations.GetPreciseInt(mountRawHealth), Calculations.GetPreciseInt(mountMaxHealth)), clientProperties.mountEndH, config.entity.healthColor);
+        if(config.otherBars.showArmorBar) DrawableHelper.fill(stack, clientProperties.baseStartW, clientProperties.mountStartH - 1, clientProperties.baseRelativeEndW(horseArmor, horseMaxArmor), clientProperties.mountStartH, config.otherBars.armorColor);
+        if(config.textSettings.showText) client.textRenderer.draw(stack, value, textX, textY, config.textSettings.textColor);
     }
 
     private void debugText(String value){

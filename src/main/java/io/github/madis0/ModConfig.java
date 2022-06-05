@@ -78,7 +78,8 @@ public class ModConfig implements ConfigData {
         public int healthColor = 0xFFF57F17;
         @ConfigEntry.Gui.Tooltip
         public boolean showHorseJump = true;
-        public boolean showHorseJumpNumber = true;
+        public boolean showHorseJumpText = true;
+        public boolean normalizeHorseJumpText = true;
         @ConfigEntry.ColorPicker(allowAlpha = true)
         public int jumpColor = 0xFF795548;
     }
