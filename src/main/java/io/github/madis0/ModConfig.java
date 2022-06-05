@@ -79,7 +79,6 @@ public class ModConfig implements ConfigData {
         @ConfigEntry.Gui.Tooltip
         public boolean showHorseJump = true;
         public boolean showHorseJumpText = true;
-        public boolean normalizeHorseJumpText = true;
         @ConfigEntry.ColorPicker(allowAlpha = true)
         public int jumpColor = 0xFF795548;
     }

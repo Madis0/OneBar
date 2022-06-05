@@ -93,7 +93,7 @@ public abstract class InGameHudMixin {
         if(showOneBar) {
             ci.cancel();
             if(config.entity.showHorseJump)
-                oneBarElements.jumpBar();
+                oneBarElements.jumpBar(getRiddenEntity());
         }
     }
 }

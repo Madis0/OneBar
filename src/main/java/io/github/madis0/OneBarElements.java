@@ -5,6 +5,7 @@ import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.DrawableHelper;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.entity.LivingEntity;
+import net.minecraft.entity.passive.HorseBaseEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.util.Arm;
 import net.minecraft.world.Difficulty;
@@ -291,13 +292,12 @@ public class OneBarElements {
         }
     }
 
-    public void jumpBar(){
+    public void jumpBar(LivingEntity mountEntity){
         int barHeight = Calculations.GetPreciseInt(1.0F);
         int jumpHeight = Calculations.GetPreciseInt(Objects.requireNonNull(client.player).getMountJumpStrength());
 
-        double heightInBlocks = Math.max(0, Calculations.HorseJumpStrengthToJumpHeight(Objects.requireNonNull(client.player).getMountJumpStrength()));
-
-        if(config.entity.normalizeHorseJumpText && (heightInBlocks + 1) < 1.99) heightInBlocks += 1;
+        double heightInBlocks = Math.max(0, ((HorseBaseEntity)mountEntity).getJumpStrength() *
+                                                Calculations.HorseJumpStrengthToJumpHeight(Objects.requireNonNull(client.player).getMountJumpStrength()));
 
         double roundedHeightInBlocks = Double.parseDouble(String.format( Locale.US, "%,.1f",(heightInBlocks)));
 
