@@ -58,6 +58,8 @@
   "text.autoconfig.onebar.option.entity.healthColor": "Tervise värv",
   "text.autoconfig.onebar.option.entity.showHorseJump": "Hobuse hüpperiba",
   "text.autoconfig.onebar.option.entity.showHorseJump.@Tooltip": "Vertikaalne riba sihtimisristi all",
+  "text.autoconfig.onebar.option.entity.showHorseJumpText": "Hobuse hüppe kõrguse tekst",
+  "text.autoconfig.onebar.option.entity.showHorseJumpText.@Tooltip": "Kuvab ligikaudset hobuse hüppe kõrgust plokkides",
   "text.autoconfig.onebar.option.entity.jumpColor": "Hüppe värv",
   "text.autoconfig.onebar.category.otherBars": "Muud ribad",
   "text.autoconfig.onebar.option.otherBars.adaptiveXpBar": "Kohanduv kogemusindikaator",

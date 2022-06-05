@@ -64,6 +64,8 @@
   "text.autoconfig.onebar.option.entity.healthColor": "Health color",
   "text.autoconfig.onebar.option.entity.showHorseJump": "Horse jump bar",
   "text.autoconfig.onebar.option.entity.showHorseJump.@Tooltip": "Vertical bar below crosshair",
+  "text.autoconfig.onebar.option.entity.showHorseJumpText": "Horse jump height text",
+  "text.autoconfig.onebar.option.entity.showHorseJumpText.@Tooltip": "Shows approximate horse jump height in blocks",
   "text.autoconfig.onebar.option.entity.jumpColor": "Jump color",
   "text.autoconfig.onebar.category.otherBars": "Other bars",
   "text.autoconfig.onebar.option.otherBars.adaptiveXpBar": "Adaptive experience indicator",
