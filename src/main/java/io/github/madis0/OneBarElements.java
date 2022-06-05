@@ -299,14 +299,17 @@ public class OneBarElements {
         double heightInBlocks = Math.max(0, ((HorseBaseEntity)mountEntity).getJumpStrength() *
                                                 Calculations.HorseJumpStrengthToJumpHeight(Objects.requireNonNull(client.player).getMountJumpStrength()));
 
-        double roundedHeightInBlocks = Double.parseDouble(String.format( Locale.US, "%,.1f",(heightInBlocks)));
+        String roundedHeightInBlocks = Calculations.GetSubscriptNumber(Double.parseDouble(String.format(Locale.US, "%,.1f",(heightInBlocks))));
 
         int relativeStartH = Calculations.RelativeW(clientProperties.jumpEndH, clientProperties.jumpStartH, jumpHeight, barHeight);
         DrawableHelper.fill(stack, clientProperties.jumpStartW, clientProperties.jumpStartH, clientProperties.jumpEndW, clientProperties.jumpEndH, config.backgroundColor);
         DrawableHelper.fill(stack, clientProperties.jumpStartW, clientProperties.jumpEndH, clientProperties.jumpEndW, relativeStartH, config.entity.jumpColor);
 
+        int textX = clientProperties.jumpEndW - client.textRenderer.getWidth(roundedHeightInBlocks);
+        int textY = clientProperties.jumpEndH - 10;
+
         if(config.textSettings.showText && config.entity.showHorseJumpText)
-            client.textRenderer.draw(stack, Calculations.GetSubscriptNumber(roundedHeightInBlocks), clientProperties.jumpEndW, clientProperties.jumpEndH, config.textSettings.textColor);
+            client.textRenderer.draw(stack, roundedHeightInBlocks, textX, textY, config.textSettings.textColor);
     }
 
     public void mountBar(LivingEntity mountEntity){

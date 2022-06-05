@@ -49,9 +49,9 @@ public class ClientProperties {
         xpStartH = baseStartH + 28;
         xpEndH = xpStartH + 1;
 
-        jumpStartW = (scaledWidth / 2) - 2;
+        jumpStartW = (scaledWidth / 2) - 7;
         jumpStartH = (scaledHeight / 2) + 10;
-        jumpEndW = jumpStartW + 3;
+        jumpEndW = jumpStartW + 13;
         jumpEndH = jumpStartH + 50;
 
         mountStartH = baseStartH - 12;

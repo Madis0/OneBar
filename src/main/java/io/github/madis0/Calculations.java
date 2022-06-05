@@ -66,7 +66,8 @@ public class Calculations {
                 .replace('6', '₆')
                 .replace('7', '₇')
                 .replace('8', '₈')
-                .replace('9', '₉');
+                .replace('9', '₉')
+                .replace('.','ͺ');
     }
 
     public static String EmojiOrText(String emojiPhrase, String textPhrase, Object... args){
