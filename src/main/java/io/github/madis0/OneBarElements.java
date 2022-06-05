@@ -40,6 +40,7 @@ public class OneBarElements {
             if(config.healthEstimates) hungerEffectBar();
             hungerBar();
             if(config.goodThings.heldFoodHungerBar) heldFoodHungerBar();
+            if(config.badThings.showWarden) wardenBar();
             if(config.badThings.showFire) fireBar();
             freezeBar();
             airBar();
@@ -115,6 +116,10 @@ public class OneBarElements {
 
     private void witherBar(){
         DrawableHelper.fill(stack, clientProperties.baseRelativeStartW(playerProperties.maxHealthRaw - playerProperties.witherHealthRaw, playerProperties.maxHealthRaw), clientProperties.baseStartH, clientProperties.baseEndW, clientProperties.baseEndH, config.badThings.witherColor);
+    }
+
+    private void wardenBar(){
+        DrawableHelper.fill(stack, clientProperties.baseRelativeStartW(playerProperties.rawWardenDanger, playerProperties.rawMaxWardenDanger), clientProperties.baseStartH, clientProperties.baseEndW, clientProperties.baseEndH, config.badThings.wardenColor);
     }
 
     private void hungerEffectBar(){
@@ -204,6 +209,8 @@ public class OneBarElements {
 
             // Subtractive values
 
+            if(playerProperties.wardenDanger > 0)
+                value += minus + Calculations.EmojiOrText("text.onebar.wardenEmoji","text.onebar.warden", Calculations.MakeFraction(playerProperties.wardenDanger, false));
             if (playerProperties.isUnderwater && !playerProperties.hasWaterBreathing)
                 value += minus + Calculations.EmojiOrText("text.onebar.airEmoji", "text.onebar.air", Calculations.MakeFraction(playerProperties.air, false));
             if (playerProperties.isUnderwater && playerProperties.hasWaterBreathing)
@@ -264,22 +271,22 @@ public class OneBarElements {
         }
         
         if(!config.otherBars.adaptiveXpBar || playerProperties.xpLevel > 0){
-            int sizeLimit = !client.options.forceUnicodeFont ? 10000 : 1000000;
+            int sizeLimit = !client.options.getForceUnicodeFont().getValue() ? 10000 : 1000000;
             int edgeAlignedConst = 13;
 
             if(playerProperties.xpLevel >= 0 && playerProperties.xpLevel < sizeLimit){
                 DrawableHelper.drawCenteredText(stack, client.textRenderer, String.valueOf(playerProperties.xpLevel), textX, textY, config.otherBars.xpColor);
             }
             else if(playerProperties.xpLevel >= sizeLimit){
-                if(client.options.mainArm == Arm.RIGHT)
+                if(client.options.getMainArm().getValue() == Arm.RIGHT)
                     client.textRenderer.drawWithShadow(stack, String.valueOf(playerProperties.xpLevel), textX - edgeAlignedConst, textY, config.otherBars.xpColor);
-                else if(client.options.mainArm == Arm.LEFT)
+                else if(client.options.getMainArm().getValue()  == Arm.LEFT)
                     client.textRenderer.drawWithShadow(stack, String.valueOf(playerProperties.xpLevel), textX + edgeAlignedConst - client.textRenderer.getWidth(String.valueOf(playerProperties.xpLevel)), textY, config.otherBars.xpColor);
             }
 
             if(config.otherBars.lapisCounter){
                 var lapisTextX = clientProperties.xpEndW + 1;
-                if(client.options.mainArm == Arm.LEFT)
+                if(client.options.getMainArm().getValue()  == Arm.LEFT)
                     lapisTextX = clientProperties.xpStartW - 1 - client.textRenderer.getWidth(lapisText);
 
                 var lapisTextY = clientProperties.xpStartH - 5;

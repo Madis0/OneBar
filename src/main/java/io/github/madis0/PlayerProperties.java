@@ -120,6 +120,11 @@ public class PlayerProperties {
     public float heldFoodHealthEstimateRaw;
     public int heldFoodHealthEstimate;
 
+    public int wardenDanger;
+    public int maxWardenDanger;
+    public int rawWardenDanger;
+    public int rawMaxWardenDanger;
+
     public PlayerProperties(){
         PlayerEntity playerEntity = MinecraftClient.getInstance().player;
         HungerManager hungerManager = Objects.requireNonNull(playerEntity).getHungerManager();
@@ -332,6 +337,14 @@ public class PlayerProperties {
             heldFoodSaturationEstimateRaw = 0;
         }
         heldFoodHealthEstimate = (int) Math.ceil(heldFoodHealthEstimateRaw);
+
+        rawMaxWardenDanger = 140; //7 sec in ticks - the actual max is 13 sec, but it fluctuates above 7 while in radius
+        maxWardenDanger = 20;
+
+        if(playerEntity.hasStatusEffect(StatusEffects.DARKNESS)){
+            rawWardenDanger = playerEntity.getStatusEffect(StatusEffects.DARKNESS).getDuration();
+            wardenDanger = Math.min(rawWardenDanger / 7, 20);
+        }
     }
 
     public static void SetPlayerBurningOnSoulFire(boolean isBurning){

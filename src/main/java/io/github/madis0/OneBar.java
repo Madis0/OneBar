@@ -8,7 +8,7 @@ import net.fabricmc.fabric.api.client.keybinding.v1.KeyBindingHelper;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.option.KeyBinding;
 import net.minecraft.client.util.InputUtil;
-import net.minecraft.text.TranslatableText;
+import net.minecraft.text.Text;
 
 public class OneBar implements ClientModInitializer {
 	@Override
@@ -49,6 +49,6 @@ public class OneBar implements ClientModInitializer {
 	}
 
 	private static void ShowState(MinecraftClient client, boolean variable, String translationKey){
-		client.player.sendMessage(new TranslatableText(variable ? "options.on.composed" : "options.off.composed", new TranslatableText(translationKey).getString()), true);
+		client.player.sendMessage(Text.translatable(variable ? "options.on.composed" : "options.off.composed", Text.translatable(translationKey).getString()), true);
 	}
 }
