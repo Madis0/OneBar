@@ -81,7 +81,7 @@ The mod only uses client-side data, so it is never needed on a server. There are
 | Effect | Color | Bar | Text | Where | Description/comment |
 |-|-|-|-|-|-|
 | Mount health | Orange | █ | 1 | Above OneBar | Similar to OneBar itself |
-| Horse jump | Brown | ▄ | 1 | Below crosshair | Vertical bar, number shows approximate height of blocks the horse can jump | 
+| Horse jump | Brown | ▄ | 1.0 | Below crosshair | Vertical bar, number shows approximate height of blocks the horse can jump | 
 
 #### Others
 
