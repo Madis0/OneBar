@@ -111,14 +111,22 @@ A: Because it's big, gets updated a lot and you probably have a mod or two that 
 
 A: Click `Esc` → `Mods` → `OneBar` → `config button`. Colors are formatted as opacity + RGB in HEX, so choose an opacity from [this list](https://gist.github.com/lopspower/03fb1cc0ac9f32ef38f4#all-hex-value-from-100-to-0-alpha) and use [any HEX color picker](https://rgbacolorpicker.com/hex-color-picker) for choosing a color. For example if I want 80% opacity (`CC`) on blue (`0000FF`), I will enter `#CC0000FF`.
 
+**Q: Can I use this with minigames?**
+
+A: Yes! There are options to disable hunger display or enable UHC mode, plus you can toggle those or entire OneBar with a keybind (if you set one).
+
+**Q: Can I use this in my favorite server?**
+
+A: Yes. If things like AppleSkin and effect HUDs are allowed, you can use the full featureset of OneBar. If they are not, just disable effect estimates to use it for essentially only health and hunger.
+
 **Q: Forge support?**
 
 A: No. Feel free to fork according to the license or [check out my resource pack that inspired this](https://www.curseforge.com/minecraft/texture-packs/material-design-hud).
 
 **Q: Backports?**
 
-A: No, Cloth Config isn't cross-compatible and I don't suggest using old versions anyway.
+A: No. There are old versions available down to 1.16.5 though.
 
 **Q: Snapshots?**
 
-A: It probably runs, but config might crash if it's not up to date.
+A: Maybe. If I have time, I might do targeted updates, but otherwise as long as you have the latest Cloth Config and Fabric API, it probably runs anyway.
