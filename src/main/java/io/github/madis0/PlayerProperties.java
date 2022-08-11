@@ -4,17 +4,22 @@ import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.screen.ingame.EnchantmentScreen;
 import net.minecraft.client.gui.screen.ingame.HandledScreen;
 import net.minecraft.entity.EquipmentSlot;
+import net.minecraft.entity.ai.TargetPredicate;
 import net.minecraft.entity.effect.StatusEffectInstance;
 import net.minecraft.entity.effect.StatusEffects;
+import net.minecraft.entity.mob.WardenEntity;
 import net.minecraft.entity.player.HungerManager;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ElytraItem;
 import net.minecraft.item.FoodComponent;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
+import net.minecraft.util.math.Box;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.world.Difficulty;
 
+import java.util.Comparator;
+import java.util.List;
 import java.util.Objects;
 
 import static net.minecraft.item.Items.LAPIS_BLOCK;
@@ -120,6 +125,7 @@ public class PlayerProperties {
     public float heldFoodHealthEstimateRaw;
     public int heldFoodHealthEstimate;
 
+    public boolean isWardenNear;
     public int wardenDanger;
     public int maxWardenDanger;
     public int rawWardenDanger;
@@ -147,7 +153,7 @@ public class PlayerProperties {
         absorption = MathHelper.ceil(playerEntity.getAbsorptionAmount());
         hasAbsorption = absorption > 0;
 
-        maxArmor = playerEntity.defaultMaxHealth;;
+        maxArmor = playerEntity.defaultMaxHealth;
         armor = playerEntity.getArmor();
         for (ItemStack armorItem : playerEntity.getArmorItems()) {
             if(!armorItem.isOf(Items.ELYTRA))
@@ -182,7 +188,7 @@ public class PlayerProperties {
 
         maxAirRaw = playerEntity.getMaxAir();
         airRaw = maxAirRaw - playerEntity.getAir();
-        air = Math.min(airRaw, maxAirRaw) / 15;
+        air = Math.min(airRaw, maxAirRaw) / (int) Calculations.GetPrettyDivisor(maxAirRaw, playerEntity.defaultMaxHealth);
         isUnderwater =  playerEntity.isSubmergedInWater() || airRaw > 0;
         isDrowning = airRaw >= maxAirRaw;
 
@@ -202,7 +208,7 @@ public class PlayerProperties {
 
         maxFreezeRaw = playerEntity.getMinFreezeDamageTicks();
         freezeRaw = playerEntity.getFrozenTicks();
-        freeze = freezeRaw / 7;
+        freeze = freezeRaw / (int) Calculations.GetPrettyDivisor(maxFreezeRaw, playerEntity.defaultMaxHealth);
         isFreezing = freezeRaw > 0;
         isGettingFreezeDamage = playerEntity.isFrozen() && !difficulty.equals(Difficulty.PEACEFUL);
 
@@ -338,16 +344,33 @@ public class PlayerProperties {
         }
         heldFoodHealthEstimate = (int) Math.ceil(heldFoodHealthEstimateRaw);
 
-        rawMaxWardenDanger = 140; //7 sec in ticks - the actual max is 13 sec, but it fluctuates above 7 while in radius
+        rawMaxWardenDanger = 149;
         maxWardenDanger = 20;
+        rawWardenDanger = 0;
+        wardenDanger = 0;
+        isWardenNear = false;
 
-        if(playerEntity.hasStatusEffect(StatusEffects.DARKNESS)){
-            rawWardenDanger = playerEntity.getStatusEffect(StatusEffects.DARKNESS).getDuration();
-            wardenDanger = Math.min(rawWardenDanger / 7, 20);
+        WardenEntity warden = getClosestWarden(playerEntity, 100);
+
+        if(warden != null){
+            isWardenNear = true;
+            rawWardenDanger = warden.getAnger();
+            wardenDanger = (int) (rawWardenDanger / Calculations.GetPrettyDivisor(rawMaxWardenDanger, playerEntity.defaultMaxHealth));
         }
     }
 
     public static void SetPlayerBurningOnSoulFire(boolean isBurning){
         isBurningOnSoulFire = isBurning;
     }
+
+    private WardenEntity getClosestWarden(PlayerEntity player, int range){
+        TargetPredicate targetPredicate = TargetPredicate.createAttackable().setBaseMaxDistance(range + 1);
+        Box boundingBox = player.getBoundingBox().expand(range, range, range);
+        List<WardenEntity> nearbyWardens = player.world.getTargets(WardenEntity.class, targetPredicate, player, boundingBox);
+
+        return nearbyWardens.stream().min(Comparator.comparingDouble(e ->
+                Calculations.GetDistance(player.getX(), player.getY(), player.getZ(), e.getX(), e.getY(), e.getZ()))).orElse(null);
+    }
+
+
 }

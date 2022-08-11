@@ -78,8 +78,36 @@ public class Calculations {
         return EmojiOrText(emojiPhrase, textPhrase, (Object) null);
     }
 
-    // https://github.com/d4rkm0nkey/HorseStatsVanilla/blob/main/src/main/java/monkey/lumpy/horse/stats/vanilla/util/Converter.java
+    /**
+     * Converts horse's jump strength to jump height, may not be 100% accurate
+     * <a href="https://github.com/d4rkm0nkey/HorseStatsVanilla/blob/main/src/main/java/monkey/lumpy/horse/stats/vanilla/util/Converter.java">Source</a>
+     * @param strength Horse jump strength
+     * @return Jump height in blocks
+     */
     public static double HorseJumpStrengthToJumpHeight(double strength) {
         return -0.1817584952 * strength * strength * strength + 3.689713992 * strength * strength + 2.128599134 * strength - 0.343930367;
+    }
+
+    /**
+     * Gets the distance between two entities that have coordinates specified
+     * @param x1 Entity one x-coordinate
+     * @param y1 Entity one y-coordinate
+     * @param z1 Entity one z-coordinate
+     * @param x2 Entity two x-coordinate
+     * @param y2 Entity two y-coordinate
+     * @param z2 Entity two z-coordinate
+     * @return Distance between two entities
+     */
+    public static double GetDistance(double x1, double y1, double z1, double x2, double y2, double z2) {
+        return ((x1-x2) * (x1-x2)) + ((y1-y2) * (y1-y2)) + ((z1-z2) * (z1-z2));
+    }
+
+    /**
+     * Calculates the pretty divisor values for things that do not actually max out at total health, e.g. air, freezing, warden.
+     * @param max Maximum value
+     * @return Maximum value divided by health default maximum
+     */
+    public static double GetPrettyDivisor(int max, int dividedBy){
+        return (double)max / dividedBy;
     }
 }

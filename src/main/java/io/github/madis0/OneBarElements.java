@@ -209,7 +209,7 @@ public class OneBarElements {
 
             // Subtractive values
 
-            if(playerProperties.wardenDanger > 0)
+            if(playerProperties.isWardenNear && config.badThings.showWarden)
                 value += minus + Calculations.EmojiOrText("text.onebar.wardenEmoji","text.onebar.warden", Calculations.MakeFraction(playerProperties.wardenDanger, false));
             if (playerProperties.isUnderwater && !playerProperties.hasWaterBreathing)
                 value += minus + Calculations.EmojiOrText("text.onebar.airEmoji", "text.onebar.air", Calculations.MakeFraction(playerProperties.air, false));
