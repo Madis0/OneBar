@@ -7,6 +7,7 @@ import net.minecraft.entity.EquipmentSlot;
 import net.minecraft.entity.ai.TargetPredicate;
 import net.minecraft.entity.effect.StatusEffectInstance;
 import net.minecraft.entity.effect.StatusEffects;
+import net.minecraft.entity.mob.Angriness;
 import net.minecraft.entity.mob.WardenEntity;
 import net.minecraft.entity.player.HungerManager;
 import net.minecraft.entity.player.PlayerEntity;
@@ -126,6 +127,7 @@ public class PlayerProperties {
     public int heldFoodHealthEstimate;
 
     public boolean isWardenNear;
+    public boolean isWardenAngry;
     public int wardenDanger;
     public int maxWardenDanger;
     public int rawWardenDanger;
@@ -349,12 +351,14 @@ public class PlayerProperties {
         rawWardenDanger = 0;
         wardenDanger = 0;
         isWardenNear = false;
+        isWardenAngry = false;
 
         WardenEntity warden = getClosestWarden(playerEntity, 100);
 
         if(warden != null){
             isWardenNear = true;
             rawWardenDanger = warden.getAnger();
+            isWardenAngry = rawWardenDanger > Angriness.ANGRY.getThreshold();
             wardenDanger = (int) (rawWardenDanger / Calculations.GetPrettyDivisor(rawMaxWardenDanger, playerEntity.defaultMaxHealth));
         }
     }

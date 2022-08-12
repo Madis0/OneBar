@@ -185,6 +185,8 @@ public class OneBarElements {
                     value += arrowRight + Calculations.MakeFraction(playerProperties.poisonHealth, config.textSettings.estimatesItalic);
                 if (playerProperties.hasWither)
                     value += arrowRight + Calculations.MakeFraction(playerProperties.witherHealth, config.textSettings.estimatesItalic);
+                if (playerProperties.isWardenAngry)
+                    value += arrowRight + Calculations.MakeFraction(0, config.textSettings.estimatesItalic);
                 if (playerProperties.isGettingFreezeDamage)
                     value += arrowRight + Calculations.MakeFraction(0, config.textSettings.estimatesItalic);
                 if (playerProperties.isBurningOnFire)
