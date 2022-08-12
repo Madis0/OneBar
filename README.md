@@ -71,7 +71,7 @@ The mod only uses client-side data, so it is never needed on a server. There are
 | Burning | Orange | █ | -🔥1× | -b1× | Number is a rough damage multiplier (1× - burning, 2× - in fire, 3× - in soul fire, 4× - in lava) |
 | Poison | Yellowish green | █ | _→1_ | _→1_ | Number is the resulting health |
 | Wither | Dark gray | █ | _→1_ | _→1_ | Number is the resulting health |
-| Warden anger | Dark teal | █ | -🔔1 | -s1 | The closest warden's anger level, influenced also by other entities. 20-11 - angry, 10-6 - agitated, 5-0 - calm.
+| Warden anger | Dark teal | █ | -🔔1 | -s1 | The closest warden's anger level, influenced also by other entities. [20-11 - angry, 10-6 - agitated, 5-0 - calm.](https://minecraft.fandom.com/wiki/Warden#Anger)
 | Bad Omen |  |  | -🪓1× | -BO1× | Number is [the effect level](https://minecraft.fandom.com/wiki/Bad_Omen#Effect) |
 | Impending death |  |  | _→0_ | _→0_ | Drowning, freezing damage, burning in fire/lava, starvation, suffocation. Zero is the resulting health (death) |
 | Hardcore mode |  |  | ☠ | HC | The vanilla one, not the UHC mode of OneBar which has no indicators |
