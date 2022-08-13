@@ -73,7 +73,7 @@ The mod only uses client-side data, so it is never needed on a server. There are
 | Wither | Dark gray | █ | _→1_ | _→1_ | Number is the resulting health |
 | Warden anger | Dark teal | █ | -🔔1 | -s1 | The closest (100 blocks) warden's anger level towards the player. [20-11 - angry, chasing; 10-6 - agitated, 5-0 - calm, can despawn.](https://minecraft.fandom.com/wiki/Warden#Anger)
 | Bad Omen |  |  | -🪓1× | -BO1× | Number is [the effect level](https://minecraft.fandom.com/wiki/Bad_Omen#Effect) |
-| Impending death |  |  | _→0_ | _→0_ | Drowning, freezing damage, burning in fire/lava, starvation, suffocation. Zero is the resulting health (death) |
+| Impending death |  |  | _→0_ | _→0_ | Drowning, freezing damage, burning in fire/lava, starvation, suffocation, angry warden. Zero is the resulting health (death) |
 | Hardcore mode |  |  | ☠ | HC | The vanilla one, not the UHC mode of OneBar which has no indicators |
 
 #### Mounts
