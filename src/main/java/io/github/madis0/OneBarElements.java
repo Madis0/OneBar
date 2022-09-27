@@ -1,5 +1,7 @@
 package io.github.madis0;
 
+import com.mojang.blaze3d.systems.RenderSystem;
+import dev.tr7zw.exordium.ExordiumModBase;
 import me.shedaniel.autoconfig.AutoConfig;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.DrawableHelper;
@@ -28,6 +30,8 @@ public class OneBarElements {
     }
 
     public void renderOneBar(){
+        ExordiumModBase.correctBlendMode();
+        ExordiumModBase.setForceBlend(true);
         PlayerEntity playerEntity = MinecraftClient.getInstance().player;
         if (playerEntity != null) {
             barBackground();
@@ -52,6 +56,8 @@ public class OneBarElements {
             if(config.otherBars.showSaturationBar) saturationBar();
             //if(config.healthEstimates && config.otherBars.showSaturationBar) heldFoodSaturationBar();
         }
+        ExordiumModBase.setForceBlend(false);
+        RenderSystem.defaultBlendFunc();
     }
 
     private void barBackground(){
