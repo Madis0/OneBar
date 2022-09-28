@@ -34,21 +34,30 @@ public class OneBar implements ClientModInitializer {
 
 			while (healthEstimates.wasPressed()) {
 				config.healthEstimates = !config.healthEstimates;
-				ShowState(client, config.healthEstimates, "text.autoconfig.onebar.option.healthEstimates");
+				showState(client, config.healthEstimates, "text.autoconfig.onebar.option.healthEstimates");
 			}
 
 			while (uhcMode.wasPressed()) {
 				config.uhcMode = !config.uhcMode;
-				ShowState(client, config.uhcMode, "text.autoconfig.onebar.option.uhcMode");
+				showState(client, config.uhcMode, "text.autoconfig.onebar.option.uhcMode");
 			}
 			while (disableHunger.wasPressed()) {
 				config.disableHunger = !config.disableHunger;
-				ShowState(client, config.disableHunger, "text.autoconfig.onebar.option.disableHunger");
+				showState(client, config.disableHunger, "text.autoconfig.onebar.option.disableHunger");
 			}
 		});
 	}
 
-	private static void ShowState(MinecraftClient client, boolean variable, String translationKey){
+	private static void showState(MinecraftClient client, boolean variable, String translationKey){
 		client.player.sendMessage(Text.translatable(variable ? "options.on.composed" : "options.off.composed", Text.translatable(translationKey).getString()), true);
+	}
+
+	protected static boolean doesClassExist(String name) {
+		try {
+			if(Class.forName(name) != null) {
+				return true;
+			}
+		} catch (ClassNotFoundException e) {}
+		return false;
 	}
 }
