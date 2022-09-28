@@ -30,7 +30,10 @@ public class OneBarElements {
     }
 
     public void renderOneBar(){
-
+        if(OneBar.doesClassExist("dev.tr7zw.exordium.ExordiumModBase")) {
+            ExordiumModBase.correctBlendMode();
+            ExordiumModBase.setForceBlend(true);
+        }
 
         PlayerEntity playerEntity = MinecraftClient.getInstance().player;
         if (playerEntity != null) {
@@ -55,112 +58,104 @@ public class OneBarElements {
             if(config.otherBars.showElytraDurabilityBar) elytraDurabilityBar();
             if(config.otherBars.showSaturationBar) saturationBar();
             //if(config.healthEstimates && config.otherBars.showSaturationBar) heldFoodSaturationBar();
-        }
 
-    }
-
-    private void renderBar(int x1, int y1, int x2, int y2, int color){
-        if(OneBar.doesClassExist("dev.tr7zw.exordium.ExordiumModBase")) {
-            ExordiumModBase.correctBlendMode();
-            ExordiumModBase.setForceBlend(true);
-        }
-        DrawableHelper.fill(stack, x1, y1, x2, y2, color);
-        if(OneBar.doesClassExist("dev.tr7zw.exordium.ExordiumModBase")) {
-            ExordiumModBase.setForceBlend(false);
-            RenderSystem.defaultBlendFunc();
+            if(OneBar.doesClassExist("dev.tr7zw.exordium.ExordiumModBase")) {
+                ExordiumModBase.setForceBlend(false);
+                RenderSystem.defaultBlendFunc();
+            }
         }
     }
 
     private void barBackground(){
-        renderBar(clientProperties.baseStartW, clientProperties.baseStartH, clientProperties.baseEndW, clientProperties.baseEndH, config.backgroundColor);
+        DrawableHelper.fill(stack, clientProperties.baseStartW, clientProperties.baseStartH, clientProperties.baseEndW, clientProperties.baseEndH, config.backgroundColor);
     }
 
     private void armorBar(){
-        renderBar(clientProperties.baseStartW, clientProperties.baseStartH - 1, clientProperties.baseRelativeEndW(playerProperties.armor, playerProperties.maxArmor), clientProperties.baseStartH, config.otherBars.armorColor);
+        DrawableHelper.fill(stack, clientProperties.baseStartW, clientProperties.baseStartH - 1, clientProperties.baseRelativeEndW(playerProperties.armor, playerProperties.maxArmor), clientProperties.baseStartH, config.otherBars.armorColor);
     }
 
     private void armorDurabilityBar(){
         if(playerProperties.maxArmorDurability > 0)
-            renderBar(clientProperties.baseStartW, clientProperties.baseStartH - 1, clientProperties.baseRelativeEndW(playerProperties.armorDurability, playerProperties.maxArmor), clientProperties.baseStartH, config.otherBars.armorDurabilityColor);
+            DrawableHelper.fill(stack, clientProperties.baseStartW, clientProperties.baseStartH - 1, clientProperties.baseRelativeEndW(playerProperties.armorDurability, playerProperties.maxArmor), clientProperties.baseStartH, config.otherBars.armorDurabilityColor);
     }
 
     private void elytraDurabilityBar(){
         if(playerProperties.isFlyingWithElytra)
-            renderBar(clientProperties.baseStartW, clientProperties.baseStartH - 1, clientProperties.baseRelativeEndW(playerProperties.elytraDurability, playerProperties.elytraMaxDurability), clientProperties.baseStartH, config.otherBars.elytraDurabilityColor);
+            DrawableHelper.fill(stack, clientProperties.baseStartW, clientProperties.baseStartH - 1, clientProperties.baseRelativeEndW(playerProperties.elytraDurability, playerProperties.elytraMaxDurability), clientProperties.baseStartH, config.otherBars.elytraDurabilityColor);
     }
 
     private void saturationBar(){
-        renderBar(clientProperties.baseStartW, clientProperties.baseEndH, clientProperties.baseRelativeEndW(playerProperties.saturationRaw, playerProperties.maxFoodLevelRaw), clientProperties.baseEndH + 1, config.otherBars.saturationColor);
+        DrawableHelper.fill(stack, clientProperties.baseStartW, clientProperties.baseEndH, clientProperties.baseRelativeEndW(playerProperties.saturationRaw, playerProperties.maxFoodLevelRaw), clientProperties.baseEndH + 1, config.otherBars.saturationColor);
     }
 
     private void heldFoodHungerBar(){
         if(hasHunger){
             if(playerProperties.heldFoodHungerEstimate >= 0) // Used food
-                renderBar(clientProperties.baseRelativeStartW(playerProperties.hunger, playerProperties.maxFoodLevel), clientProperties.baseStartH, clientProperties.baseRelativeEndW(playerProperties.maxFoodLevel - playerProperties.heldFoodHungerEstimate, playerProperties.maxFoodLevel), clientProperties.baseEndH, config.goodThings.heldFoodHungerGoodColor);
+                DrawableHelper.fill(stack, clientProperties.baseRelativeStartW(playerProperties.hunger, playerProperties.maxFoodLevel), clientProperties.baseStartH, clientProperties.baseRelativeEndW(playerProperties.maxFoodLevel - playerProperties.heldFoodHungerEstimate, playerProperties.maxFoodLevel), clientProperties.baseEndH, config.goodThings.heldFoodHungerGoodColor);
             else // Wasted food
-                renderBar(clientProperties.baseRelativeStartW(playerProperties.heldFoodHunger, playerProperties.maxFoodLevel), clientProperties.baseStartH, clientProperties.baseEndW, clientProperties.baseEndH, config.goodThings.heldFoodHungerWasteColor);
+                DrawableHelper.fill(stack, clientProperties.baseRelativeStartW(playerProperties.heldFoodHunger, playerProperties.maxFoodLevel), clientProperties.baseStartH, clientProperties.baseEndW, clientProperties.baseEndH, config.goodThings.heldFoodHungerWasteColor);
         }
     }
 
     private void heldFoodSaturationBar(){ // Still WIP
-        renderBar(clientProperties.baseStartW, clientProperties.baseEndH, clientProperties.baseRelativeEndW(playerProperties.heldFoodSaturationEstimateRaw, playerProperties.maxFoodLevelRaw), clientProperties.baseEndH + 1, config.goodThings.heldFoodHungerGoodColor);
+        DrawableHelper.fill(stack, clientProperties.baseStartW, clientProperties.baseEndH, clientProperties.baseRelativeEndW(playerProperties.heldFoodSaturationEstimateRaw, playerProperties.maxFoodLevelRaw), clientProperties.baseEndH + 1, config.goodThings.heldFoodHungerGoodColor);
     }
 
     private void heldFoodHealthBar(){ // Still WIP
         if(playerProperties.heldFoodHealthEstimateRaw > playerProperties.healthRaw) {
-            renderBar(clientProperties.baseStartW, clientProperties.baseStartH, clientProperties.baseRelativeEndW(Math.max(playerProperties.heldFoodHealthEstimateRaw, playerProperties.healthRaw), playerProperties.maxHealthRaw), clientProperties.baseEndH, config.goodThings.naturalRegenerationColor);
+            DrawableHelper.fill(stack, clientProperties.baseStartW, clientProperties.baseStartH, clientProperties.baseRelativeEndW(Math.max(playerProperties.heldFoodHealthEstimateRaw, playerProperties.healthRaw), playerProperties.maxHealthRaw), clientProperties.baseEndH, config.goodThings.naturalRegenerationColor);
         }
     }
 
     private void naturalRegenerationBar(){
         if (playerProperties.naturalRegenerationHealthRaw > playerProperties.healthRaw){
-            renderBar(clientProperties.baseStartW, clientProperties.baseStartH, clientProperties.baseRelativeEndW(Math.max(playerProperties.naturalRegenerationHealth, playerProperties.health), playerProperties.maxHealthRaw), clientProperties.baseEndH, config.goodThings.naturalRegenerationColor);
+            DrawableHelper.fill(stack, clientProperties.baseStartW, clientProperties.baseStartH, clientProperties.baseRelativeEndW(Math.max(playerProperties.naturalRegenerationHealth, playerProperties.health), playerProperties.maxHealthRaw), clientProperties.baseEndH, config.goodThings.naturalRegenerationColor);
         }
     }
 
     private void regenerationBar(){
         if(playerProperties.hasRegeneration)
-            renderBar(clientProperties.baseStartW, clientProperties.baseStartH, clientProperties.baseRelativeEndW(Math.max(playerProperties.regenerationHealthRaw, playerProperties.healthRaw), playerProperties.maxHealthRaw), clientProperties.baseEndH, config.goodThings.regenerationColor);
+            DrawableHelper.fill(stack, clientProperties.baseStartW, clientProperties.baseStartH, clientProperties.baseRelativeEndW(Math.max(playerProperties.regenerationHealthRaw, playerProperties.healthRaw), playerProperties.maxHealthRaw), clientProperties.baseEndH, config.goodThings.regenerationColor);
     }
 
     private void healthBar(){
-        renderBar(clientProperties.baseStartW, clientProperties.baseStartH, clientProperties.baseRelativeEndW(playerProperties.healthRaw, playerProperties.maxHealthRaw), clientProperties.baseEndH, config.goodThings.healthColor);
+        DrawableHelper.fill(stack, clientProperties.baseStartW, clientProperties.baseStartH, clientProperties.baseRelativeEndW(playerProperties.healthRaw, playerProperties.maxHealthRaw), clientProperties.baseEndH, config.goodThings.healthColor);
     }
 
     private void poisonBar(){
-        renderBar(clientProperties.baseRelativeStartW(playerProperties.maxHealthRaw - playerProperties.poisonHealthRaw, playerProperties.maxHealthRaw), clientProperties.baseStartH, clientProperties.baseEndW, clientProperties.baseEndH, config.badThings.poisonColor);
+        DrawableHelper.fill(stack, clientProperties.baseRelativeStartW(playerProperties.maxHealthRaw - playerProperties.poisonHealthRaw, playerProperties.maxHealthRaw), clientProperties.baseStartH, clientProperties.baseEndW, clientProperties.baseEndH, config.badThings.poisonColor);
     }
 
     private void witherBar(){
-        renderBar(clientProperties.baseRelativeStartW(playerProperties.maxHealthRaw - playerProperties.witherHealthRaw, playerProperties.maxHealthRaw), clientProperties.baseStartH, clientProperties.baseEndW, clientProperties.baseEndH, config.badThings.witherColor);
+        DrawableHelper.fill(stack, clientProperties.baseRelativeStartW(playerProperties.maxHealthRaw - playerProperties.witherHealthRaw, playerProperties.maxHealthRaw), clientProperties.baseStartH, clientProperties.baseEndW, clientProperties.baseEndH, config.badThings.witherColor);
     }
 
     private void wardenBar(){
-        renderBar(clientProperties.baseRelativeStartW(playerProperties.rawWardenDanger, playerProperties.rawMaxWardenDanger), clientProperties.baseStartH, clientProperties.baseEndW, clientProperties.baseEndH, config.badThings.wardenColor);
+        DrawableHelper.fill(stack, clientProperties.baseRelativeStartW(playerProperties.rawWardenDanger, playerProperties.rawMaxWardenDanger), clientProperties.baseStartH, clientProperties.baseEndW, clientProperties.baseEndH, config.badThings.wardenColor);
     }
 
     private void hungerEffectBar(){
         if (playerProperties.hungerEffectEstimateRaw > playerProperties.hunger && !difficulty.equals(Difficulty.PEACEFUL) && !config.disableHunger){
-            renderBar(clientProperties.baseRelativeStartW(playerProperties.hungerEffectEstimateRaw, playerProperties.maxFoodLevelRaw), clientProperties.baseStartH, clientProperties.baseEndW, clientProperties.baseEndH, config.badThings.hungerEffectColor);
+            DrawableHelper.fill(stack, clientProperties.baseRelativeStartW(playerProperties.hungerEffectEstimateRaw, playerProperties.maxFoodLevelRaw), clientProperties.baseStartH, clientProperties.baseEndW, clientProperties.baseEndH, config.badThings.hungerEffectColor);
         }
     }
 
     private void hungerBar(){
         if(hasHunger)
-            renderBar(clientProperties.baseRelativeStartW(playerProperties.hungerRaw, playerProperties.maxFoodLevelRaw), clientProperties.baseStartH, clientProperties.baseEndW, clientProperties.baseEndH, config.badThings.hungerColor);
+            DrawableHelper.fill(stack, clientProperties.baseRelativeStartW(playerProperties.hungerRaw, playerProperties.maxFoodLevelRaw), clientProperties.baseStartH, clientProperties.baseEndW, clientProperties.baseEndH, config.badThings.hungerColor);
     }
 
     private void airBar(){
-        renderBar(clientProperties.baseRelativeStartW(playerProperties.airRaw, playerProperties.maxAirRaw), clientProperties.baseStartH, clientProperties.baseEndW, clientProperties.baseEndH, config.badThings.airColor);
+        DrawableHelper.fill(stack, clientProperties.baseRelativeStartW(playerProperties.airRaw, playerProperties.maxAirRaw), clientProperties.baseStartH, clientProperties.baseEndW, clientProperties.baseEndH, config.badThings.airColor);
     }
 
     private void freezeBar(){
-        renderBar(clientProperties.baseRelativeStartW(playerProperties.freezeRaw, playerProperties.maxFreezeRaw), clientProperties.baseStartH, clientProperties.baseEndW, clientProperties.baseEndH, config.badThings.freezeColor);
+        DrawableHelper.fill(stack, clientProperties.baseRelativeStartW(playerProperties.freezeRaw, playerProperties.maxFreezeRaw), clientProperties.baseStartH, clientProperties.baseEndW, clientProperties.baseEndH, config.badThings.freezeColor);
     }
 
     private void fireBar(){
         if (playerProperties.isBurning && !playerProperties.hasFireResistance){
-            renderBar(clientProperties.baseRelativeStartW((playerProperties.maxHealthRaw - playerProperties.healthRaw) + playerProperties.burningMultiplier, playerProperties.maxHealthRaw), clientProperties.baseStartH, clientProperties.baseEndW, clientProperties.baseEndH, config.badThings.fireColor);
+            DrawableHelper.fill(stack, clientProperties.baseRelativeStartW((playerProperties.maxHealthRaw - playerProperties.healthRaw) + playerProperties.burningMultiplier, playerProperties.maxHealthRaw), clientProperties.baseStartH, clientProperties.baseEndW, clientProperties.baseEndH, config.badThings.fireColor);
         }
     }
 
@@ -313,8 +308,8 @@ public class OneBarElements {
             }
         }
         if(!config.otherBars.adaptiveXpBar || playerProperties.xp > 0){
-            renderBar(clientProperties.xpStartW, clientProperties.xpStartH, clientProperties.xpEndW, clientProperties.xpEndH, config.backgroundColor);
-            renderBar(clientProperties.xpStartW, clientProperties.xpStartH, relativeEndW, clientProperties.xpEndH, config.otherBars.xpColor);
+            DrawableHelper.fill(stack, clientProperties.xpStartW, clientProperties.xpStartH, clientProperties.xpEndW, clientProperties.xpEndH, config.backgroundColor);
+            DrawableHelper.fill(stack, clientProperties.xpStartW, clientProperties.xpStartH, relativeEndW, clientProperties.xpEndH, config.otherBars.xpColor);
         }
     }
 
@@ -328,8 +323,8 @@ public class OneBarElements {
         String roundedHeightInBlocks = Calculations.GetSubscriptNumber(Double.parseDouble(String.format(Locale.US, "%,.1f",(heightInBlocks))));
 
         int relativeStartH = Calculations.RelativeW(clientProperties.jumpEndH, clientProperties.jumpStartH, jumpHeight, barHeight);
-        renderBar(clientProperties.jumpStartW, clientProperties.jumpStartH, clientProperties.jumpEndW, clientProperties.jumpEndH, config.backgroundColor);
-        renderBar(clientProperties.jumpStartW, clientProperties.jumpEndH, clientProperties.jumpEndW, relativeStartH, config.entity.jumpColor);
+        DrawableHelper.fill(stack, clientProperties.jumpStartW, clientProperties.jumpStartH, clientProperties.jumpEndW, clientProperties.jumpEndH, config.backgroundColor);
+        DrawableHelper.fill(stack, clientProperties.jumpStartW, clientProperties.jumpEndH, clientProperties.jumpEndW, relativeStartH, config.entity.jumpColor);
 
         int textX = clientProperties.jumpEndW - client.textRenderer.getWidth(roundedHeightInBlocks);
         int textY = clientProperties.jumpEndH - 10;
@@ -350,9 +345,9 @@ public class OneBarElements {
         int textX = clientProperties.baseEndW - client.textRenderer.getWidth(value);
         int textY = clientProperties.mountStartH + 1;
 
-        renderBar(clientProperties.baseStartW, clientProperties.mountStartH, clientProperties.baseEndW, clientProperties.mountEndH, config.backgroundColor);
-        renderBar(clientProperties.baseStartW, clientProperties.mountStartH, clientProperties.baseRelativeEndW(Calculations.GetPreciseInt(mountRawHealth), Calculations.GetPreciseInt(mountMaxHealth)), clientProperties.mountEndH, config.entity.healthColor);
-        if(config.otherBars.showArmorBar) renderBar(clientProperties.baseStartW, clientProperties.mountStartH - 1, clientProperties.baseRelativeEndW(horseArmor, horseMaxArmor), clientProperties.mountStartH, config.otherBars.armorColor);
+        DrawableHelper.fill(stack, clientProperties.baseStartW, clientProperties.mountStartH, clientProperties.baseEndW, clientProperties.mountEndH, config.backgroundColor);
+        DrawableHelper.fill(stack, clientProperties.baseStartW, clientProperties.mountStartH, clientProperties.baseRelativeEndW(Calculations.GetPreciseInt(mountRawHealth), Calculations.GetPreciseInt(mountMaxHealth)), clientProperties.mountEndH, config.entity.healthColor);
+        if(config.otherBars.showArmorBar) DrawableHelper.fill(stack, clientProperties.baseStartW, clientProperties.mountStartH - 1, clientProperties.baseRelativeEndW(horseArmor, horseMaxArmor), clientProperties.mountStartH, config.otherBars.armorColor);
         if(config.textSettings.showText) client.textRenderer.draw(stack, value, textX, textY, config.textSettings.textColor);
     }
 
