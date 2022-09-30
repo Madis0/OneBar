@@ -114,13 +114,13 @@ public class Calculations {
     }
 
     /**
-     * Makes a color lighter or darker by entered percentage. Adjusted code from https://stackoverflow.com/a/33072575/1175094
+     * Makes a color lighter or darker by entered percentage.
      * @param color Color integer
      * @param factor Percentage to change the color by
      * @return New color integer
      */
     public static int manipulateColor(int color, float factor) {
-        Color clr = new Color(color);
+        Color clr = new Color(color, true);
 
         Color newClr = new Color(Math.max((int)(clr.getRed() * factor), 0),
                 Math.max((int)(clr.getGreen() * factor), 0),
