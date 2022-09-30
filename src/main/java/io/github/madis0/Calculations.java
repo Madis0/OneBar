@@ -72,12 +72,15 @@ public class Calculations {
                 .replace('.','ͺ');
     }
 
-    public static String EmojiOrText(String emojiPhrase, String textPhrase, Object... args){
-        return Text.translatable(config.textSettings.useEmoji ? emojiPhrase : textPhrase, args).getString();
+    public static String EmojiOrText(String emojiPhrase, String textPhrase, boolean extra, Object... args){
+        if(extra && config.textSettings.extraSymbols)
+            return Text.translatable(config.textSettings.useEmoji ? emojiPhrase : textPhrase, args).getString();
+        else
+            return String.valueOf(args[0]);
     }
 
     public static String EmojiOrText(String emojiPhrase, String textPhrase){
-        return EmojiOrText(emojiPhrase, textPhrase, (Object) null);
+        return EmojiOrText(emojiPhrase, textPhrase, false, (Object) null);
     }
 
     /**

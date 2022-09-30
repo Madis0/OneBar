@@ -191,7 +191,7 @@ public class OneBarElements {
             if (config.healthEstimates && showHealthParentheses)
                 value += pStart;
 
-            value += Calculations.MakeFraction(playerProperties.health, false);
+            value += Calculations.EmojiOrText("text.onebar.healthEmoji","text.onebar.health", true, Calculations.MakeFraction(playerProperties.health, false));
 
             if(config.healthEstimates){
                 if (playerProperties.naturalRegenerationHealth > playerProperties.health && !config.uhcMode)
@@ -224,35 +224,35 @@ public class OneBarElements {
         // Additive values
 
         if (playerProperties.hasAbsorption)
-            value += plus + Calculations.MakeFraction(playerProperties.absorption, false);
+            value += plus + Calculations.EmojiOrText("text.onebar.absorptionEmoji","text.onebar.absorption", true, Calculations.MakeFraction(playerProperties.absorption, false));
 
         if(config.textSettings.showText) { // Separated if because order matters
             if (playerProperties.hasResistance && config.goodThings.showResistance)
-                value += plus + Calculations.EmojiOrText("text.onebar.resistanceEmoji","text.onebar.resistance", playerProperties.resistancePercent);
+                value += plus + Calculations.EmojiOrText("text.onebar.resistanceEmoji","text.onebar.resistance", false, playerProperties.resistancePercent);
 
             // Subtractive values
 
             if(playerProperties.isWardenNear && config.badThings.showWarden)
-                value += minus + Calculations.EmojiOrText("text.onebar.wardenEmoji","text.onebar.warden", Calculations.MakeFraction(playerProperties.wardenDanger, false));
+                value += minus + Calculations.EmojiOrText("text.onebar.wardenEmoji","text.onebar.warden",false, Calculations.MakeFraction(playerProperties.wardenDanger, false));
             if (playerProperties.isUnderwater && !playerProperties.hasWaterBreathing)
-                value += minus + Calculations.EmojiOrText("text.onebar.airEmoji", "text.onebar.air", Calculations.MakeFraction(playerProperties.air, false));
+                value += minus + Calculations.EmojiOrText("text.onebar.airEmoji", "text.onebar.air", false, Calculations.MakeFraction(playerProperties.air, false));
             if (playerProperties.isUnderwater && playerProperties.hasWaterBreathing)
-                value += minus + para + "m" + Calculations.EmojiOrText("text.onebar.airEmoji","text.onebar.air", Calculations.MakeFraction(playerProperties.air, false)) + para + "r";
+                value += minus + para + "m" + Calculations.EmojiOrText("text.onebar.airEmoji","text.onebar.air", false, Calculations.MakeFraction(playerProperties.air, false)) + para + "r";
             if (playerProperties.isFreezing)
-                value += minus + Calculations.EmojiOrText("text.onebar.freezeEmoji", "text.onebar.freeze", Calculations.MakeFraction(playerProperties.freeze, false));
+                value += minus + Calculations.EmojiOrText("text.onebar.freezeEmoji", "text.onebar.freeze", false, Calculations.MakeFraction(playerProperties.freeze, false));
             if (playerProperties.isBurning && !playerProperties.hasFireResistance && config.badThings.showFire)
-                value += minus + Calculations.EmojiOrText("text.onebar.fireEmoji","text.onebar.fire", playerProperties.burningMultiplier);
+                value += minus + Calculations.EmojiOrText("text.onebar.fireEmoji","text.onebar.fire", false, playerProperties.burningMultiplier);
             if (playerProperties.isBurning && playerProperties.hasFireResistance && config.badThings.showFire)
-                value += minus + para + "m" + Calculations.EmojiOrText("text.onebar.fireEmoji","text.onebar.fire", playerProperties.burningMultiplier) + para + "r";
+                value += minus + para + "m" + Calculations.EmojiOrText("text.onebar.fireEmoji","text.onebar.fire", false, playerProperties.burningMultiplier) + para + "r";
             if (playerProperties.hasBadOmen && config.badThings.showBadOmen)
-                value += minus + Calculations.EmojiOrText("text.onebar.badOmenEmoji","text.onebar.badOmen", playerProperties.badOmenLevel);
+                value += minus + Calculations.EmojiOrText("text.onebar.badOmenEmoji","text.onebar.badOmen", false, playerProperties.badOmenLevel);
             if (hasHunger || (playerProperties.hasHungerEffect && config.healthEstimates && !config.disableHunger))
                 value += minus;
 
             if (showHungerParentheses)
                 value += pStart;
             if (hasHunger || (playerProperties.hasHungerEffect && config.healthEstimates && !config.disableHunger))
-                value += Calculations.MakeFraction(playerProperties.hunger, false);
+                value += Calculations.EmojiOrText("text.onebar.hungerEmoji","text.onebar.hunger", true, Calculations.MakeFraction(playerProperties.hunger, false));
             if (hasHunger && playerProperties.saturation < 1 && config.badThings.showHungerDecreasing)
                 value += arrowDown;
             if (playerProperties.hasHungerEffect && !config.disableHunger && config.healthEstimates)

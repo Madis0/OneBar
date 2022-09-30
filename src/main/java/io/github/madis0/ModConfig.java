@@ -36,6 +36,8 @@ public class ModConfig implements ConfigData {
         @ConfigEntry.Gui.Tooltip
         public boolean useEmoji = true;
         @ConfigEntry.Gui.Tooltip
+        public boolean extraSymbols = false;
+        @ConfigEntry.Gui.Tooltip
         public boolean useFractions = false;
     }
 

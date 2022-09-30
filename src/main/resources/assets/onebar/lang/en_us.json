@@ -1,5 +1,8 @@
 {
   "modmenu.descriptionTranslation.onebar": "HUD mod that shows the values and bars only when you need them.",
+  "text.onebar.health": "h%s",
+  "text.onebar.absorption": "ab%s",
+  "text.onebar.hunger": "f%s",
   "text.onebar.resistance": "r%s%%",
   "text.onebar.air": "a%s",
   "text.onebar.freeze": "f%s",
@@ -14,6 +17,9 @@
   "text.onebar.wardenEmoji": "\uD83D\uDD14%s",
   "text.onebar.hardcoreEmoji": "\u2620",
   "text.onebar.badOmenEmoji": "\ud83e\ude93%sx",
+  "text.onebar.healthEmoji": "\u2764%s",
+  "text.onebar.absorptionEmoji": "\u2665%s",
+  "text.onebar.hungerEmoji": "\uD83C\uDF56%s",
   "text.autoconfig.onebar.title": "OneBar configuration",
   "text.autoconfig.onebar.category.default": "General",
   "text.autoconfig.onebar.option.showOneBar": "Show OneBar",
