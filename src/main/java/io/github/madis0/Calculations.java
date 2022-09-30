@@ -3,6 +3,8 @@ package io.github.madis0;
 import me.shedaniel.autoconfig.AutoConfig;
 import net.minecraft.text.Text;
 import net.minecraft.util.math.MathHelper;
+
+import java.awt.*;
 import java.text.DecimalFormat;
 
 public class Calculations {
@@ -109,5 +111,24 @@ public class Calculations {
      */
     public static double GetPrettyDivisor(int max, int dividedBy){
         return (double)max / dividedBy;
+    }
+
+    /**
+     * Makes a color lighter or darker by entered percentage. Adjusted code from https://stackoverflow.com/a/33072575/1175094
+     * @param color Color integer
+     * @param factor Percentage to change the color by
+     * @return New color integer
+     */
+    public static int manipulateColor(int color, float factor) {
+        Color clr = new Color(color);
+
+        Color newClr = new Color(Math.max((int)(clr.getRed() * factor), 0),
+                Math.max((int)(clr.getGreen() * factor), 0),
+                Math.max((int)(clr.getBlue() * factor), 0),
+                clr.getAlpha());
+
+        var str = "0x" + String.format("%02X", newClr.getAlpha()) + String.format("%02X", newClr.getRed()) + String.format("%02X", newClr.getGreen()) + String.format("%02X", newClr.getBlue());
+
+        return Integer.decode(str);
     }
 }

@@ -18,6 +18,12 @@ public class ModConfig implements ConfigData {
     @ConfigEntry.ColorPicker(allowAlpha = true)
     public int backgroundColor = 0xFF000000;
 
+    @ConfigEntry.Gui.Tooltip
+    public boolean enableGradient = false;
+
+    @ConfigEntry.Gui.Tooltip
+    public int gradientShift = 50;
+
     public static class TextSettings {
         @ConfigEntry.Gui.Tooltip
         public boolean showText = true;
