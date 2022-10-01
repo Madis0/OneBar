@@ -332,7 +332,8 @@ public class OneBarElements {
 
         int relativeStartH = Calculations.RelativeW(clientProperties.jumpEndH, clientProperties.jumpStartH, jumpHeight, barHeight);
         renderBar(clientProperties.jumpStartW, clientProperties.jumpStartH, clientProperties.jumpEndW, clientProperties.jumpEndH, config.backgroundColor);
-        renderBar(clientProperties.jumpStartW, clientProperties.jumpEndH, clientProperties.jumpEndW, relativeStartH, config.entity.jumpColor);
+        //renderBar(clientProperties.jumpStartW, clientProperties.jumpEndH, clientProperties.jumpEndW, relativeStartH, config.entity.jumpColor);
+        DrawableHelper.fill(stack, clientProperties.jumpStartW, clientProperties.jumpEndH, clientProperties.jumpEndW, relativeStartH, config.entity.jumpColor); //TODO: fix gradient
 
         int textX = clientProperties.jumpEndW - client.textRenderer.getWidth(roundedHeightInBlocks);
         int textY = clientProperties.jumpEndH - 10;
