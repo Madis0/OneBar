@@ -79,10 +79,6 @@ public class Calculations {
             return String.valueOf(args[0]);
     }
 
-    public static String EmojiOrText(String emojiPhrase, String textPhrase){
-        return EmojiOrText(emojiPhrase, textPhrase, false, (Object) null);
-    }
-
     /**
      * Converts horse's jump strength to jump height, may not be 100% accurate
      * <a href="https://github.com/d4rkm0nkey/HorseStatsVanilla/blob/main/src/main/java/monkey/lumpy/horse/stats/vanilla/util/Converter.java">Source</a>

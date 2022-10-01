@@ -4,7 +4,6 @@ import com.mojang.blaze3d.systems.RenderSystem;
 import dev.tr7zw.exordium.ExordiumModBase;
 import io.github.madis0.mixin.DrawableHelperAccessor;
 import me.shedaniel.autoconfig.AutoConfig;
-import me.shedaniel.autoconfig.annotation.ConfigEntry;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.DrawableHelper;
 import net.minecraft.client.util.math.MatrixStack;
@@ -264,7 +263,7 @@ public class OneBarElements {
         }
 
         if (clientProperties.isHardcore)
-            value += Calculations.EmojiOrText("text.onebar.hardcoreEmoji","text.onebar.hardcore");
+            value += Calculations.EmojiOrText("text.onebar.hardcoreEmoji","text.onebar.hardcore", false, (Object) null);
 
         int textX = clientProperties.baseEndW - client.textRenderer.getWidth(value);
         int textY = clientProperties.baseStartH + 1;
