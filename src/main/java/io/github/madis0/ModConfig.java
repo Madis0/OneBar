@@ -22,7 +22,8 @@ public class ModConfig implements ConfigData {
     public boolean enableGradient = false;
 
     @ConfigEntry.Gui.Tooltip
-    public float gradientShift = 0.5F;
+    @ConfigEntry.BoundedDiscrete(max = 200, min = 0)
+    public int gradientShift = 50;
 
     public static class TextSettings {
         @ConfigEntry.Gui.Tooltip

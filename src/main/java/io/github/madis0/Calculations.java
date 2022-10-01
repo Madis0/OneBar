@@ -117,21 +117,28 @@ public class Calculations {
     }
 
     /**
-     * Makes a color lighter or darker by entered percentage.
+     * Makes a color lighter or darker by entered percentage. Code by FlashyReese
      * @param color Color integer
      * @param factor Percentage to change the color by
      * @return New color integer
      */
-    public static int manipulateColor(int color, float factor) {
-        Color clr = new Color(color, true);
+    public static int ManipulateColor(int color, int factor) {
+        // Unpack color
+        int a = color >> 24 & 0xFF;
+        int r = color >> 16 & 0xFF;
+        int g = color >> 8 & 0xFF;
+        int b = color & 0xFF;
 
-        Color newClr = new Color(Math.max((int)(clr.getRed() * factor), 0),
-                Math.max((int)(clr.getGreen() * factor), 0),
-                Math.max((int)(clr.getBlue() * factor), 0),
-                clr.getAlpha());
+        // Manipulate color
+        int nr = clampTo8Bit((int) (r * ((float)factor / 100)));
+        int ng = clampTo8Bit((int) (g * ((float)factor / 100)));
+        int nb = clampTo8Bit((int) (b * ((float)factor / 100)));
 
-        var str = "0x" + String.format("%02X", newClr.getAlpha()) + String.format("%02X", newClr.getRed()) + String.format("%02X", newClr.getGreen()) + String.format("%02X", newClr.getBlue());
+        // Pack color ARGB
+        return a << 24 | nr << 16 | ng << 8 | nb;
+    }
 
-        return Integer.decode(str);
+    private static int clampTo8Bit(int v) {
+        return (v & ~0xFF) != 0 ? ((~v) >> 31) & 0xFF : v;
     }
 }
