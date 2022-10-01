@@ -34,8 +34,9 @@ OneBar is meant to be contextual, showing the values and bars only when you need
 * If you get hungry, the hunger overlay is displayed over the health by its value. 
   * If you eat, you'll lose the overlay and the value, because you no longer need it. 
   * If you are also underwater, the water bar is displayed on top of health _and_ hunger because it is the most important value in this case. 
-* Health is _always_ the first number and hunger is _almost always_ the last number (except when you have the hunger effect).
+* Health is _always_ the first number and hunger is _almost always_ the last number (except when you have the hunger effect).
   * Everything in between is an estimate, additional health or damage source (can be disabled).
+  * You can also enable "Show additional symbols" in options to get icons for those
 * Remember [old Minecraft without hunger and experience](https://minecraft.fandom.com/wiki/File:Beta_1.7.png)? This mod gives you a visually similar experience without losing modern functionality.
  
 The mod only uses client-side data, so it is never needed on a server. There are also a lot of settings for configuring the colors and visibility of various elements.
@@ -52,12 +53,14 @@ The mod only uses client-side data, so it is never needed on a server. There are
 |-|-|-|-|-|-|
 | Health | Red | █ | 1 | 1 | Number is your health points |
 | Health boost | Red | █ | 1 | 1 | Bar width adapts to max health |
+| Health/health boost (extra symbols) | Red | █ | ❤1 | he1 | When enabling "Show additional symbols" in Text options |
 | Natural regeneration | Yellow | █ | _→1_ | _→1_ | Number is the resulting health |
 | Regeneration | Pink | █ | _→1_ | _→1_ | Number is the resulting health |
 | Absorption |  |  | +1 | +1 | Number is your absorption health points |
-| Resistance |  |  | +⛨1% | +r1% | Number is [the effect level × 20%](https://minecraft.gamepedia.com/Resistance#Effect) |
-| Fire resistance |  |  | -~🔥1×~ | -~b1×~ | Number is a rough damage multiplier (1× - burning, 2× - in fire, 3× - in soul fire, 4× - in lava), only shown if you are on fire |
-| Water Breathing, Conduit Power | Blue | █ | -~⭘1~ | -~a1~ | The bar is only shown if you got the effect after losing air, text is only shown if you are in water |
+| Absorption (extra symbols) |  |  | +♥1 | +ab1 | When enabling "Show additional symbols" in Text options |
+| Resistance |  |  | +⛨1% | +re1% | Number is [the effect level × 20%](https://minecraft.gamepedia.com/Resistance#Effect) |
+| Fire resistance |  |  | -~🔥1×~ | -~bu1×~ | Number is a rough damage multiplier (1× - burning, 2× - in fire, 3× - in soul fire, 4× - in lava), only shown if you are on fire |
+| Water Breathing, Conduit Power | Blue | █ | -~⭘1~ | -~ai1~ | The bar is only shown if you got the effect after losing air, text is only shown if you are in water |
 | Held food restored hunger: exact/less | Green | █ | _→1_ | _→1_ | Overlaid on hunger bar; number is the resulting hunger (like AppleSkin) | 
 | Held food restored hunger: wasted | Orange | █ | _→-1_ | _→-1_ | Overlaid on hunger bar; number is the waste of hunger (how much more than needed) | 
 
@@ -66,14 +69,15 @@ The mod only uses client-side data, so it is never needed on a server. There are
 | Effect | Color | Bar | Emoji | Text | Description/comment |
 |-|-|-|-|-|-|
 | Hunger | Brown | █ | -1 | -1 | Number is 20 minus food points (e.g. if you had 15 food points, it would show 5) |
+| Hunger (extra symbols) | Brown | █ | -🍖1 | -hu1 | When enabling "Show additional symbols" in Text options |
 | Hunger effect | Yellowish brown | █ | _→1_ | _→1_ | Number is the resulting hunger |
 | Getting hungrier |  |  | ↓ | ↓ | Opt-in, shown when saturation is zero |
-| Air | Blue | █ | -⭘1 | -a1 | Number is the equivalent of the _lack of_ bubbles in vanilla |
-| Freezing | Light gray | █ | -❄1 | -f1 | Number is the equivalent of frost fading in vanilla |
-| Burning | Orange | █ | -🔥1× | -b1× | Number is a rough damage multiplier (1× - burning, 2× - in fire, 3× - in soul fire, 4× - in lava) |
+| Air | Blue | █ | -⭘1 | -ai1 | Number is the equivalent of the _lack of_ bubbles in vanilla |
+| Freezing | Light gray | █ | -❄1 | -fr1 | Number is the equivalent of frost fading in vanilla |
+| Burning | Orange | █ | -🔥1× | -bu1× | Number is a rough damage multiplier (1× - burning, 2× - in fire, 3× - in soul fire, 4× - in lava) |
 | Poison | Yellowish green | █ | _→1_ | _→1_ | Number is the resulting health |
 | Wither | Dark gray | █ | _→1_ | _→1_ | Number is the resulting health |
-| Warden anger | Dark teal | █ | -🔔1 | -s1 | The closest (100 blocks) warden's anger level towards the player. [20-11 - angry, chasing; 10-6 - agitated, 5-0 - calm, can despawn.](https://minecraft.fandom.com/wiki/Warden#Anger)
+| Warden anger | Dark teal | █ | -※1 | -s1 | The closest (100 blocks) warden's anger level towards the player. [20-11 - angry, chasing; 10-6 - agitated, 5-0 - calm, can despawn.](https://minecraft.fandom.com/wiki/Warden#Anger) Bell emoji because "sound".
 | Bad Omen |  |  | -🪓1× | -BO1× | Number is [the effect level](https://minecraft.fandom.com/wiki/Bad_Omen#Effect) |
 | Impending death |  |  | _→0_ | _→0_ | Drowning, freezing damage, burning in fire/lava, starvation, suffocation, angry warden. Zero is the resulting health (death) |
 | Hardcore mode |  |  | ☠ | HC | The vanilla one, not the UHC mode of OneBar which has no indicators |

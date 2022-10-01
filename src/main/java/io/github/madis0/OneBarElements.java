@@ -245,6 +245,8 @@ public class OneBarElements {
                 value += minus + para + "m" + Calculations.EmojiOrText("text.onebar.fireEmoji","text.onebar.fire", false, playerProperties.burningMultiplier) + para + "r";
             if (playerProperties.hasBadOmen && config.badThings.showBadOmen)
                 value += minus + Calculations.EmojiOrText("text.onebar.badOmenEmoji","text.onebar.badOmen", false, playerProperties.badOmenLevel);
+            if (clientProperties.isHardcore)
+                value += minus + Calculations.EmojiOrText("text.onebar.hardcoreEmoji","text.onebar.hardcore", false, (Object) null);
             if (hasHunger || (playerProperties.hasHungerEffect && config.healthEstimates && !config.disableHunger))
                 value += minus;
 
@@ -261,9 +263,6 @@ public class OneBarElements {
             if (showHungerParentheses)
                 value += pEnd;
         }
-
-        if (clientProperties.isHardcore)
-            value += Calculations.EmojiOrText("text.onebar.hardcoreEmoji","text.onebar.hardcore", false, (Object) null);
 
         int textX = clientProperties.baseEndW - client.textRenderer.getWidth(value);
         int textY = clientProperties.baseStartH + 1;
