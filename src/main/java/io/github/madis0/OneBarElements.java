@@ -71,7 +71,7 @@ public class OneBarElements {
         if(!config.enableGradient)
             DrawableHelper.fill(stack, x1, y1, x2, y2, color);
         else
-            DrawableHelperAccessor.callFillGradient(stack, x1, y1, x2, y2, color, Calculations.ManipulateColor(color, config.gradientShift), 1);
+            DrawableHelperAccessor.callFillGradient(stack, x1, y1, x2, y2, color, Calculations.ManipulateColor(color, config.gradientShift), 0);
     }
 
     private void barBackground(){

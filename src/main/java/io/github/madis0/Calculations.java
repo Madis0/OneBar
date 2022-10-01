@@ -73,10 +73,10 @@ public class Calculations {
     }
 
     public static String EmojiOrText(String emojiPhrase, String textPhrase, boolean extra, Object... args){
-        if(extra && config.textSettings.extraSymbols)
-            return Text.translatable(config.textSettings.useEmoji ? emojiPhrase : textPhrase, args).getString();
-        else
+        if(extra && !config.textSettings.extraSymbols)
             return String.valueOf(args[0]);
+
+        return Text.translatable(config.textSettings.useEmoji ? emojiPhrase : textPhrase, args).getString();
     }
 
     /**

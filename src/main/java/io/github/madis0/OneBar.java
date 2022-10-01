@@ -49,6 +49,7 @@ public class OneBar implements ClientModInitializer {
 	}
 
 	private static void showState(MinecraftClient client, boolean variable, String translationKey){
+		assert client.player != null;
 		client.player.sendMessage(Text.translatable(variable ? "options.on.composed" : "options.off.composed", Text.translatable(translationKey).getString()), true);
 	}
 
