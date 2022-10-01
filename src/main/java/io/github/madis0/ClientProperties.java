@@ -50,7 +50,7 @@ public class ClientProperties {
         xpEndH = xpStartH + 1;
 
         jumpStartW = (scaledWidth / 2) - 7;
-        jumpStartH = (scaledHeight / 2) + 10;
+        jumpStartH = (scaledHeight / 2) + 15;
         jumpEndW = jumpStartW + 13;
         jumpEndH = jumpStartH + 50;
 
