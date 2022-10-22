@@ -5,16 +5,14 @@ import net.minecraft.client.gui.screen.ingame.EnchantmentScreen;
 import net.minecraft.client.gui.screen.ingame.HandledScreen;
 import net.minecraft.entity.EquipmentSlot;
 import net.minecraft.entity.ai.TargetPredicate;
+import net.minecraft.entity.attribute.EntityAttributes;
 import net.minecraft.entity.effect.StatusEffectInstance;
 import net.minecraft.entity.effect.StatusEffects;
 import net.minecraft.entity.mob.Angriness;
 import net.minecraft.entity.mob.WardenEntity;
 import net.minecraft.entity.player.HungerManager;
 import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.item.ElytraItem;
-import net.minecraft.item.FoodComponent;
-import net.minecraft.item.ItemStack;
-import net.minecraft.item.Items;
+import net.minecraft.item.*;
 import net.minecraft.util.math.Box;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.world.Difficulty;
@@ -51,6 +49,21 @@ public class PlayerProperties {
     public int rawArmorDurability;
     public final float maxArmorDurability;
     public final float armorDurability;
+
+
+    public int helmetArmor;
+    public int helmetMaxArmor;
+    public float helmetMaxDurability;
+    public int chestplateArmor;
+    public int chestplateMaxArmor;
+    public float chestplateMaxDurability;
+    public int leggingsArmor;
+    public int leggingsMaxArmor;
+    public float leggingsMaxDurability;
+    public int bootsArmor;
+    public int bootsMaxArmor;
+    public float bootsMaxDurability;
+
     public int elytraDurability;
     public int elytraMaxDurability;
     public final boolean isFlyingWithElytra;
@@ -167,6 +180,22 @@ public class PlayerProperties {
         }
         maxArmorDurability = (float)armor; // Abstraction
         armorDurability = rawArmorDurability > 0 ? (((float)rawArmorDurability / rawMaxArmorDurability) * maxArmorDurability) : 0;
+
+        helmetArmor = getArmorElementArmor(playerEntity, EquipmentSlot.HEAD);
+        helmetMaxArmor = getArmorItemMaxArmor(Items.NETHERITE_HELMET);
+        helmetMaxDurability = getArmorElementMaxDurability(playerEntity, EquipmentSlot.HEAD);
+
+        chestplateArmor = getArmorElementArmor(playerEntity, EquipmentSlot.CHEST);
+        chestplateMaxArmor = getArmorItemMaxArmor(Items.NETHERITE_CHESTPLATE);
+        chestplateMaxDurability = getArmorElementMaxDurability(playerEntity, EquipmentSlot.CHEST);
+
+        leggingsArmor = getArmorElementArmor(playerEntity, EquipmentSlot.LEGS);
+        leggingsMaxArmor = getArmorItemMaxArmor(Items.NETHERITE_LEGGINGS);
+        leggingsMaxDurability = getArmorElementMaxDurability(playerEntity, EquipmentSlot.LEGS);
+
+        bootsArmor = getArmorElementArmor(playerEntity, EquipmentSlot.FEET);
+        bootsMaxArmor = getArmorItemMaxArmor(Items.NETHERITE_BOOTS);
+        bootsMaxDurability = getArmorElementMaxDurability(playerEntity, EquipmentSlot.FEET);
 
         ItemStack chestItem = playerEntity.getEquippedStack(EquipmentSlot.CHEST);
         if (chestItem.isOf(Items.ELYTRA) && ElytraItem.isUsable(chestItem)) {
@@ -376,5 +405,34 @@ public class PlayerProperties {
                 Calculations.GetDistance(player.getX(), player.getY(), player.getZ(), e.getX(), e.getY(), e.getZ()))).orElse(null);
     }
 
+    private int getArmorElementArmor(PlayerEntity playerEntity, EquipmentSlot slot){
+        var armorItem = playerEntity.getEquippedStack(slot).getItem();
+        if(armorItem instanceof ArmorItem){
+            return ((ArmorItem)armorItem).getProtection();
+        }
+        return 0;
+    }
 
+    private int getArmorItemMaxArmor(Item armorItem){
+        if(armorItem instanceof ArmorItem)
+            return ((ArmorItem)armorItem).getProtection();
+        return 0;
+    }
+
+    public float getArmorElementDurability(PlayerEntity playerEntity, EquipmentSlot slot, float maxLimit){
+        ItemStack armorItem = playerEntity.getEquippedStack(slot);
+        if (armorItem != ItemStack.EMPTY){
+            var rawArmorDurability = armorItem.getMaxDamage() - armorItem.getDamage();
+            var rawMaxArmorDurability = armorItem.getMaxDamage();
+            return rawArmorDurability > 0 ? (((float)rawArmorDurability / rawMaxArmorDurability) * maxLimit) : 0;
+        }
+        return (float)0;
+    }
+
+    private float getArmorElementMaxDurability(PlayerEntity playerEntity, EquipmentSlot slot){
+        ItemStack armorItem = playerEntity.getEquippedStack(slot);
+        if (armorItem != ItemStack.EMPTY)
+            return (float)armorItem.getMaxDamage();
+        return (float)0;
+    }
 }

@@ -7,6 +7,7 @@ import me.shedaniel.autoconfig.AutoConfig;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.DrawableHelper;
 import net.minecraft.client.util.math.MatrixStack;
+import net.minecraft.entity.EquipmentSlot;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.passive.AbstractHorseEntity;
 import net.minecraft.entity.player.PlayerEntity;
@@ -54,9 +55,9 @@ public class OneBarElements {
             airBar();
             xpBar();
             barText();
-            if(config.otherBars.showArmorBar) armorBar();
-            if(config.otherBars.showArmorDurabilityBar) armorDurabilityBar();
-            if(config.otherBars.showElytraDurabilityBar) elytraDurabilityBar();
+            if(config.armor.showArmorBar) armorBar();
+            if(config.armor.showArmorDurabilityBar) armorDurabilityBar();
+            if(config.armor.showElytraDurabilityBar) elytraDurabilityBar();
             if(config.otherBars.showSaturationBar) saturationBar();
             //if(config.healthEstimates && config.otherBars.showSaturationBar) heldFoodSaturationBar();
 
@@ -79,17 +80,48 @@ public class OneBarElements {
     }
 
     private void armorBar(){
-        renderBar(clientProperties.baseStartW, clientProperties.baseStartH - 1, clientProperties.baseRelativeEndW(playerProperties.armor, playerProperties.maxArmor), clientProperties.baseStartH, config.otherBars.armorColor);
+        var gap = 0.1F;
+        var chestplateLength = gap + playerProperties.helmetMaxArmor;
+        var leggingsLength = chestplateLength + gap + playerProperties.chestplateMaxArmor;
+        var bootsLength =  leggingsLength + gap + playerProperties.leggingsMaxArmor;
+
+        var totalLength = bootsLength + playerProperties.bootsMaxArmor;
+
+        if (!config.armor.showSegmentedArmorBar)
+            renderBar(clientProperties.baseStartW, clientProperties.baseStartH - 1, clientProperties.baseRelativeEndW(playerProperties.armor, playerProperties.maxArmor), clientProperties.baseStartH, config.armor.armorColor);
+        else {
+            renderBar(clientProperties.baseRelativeEndW(0, totalLength), clientProperties.baseStartH - 1, clientProperties.baseRelativeEndW(playerProperties.helmetArmor, totalLength), clientProperties.baseStartH, config.armor.armorColor);
+            renderBar(clientProperties.baseRelativeEndW(chestplateLength, totalLength), clientProperties.baseStartH - 1, clientProperties.baseRelativeEndW(chestplateLength + playerProperties.chestplateArmor, totalLength), clientProperties.baseStartH, config.armor.armorColor);
+            renderBar(clientProperties.baseRelativeEndW(leggingsLength, totalLength), clientProperties.baseStartH - 1, clientProperties.baseRelativeEndW(leggingsLength + playerProperties.leggingsArmor, totalLength), clientProperties.baseStartH, config.armor.armorColor);
+            renderBar(clientProperties.baseRelativeEndW(bootsLength, totalLength), clientProperties.baseStartH - 1, clientProperties.baseRelativeEndW(bootsLength + playerProperties.bootsArmor, totalLength), clientProperties.baseStartH, config.armor.armorColor);
+        }
     }
 
     private void armorDurabilityBar(){
-        if(playerProperties.maxArmorDurability > 0)
-            renderBar(clientProperties.baseStartW, clientProperties.baseStartH - 1, clientProperties.baseRelativeEndW(playerProperties.armorDurability, playerProperties.maxArmor), clientProperties.baseStartH, config.otherBars.armorDurabilityColor);
+        var gap = 0.1F;
+        var chestplateLength = gap + playerProperties.helmetMaxArmor;
+        var leggingsLength = chestplateLength + gap + playerProperties.chestplateMaxArmor;
+        var bootsLength =  leggingsLength + gap + playerProperties.leggingsMaxArmor;
+        var totalLength = bootsLength + playerProperties.bootsMaxArmor;
+
+        var helmetDurability = playerProperties.getArmorElementDurability(client.player, EquipmentSlot.HEAD, playerProperties.helmetArmor);
+        var chestplateDurability = playerProperties.getArmorElementDurability(client.player, EquipmentSlot.CHEST, playerProperties.chestplateArmor);
+        var leggingsDurability = playerProperties.getArmorElementDurability(client.player, EquipmentSlot.LEGS, playerProperties.leggingsArmor);
+        var bootsDurability = playerProperties.getArmorElementDurability(client.player, EquipmentSlot.FEET, playerProperties.bootsArmor);
+
+        if(!config.armor.showSegmentedArmorBar && playerProperties.maxArmorDurability > 0)
+            renderBar(clientProperties.baseStartW, clientProperties.baseStartH - 1, clientProperties.baseRelativeEndW(playerProperties.armorDurability, playerProperties.maxArmor), clientProperties.baseStartH, config.armor.armorDurabilityColor);
+        else {
+            renderBar(clientProperties.baseRelativeEndW(0, totalLength), clientProperties.baseStartH - 1, clientProperties.baseRelativeEndW(helmetDurability, totalLength), clientProperties.baseStartH, config.armor.armorDurabilityColor);
+            renderBar(clientProperties.baseRelativeEndW(chestplateLength, totalLength), clientProperties.baseStartH - 1, clientProperties.baseRelativeEndW(chestplateLength + chestplateDurability, totalLength), clientProperties.baseStartH, config.armor.armorDurabilityColor);
+            renderBar(clientProperties.baseRelativeEndW(leggingsLength, totalLength), clientProperties.baseStartH - 1, clientProperties.baseRelativeEndW(leggingsLength + leggingsDurability, totalLength), clientProperties.baseStartH, config.armor.armorDurabilityColor);
+            renderBar(clientProperties.baseRelativeEndW(bootsLength, totalLength), clientProperties.baseStartH - 1, clientProperties.baseRelativeEndW(bootsLength + bootsDurability, totalLength), clientProperties.baseStartH, config.armor.armorDurabilityColor);
+        }
     }
 
     private void elytraDurabilityBar(){
         if(playerProperties.isFlyingWithElytra)
-            renderBar(clientProperties.baseStartW, clientProperties.baseStartH - 1, clientProperties.baseRelativeEndW(playerProperties.elytraDurability, playerProperties.elytraMaxDurability), clientProperties.baseStartH, config.otherBars.elytraDurabilityColor);
+            renderBar(clientProperties.baseStartW, clientProperties.baseStartH - 1, clientProperties.baseRelativeEndW(playerProperties.elytraDurability, playerProperties.elytraMaxDurability), clientProperties.baseStartH, config.armor.elytraDurabilityColor);
     }
 
     private void saturationBar(){
@@ -355,7 +387,7 @@ public class OneBarElements {
 
         renderBar(clientProperties.baseStartW, clientProperties.mountStartH, clientProperties.baseEndW, clientProperties.mountEndH, config.backgroundColor);
         renderBar(clientProperties.baseStartW, clientProperties.mountStartH, clientProperties.baseRelativeEndW(Calculations.GetPreciseInt(mountRawHealth), Calculations.GetPreciseInt(mountMaxHealth)), clientProperties.mountEndH, config.entity.healthColor);
-        if(config.otherBars.showArmorBar) renderBar(clientProperties.baseStartW, clientProperties.mountStartH - 1, clientProperties.baseRelativeEndW(horseArmor, horseMaxArmor), clientProperties.mountStartH, config.otherBars.armorColor);
+        if(config.armor.showArmorBar) renderBar(clientProperties.baseStartW, clientProperties.mountStartH - 1, clientProperties.baseRelativeEndW(horseArmor, horseMaxArmor), clientProperties.mountStartH, config.armor.armorColor);
         if(config.textSettings.showText) client.textRenderer.draw(stack, value, textX, textY, config.textSettings.textColor);
     }
 

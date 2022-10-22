@@ -97,6 +97,23 @@ public class ModConfig implements ConfigData {
         public int jumpColor = 0xFF795548;
     }
 
+    public static class Armor {
+        @ConfigEntry.Gui.Tooltip
+        public boolean showArmorBar = true;
+        @ConfigEntry.ColorPicker(allowAlpha = true)
+        public int armorColor = 0xA6FFFFFF;
+        @ConfigEntry.Gui.Tooltip
+        public boolean showArmorDurabilityBar = false;
+        @ConfigEntry.ColorPicker(allowAlpha = true)
+        public int armorDurabilityColor = 0xA600B8D4;
+        @ConfigEntry.Gui.Tooltip
+        public boolean showSegmentedArmorBar = false;
+        @ConfigEntry.Gui.Tooltip
+        public boolean showElytraDurabilityBar = true;
+        @ConfigEntry.ColorPicker(allowAlpha = true)
+        public int elytraDurabilityColor = 0xCCE040FB;
+    }
+
     public static class OtherBars {
         @ConfigEntry.Gui.Tooltip
         public boolean adaptiveXpBar = true;
@@ -108,18 +125,6 @@ public class ModConfig implements ConfigData {
         public boolean lapisTimesEnchantable = false;
         @ConfigEntry.ColorPicker(allowAlpha = true)
         public int lapisColor = 0xFF2196F3;
-        @ConfigEntry.Gui.Tooltip
-        public boolean showArmorBar = true;
-        @ConfigEntry.ColorPicker(allowAlpha = true)
-        public int armorColor = 0xA6FFFFFF;
-        @ConfigEntry.Gui.Tooltip
-        public boolean showArmorDurabilityBar = false;
-        @ConfigEntry.ColorPicker(allowAlpha = true)
-        public int armorDurabilityColor = 0xA600B8D4;
-        @ConfigEntry.Gui.Tooltip
-        public boolean showElytraDurabilityBar = true;
-        @ConfigEntry.ColorPicker(allowAlpha = true)
-        public int elytraDurabilityColor = 0xCCE040FB;
         @ConfigEntry.Gui.Tooltip
         public boolean showSaturationBar = false;
         @ConfigEntry.ColorPicker(allowAlpha = true)
@@ -142,6 +147,9 @@ public class ModConfig implements ConfigData {
     @ConfigEntry.Category("entity")
     @ConfigEntry.Gui.TransitiveObject
     public Entity entity = new Entity();
+    @ConfigEntry.Category("armor")
+    @ConfigEntry.Gui.TransitiveObject
+    public Armor armor = new Armor();
     @ConfigEntry.Category("otherBars")
     @ConfigEntry.Gui.TransitiveObject
     public OtherBars otherBars = new OtherBars();
