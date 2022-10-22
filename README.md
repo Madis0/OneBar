@@ -89,15 +89,21 @@ The mod only uses client-side data, so it is never needed on a server. There are
 | Mount health | Orange | █ | 1 | Above OneBar | Similar to OneBar itself |
 | Horse jump | Brown | ▄▄ | 1.0 | Below crosshair | Vertical bar, number shows approximate height of blocks the horse can jump | 
 
+#### Armor
+
+| Effect | Color | Bar | Text | Where | Description/comment |
+|-|-|-|-|-|-|
+| Armor | White | ▔ |  | Above OneBar, above mount health | Equivalent of vanilla's armor indicator; also shown for horses if applicable |
+| Armor durability | Light blue | ▔ |  | Overlaid on armor bar | Opt-in, width adapts to armor bar |
+| Segmented armor | White | ▔ |  | Above OneBar | Opt-in, similar to normal bar but each armor piece is a separate bar |
+| Elytra durability | Purple | ▔ |  | Overlaid on armor bar | Shown only when flying |
+
 #### Others
 
 | Effect | Color | Bar | Text | Where | Description/comment |
 |-|-|-|-|-|-|
 | Experience bar | Green | ▁ | 1 | Next to hotbar | Shown only when you have any XP (configurable) |
 | Lapis Lazuli counter | Blue |  | 1 or 1× | Next to experience bar | Opt-in, shows either the raw count or times enchantable maxed out (XP level 30+) |
-| Armor | White | ▔ |  | Above OneBar, above mount health | Equivalent of vanilla's armor indicator; also shown for horses if applicable |
-| Armor durability | Light blue | ▔ |  | Overlaid on armor bar | Opt-in, width adapts to armor bar |
-| Elytra durability | Purple | ▔ |  | Overlaid on armor bar | Shown only when flying |
 | Saturation | Orange | ▁ |  | Below OneBar | Opt-in |
 
 ## FAQ
