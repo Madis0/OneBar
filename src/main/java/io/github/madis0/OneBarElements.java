@@ -11,6 +11,8 @@ import net.minecraft.entity.EquipmentSlot;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.passive.AbstractHorseEntity;
 import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.item.HorseArmorItem;
+import net.minecraft.item.Items;
 import net.minecraft.util.Arm;
 import net.minecraft.world.Difficulty;
 
@@ -379,7 +381,7 @@ public class OneBarElements {
         float mountMaxHealth = mountEntity.getMaxHealth();
         int health = (int) Math.ceil(mountRawHealth);
         int horseArmor = mountEntity.getArmor();
-        int horseMaxArmor = 11; // Diamond horse armor
+        int horseMaxArmor = ((HorseArmorItem)Items.DIAMOND_HORSE_ARMOR).getBonus();
 
         String value = Calculations.MakeFraction(health, false);
         int textX = clientProperties.baseEndW - client.textRenderer.getWidth(value);
