@@ -213,13 +213,13 @@ public class OneBarElements {
 
         boolean showHungerParentheses = config.textSettings.estimatesParentheses && config.healthEstimates && (playerProperties.hasHungerEffect && !config.disableHunger || (hasHunger && playerProperties.isHoldingFood && config.goodThings.heldFoodHungerBar));
 
-        String arrowRight = "→";
-        String arrowDown = "↓";
-        String plus = "+";
-        String minus = "-";
-        String para = "§";
-        String pStart = "(";
-        String pEnd = ")";
+        final String arrowRight = "→";
+        final String arrowDown = "↓";
+        final String plus = "+";
+        final String minus = "-";
+        final String para = "§";
+        final String pStart = "(";
+        final String pEnd = ")";
 
         if(config.textSettings.showText) {
 
