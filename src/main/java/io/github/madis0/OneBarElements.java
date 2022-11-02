@@ -262,6 +262,8 @@ public class OneBarElements {
         if(config.textSettings.showText) { // Separated if because order matters
             if (playerProperties.hasResistance && config.goodThings.showResistance)
                 value += plus + Calculations.EmojiOrText("text.onebar.resistanceEmoji","text.onebar.resistance", false, playerProperties.resistancePercent);
+            if(PlayerProperties.GetMobHead(client.player) != null && config.armor.showMobHeads)
+                value += plus + PlayerProperties.GetMobHead(client.player);
 
             // Subtractive values
 

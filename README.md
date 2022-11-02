@@ -7,7 +7,7 @@ A sleek HUD mod for Minecraft: Java Edition using Fabric mod loader.
 
 <a href="https://www.curseforge.com/minecraft/mc-mods/fabric-api"><img src="https://camo.githubusercontent.com/9296b230044bb4ef07851ff9baa2d04aeb210baee3467abafff1380fa081f08b/68747470733a2f2f692e696d6775722e636f6d2f4f6c31546366382e706e67" alt="drawing" width="200"/></a> <a href="https://www.curseforge.com/minecraft/mc-mods/cloth-config"><img src="https://raw.githubusercontent.com/Jab125/Jab125/main/imgs/requiredClothConfig.png" alt="drawing" width="200"/></a> <a href="https://www.curseforge.com/minecraft/mc-mods/modmenu"><img src="https://dl.isxander.dev/badges/suggests-mod-menu.png" alt="drawing" width="200"/></a> 
 
-Compatible with performance-improving [Exordium](https://www.curseforge.com/minecraft/mc-mods/exordium) (beta).
+Compatible with performance-improving [Exordium](https://www.curseforge.com/minecraft/mc-mods/exordium) (beta). [There is also a MCC Island compatibility mod](https://modrinth.com/mod/onebarmcci) made by [FayneAldan](https://modrinth.com/user/FayneAldan).
 
 Automated dev builds available from [Actions tab](https://github.com/Madis0/OneBar/actions).
 
@@ -91,12 +91,13 @@ The mod only uses client-side data, so it is never needed on a server. There are
 
 #### Armor
 
-| Effect | Color | Bar | Text | Where | Description/comment |
+| Effect | Color | Bar | Emoji | Text | Where | Description/comment |
 |-|-|-|-|-|-|
-| Armor | White | ▔ |  | Above OneBar, above mount health | Equivalent of vanilla's armor indicator; also shown for horses if applicable |
-| Armor durability | Light blue | ▔ |  | Overlaid on armor bar | Opt-in, width adapts to armor bar |
-| Segmented armor | White | ▔ |  | Above OneBar | Opt-in, similar to normal bar but each armor piece is a separate bar |
-| Elytra durability | Purple | ▔ |  | Overlaid on armor bar | Shown only when flying |
+| Armor | White | ▔ |  |  | Above OneBar, above mount health | Equivalent of vanilla's armor indicator; also shown for horses if applicable |
+| Armor durability | Light blue | ▔ |  |  | Overlaid on armor bar | Opt-in, width adapts to armor bar |
+| Segmented armor | White | ▔ |  |  | Above OneBar | Opt-in, similar to normal bar but each armor piece is a separate bar |
+| Elytra durability | Purple | ▔ |  |  | Overlaid on armor bar | Shown only when flying |
+| Mob head indicator |  |  | +a☻ | +aH | OneBar | Where a̲ represents s̲keleton, c̲reeper, z̲ombie head; e̲nderman (carved pumpkin) |
 
 #### Others
 
