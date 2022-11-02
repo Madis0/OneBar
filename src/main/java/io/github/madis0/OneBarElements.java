@@ -4,6 +4,7 @@ import com.mojang.blaze3d.systems.RenderSystem;
 import dev.tr7zw.exordium.ExordiumModBase;
 import io.github.madis0.mixin.DrawableHelperAccessor;
 import me.shedaniel.autoconfig.AutoConfig;
+import net.fabricmc.loader.api.FabricLoader;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.DrawableHelper;
 import net.minecraft.client.util.math.MatrixStack;
@@ -26,6 +27,7 @@ public class OneBarElements {
     private final MinecraftClient client = MinecraftClient.getInstance();
     private final Difficulty difficulty = Objects.requireNonNull(client.getCameraEntity()).world.getDifficulty();
     private final MatrixStack stack;
+    private static final boolean hasExordium = FabricLoader.getInstance().isModLoaded("exordium");
 
     boolean hasHunger = playerProperties.hasHunger && !config.disableHunger;
 
@@ -34,7 +36,7 @@ public class OneBarElements {
     }
 
     public void renderOneBar(){
-        if(OneBar.doesClassExist("dev.tr7zw.exordium.ExordiumModBase")) {
+        if(hasExordium) {
             ExordiumModBase.correctBlendMode();
             ExordiumModBase.setForceBlend(true);
         }
@@ -65,7 +67,7 @@ public class OneBarElements {
             if(config.otherBars.showSaturationBar) saturationBar();
             //if(config.healthEstimates && config.otherBars.showSaturationBar) heldFoodSaturationBar();
 
-            if(OneBar.doesClassExist("dev.tr7zw.exordium.ExordiumModBase")) {
+            if(hasExordium) {
                 ExordiumModBase.setForceBlend(false);
                 RenderSystem.defaultBlendFunc();
             }
