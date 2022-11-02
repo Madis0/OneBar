@@ -91,12 +91,13 @@ The mod only uses client-side data, so it is never needed on a server. There are
 
 #### Armor
 
-| Effect | Color | Bar | Text | Where | Description/comment |
+| Effect | Color | Bar | Emoji | Text | Where | Description/comment |
 |-|-|-|-|-|-|
-| Armor | White | ▔ |  | Above OneBar, above mount health | Equivalent of vanilla's armor indicator; also shown for horses if applicable |
-| Armor durability | Light blue | ▔ |  | Overlaid on armor bar | Opt-in, width adapts to armor bar |
-| Segmented armor | White | ▔ |  | Above OneBar | Opt-in, similar to normal bar but each armor piece is a separate bar |
-| Elytra durability | Purple | ▔ |  | Overlaid on armor bar | Shown only when flying |
+| Armor | White | ▔ |  |  | Above OneBar, above mount health | Equivalent of vanilla's armor indicator; also shown for horses if applicable |
+| Armor durability | Light blue | ▔ |  |  | Overlaid on armor bar | Opt-in, width adapts to armor bar |
+| Segmented armor | White | ▔ |  |  | Above OneBar | Opt-in, similar to normal bar but each armor piece is a separate bar |
+| Elytra durability | Purple | ▔ |  |  | Overlaid on armor bar | Shown only when flying |
+| Mob head indicator |  |  | +a☻ | +aH | OneBar | Where a̲ represents s̲keleton, c̲reeper, z̲ombie head; e̲nderman (carved pumpkin) |
 
 #### Others
 
