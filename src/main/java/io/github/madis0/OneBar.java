@@ -52,13 +52,4 @@ public class OneBar implements ClientModInitializer {
 		assert client.player != null;
 		client.player.sendMessage(Text.translatable(variable ? "options.on.composed" : "options.off.composed", Text.translatable(translationKey).getString()), true);
 	}
-
-	public static boolean doesClassExist(String name) {
-		try {
-			if(Class.forName(name) != null) {
-				return true;
-			}
-		} catch (ClassNotFoundException e) {}
-		return false;
-	}
 }

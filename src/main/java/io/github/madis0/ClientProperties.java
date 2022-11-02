@@ -61,18 +61,18 @@ public class ClientProperties {
     }
 
     public int baseRelativeEndW(int value, int total){
-        return Calculations.RelativeW(baseStartW, baseEndW, value, total);
+        return Calculations.relativeW(baseStartW, baseEndW, value, total);
     }
 
     public int baseRelativeStartW(int value, int total){
-        return Calculations.RelativeW(baseEndW, baseStartW, value, total);
+        return Calculations.relativeW(baseEndW, baseStartW, value, total);
     }
 
     public int baseRelativeEndW(float value, float total){
-        return baseRelativeEndW(Calculations.GetPreciseInt(value), Calculations.GetPreciseInt(total));
+        return baseRelativeEndW(Calculations.getPreciseInt(value), Calculations.getPreciseInt(total));
     }
 
     public int baseRelativeStartW(float value, float total){
-        return baseRelativeStartW(Calculations.GetPreciseInt(value), Calculations.GetPreciseInt(total));
+        return baseRelativeStartW(Calculations.getPreciseInt(value), Calculations.getPreciseInt(total));
     }
 }

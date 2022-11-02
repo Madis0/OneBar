@@ -4,6 +4,7 @@ package io.github.madis0;
 //import dev.tr7zw.exordium.ExordiumModBase;
 import io.github.madis0.mixin.DrawableHelperAccessor;
 import me.shedaniel.autoconfig.AutoConfig;
+import net.fabricmc.loader.api.FabricLoader;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.DrawableHelper;
 import net.minecraft.client.util.math.MatrixStack;
@@ -26,6 +27,7 @@ public class OneBarElements {
     private final MinecraftClient client = MinecraftClient.getInstance();
     private final Difficulty difficulty = Objects.requireNonNull(client.getCameraEntity()).world.getDifficulty();
     private final MatrixStack stack;
+    private static final boolean hasExordium = FabricLoader.getInstance().isModLoaded("exordium");
 
     boolean hasHunger = playerProperties.hasHunger && !config.disableHunger;
 
@@ -34,7 +36,7 @@ public class OneBarElements {
     }
 
     public void renderOneBar(){
-        /*if(OneBar.doesClassExist("dev.tr7zw.exordium.ExordiumModBase")) {
+        /*if(hasExordium) {
             ExordiumModBase.correctBlendMode();
             ExordiumModBase.setForceBlend(true);
         }*/
@@ -46,9 +48,11 @@ public class OneBarElements {
             //if(config.healthEstimates && !config.uhcMode) heldFoodHealthBar();
             if(config.healthEstimates) regenerationBar();
             healthBar();
-            if(config.healthEstimates) poisonBar();
-            if(config.healthEstimates) witherBar();
-            if(config.healthEstimates) hungerEffectBar();
+            if(config.healthEstimates){
+                poisonBar();
+                witherBar();
+                hungerEffectBar();
+            }
             hungerBar();
             if(config.goodThings.heldFoodHungerBar) heldFoodHungerBar();
             if(config.badThings.showWarden) wardenBar();
@@ -63,7 +67,7 @@ public class OneBarElements {
             if(config.otherBars.showSaturationBar) saturationBar();
             //if(config.healthEstimates && config.otherBars.showSaturationBar) heldFoodSaturationBar();
 
-            /*if(OneBar.doesClassExist("dev.tr7zw.exordium.ExordiumModBase")) {
+            /*if(hasExordium) {
                 ExordiumModBase.setForceBlend(false);
                 RenderSystem.defaultBlendFunc();
             }*/
@@ -74,7 +78,7 @@ public class OneBarElements {
         if(!config.enableGradient)
             DrawableHelper.fill(stack, x1, y1, x2, y2, color);
         else
-            DrawableHelperAccessor.callFillGradient(stack, x1, y1, x2, y2, color, Calculations.ManipulateColor(color, config.gradientShift), 0);
+            DrawableHelperAccessor.callFillGradient(stack, x1, y1, x2, y2, color, Calculations.manipulateColor(color, config.gradientShift), 0);
     }
 
     private void barBackground(){
@@ -224,31 +228,31 @@ public class OneBarElements {
             if (config.healthEstimates && showHealthParentheses)
                 value += pStart;
 
-            value += Calculations.EmojiOrText("text.onebar.healthEmoji","text.onebar.health", true, Calculations.MakeFraction(playerProperties.health, false));
+            value += Calculations.emojiOrText("text.onebar.healthEmoji","text.onebar.health", true, Calculations.makeFraction(playerProperties.health, false));
 
             if(config.healthEstimates){
                 if (playerProperties.naturalRegenerationHealth > playerProperties.health && !config.uhcMode)
-                    value += arrowRight + Calculations.MakeFraction(playerProperties.naturalRegenerationHealth, config.textSettings.estimatesItalic);
+                    value += arrowRight + Calculations.makeFraction(playerProperties.naturalRegenerationHealth, config.textSettings.estimatesItalic);
                 //if (hasHunger && playerProperties.isHoldingFood && playerProperties.heldFoodHealthEstimate > playerProperties.health)
                 //    value += arrowRight + Calculations.MakeFraction(playerProperties.heldFoodHealthEstimate, config.textSettings.estimatesItalic);
                 if (playerProperties.hasRegeneration)
-                    value += arrowRight + Calculations.MakeFraction(playerProperties.regenerationHealth, config.textSettings.estimatesItalic);
+                    value += arrowRight + Calculations.makeFraction(playerProperties.regenerationHealth, config.textSettings.estimatesItalic);
                 if (playerProperties.isStarving && hasHunger)
-                    value += arrowRight + Calculations.MakeFraction(playerProperties.starvationHealthEstimate, config.textSettings.estimatesItalic);
+                    value += arrowRight + Calculations.makeFraction(playerProperties.starvationHealthEstimate, config.textSettings.estimatesItalic);
                 if (playerProperties.hasPoison)
-                    value += arrowRight + Calculations.MakeFraction(playerProperties.poisonHealth, config.textSettings.estimatesItalic);
+                    value += arrowRight + Calculations.makeFraction(playerProperties.poisonHealth, config.textSettings.estimatesItalic);
                 if (playerProperties.hasWither)
-                    value += arrowRight + Calculations.MakeFraction(playerProperties.witherHealth, config.textSettings.estimatesItalic);
+                    value += arrowRight + Calculations.makeFraction(playerProperties.witherHealth, config.textSettings.estimatesItalic);
                 if (playerProperties.isWardenAngry)
-                    value += arrowRight + Calculations.MakeFraction(0, config.textSettings.estimatesItalic);
+                    value += arrowRight + Calculations.makeFraction(0, config.textSettings.estimatesItalic);
                 if (playerProperties.isGettingFreezeDamage)
-                    value += arrowRight + Calculations.MakeFraction(0, config.textSettings.estimatesItalic);
+                    value += arrowRight + Calculations.makeFraction(0, config.textSettings.estimatesItalic);
                 if (playerProperties.isBurningOnFire)
-                    value += arrowRight + Calculations.MakeFraction(0, config.textSettings.estimatesItalic);
+                    value += arrowRight + Calculations.makeFraction(0, config.textSettings.estimatesItalic);
                 if (playerProperties.isDrowning)
-                    value += arrowRight + Calculations.MakeFraction(0, config.textSettings.estimatesItalic);
+                    value += arrowRight + Calculations.makeFraction(0, config.textSettings.estimatesItalic);
                 if (playerProperties.isSuffocating)
-                    value += arrowRight + Calculations.MakeFraction(0, config.textSettings.estimatesItalic);
+                    value += arrowRight + Calculations.makeFraction(0, config.textSettings.estimatesItalic);
                 if (showHealthParentheses)
                     value += pEnd;
             }
@@ -257,45 +261,45 @@ public class OneBarElements {
         // Additive values
 
         if (playerProperties.hasAbsorption)
-            value += plus + Calculations.EmojiOrText("text.onebar.absorptionEmoji","text.onebar.absorption", true, Calculations.MakeFraction(playerProperties.absorption, false));
+            value += plus + Calculations.emojiOrText("text.onebar.absorptionEmoji","text.onebar.absorption", true, Calculations.makeFraction(playerProperties.absorption, false));
 
         if(config.textSettings.showText) { // Separated if because order matters
             if (playerProperties.hasResistance && config.goodThings.showResistance)
-                value += plus + Calculations.EmojiOrText("text.onebar.resistanceEmoji","text.onebar.resistance", false, playerProperties.resistancePercent);
-            if(PlayerProperties.GetMobHead(client.player) != null && config.armor.showMobHeads)
-                value += plus + PlayerProperties.GetMobHead(client.player);
+                value += plus + Calculations.emojiOrText("text.onebar.resistanceEmoji","text.onebar.resistance", false, playerProperties.resistancePercent);
+            if(PlayerProperties.getMobHead(client.player) != null && config.armor.showMobHeads)
+                value += plus + PlayerProperties.getMobHead(client.player);
 
             // Subtractive values
 
             if(playerProperties.isWardenNear && config.badThings.showWarden)
-                value += minus + Calculations.EmojiOrText("text.onebar.wardenEmoji","text.onebar.warden",false, Calculations.MakeFraction(playerProperties.wardenDanger, false));
+                value += minus + Calculations.emojiOrText("text.onebar.wardenEmoji","text.onebar.warden",false, Calculations.makeFraction(playerProperties.wardenDanger, false));
             if (playerProperties.isUnderwater && !playerProperties.hasWaterBreathing)
-                value += minus + Calculations.EmojiOrText("text.onebar.airEmoji", "text.onebar.air", false, Calculations.MakeFraction(playerProperties.air, false));
+                value += minus + Calculations.emojiOrText("text.onebar.airEmoji", "text.onebar.air", false, Calculations.makeFraction(playerProperties.air, false));
             if (playerProperties.isUnderwater && playerProperties.hasWaterBreathing)
-                value += minus + para + "m" + Calculations.EmojiOrText("text.onebar.airEmoji","text.onebar.air", false, Calculations.MakeFraction(playerProperties.air, false)) + para + "r";
+                value += minus + para + "m" + Calculations.emojiOrText("text.onebar.airEmoji","text.onebar.air", false, Calculations.makeFraction(playerProperties.air, false)) + para + "r";
             if (playerProperties.isFreezing)
-                value += minus + Calculations.EmojiOrText("text.onebar.freezeEmoji", "text.onebar.freeze", false, Calculations.MakeFraction(playerProperties.freeze, false));
+                value += minus + Calculations.emojiOrText("text.onebar.freezeEmoji", "text.onebar.freeze", false, Calculations.makeFraction(playerProperties.freeze, false));
             if (playerProperties.isBurning && !playerProperties.hasFireResistance && config.badThings.showFire)
-                value += minus + Calculations.EmojiOrText("text.onebar.fireEmoji","text.onebar.fire", false, playerProperties.burningMultiplier);
+                value += minus + Calculations.emojiOrText("text.onebar.fireEmoji","text.onebar.fire", false, playerProperties.burningMultiplier);
             if (playerProperties.isBurning && playerProperties.hasFireResistance && config.badThings.showFire)
-                value += minus + para + "m" + Calculations.EmojiOrText("text.onebar.fireEmoji","text.onebar.fire", false, playerProperties.burningMultiplier) + para + "r";
+                value += minus + para + "m" + Calculations.emojiOrText("text.onebar.fireEmoji","text.onebar.fire", false, playerProperties.burningMultiplier) + para + "r";
             if (playerProperties.hasBadOmen && config.badThings.showBadOmen)
-                value += minus + Calculations.EmojiOrText("text.onebar.badOmenEmoji","text.onebar.badOmen", false, playerProperties.badOmenLevel);
+                value += minus + Calculations.emojiOrText("text.onebar.badOmenEmoji","text.onebar.badOmen", false, playerProperties.badOmenLevel);
             if (clientProperties.isHardcore)
-                value += minus + Calculations.EmojiOrText("text.onebar.hardcoreEmoji","text.onebar.hardcore", false, (Object) null);
+                value += minus + Calculations.emojiOrText("text.onebar.hardcoreEmoji","text.onebar.hardcore", false, (Object) null);
             if (hasHunger || (playerProperties.hasHungerEffect && config.healthEstimates && !config.disableHunger))
                 value += minus;
 
             if (showHungerParentheses)
                 value += pStart;
             if (hasHunger || (playerProperties.hasHungerEffect && config.healthEstimates && !config.disableHunger))
-                value += Calculations.EmojiOrText("text.onebar.hungerEmoji","text.onebar.hunger", true, Calculations.MakeFraction(playerProperties.hunger, false));
+                value += Calculations.emojiOrText("text.onebar.hungerEmoji","text.onebar.hunger", true, Calculations.makeFraction(playerProperties.hunger, false));
             if (hasHunger && playerProperties.saturation < 1 && config.badThings.showHungerDecreasing)
                 value += arrowDown;
             if (playerProperties.hasHungerEffect && !config.disableHunger && config.healthEstimates)
-                value += arrowRight + Calculations.MakeFraction(playerProperties.hungerEffectEstimate, config.textSettings.estimatesItalic);
+                value += arrowRight + Calculations.makeFraction(playerProperties.hungerEffectEstimate, config.textSettings.estimatesItalic);
             if (hasHunger && playerProperties.isHoldingFood && config.goodThings.heldFoodHungerBar)
-                value += arrowRight + Calculations.MakeFraction(playerProperties.heldFoodHungerEstimate, config.textSettings.estimatesItalic);
+                value += arrowRight + Calculations.makeFraction(playerProperties.heldFoodHungerEstimate, config.textSettings.estimatesItalic);
             if (showHungerParentheses)
                 value += pEnd;
         }
@@ -307,7 +311,7 @@ public class OneBarElements {
     }
 
     private void xpBar(){
-        int relativeEndW = Calculations.RelativeW(clientProperties.xpStartW, clientProperties.xpEndW, playerProperties.xp, playerProperties.maxXp);
+        int relativeEndW = Calculations.relativeW(clientProperties.xpStartW, clientProperties.xpEndW, playerProperties.xp, playerProperties.maxXp);
 
         int textX = clientProperties.xpStartW + 9;
         int textY = clientProperties.xpStartH - 10;
@@ -316,12 +320,12 @@ public class OneBarElements {
         if(config.otherBars.lapisCounter)
         {
             if(config.otherBars.lapisTimesEnchantable) {
-                lapisText = Calculations.GetSubscriptNumber(playerProperties.lapisLazuliMax) + "ₓ";
+                lapisText = Calculations.getSubscriptNumber(playerProperties.lapisLazuliMax) + "ₓ";
                 if((config.otherBars.adaptiveXpBar && playerProperties.lapisLazuliMax < 1))
                     lapisText = "";
             }
             else {
-                lapisText = Calculations.GetSubscriptNumber(playerProperties.lapisLazuli) + "";
+                lapisText = Calculations.getSubscriptNumber(playerProperties.lapisLazuli) + "";
                 if(config.otherBars.adaptiveXpBar && playerProperties.lapisLazuli < 1)
                     lapisText = "";
             }
@@ -357,15 +361,15 @@ public class OneBarElements {
     }
 
     public void jumpBar(LivingEntity mountEntity){
-        int barHeight = Calculations.GetPreciseInt(1.0F);
-        int jumpHeight = Calculations.GetPreciseInt(Objects.requireNonNull(client.player).getMountJumpStrength());
+        int barHeight = Calculations.getPreciseInt(1.0F);
+        int jumpHeight = Calculations.getPreciseInt(Objects.requireNonNull(client.player).getMountJumpStrength());
 
         double heightInBlocks = Math.max(0, ((AbstractHorseEntity)mountEntity).getJumpStrength() *
-                                                Calculations.HorseJumpStrengthToJumpHeight(Objects.requireNonNull(client.player).getMountJumpStrength()));
+                                                Calculations.horseJumpStrengthToJumpHeight(Objects.requireNonNull(client.player).getMountJumpStrength()));
 
-        String roundedHeightInBlocks = Calculations.GetSubscriptNumber(Double.parseDouble(String.format(Locale.US, "%,.1f",(heightInBlocks))));
+        String roundedHeightInBlocks = Calculations.getSubscriptNumber(Double.parseDouble(String.format(Locale.US, "%,.1f",(heightInBlocks))));
 
-        int relativeStartH = Calculations.RelativeW(clientProperties.jumpEndH, clientProperties.jumpStartH, jumpHeight, barHeight);
+        int relativeStartH = Calculations.relativeW(clientProperties.jumpEndH, clientProperties.jumpStartH, jumpHeight, barHeight);
         renderBar(clientProperties.jumpStartW, clientProperties.jumpStartH, clientProperties.jumpEndW, clientProperties.jumpEndH, config.backgroundColor);
         //renderBar(clientProperties.jumpStartW, clientProperties.jumpEndH, clientProperties.jumpEndW, relativeStartH, config.entity.jumpColor);
         DrawableHelper.fill(stack, clientProperties.jumpStartW, clientProperties.jumpEndH, clientProperties.jumpEndW, relativeStartH, config.entity.jumpColor); //TODO: fix gradient
@@ -385,12 +389,12 @@ public class OneBarElements {
         int horseArmor = mountEntity.getArmor();
         int horseMaxArmor = ((HorseArmorItem)Items.DIAMOND_HORSE_ARMOR).getBonus();
 
-        String value = Calculations.MakeFraction(health, false);
+        String value = Calculations.makeFraction(health, false);
         int textX = clientProperties.baseEndW - client.textRenderer.getWidth(value);
         int textY = clientProperties.mountStartH + 1;
 
         renderBar(clientProperties.baseStartW, clientProperties.mountStartH, clientProperties.baseEndW, clientProperties.mountEndH, config.backgroundColor);
-        renderBar(clientProperties.baseStartW, clientProperties.mountStartH, clientProperties.baseRelativeEndW(Calculations.GetPreciseInt(mountRawHealth), Calculations.GetPreciseInt(mountMaxHealth)), clientProperties.mountEndH, config.entity.healthColor);
+        renderBar(clientProperties.baseStartW, clientProperties.mountStartH, clientProperties.baseRelativeEndW(Calculations.getPreciseInt(mountRawHealth), Calculations.getPreciseInt(mountMaxHealth)), clientProperties.mountEndH, config.entity.healthColor);
         if(config.armor.showArmorBar) renderBar(clientProperties.baseStartW, clientProperties.mountStartH - 1, clientProperties.baseRelativeEndW(horseArmor, horseMaxArmor), clientProperties.mountStartH, config.armor.armorColor);
         if(config.textSettings.showText) client.textRenderer.draw(stack, value, textX, textY, config.textSettings.textColor);
     }

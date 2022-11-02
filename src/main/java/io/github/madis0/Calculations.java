@@ -8,15 +8,15 @@ import java.text.DecimalFormat;
 public class Calculations {
     private static final ModConfig config = AutoConfig.getConfigHolder(ModConfig.class).getConfig();
 
-    public static int RelativeW(int start, int end, int value, int total){
+    public static int relativeW(int start, int end, int value, int total){
         return value < total ? MathHelper.ceil(start + ((float) (end - start) / total * value)) : end;
     }
 
-    public static int GetPreciseInt(float number){
+    public static int getPreciseInt(float number){
         return MathHelper.ceil(number * 10000.0F);
     }
 
-    public static String MakeFraction(int number, boolean italic){
+    public static String makeFraction(int number, boolean italic){
         DecimalFormat df =  new DecimalFormat("0.#");
         String result;
 
@@ -34,7 +34,7 @@ public class Calculations {
         return result;
     }
 
-    public static float GetEstimatedHealthDelta(int constant, int rawLevel, int duration){
+    public static float getEstimatedHealthDelta(int constant, int rawLevel, int duration){
         // See canApplyUpdateEffect and https://www.geeksforgeeks.org/bitwise-shift-operators-in-java/
         int ticks = Math.max(constant >> rawLevel, 1);
         float healthPerSec = 20 / (float)ticks;
@@ -42,20 +42,20 @@ public class Calculations {
         return healthPerSec * durationPerSec;
     }
 
-    public static float GetEstimatedHealthRegen(int constant, int rawLevel, int duration, float currentRawHealth, float maxRawHealth){
-        return Math.min(currentRawHealth + GetEstimatedHealthDelta(constant, rawLevel, duration), maxRawHealth);
+    public static float getEstimatedHealthRegen(int constant, int rawLevel, int duration, float currentRawHealth, float maxRawHealth){
+        return Math.min(currentRawHealth + getEstimatedHealthDelta(constant, rawLevel, duration), maxRawHealth);
     }
 
-    public static float GetEstimatedHealthDamage(int constant, int rawLevel, int duration, float currentRawHealth, float minRawHealth){
-        return Math.max(currentRawHealth - GetEstimatedHealthDelta(constant, rawLevel, duration), minRawHealth);
+    public static float getEstimatedHealthDamage(int constant, int rawLevel, int duration, float currentRawHealth, float minRawHealth){
+        return Math.max(currentRawHealth - getEstimatedHealthDelta(constant, rawLevel, duration), minRawHealth);
     }
 
-    public static float GetNaturalRegenAddition(float rawSaturation, float hunger){
+    public static float getNaturalRegenAddition(float rawSaturation, float hunger){
         // Approximate formula for calculating regeneration addition health: saturation + (2.5 - hunger) * exhaustion max / 6 exhaustion per healed heart
         return (rawSaturation + (float)(2.5 - hunger)) * (float)4 / (float)6;
     }
 
-    public static String GetSubscriptNumber(Object number){ // assumes any number type
+    public static String getSubscriptNumber(Object number){ // assumes any number type
         return String.valueOf(number)
                 .replace('0', '₀')
                 .replace('1', '₁')
@@ -70,7 +70,7 @@ public class Calculations {
                 .replace('.','ͺ');
     }
 
-    public static String EmojiOrText(String emojiPhrase, String textPhrase, boolean extra, Object... args){
+    public static String emojiOrText(String emojiPhrase, String textPhrase, boolean extra, Object... args){
         if(extra && !config.textSettings.extraSymbols)
             return String.valueOf(args[0]);
 
@@ -83,7 +83,7 @@ public class Calculations {
      * @param strength Horse jump strength
      * @return Jump height in blocks
      */
-    public static double HorseJumpStrengthToJumpHeight(double strength) {
+    public static double horseJumpStrengthToJumpHeight(double strength) {
         return -0.1817584952 * strength * strength * strength + 3.689713992 * strength * strength + 2.128599134 * strength - 0.343930367;
     }
 
@@ -97,7 +97,7 @@ public class Calculations {
      * @param z2 Entity two z-coordinate
      * @return Distance between two entities
      */
-    public static double GetDistance(double x1, double y1, double z1, double x2, double y2, double z2) {
+    public static double getDistance(double x1, double y1, double z1, double x2, double y2, double z2) {
         return ((x1-x2) * (x1-x2)) + ((y1-y2) * (y1-y2)) + ((z1-z2) * (z1-z2));
     }
 
@@ -106,7 +106,7 @@ public class Calculations {
      * @param max Maximum value
      * @return Maximum value divided by health default maximum
      */
-    public static double GetPrettyDivisor(int max, int dividedBy){
+    public static double getPrettyDivisor(int max, int dividedBy){
         return (double)max / dividedBy;
     }
 
@@ -116,7 +116,7 @@ public class Calculations {
      * @param factor Percentage to change the color by
      * @return New color integer
      */
-    public static int ManipulateColor(int color, int factor) {
+    public static int manipulateColor(int color, int factor) {
         // Unpack color
         int a = color >> 24 & 0xFF;
         int r = color >> 16 & 0xFF;

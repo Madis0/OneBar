@@ -216,7 +216,7 @@ public class PlayerProperties {
 
         maxAirRaw = playerEntity.getMaxAir();
         airRaw = maxAirRaw - playerEntity.getAir();
-        air = Math.min(airRaw, maxAirRaw) / (int) Calculations.GetPrettyDivisor(maxAirRaw, playerEntity.defaultMaxHealth);
+        air = Math.min(airRaw, maxAirRaw) / (int) Calculations.getPrettyDivisor(maxAirRaw, playerEntity.defaultMaxHealth);
         isUnderwater =  playerEntity.isSubmergedInWater() || airRaw > 0;
         isDrowning = airRaw >= maxAirRaw;
 
@@ -236,7 +236,7 @@ public class PlayerProperties {
 
         maxFreezeRaw = playerEntity.getMinFreezeDamageTicks();
         freezeRaw = playerEntity.getFrozenTicks();
-        freeze = freezeRaw / (int) Calculations.GetPrettyDivisor(maxFreezeRaw, playerEntity.defaultMaxHealth);
+        freeze = freezeRaw / (int) Calculations.getPrettyDivisor(maxFreezeRaw, playerEntity.defaultMaxHealth);
         isFreezing = freezeRaw > 0;
         isGettingFreezeDamage = playerEntity.isFrozen() && !difficulty.equals(Difficulty.PEACEFUL);
 
@@ -273,7 +273,7 @@ public class PlayerProperties {
         StatusEffectInstance regenerationEffect = playerEntity.getStatusEffect(StatusEffects.REGENERATION);
         regenerationHealthRaw = 0;
         if(regenerationEffect != null)
-            regenerationHealthRaw = Calculations.GetEstimatedHealthRegen(50,
+            regenerationHealthRaw = Calculations.getEstimatedHealthRegen(50,
                                                     regenerationEffect.getAmplifier(),
                                                     regenerationEffect.getDuration(),
                                                     healthRaw,
@@ -283,7 +283,7 @@ public class PlayerProperties {
         StatusEffectInstance poisonEffect = playerEntity.getStatusEffect(StatusEffects.POISON);
         poisonHealthRaw = maxHealthRaw;
         if(poisonEffect != null)
-            poisonHealthRaw = Calculations.GetEstimatedHealthDamage(25,
+            poisonHealthRaw = Calculations.getEstimatedHealthDamage(25,
                                                     poisonEffect.getAmplifier(),
                                                     poisonEffect.getDuration(),
                                                     healthRaw,
@@ -294,7 +294,7 @@ public class PlayerProperties {
         StatusEffectInstance witherEffect = playerEntity.getStatusEffect(StatusEffects.WITHER);
         witherHealthRaw = maxHealthRaw;
         if(witherEffect != null)
-            witherHealthRaw = Calculations.GetEstimatedHealthDamage(40,
+            witherHealthRaw = Calculations.getEstimatedHealthDamage(40,
                                                     witherEffect.getAmplifier(),
                                                     witherEffect.getDuration(),
                                                     healthRaw,
@@ -331,7 +331,7 @@ public class PlayerProperties {
         naturalRegenerationAddition = 0;
         if(health < maxHealth){
             if (hunger < 3 && !difficulty.equals(Difficulty.PEACEFUL))
-                naturalRegenerationAddition = Calculations.GetNaturalRegenAddition(saturationRaw, hungerRaw);
+                naturalRegenerationAddition = Calculations.getNaturalRegenAddition(saturationRaw, hungerRaw);
             else if(difficulty.equals(Difficulty.PEACEFUL))
                 naturalRegenerationAddition = maxHealthRaw - healthRaw;
 
@@ -363,7 +363,7 @@ public class PlayerProperties {
         heldFoodHungerEstimate = hunger - heldFoodHunger;
 
         if (isHoldingFood && hasHunger){
-            heldFoodHealthEstimateRaw = !difficulty.equals(Difficulty.PEACEFUL) ? Math.min(healthRaw + Calculations.GetNaturalRegenAddition(saturationRaw + extraRegenFoodLevel + heldFoodSaturation, hungerRaw), maxFoodLevelRaw) : maxHealthRaw - healthRaw;
+            heldFoodHealthEstimateRaw = !difficulty.equals(Difficulty.PEACEFUL) ? Math.min(healthRaw + Calculations.getNaturalRegenAddition(saturationRaw + extraRegenFoodLevel + heldFoodSaturation, hungerRaw), maxFoodLevelRaw) : maxHealthRaw - healthRaw;
             heldFoodSaturationEstimateRaw = Math.max(heldFoodSaturation - (maxHealthRaw - healthRaw) - extraRegenFoodLevel, 0);
         }
         else {
@@ -385,11 +385,11 @@ public class PlayerProperties {
             isWardenNear = true;
             rawWardenDanger = warden.getAnger();
             isWardenAngry = rawWardenDanger > Angriness.ANGRY.getThreshold();
-            wardenDanger = (int) (rawWardenDanger / Calculations.GetPrettyDivisor(rawMaxWardenDanger, playerEntity.defaultMaxHealth));
+            wardenDanger = (int) (rawWardenDanger / Calculations.getPrettyDivisor(rawMaxWardenDanger, playerEntity.defaultMaxHealth));
         }
     }
 
-    public static void SetPlayerBurningOnSoulFire(boolean isBurning){
+    public static void setPlayerBurningOnSoulFire(boolean isBurning){
         isBurningOnSoulFire = isBurning;
     }
 
@@ -399,7 +399,7 @@ public class PlayerProperties {
         List<WardenEntity> nearbyWardens = player.world.getTargets(WardenEntity.class, targetPredicate, player, boundingBox);
 
         return nearbyWardens.stream().min(Comparator.comparingDouble(e ->
-                Calculations.GetDistance(player.getX(), player.getY(), player.getZ(), e.getX(), e.getY(), e.getZ()))).orElse(null);
+                Calculations.getDistance(player.getX(), player.getY(), player.getZ(), e.getX(), e.getY(), e.getZ()))).orElse(null);
     }
 
     private int getArmorElementArmor(PlayerEntity playerEntity, EquipmentSlot slot){
@@ -433,17 +433,17 @@ public class PlayerProperties {
         return (float)0;
     }
 
-    public static String GetMobHead(PlayerEntity playerEntity){
+    public static String getMobHead(PlayerEntity playerEntity){
         Item headItem = playerEntity.getEquippedStack(EquipmentSlot.HEAD).getItem();
 
         if(headItem == Items.ZOMBIE_HEAD)
-            return Calculations.EmojiOrText("text.onebar.mobHeadZombieEmoji","text.onebar.mobHeadZombie", false, (Object) null);
+            return Calculations.emojiOrText("text.onebar.mobHeadZombieEmoji","text.onebar.mobHeadZombie", false, (Object) null);
         else if(headItem == Items.SKELETON_SKULL)
-            return Calculations.EmojiOrText("text.onebar.mobHeadSkeletonEmoji","text.onebar.mobHeadSkeleton", false, (Object) null);
+            return Calculations.emojiOrText("text.onebar.mobHeadSkeletonEmoji","text.onebar.mobHeadSkeleton", false, (Object) null);
         else if(headItem == Items.CREEPER_HEAD)
-            return Calculations.EmojiOrText("text.onebar.mobHeadCreeperEmoji","text.onebar.mobHeadCreeper", false, (Object) null);
+            return Calculations.emojiOrText("text.onebar.mobHeadCreeperEmoji","text.onebar.mobHeadCreeper", false, (Object) null);
         else if(headItem == Items.CARVED_PUMPKIN)
-            return Calculations.EmojiOrText("text.onebar.mobHeadEndermanEmoji","text.onebar.mobHeadEnderman", false, (Object) null);
+            return Calculations.emojiOrText("text.onebar.mobHeadEndermanEmoji","text.onebar.mobHeadEnderman", false, (Object) null);
         else
             return null;
     }
