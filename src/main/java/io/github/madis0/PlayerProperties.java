@@ -5,7 +5,6 @@ import net.minecraft.client.gui.screen.ingame.EnchantmentScreen;
 import net.minecraft.client.gui.screen.ingame.HandledScreen;
 import net.minecraft.entity.EquipmentSlot;
 import net.minecraft.entity.ai.TargetPredicate;
-import net.minecraft.entity.attribute.EntityAttributes;
 import net.minecraft.entity.effect.StatusEffectInstance;
 import net.minecraft.entity.effect.StatusEffects;
 import net.minecraft.entity.mob.Angriness;
@@ -20,8 +19,6 @@ import net.minecraft.world.Difficulty;
 import java.util.Comparator;
 import java.util.List;
 import java.util.Objects;
-
-import static net.minecraft.item.Items.LAPIS_BLOCK;
 
 public class PlayerProperties {
     Difficulty difficulty;
@@ -249,7 +246,7 @@ public class PlayerProperties {
         maxXp = 183; //renderExperienceBar @ InGameHud.class
         xp = (int)(playerEntity.experienceProgress * maxXp);
         lapisLazuli = playerEntity.getInventory().count(Items.LAPIS_LAZULI) +
-                (playerEntity.getInventory().count(LAPIS_BLOCK) * 9);
+                (playerEntity.getInventory().count(Items.LAPIS_BLOCK) * 9);
 
         if(client.currentScreen instanceof EnchantmentScreen){
             lapisLazuli += ((EnchantmentScreen) client.currentScreen).getScreenHandler().getLapisCount();
