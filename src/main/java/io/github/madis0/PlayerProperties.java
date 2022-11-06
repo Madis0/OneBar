@@ -32,6 +32,7 @@ public class PlayerProperties {
     public final boolean hasWaterBreathing;
     public final boolean hasHungerEffect;
     public final boolean hasBadOmen;
+    public final boolean hasInvisibility;
 
     public final float healthRaw;
     public final int health;
@@ -60,6 +61,9 @@ public class PlayerProperties {
     public int bootsArmor;
     public int bootsMaxArmor;
     public float bootsMaxDurability;
+
+    public boolean hasAnyArmorItem;
+    public boolean hasArrowsStuck;
 
     public int elytraDurability;
     public int elytraMaxDurability;
@@ -157,6 +161,7 @@ public class PlayerProperties {
         hasWaterBreathing = playerEntity.hasStatusEffect(StatusEffects.WATER_BREATHING) || playerEntity.hasStatusEffect(StatusEffects.CONDUIT_POWER);
         hasHungerEffect = playerEntity.hasStatusEffect(StatusEffects.HUNGER) && !difficulty.equals(Difficulty.PEACEFUL);
         hasBadOmen = playerEntity.hasStatusEffect(StatusEffects.BAD_OMEN) && !difficulty.equals(Difficulty.PEACEFUL);
+        hasInvisibility = playerEntity.hasStatusEffect(StatusEffects.INVISIBILITY);
 
         healthRaw = playerEntity.getHealth();
         maxHealthRaw = playerEntity.getMaxHealth();
@@ -193,6 +198,14 @@ public class PlayerProperties {
         bootsArmor = getArmorElementArmor(playerEntity, EquipmentSlot.FEET);
         bootsMaxArmor = getArmorItemMaxArmor(Items.NETHERITE_BOOTS);
         bootsMaxDurability = getArmorElementMaxDurability(playerEntity, EquipmentSlot.FEET);
+
+        hasAnyArmorItem = (playerEntity.getEquippedStack(EquipmentSlot.HEAD).getItem() != Items.AIR ||
+                           playerEntity.getEquippedStack(EquipmentSlot.CHEST).getItem() != Items.AIR ||
+                           playerEntity.getEquippedStack(EquipmentSlot.LEGS).getItem() != Items.AIR ||
+                           playerEntity.getEquippedStack(EquipmentSlot.FEET).getItem() != Items.AIR ||
+                           playerEntity.getEquippedStack(EquipmentSlot.OFFHAND).getItem() != Items.AIR);
+
+        hasArrowsStuck = playerEntity.getStuckArrowCount() > 0;
 
         ItemStack chestItem = playerEntity.getEquippedStack(EquipmentSlot.CHEST);
         if (chestItem.isOf(Items.ELYTRA) && ElytraItem.isUsable(chestItem)) {
