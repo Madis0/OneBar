@@ -96,7 +96,7 @@ public abstract class InGameHudMixin {
             ci.cancel();
             var entity = getRiddenEntity();
 
-            if(config.entity.showHorseJump){
+            if(config.entity.showMountJump){
                 if(!(entity instanceof HorseEntity))
                     oneBarElements.camelJumpBar(getRiddenEntity());
                 else

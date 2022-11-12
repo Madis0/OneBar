@@ -62,7 +62,7 @@ public class ClientProperties {
         camelJumpStartW = baseStartW + 65;
         camelJumpEndW = camelJumpStartW + 50;
         camelJumpStartH = horseJumpStartH;
-        camelJumpEndH = camelJumpStartH + 5;
+        camelJumpEndH = camelJumpStartH + 7;
 
         mountStartH = baseStartH - 12;
         mountEndH = mountStartH + 9;

@@ -382,7 +382,7 @@ public class OneBarElements {
         int textX = clientProperties.horseJumpEndW - client.textRenderer.getWidth(roundedHeightInBlocks);
         int textY = clientProperties.horseJumpEndH - 10;
 
-        if(config.textSettings.showText && config.entity.showHorseJumpText)
+        if(config.textSettings.showText && config.entity.showMountJumpText)
             client.textRenderer.draw(stack, roundedHeightInBlocks, textX, textY, config.textSettings.textColor);
     }
 
@@ -391,12 +391,13 @@ public class OneBarElements {
         int maxStrength = Calculations.getPreciseInt(1.0F);
         int cooldown = Objects.requireNonNull(Objects.requireNonNull(client.player).getJumpingMount()).getJumpCooldown();
         int maxCooldown = 50;
+        int cooldownVisible = cooldown / 20;
 
         int relativeEndW = clientProperties.camelRelativeEndW(jumpStrength, maxStrength);
         int relativeEndWCooldown = clientProperties.camelRelativeEndW(cooldown, maxCooldown);
 
         if(relativeEndWCooldown > relativeEndW){
-            camelCooldownBar(relativeEndWCooldown);
+            camelCooldownBar(relativeEndWCooldown, cooldownVisible);
         }
         else {
             renderBar(clientProperties.camelJumpStartW, clientProperties.camelJumpStartH, clientProperties.camelJumpEndW, clientProperties.camelJumpEndH, config.backgroundColor);
@@ -404,9 +405,18 @@ public class OneBarElements {
         }
     }
 
-    private void camelCooldownBar(int relativeEndW){
-        renderBar(clientProperties.camelJumpStartW, clientProperties.camelJumpStartH, clientProperties.camelJumpEndW, clientProperties.camelJumpEndH, config.backgroundColor);
-        renderBar(clientProperties.camelJumpStartW, clientProperties.camelJumpStartH, relativeEndW, clientProperties.camelJumpEndH, config.entity.cooldownColor);
+    private void camelCooldownBar(int relativeEndW, int cooldownTimer){
+        if(config.entity.showMountCooldown){
+            renderBar(clientProperties.camelJumpStartW, clientProperties.camelJumpStartH, clientProperties.camelJumpEndW, clientProperties.camelJumpEndH, config.backgroundColor);
+            renderBar(clientProperties.camelJumpStartW, clientProperties.camelJumpStartH, relativeEndW, clientProperties.camelJumpEndH, config.entity.cooldownColor);
+
+            if(config.textSettings.showText && config.entity.showMountCooldownText){
+                String text = Calculations.getSubscriptNumber(-1 - cooldownTimer);
+                int textX = clientProperties.camelJumpEndW - client.textRenderer.getWidth(text);
+                int textY = clientProperties.camelJumpEndH - 9;
+                client.textRenderer.draw(stack, text, textX, textY, config.textSettings.textColor);
+            }
+        }
     }
 
     public void mountBar(LivingEntity mountEntity){
@@ -429,9 +439,10 @@ public class OneBarElements {
         if(mountEntity instanceof CamelEntity){
             long standingUpMax = 52;
             var standingUpTimer = Math.min(standingUpMax, ((CamelEntity)mountEntity).getLastPoseTickDelta());
+            int standingUpTimerVisible = Math.round((standingUpMax - standingUpTimer) / (float)20);
 
             if(((CamelEntity)mountEntity).isChangingPose()){
-                camelCooldownBar(clientProperties.camelRelativeEndW(standingUpMax - standingUpTimer, standingUpMax));
+                camelCooldownBar(clientProperties.camelRelativeEndW(standingUpMax - standingUpTimer, standingUpMax), standingUpTimerVisible);
             }
         }
 
