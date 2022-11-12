@@ -11,6 +11,7 @@ import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.entity.EquipmentSlot;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.passive.AbstractHorseEntity;
+import net.minecraft.entity.passive.CamelEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.HorseArmorItem;
 import net.minecraft.item.Items;
@@ -391,16 +392,21 @@ public class OneBarElements {
         int cooldown = Objects.requireNonNull(Objects.requireNonNull(client.player).getJumpingMount()).getJumpCooldown();
         int maxCooldown = 50;
 
-        int relativeEndW = Calculations.relativeW(clientProperties.camelJumpStartW, clientProperties.camelJumpEndW, jumpStrength, maxStrength);
-        int relativeEndWCooldown = Calculations.relativeW(clientProperties.camelJumpStartW, clientProperties.camelJumpEndW, cooldown, maxCooldown);
+        int relativeEndW = clientProperties.camelRelativeEndW(jumpStrength, maxStrength);
+        int relativeEndWCooldown = clientProperties.camelRelativeEndW(cooldown, maxCooldown);
 
-        renderBar(clientProperties.camelJumpStartW, clientProperties.camelJumpStartH, clientProperties.camelJumpEndW, clientProperties.camelJumpEndH, config.backgroundColor);
-        if(relativeEndWCooldown > relativeEndW)
-            renderBar(clientProperties.camelJumpStartW, clientProperties.camelJumpStartH, relativeEndWCooldown, clientProperties.camelJumpEndH, config.entity.cooldownColor);
-        else
+        if(relativeEndWCooldown > relativeEndW){
+            camelCooldownBar(relativeEndWCooldown);
+        }
+        else {
+            renderBar(clientProperties.camelJumpStartW, clientProperties.camelJumpStartH, clientProperties.camelJumpEndW, clientProperties.camelJumpEndH, config.backgroundColor);
             renderBar(clientProperties.camelJumpStartW, clientProperties.camelJumpStartH, relativeEndW, clientProperties.camelJumpEndH, config.entity.jumpColor);
+        }
+    }
 
-        debugText(jumpStrength + "-" + cooldown);
+    private void camelCooldownBar(int relativeEndW){
+        renderBar(clientProperties.camelJumpStartW, clientProperties.camelJumpStartH, clientProperties.camelJumpEndW, clientProperties.camelJumpEndH, config.backgroundColor);
+        renderBar(clientProperties.camelJumpStartW, clientProperties.camelJumpStartH, relativeEndW, clientProperties.camelJumpEndH, config.entity.cooldownColor);
     }
 
     public void mountBar(LivingEntity mountEntity){
@@ -419,6 +425,16 @@ public class OneBarElements {
         renderBar(clientProperties.baseStartW, clientProperties.mountStartH, clientProperties.baseRelativeEndW(Calculations.getPreciseInt(mountRawHealth), Calculations.getPreciseInt(mountMaxHealth)), clientProperties.mountEndH, config.entity.healthColor);
         if(config.armor.showArmorBar) renderBar(clientProperties.baseStartW, clientProperties.mountStartH - 1, clientProperties.baseRelativeEndW(horseArmor, horseMaxArmor), clientProperties.mountStartH, config.armor.armorColor);
         if(config.textSettings.showText) client.textRenderer.draw(stack, value, textX, textY, config.textSettings.textColor);
+
+        if(mountEntity instanceof CamelEntity){
+            long standingUpMax = 52;
+            var standingUpTimer = Math.min(standingUpMax, ((CamelEntity)mountEntity).getLastPoseTickDelta());
+
+            if(((CamelEntity)mountEntity).isChangingPose()){
+                camelCooldownBar(clientProperties.camelRelativeEndW(standingUpMax - standingUpTimer, standingUpMax));
+            }
+        }
+
     }
 
     private void debugText(String value){

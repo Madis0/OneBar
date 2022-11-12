@@ -85,4 +85,11 @@ public class ClientProperties {
     public int baseRelativeStartW(float value, float total){
         return baseRelativeStartW(Calculations.getPreciseInt(value), Calculations.getPreciseInt(total));
     }
+
+    public int camelRelativeEndW(int value, int total){
+        return Calculations.relativeW(camelJumpStartW, camelJumpEndW, value, total);
+    }
+    public int camelRelativeEndW(long value, long total){
+        return camelRelativeEndW(Calculations.getPreciseInt(value), Calculations.getPreciseInt(total));
+    }
 }
