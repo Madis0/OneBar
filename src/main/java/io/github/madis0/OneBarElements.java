@@ -364,7 +364,7 @@ public class OneBarElements {
         }
     }
 
-    public void jumpBar(LivingEntity mountEntity){
+    public void horseJumpBar(LivingEntity mountEntity){
         int barHeight = Calculations.getPreciseInt(1.0F);
         int jumpHeight = Calculations.getPreciseInt(Objects.requireNonNull(client.player).getMountJumpStrength());
 
@@ -373,16 +373,28 @@ public class OneBarElements {
 
         String roundedHeightInBlocks = Calculations.getSubscriptNumber(Double.parseDouble(String.format(Locale.US, "%,.1f",(heightInBlocks))));
 
-        int relativeStartH = Calculations.relativeW(clientProperties.jumpEndH, clientProperties.jumpStartH, jumpHeight, barHeight);
-        renderBar(clientProperties.jumpStartW, clientProperties.jumpStartH, clientProperties.jumpEndW, clientProperties.jumpEndH, config.backgroundColor);
+        int relativeStartH = Calculations.relativeW(clientProperties.horseJumpEndH, clientProperties.horseJumpStartH, jumpHeight, barHeight);
+        renderBar(clientProperties.horseJumpStartW, clientProperties.horseJumpStartH, clientProperties.horseJumpEndW, clientProperties.horseJumpEndH, config.backgroundColor);
         //renderBar(clientProperties.jumpStartW, clientProperties.jumpEndH, clientProperties.jumpEndW, relativeStartH, config.entity.jumpColor);
-        DrawableHelper.fill(stack, clientProperties.jumpStartW, clientProperties.jumpEndH, clientProperties.jumpEndW, relativeStartH, config.entity.jumpColor); //TODO: fix gradient
+        DrawableHelper.fill(stack, clientProperties.horseJumpStartW, clientProperties.horseJumpEndH, clientProperties.horseJumpEndW, relativeStartH, config.entity.jumpColor); //TODO: fix gradient
 
-        int textX = clientProperties.jumpEndW - client.textRenderer.getWidth(roundedHeightInBlocks);
-        int textY = clientProperties.jumpEndH - 10;
+        int textX = clientProperties.horseJumpEndW - client.textRenderer.getWidth(roundedHeightInBlocks);
+        int textY = clientProperties.horseJumpEndH - 10;
 
         if(config.textSettings.showText && config.entity.showHorseJumpText)
             client.textRenderer.draw(stack, roundedHeightInBlocks, textX, textY, config.textSettings.textColor);
+    }
+
+    public void camelJumpBar(LivingEntity mountEntity){
+        int jumpStrength = Calculations.getPreciseInt(Objects.requireNonNull(client.player).getMountJumpStrength());
+        int cooldown = Objects.requireNonNull(Objects.requireNonNull(client.player).getJumpingMount()).getJumpCooldown() / 20;
+        int maxStrength = Calculations.getPreciseInt(1.0F);
+
+        int relativeEndW = Calculations.relativeW(clientProperties.camelJumpStartW, clientProperties.camelJumpEndW, jumpStrength, maxStrength);
+        renderBar(clientProperties.camelJumpStartW, clientProperties.camelJumpStartH, clientProperties.camelJumpEndW, clientProperties.camelJumpEndH, config.backgroundColor);
+        renderBar(clientProperties.camelJumpStartW, clientProperties.camelJumpStartH, relativeEndW, clientProperties.camelJumpEndH, config.entity.jumpColor);
+
+        debugText(jumpStrength + "-" + cooldown);
     }
 
     public void mountBar(LivingEntity mountEntity){
