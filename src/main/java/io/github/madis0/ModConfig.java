@@ -97,6 +97,9 @@ public class ModConfig implements ConfigData {
         public boolean showHorseJumpText = true;
         @ConfigEntry.ColorPicker(allowAlpha = true)
         public int jumpColor = 0xFF795548;
+
+        @ConfigEntry.ColorPicker(allowAlpha = true)
+        public int cooldownColor = 0xFFDD2C00;
     }
 
     public static class Armor {

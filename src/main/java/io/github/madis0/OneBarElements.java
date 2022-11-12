@@ -386,13 +386,19 @@ public class OneBarElements {
     }
 
     public void camelJumpBar(LivingEntity mountEntity){
-        int jumpStrength = Calculations.getPreciseInt(Objects.requireNonNull(client.player).getMountJumpStrength());
-        int cooldown = Objects.requireNonNull(Objects.requireNonNull(client.player).getJumpingMount()).getJumpCooldown() / 20;
+        int jumpStrength = Calculations.getPreciseInt(Math.max(Objects.requireNonNull(client.player).getMountJumpStrength(), 0)); //TODO: strength can be negative???
         int maxStrength = Calculations.getPreciseInt(1.0F);
+        int cooldown = Objects.requireNonNull(Objects.requireNonNull(client.player).getJumpingMount()).getJumpCooldown();
+        int maxCooldown = 50;
 
         int relativeEndW = Calculations.relativeW(clientProperties.camelJumpStartW, clientProperties.camelJumpEndW, jumpStrength, maxStrength);
+        int relativeEndWCooldown = Calculations.relativeW(clientProperties.camelJumpStartW, clientProperties.camelJumpEndW, cooldown, maxCooldown);
+
         renderBar(clientProperties.camelJumpStartW, clientProperties.camelJumpStartH, clientProperties.camelJumpEndW, clientProperties.camelJumpEndH, config.backgroundColor);
-        renderBar(clientProperties.camelJumpStartW, clientProperties.camelJumpStartH, relativeEndW, clientProperties.camelJumpEndH, config.entity.jumpColor);
+        if(relativeEndWCooldown > relativeEndW)
+            renderBar(clientProperties.camelJumpStartW, clientProperties.camelJumpStartH, relativeEndWCooldown, clientProperties.camelJumpEndH, config.entity.cooldownColor);
+        else
+            renderBar(clientProperties.camelJumpStartW, clientProperties.camelJumpStartH, relativeEndW, clientProperties.camelJumpEndH, config.entity.jumpColor);
 
         debugText(jumpStrength + "-" + cooldown);
     }
