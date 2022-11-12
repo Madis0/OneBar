@@ -97,9 +97,9 @@
   "text.autoconfig.onebar.option.entity.showMountJumpText.@Tooltip": "Shows approximate horse jump height in blocks,\ncamels are not yet supported",
   "text.autoconfig.onebar.option.entity.jumpColor": "Jump color",
   "text.autoconfig.onebar.option.entity.showMountCooldown": "Camel cooldown bar",
-  "text.autoconfig.onebar.option.entity.showMountCooldown.@Tooltip": "Shows a cooldown bar between jumps,\nincluding when the camel is about to stand up",
+  "text.autoconfig.onebar.option.entity.showMountCooldown.@Tooltip": "Shows a decreasing cooldown bar that indicates when\nthe camel can jump or move again",
   "text.autoconfig.onebar.option.entity.showMountCooldownText": "Camel cooldown timer text",
-  "text.autoconfig.onebar.option.entity.showMountCooldownText.@Tooltip": "Shows a timer with negative seconds\nbefore when the camel can jump again",
+  "text.autoconfig.onebar.option.entity.showMountCooldownText.@Tooltip": "Negative seconds before\nthe camel can jump or move again",
   "text.autoconfig.onebar.option.entity.cooldownColor": "Cooldown color",
 
   "text.autoconfig.onebar.category.armor": "Armor",
