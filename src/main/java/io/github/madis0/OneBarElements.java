@@ -268,6 +268,8 @@ public class OneBarElements {
                 value += plus + Calculations.emojiOrText("text.onebar.resistanceEmoji","text.onebar.resistance", false, playerProperties.resistancePercent);
             if(PlayerProperties.getMobHead(client.player) != null && config.armor.showMobHeads)
                 value += plus + PlayerProperties.getMobHead(client.player);
+            if(playerProperties.hasGoldenArmorItem && config.armor.showMobHeads)
+                value += plus + Calculations.emojiOrText("text.onebar.mobHeadPiglinEmoji","text.onebar.mobHeadPiglin", false, (Object) null);
             if(playerProperties.hasInvisibility && !playerProperties.hasAnyArmorItem && !playerProperties.hasArrowsStuck && config.goodThings.showInvisibility)
                 value += plus + Calculations.emojiOrText("text.onebar.invisibilityEmoji","text.onebar.invisibility", false, (Object) null);
             if(playerProperties.hasInvisibility && (playerProperties.hasAnyArmorItem || playerProperties.hasArrowsStuck) && config.goodThings.showInvisibility)
