@@ -448,6 +448,9 @@ public class PlayerProperties {
 
     public static String getMobHead(PlayerEntity playerEntity){
         Item headItem = playerEntity.getEquippedStack(EquipmentSlot.HEAD).getItem();
+        Item chestItem = playerEntity.getEquippedStack(EquipmentSlot.CHEST).getItem();
+        Item legsItem = playerEntity.getEquippedStack(EquipmentSlot.LEGS).getItem();
+        Item feetItem = playerEntity.getEquippedStack(EquipmentSlot.FEET).getItem();
 
         if(headItem == Items.ZOMBIE_HEAD)
             return Calculations.emojiOrText("text.onebar.mobHeadZombieEmoji","text.onebar.mobHeadZombie", false, (Object) null);
@@ -457,6 +460,8 @@ public class PlayerProperties {
             return Calculations.emojiOrText("text.onebar.mobHeadCreeperEmoji","text.onebar.mobHeadCreeper", false, (Object) null);
         else if(headItem == Items.CARVED_PUMPKIN)
             return Calculations.emojiOrText("text.onebar.mobHeadEndermanEmoji","text.onebar.mobHeadEnderman", false, (Object) null);
+        else if(headItem == Items.GOLDEN_HELMET || chestItem == Items.GOLDEN_CHESTPLATE || legsItem == Items.GOLDEN_LEGGINGS || feetItem == Items.GOLDEN_BOOTS)
+            return Calculations.emojiOrText("text.onebar.mobHeadPiglinEmoji","text.onebar.mobHeadPiglin", false, (Object) null);
         else
             return null;
     }

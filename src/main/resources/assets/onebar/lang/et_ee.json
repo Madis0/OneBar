@@ -95,7 +95,7 @@
   "text.autoconfig.onebar.option.armor.showElytraDurabilityBar.@Tooltip": "Õhuke riba OneBari kohal; ainult lennates",
   "text.autoconfig.onebar.option.armor.elytraDurabilityColor": "Kattetiibade vastupidavuse värv",
   "text.autoconfig.onebar.option.armor.showMobHeads": "Elukapea indikaator",
-  "text.autoconfig.onebar.option.armor.showMobHeads.@Tooltip": "Kuvab indikaatorit luukere, creeperi\nvõi zombi elukapea; nikerdatud kõrvitsa kandmisel.\nKantud elukapead vähendavad vastava eluka tuvastuskaugust 50% võrra;\nnikerdatud kõrvits väldib vaatamisega endermanide ärritamist.",
+  "text.autoconfig.onebar.option.armor.showMobHeads.@Tooltip": "Kuvab indikaatorit luukere, creeperi või zombi elukapea;\nnikerdatud kõrvitsa; mistahes kuldse rüüeseme kandmisel.\nKantud elukapead vähendavad vastava eluka tuvastuskaugust 50% võrra;\nnikerdatud kõrvits väldib vaatamisega endermanide ärritamist;\nmistahes kuldse rüü ese väldib piglinite ärritamist.",
   "text.autoconfig.onebar.category.otherBars": "Muud ribad",
   "text.autoconfig.onebar.option.otherBars.adaptiveXpBar": "Kohanduv kogemusindikaator",
   "text.autoconfig.onebar.option.otherBars.adaptiveXpBar.@Tooltip": "Peidab kogemustasemed ja/või -riba, kui väärtus on null",

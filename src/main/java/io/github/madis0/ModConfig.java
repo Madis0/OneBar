@@ -115,7 +115,7 @@ public class ModConfig implements ConfigData {
         @ConfigEntry.ColorPicker(allowAlpha = true)
         public int elytraDurabilityColor = 0xCCE040FB;
         @ConfigEntry.Gui.Tooltip
-        public boolean showMobHeads = true;
+        public boolean showMobHeads = false;
     }
 
     public static class OtherBars {
