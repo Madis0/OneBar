@@ -103,7 +103,6 @@
   "text.autoconfig.onebar.option.entity.showMountCooldownText": "Camel cooldown timer text",
   "text.autoconfig.onebar.option.entity.showMountCooldownText.@Tooltip": "Negative seconds before\nthe camel can jump or move again",
   "text.autoconfig.onebar.option.entity.cooldownColor": "Cooldown color",
-
   "text.autoconfig.onebar.category.armor": "Armor",
   "text.autoconfig.onebar.option.armor.showArmorBar": "Armor bar",
   "text.autoconfig.onebar.option.armor.showArmorBar.@Tooltip": "Thin bar above OneBar; also for ridden horses",
