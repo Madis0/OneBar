@@ -88,7 +88,8 @@ The mod only uses client-side data, so it is never needed on a server. There are
 | Effect | Color | Bar | Text | Where | Description/comment |
 |-|-|-|-|-|-|
 | Mount health | Orange | █ | 1 | Above OneBar | Similar to OneBar itself |
-| Horse jump | Brown | ▄▄ | 1.0 | Below crosshair | Vertical bar, number shows approximate height of blocks the horse can jump | 
+| Mount jump | Brown | ▄▄ or █ | 1.0 | Below crosshair | Vertical (horse and others) or horizontal (camel) bar, number shows approximate height of blocks the mount can jump (no est. for camels yet) | 
+| Camel cooldown | Orange-red | ▄▄ | -1 | Below crosshair | Decreasing horizontal bar, number shows time in seconds before the camel can jump or move again | 
 
 #### Armor
 
