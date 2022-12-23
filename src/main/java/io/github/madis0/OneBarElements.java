@@ -1,7 +1,7 @@
 package io.github.madis0;
 
-//import com.mojang.blaze3d.systems.RenderSystem;
-//import dev.tr7zw.exordium.ExordiumModBase;
+import com.mojang.blaze3d.systems.RenderSystem;
+import dev.tr7zw.exordium.ExordiumModBase;
 import io.github.madis0.mixin.DrawableHelperAccessor;
 import me.shedaniel.autoconfig.AutoConfig;
 import net.fabricmc.loader.api.FabricLoader;
@@ -37,10 +37,10 @@ public class OneBarElements {
     }
 
     public void renderOneBar(){
-        /*if(hasExordium) {
+        if(hasExordium) {
             ExordiumModBase.correctBlendMode();
             ExordiumModBase.setForceBlend(true);
-        }*/
+        }
 
         PlayerEntity playerEntity = MinecraftClient.getInstance().player;
         if (playerEntity != null) {
@@ -68,10 +68,10 @@ public class OneBarElements {
             if(config.otherBars.showSaturationBar) saturationBar();
             //if(config.healthEstimates && config.otherBars.showSaturationBar) heldFoodSaturationBar();
 
-            /*if(hasExordium) {
+            if(hasExordium) {
                 ExordiumModBase.setForceBlend(false);
                 RenderSystem.defaultBlendFunc();
-            }*/
+            }
         }
     }
 
