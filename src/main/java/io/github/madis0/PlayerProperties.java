@@ -33,6 +33,7 @@ public class PlayerProperties {
     public final boolean hasHungerEffect;
     public final boolean hasBadOmen;
     public final boolean hasInvisibility;
+    public final boolean hasGlowing;
 
     public final float healthRaw;
     public final int health;
@@ -163,6 +164,7 @@ public class PlayerProperties {
         hasHungerEffect = playerEntity.hasStatusEffect(StatusEffects.HUNGER) && !difficulty.equals(Difficulty.PEACEFUL);
         hasBadOmen = playerEntity.hasStatusEffect(StatusEffects.BAD_OMEN) && !difficulty.equals(Difficulty.PEACEFUL);
         hasInvisibility = playerEntity.hasStatusEffect(StatusEffects.INVISIBILITY);
+        hasGlowing = playerEntity.hasStatusEffect(StatusEffects.GLOWING);
 
         healthRaw = playerEntity.getHealth();
         maxHealthRaw = playerEntity.getMaxHealth();

@@ -81,6 +81,8 @@ public class ModConfig implements ConfigData {
         @ConfigEntry.ColorPicker(allowAlpha = true)
         public int witherColor = 0xA637474f;
         @ConfigEntry.Gui.Tooltip
+        public boolean showGlowing = true;
+        @ConfigEntry.Gui.Tooltip
         public boolean showBadOmen = true;
         @ConfigEntry.Gui.Tooltip
         public boolean showWarden = true;
