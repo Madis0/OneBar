@@ -6,7 +6,9 @@ import me.shedaniel.autoconfig.AutoConfig;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.hud.InGameHud;
 import net.minecraft.client.util.math.MatrixStack;
+import net.minecraft.entity.JumpingMount;
 import net.minecraft.entity.LivingEntity;
+import net.minecraft.entity.passive.HorseEntity;
 import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
@@ -27,7 +29,7 @@ public abstract class InGameHudMixin {
     private boolean showOneBar = false;
 
     @Inject(at = @At("TAIL"), method = "render")
-    public void render(MatrixStack matrixStack, float tickDelta, CallbackInfo info) {
+    public void render(MatrixStack matrixStack, float tickDelta, CallbackInfo ci) {
         oneBarElements = new OneBarElements(matrixStack);
         showOneBar = config.showOneBar; // This var exists because it also shows whether oneBarElements is initialized
 
@@ -47,7 +49,7 @@ public abstract class InGameHudMixin {
         if(config.otherBars.compatibilityMode) genericCancel(ci);
     }
     @Inject(method = "renderMountJumpBar", at = @At(value = "TAIL"), cancellable = true)
-    private void hideHorseJumpCompat(MatrixStack matrices, int x, CallbackInfo ci) {
+    private void hideMountJumpCompat(JumpingMount jumpingMount, MatrixStack matrices, int x, CallbackInfo ci) {
         if(config.otherBars.compatibilityMode) mountJump(ci);
     }
 
@@ -62,11 +64,11 @@ public abstract class InGameHudMixin {
         if(!config.otherBars.compatibilityMode) genericCancel(ci);
     }
     @Inject(method = "renderMountJumpBar", at = @At(value = "HEAD"), cancellable = true)
-    private void hideHorseJump(MatrixStack matrices, int x, CallbackInfo ci) {
+    private void hideMountJump(JumpingMount jumpingMount, MatrixStack matrices, int x, CallbackInfo ci) {
         if(!config.otherBars.compatibilityMode) mountJump(ci);
     }
     @Inject(method = "renderMountHealth", at = @At(value = "HEAD"), cancellable = true)
-    private void hideHorseHealth(MatrixStack matrices, CallbackInfo ci) {
+    private void hideMountHealth(MatrixStack matrices, CallbackInfo ci) {
         if(showOneBar){
             ci.cancel();
             oneBarElements.mountBar(getRiddenEntity());
@@ -92,8 +94,14 @@ public abstract class InGameHudMixin {
     private void mountJump(CallbackInfo ci){
         if(showOneBar) {
             ci.cancel();
-            if(config.entity.showHorseJump)
-                oneBarElements.jumpBar(getRiddenEntity());
+            var entity = getRiddenEntity();
+
+            if(config.entity.showMountJump){
+                if(!(entity instanceof HorseEntity))
+                    oneBarElements.camelJumpBar(getRiddenEntity());
+                else
+                    oneBarElements.horseJumpBar(getRiddenEntity());
+            }
         }
     }
 }

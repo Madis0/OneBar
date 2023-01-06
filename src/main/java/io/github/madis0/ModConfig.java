@@ -81,6 +81,8 @@ public class ModConfig implements ConfigData {
         @ConfigEntry.ColorPicker(allowAlpha = true)
         public int witherColor = 0xA637474f;
         @ConfigEntry.Gui.Tooltip
+        public boolean showGlowing = true;
+        @ConfigEntry.Gui.Tooltip
         public boolean showBadOmen = true;
         @ConfigEntry.Gui.Tooltip
         public boolean showWarden = true;
@@ -92,11 +94,17 @@ public class ModConfig implements ConfigData {
         @ConfigEntry.ColorPicker(allowAlpha = true)
         public int healthColor = 0xFFF57F17;
         @ConfigEntry.Gui.Tooltip
-        public boolean showHorseJump = true;
+        public boolean showMountJump = true;
         @ConfigEntry.Gui.Tooltip
-        public boolean showHorseJumpText = true;
+        public boolean showMountJumpText = true;
         @ConfigEntry.ColorPicker(allowAlpha = true)
         public int jumpColor = 0xFF795548;
+        @ConfigEntry.Gui.Tooltip
+        public boolean showMountCooldown = true;
+        @ConfigEntry.Gui.Tooltip
+        public boolean showMountCooldownText = true;
+        @ConfigEntry.ColorPicker(allowAlpha = true)
+        public int cooldownColor = 0xFFDD2C00;
     }
 
     public static class Armor {
