@@ -93,7 +93,7 @@
   "text.autoconfig.onebar.option.entity.showMountCooldown": "骆驼冷却条",
   "text.autoconfig.onebar.option.entity.showMountCooldown.@Tooltip": "显示一个降低中的冷却条以指示骆驼\n何时能再次跳跃或移动",
   "text.autoconfig.onebar.option.entity.showMountCooldownText": "骆驼冷却计时器文字",
-  "text.autoconfig.onebar.option.entity.showMountCooldownText.@Tooltip": "骆驼再次跳跃或移动前的\n负数秒",
+  "text.autoconfig.onebar.option.entity.showMountCooldownText.@Tooltip": "骆驼再次跳跃或移动前的负数秒",
   "text.autoconfig.onebar.option.entity.cooldownColor": "冷却颜色",
   "text.autoconfig.onebar.category.armor": "护甲",
   "text.autoconfig.onebar.option.armor.showArmorBar": "护甲条",
