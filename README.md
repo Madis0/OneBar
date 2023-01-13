@@ -11,7 +11,7 @@ A sleek HUD mod for Minecraft: Java Edition using Fabric mod loader.
 
 - [Exordium](https://www.curseforge.com/minecraft/mc-mods/exordium) - improve HUD performance
 - [Raised](https://www.curseforge.com/minecraft/mc-mods/raised) - moves OneBar and hotbar upwards, height of both can be adjusted 
-- [OneBar + MCC Island Compat](https://modrinth.com/mod/onebarmcci) by [FayneAldan](https://modrinth.com/user/FayneAldan) - disables OneBar when you have no health bar on MCC Island
+- [OneBar + MCC Island Compat](https://modrinth.com/mod/onebarmcci) (unofficial) - disables OneBar when you have no health bar on MCC Island
 
 Automated dev builds available from [Actions tab](https://github.com/Madis0/OneBar/actions).
 
