@@ -64,6 +64,7 @@ The mod only uses client-side data, so it is never needed on a server. There are
 | Absorption (extra symbols) |  |  | +♥1 | +ab1 | When enabling "Show additional symbols" in Text options; emoji looks smaller than the health one in-game |
 | Resistance |  |  | +⛨1% | +re1% | Number is [the effect level × 20%](https://minecraft.gamepedia.com/Resistance#Effect) |
 | Invisibility |  |  | +♤ | +in | Crossed out when wearing armor/offhand item, have glowing effect or arrow(s) stuck in you. Emoji chosen to remind of the effect icon. |
+| Totem of Undying |  |  | +♀1 | +tu1 | Opt-in, shows the amount of Totem of Undyings in your inventory; crossed out when not held in main/offhand. Emoji chosen to approximate the icon. |
 | Fire resistance |  |  | -~🔥1×~ | -~bu1×~ | Number is a rough damage multiplier (1× - burning, 2× - in fire, 3× - in soul fire, 4× - in lava), only shown if you are on fire |
 | Water Breathing, Conduit Power | Blue | █ | -~⭘1~ | -~ai1~ | The bar is only shown if you got the effect after losing air, text is only shown if you are in water |
 | Held food restored hunger: exact/less | Green | █ | _→1_ | _→1_ | Overlaid on hunger bar; number is the resulting hunger (like AppleSkin) | 

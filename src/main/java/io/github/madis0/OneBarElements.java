@@ -274,7 +274,11 @@ public class OneBarElements {
             if(playerProperties.hasInvisibility && !playerProperties.hasAnyArmorItem && !playerProperties.hasArrowsStuck && !playerProperties.hasGlowing && config.goodThings.showInvisibility)
                 value += plus + Calculations.emojiOrText("text.onebar.invisibilityEmoji","text.onebar.invisibility", false, (Object) null);
             if(playerProperties.hasInvisibility && (playerProperties.hasAnyArmorItem || playerProperties.hasArrowsStuck || playerProperties.hasGlowing) && config.goodThings.showInvisibility)
-                value += plus + para + "m" + Calculations.emojiOrText("text.onebar.invisibilityEmoji","text.onebar.invisibility", false, (Object) null)  + para + "r";
+                value += plus + para + "m" + Calculations.emojiOrText("text.onebar.invisibilityEmoji","text.onebar.invisibility", false, (Object) null) + para + "r";
+            if(playerProperties.hasTotemOfUndying && playerProperties.isHoldingTotemOfUndying && config.goodThings.showTotemOfUndying)
+                value += plus + Calculations.emojiOrText("text.onebar.totemOfUndyingEmoji","text.onebar.totemOfUndying", false, playerProperties.amountTotemOfUndying);
+            if(playerProperties.hasTotemOfUndying && !playerProperties.isHoldingTotemOfUndying && config.goodThings.showTotemOfUndying)
+                value += plus + para + "m" + Calculations.emojiOrText("text.onebar.totemOfUndyingEmoji","text.onebar.totemOfUndying", false, playerProperties.amountTotemOfUndying) + para + "r";
 
             // Subtractive values
 
