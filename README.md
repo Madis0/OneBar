@@ -9,9 +9,11 @@ A sleek HUD mod for Minecraft: Java Edition using Fabric mod loader.
 
 ## Mod compatibility
 
-- [Exordium](https://www.curseforge.com/minecraft/mc-mods/exordium) - improve HUD performance
 - [Raised](https://www.curseforge.com/minecraft/mc-mods/raised) - moves OneBar and hotbar upwards, height of both can be adjusted 
+- [Auto HUD](https://www.curseforge.com/minecraft/mc-mods/auto-hud) - automatically shows and hides certain elements of OneBar as needed
+- [Exordium](https://www.curseforge.com/minecraft/mc-mods/exordium) (beta) - improve HUD performance
 - [OneBar + MCC Island Compat](https://modrinth.com/mod/onebarmcci) (unofficial) - disables OneBar when you have no health bar on MCC Island
+- [Flour's Various Tweaks](https://modrinth.com/mod/fvt) and [Head-down display](https://www.curseforge.com/minecraft/mc-mods/headdowndisplay) - partial compatibility for the auto-hide feature, does not hide OneBar elements
 
 Automated dev builds available from [Actions tab](https://github.com/Madis0/OneBar/actions).
 
