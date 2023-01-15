@@ -1,5 +1,6 @@
 package io.github.madis0;
 
+import net.fabricmc.loader.api.FabricLoader;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.option.AttackIndicator;
 import net.minecraft.util.Arm;
@@ -9,7 +10,7 @@ import java.util.Objects;
 public class ClientProperties {
     public final int baseStartW;
     public final int baseEndW;
-    public final int baseStartH;
+    public int baseStartH;
     public final int baseEndH;
     public int xpStartW;
     public final int xpEndW;
@@ -37,6 +38,11 @@ public class ClientProperties {
         baseStartW = scaledWidth / 2 - 91;
         baseEndW = baseStartW + 182;
         baseStartH = scaledHeight - 33;
+
+        if (FabricLoader.getInstance().getObjectShare().get("raised:distance") instanceof Integer distance) {
+            baseStartH -= distance;
+        }
+
         baseEndH = baseStartH + 9;
 
         if (client.options.getMainArm().getValue() == Arm.RIGHT){

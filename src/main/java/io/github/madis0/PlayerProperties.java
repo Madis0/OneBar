@@ -65,6 +65,11 @@ public class PlayerProperties {
 
     public boolean hasAnyArmorItem;
     public boolean hasGoldenArmorItem;
+
+    public boolean hasTotemOfUndying;
+    public int amountTotemOfUndying;
+    public boolean isHoldingTotemOfUndying;
+    
     public boolean hasArrowsStuck;
 
     public int elytraDurability;
@@ -213,6 +218,11 @@ public class PlayerProperties {
                               playerEntity.getEquippedStack(EquipmentSlot.LEGS).getItem() == Items.GOLDEN_LEGGINGS ||
                               playerEntity.getEquippedStack(EquipmentSlot.FEET).getItem() == Items.GOLDEN_BOOTS);
 
+        amountTotemOfUndying = playerEntity.getInventory().count(Items.TOTEM_OF_UNDYING);
+        hasTotemOfUndying = amountTotemOfUndying > 0;
+        isHoldingTotemOfUndying = (playerEntity.getEquippedStack(EquipmentSlot.MAINHAND).getItem() == Items.TOTEM_OF_UNDYING ||
+                                   playerEntity.getEquippedStack(EquipmentSlot.OFFHAND).getItem() == Items.TOTEM_OF_UNDYING);
+
         hasArrowsStuck = playerEntity.getStuckArrowCount() > 0;
 
         ItemStack chestItem = playerEntity.getEquippedStack(EquipmentSlot.CHEST);
@@ -277,6 +287,7 @@ public class PlayerProperties {
             var pickedUpItemInInventory = ((HandledScreen<?>) client.currentScreen).getScreenHandler().getCursorStack();
             if(pickedUpItemInInventory.isOf(Items.LAPIS_BLOCK)) lapisLazuli += pickedUpItemInInventory.getCount() * 9;
             if(pickedUpItemInInventory.isOf(Items.LAPIS_LAZULI)) lapisLazuli += pickedUpItemInInventory.getCount();
+            if(pickedUpItemInInventory.isOf(Items.TOTEM_OF_UNDYING)) amountTotemOfUndying += pickedUpItemInInventory.getCount();
         }
 
         lapisLazuliMax = 0;

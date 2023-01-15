@@ -54,6 +54,8 @@ public class ModConfig implements ConfigData {
         @ConfigEntry.Gui.Tooltip
         public boolean showInvisibility = true;
         @ConfigEntry.Gui.Tooltip
+        public boolean showTotemOfUndying = false;
+        @ConfigEntry.Gui.Tooltip
         public boolean heldFoodHungerBar = true;
         @ConfigEntry.ColorPicker(allowAlpha = true)
         public int heldFoodHungerWasteColor = 0xA6FFB04C;
