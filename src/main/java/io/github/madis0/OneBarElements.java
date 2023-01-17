@@ -58,6 +58,7 @@ public class OneBarElements {
             if(config.goodThings.heldFoodHungerBar) heldFoodHungerBar();
             if(config.badThings.showWarden) wardenBar();
             if(config.badThings.showFire) fireBar();
+            if(config.badThings.showLevitation)levitationBar();
             freezeBar();
             airBar();
             xpBar();
@@ -200,6 +201,10 @@ public class OneBarElements {
         renderBar(clientProperties.baseRelativeStartW(playerProperties.freezeRaw, playerProperties.maxFreezeRaw), clientProperties.baseStartH, clientProperties.baseEndW, clientProperties.baseEndH, config.badThings.freezeColor);
     }
 
+    private void levitationBar(){
+        renderBar(clientProperties.baseRelativeStartW(playerProperties.levitationTimeRaw, playerProperties.maxLevitationTimeRaw), clientProperties.baseStartH, clientProperties.baseEndW, clientProperties.baseEndH, config.badThings.levitationColor);
+    }
+
     private void fireBar(){
         if (playerProperties.isBurning && !playerProperties.hasFireResistance){
             renderBar(clientProperties.baseRelativeStartW((playerProperties.maxHealthRaw - playerProperties.healthRaw) + playerProperties.burningMultiplier, playerProperties.maxHealthRaw), clientProperties.baseStartH, clientProperties.baseEndW, clientProperties.baseEndH, config.badThings.fireColor);
@@ -294,6 +299,14 @@ public class OneBarElements {
                 value += minus + Calculations.emojiOrText("text.onebar.fireEmoji","text.onebar.fire", false, playerProperties.burningMultiplier);
             if (playerProperties.isBurning && playerProperties.hasFireResistance && config.badThings.showFire)
                 value += minus + para + "m" + Calculations.emojiOrText("text.onebar.fireEmoji","text.onebar.fire", false, playerProperties.burningMultiplier) + para + "r";
+            if (playerProperties.hasLevitation && !playerProperties.isInWater && config.badThings.showLevitation)
+                value += minus + Calculations.emojiOrText("text.onebar.levitationEmoji", "text.onebar.levitation", false, Calculations.makeFraction(playerProperties.levitationTime, false));
+            if (playerProperties.hasLevitation && playerProperties.isInWater && config.badThings.showLevitation)
+                value += minus + para + "m" + Calculations.emojiOrText("text.onebar.levitationEmoji", "text.onebar.levitation", false, Calculations.makeFraction(playerProperties.levitationTime, false)) + para + "r";
+            if (playerProperties.levitationFallHeight >= config.badThings.fallHeightMin && config.badThings.showFallHeight && config.badThings.showLevitation)
+                value += Calculations.emojiOrText("text.onebar.fallingEmoji", "text.onebar.fallingEmoji", false, Calculations.makeFraction(playerProperties.levitationFallHeight, false));
+            if (playerProperties.normalFallHeight >= config.badThings.fallHeightMin && config.badThings.showFallHeight && !playerProperties.hasLevitation)
+                value += minus + Calculations.emojiOrText("text.onebar.fallingEmoji", "text.onebar.fallingEmoji", false, Calculations.makeFraction(playerProperties.normalFallHeight, false));
             if (playerProperties.hasGlowing && config.badThings.showGlowing)
                 value += minus + Calculations.emojiOrText("text.onebar.glowingEmoji","text.onebar.glowing", false, (Object) null);
             if (playerProperties.hasBadOmen && config.badThings.showBadOmen)

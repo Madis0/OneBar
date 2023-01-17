@@ -83,6 +83,15 @@ public class ModConfig implements ConfigData {
         @ConfigEntry.ColorPicker(allowAlpha = true)
         public int witherColor = 0xA637474f;
         @ConfigEntry.Gui.Tooltip
+        public boolean showLevitation = true;
+        @ConfigEntry.ColorPicker(allowAlpha = true)
+        public int levitationColor = 0xA66A1B9A;
+        @ConfigEntry.Gui.Tooltip
+        public boolean showFallHeight = false;
+        @ConfigEntry.Gui.Tooltip
+        @ConfigEntry.BoundedDiscrete(max = 384, min = 4)
+        public int fallHeightMin = 4;
+        @ConfigEntry.Gui.Tooltip
         public boolean showGlowing = true;
         @ConfigEntry.Gui.Tooltip
         public boolean showBadOmen = true;
