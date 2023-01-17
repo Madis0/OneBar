@@ -121,8 +121,8 @@ public class PlayerProperties {
     public int belowBlockY;
     public double normalFallHeightRaw;
     public int normalFallHeight;
-
     public final boolean hasLevitation;
+
 
     public int resistancePercent;
 
