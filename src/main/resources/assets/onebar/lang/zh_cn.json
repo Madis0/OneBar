@@ -84,7 +84,7 @@
   "text.autoconfig.onebar.option.badThings.showLevitation.@Tooltip": "将飘浮效果时间显示为长条和指示器，\n在水中时它们会被划掉",
   "text.autoconfig.onebar.option.badThings.levitationColor": "飘浮颜色",
   "text.autoconfig.onebar.option.badThings.showFallHeight": "摔落高度指示器（实验性）",
-  "text.autoconfig.onebar.option.badThings.showFallHeight.@Tooltip": "当你拥有飘浮效果或在方块边缘潜行时\n指示你可能会摔落的大致方块数量。\n当前不考虑目标方块的材质（如黏液块）\n或是否为实体（如草丛），也不估算生命值。",
+  "text.autoconfig.onebar.option.badThings.showFallHeight.@Tooltip": "当你拥有飘浮效果或在方块边缘潜行时\n指示你可能会摔落的大致方块数量。\n当前不考虑目标方块的材质（如黏液块）\n或实体与否（如草丛），也不估算生命值。",
   "text.autoconfig.onebar.option.badThings.fallHeightMin": "最小摔落高度",
   "text.autoconfig.onebar.option.badThings.fallHeightMin.@Tooltip": "显示摔落指示器的最小方块高度。\n默认为 4 个方块。无护甲时从此高度摔落即会受伤。",
   "text.autoconfig.onebar.option.badThings.showGlowing": "发光指示器",
