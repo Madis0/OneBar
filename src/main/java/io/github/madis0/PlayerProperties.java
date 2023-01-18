@@ -1,5 +1,6 @@
 package io.github.madis0;
 
+import net.minecraft.block.BlockState;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.screen.ingame.EnchantmentScreen;
 import net.minecraft.client.gui.screen.ingame.HandledScreen;
@@ -12,6 +13,7 @@ import net.minecraft.entity.mob.WardenEntity;
 import net.minecraft.entity.player.HungerManager;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.*;
+import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Box;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.world.Difficulty;
@@ -48,7 +50,6 @@ public class PlayerProperties {
     public int rawArmorDurability;
     public final float maxArmorDurability;
     public final float armorDurability;
-
 
     public int helmetArmor;
     public int helmetMaxArmor;
@@ -92,6 +93,7 @@ public class PlayerProperties {
     public final int maxAirRaw;
     public final int airRaw;
     public final int air;
+    public final boolean isInWater;
     public final boolean isUnderwater;
     public final boolean isDrowning;
 
@@ -107,6 +109,20 @@ public class PlayerProperties {
     public final int freeze;
     public final boolean isFreezing;
     public final boolean isGettingFreezeDamage;
+
+    public int maxLevitationTimeRaw;
+    public final int levitationTimeRaw;
+    public final int maxLevitationTime;
+    public final int levitationTime;
+    public double levitationResultYRaw;
+    public double levitationFallHeightRaw;
+    public int levitationFallHeight;
+    public double belowBlockYRaw;
+    public int belowBlockY;
+    public double normalFallHeightRaw;
+    public int normalFallHeight;
+    public final boolean hasLevitation;
+
 
     public int resistancePercent;
 
@@ -170,6 +186,7 @@ public class PlayerProperties {
         hasBadOmen = playerEntity.hasStatusEffect(StatusEffects.BAD_OMEN) && !difficulty.equals(Difficulty.PEACEFUL);
         hasInvisibility = playerEntity.hasStatusEffect(StatusEffects.INVISIBILITY);
         hasGlowing = playerEntity.hasStatusEffect(StatusEffects.GLOWING);
+        hasLevitation = playerEntity.hasStatusEffect(StatusEffects.LEVITATION);
 
         healthRaw = playerEntity.getHealth();
         maxHealthRaw = playerEntity.getMaxHealth();
@@ -248,6 +265,7 @@ public class PlayerProperties {
         maxAirRaw = playerEntity.getMaxAir();
         airRaw = maxAirRaw - playerEntity.getAir();
         air = Math.min(airRaw, maxAirRaw) / (int) Calculations.getPrettyDivisor(maxAirRaw, playerEntity.defaultMaxHealth);
+        isInWater = playerEntity.isTouchingWater();
         isUnderwater =  playerEntity.isSubmergedInWater() || airRaw > 0;
         isDrowning = airRaw >= maxAirRaw;
 
@@ -270,6 +288,35 @@ public class PlayerProperties {
         freeze = freezeRaw / (int) Calculations.getPrettyDivisor(maxFreezeRaw, playerEntity.defaultMaxHealth);
         isFreezing = freezeRaw > 0;
         isGettingFreezeDamage = playerEntity.isFrozen() && !difficulty.equals(Difficulty.PEACEFUL);
+
+        maxLevitationTimeRaw = 200;
+        levitationTimeRaw = hasLevitation ? Math.max(Objects.requireNonNull(playerEntity.getStatusEffect(StatusEffects.LEVITATION)).getDuration(), 0) : 0;
+        maxLevitationTime = maxLevitationTimeRaw / 20;
+        levitationTime = levitationTimeRaw / (int) Calculations.getPrettyDivisor(maxLevitationTimeRaw, maxLevitationTime);
+
+        belowBlockYRaw = playerEntity.getY();
+        double y = playerEntity.getY();
+        double voidLimit = -128;
+        BlockState state; //TODO: use material to determine fall damage
+        if(playerEntity.getWorld() != null && (!playerEntity.isOnGround() || playerEntity.isSneaking())){
+            var world = playerEntity.getWorld();
+            var x = playerEntity.getX();
+            var z = playerEntity.getZ();
+            while((state = world.getBlockState(new BlockPos(x, --y, z))).isAir() && y >= voidLimit) { //TODO: detect if block is solid
+                belowBlockYRaw = y;
+            }
+        }
+        belowBlockY = (int) Math.round(belowBlockYRaw);
+
+        if(playerEntity.hasStatusEffect(StatusEffects.LEVITATION)){
+            var effect = playerEntity.getStatusEffect(StatusEffects.LEVITATION);
+            var estHeight = (effect.getAmplifier() + 1) * 0.9 * ((float) effect.getDuration() / 20);
+            levitationResultYRaw = playerEntity.getY() + estHeight;
+            levitationFallHeightRaw = levitationResultYRaw - belowBlockYRaw;
+            levitationFallHeight = (int) Math.round(levitationFallHeightRaw);
+        }
+        normalFallHeightRaw = playerEntity.getY() - belowBlockYRaw;
+        normalFallHeight = (int) Math.round(normalFallHeightRaw);
 
         badOmenLevel = hasBadOmen ? Objects.requireNonNull(playerEntity.getStatusEffect(StatusEffects.BAD_OMEN)).getAmplifier() + 1: 0;
 

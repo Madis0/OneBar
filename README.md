@@ -86,6 +86,8 @@ The mod only uses client-side data, so it is never needed on a server. There are
 | Poison | Yellowish green | █ | _→1_ | _→1_ | Number is the resulting health |
 | Wither | Dark gray | █ | _→1_ | _→1_ | Number is the resulting health |
 | Warden anger | Dark teal | █ | -❌1 | -wa1 | The closest (100 blocks) warden's anger level towards the player. [20-11 - angry, chasing; 10-6 - agitated, 5-0 - calm, can despawn.](https://minecraft.fandom.com/wiki/Warden#Anger) Emoji chosen as the closest alternative to 💢.
+| Levitation | Dark purple | █ | -⏏1 | -le1 | Number is the effect time, crossed out while in water |
+| Fall height (experimental) |  |  | -↓1 | -↓1 | Opt-in, indicates the amount of blocks you're about to fall in-air/with levitation effect/while sneaking on an edge. Does not consider block material or solidness and does not estimate your health yet. |
 | Glowing |  |  | -☀ | -gl | Usually given when shot by a spectral arrow. Emoji chosen to remind of the effect icon. |
 | Bad Omen |  |  | -🪓1× | -bo1× | Number is [the effect level](https://minecraft.fandom.com/wiki/Bad_Omen#Effect) |
 | Impending death |  |  | _→0_ | _→0_ | Drowning, freezing damage, burning in fire/lava, starvation, suffocation, angry warden. Zero is the resulting health (death) |
