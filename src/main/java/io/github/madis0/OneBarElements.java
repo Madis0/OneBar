@@ -300,13 +300,13 @@ public class OneBarElements {
             if (playerProperties.isBurning && playerProperties.hasFireResistance && config.badThings.showFire)
                 value += minus + para + "m" + Calculations.emojiOrText("text.onebar.fireEmoji","text.onebar.fire", false, playerProperties.burningMultiplier) + para + "r";
             if (playerProperties.hasLevitation && !playerProperties.isInWater && config.badThings.showLevitation)
-                value += minus + Calculations.emojiOrText("text.onebar.levitationEmoji", "text.onebar.levitation", false, Calculations.makeFraction(playerProperties.levitationTime, false));
+                value += minus + Calculations.emojiOrText("text.onebar.levitationEmoji", "text.onebar.levitation", false, playerProperties.levitationTime);
             if (playerProperties.hasLevitation && playerProperties.isInWater && config.badThings.showLevitation)
-                value += minus + para + "m" + Calculations.emojiOrText("text.onebar.levitationEmoji", "text.onebar.levitation", false, Calculations.makeFraction(playerProperties.levitationTime, false)) + para + "r";
+                value += minus + para + "m" + Calculations.emojiOrText("text.onebar.levitationEmoji", "text.onebar.levitation", false, playerProperties.levitationTime + para + "r");
             if (playerProperties.levitationFallHeight >= config.badThings.fallHeightMin && config.badThings.showFallHeight && config.badThings.showLevitation)
-                value += Calculations.emojiOrText("text.onebar.fallingEmoji", "text.onebar.fallingEmoji", false, Calculations.makeFraction(playerProperties.levitationFallHeight, false));
+                value += Calculations.emojiOrText("text.onebar.fallingEmoji", "text.onebar.fallingEmoji", false, playerProperties.levitationFallHeight);
             if (playerProperties.normalFallHeight >= config.badThings.fallHeightMin && config.badThings.showFallHeight && !playerProperties.hasLevitation)
-                value += minus + Calculations.emojiOrText("text.onebar.fallingEmoji", "text.onebar.fallingEmoji", false, Calculations.makeFraction(playerProperties.normalFallHeight, false));
+                value += minus + Calculations.emojiOrText("text.onebar.fallingEmoji", "text.onebar.fallingEmoji", false, playerProperties.normalFallHeight);
             if (playerProperties.hasGlowing && config.badThings.showGlowing)
                 value += minus + Calculations.emojiOrText("text.onebar.glowingEmoji","text.onebar.glowing", false, (Object) null);
             if (playerProperties.hasBadOmen && config.badThings.showBadOmen)
