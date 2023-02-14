@@ -49,6 +49,8 @@
   "text.autoconfig.onebar.option.textSettings.extraSymbols.@Tooltip": "Kuvab emojisid või lühendeid ka tervise, nälja ja neeldumise puhul",
   "text.autoconfig.onebar.option.textSettings.useFractions": "Vanillisarnased murdarvud",
   "text.autoconfig.onebar.option.textSettings.useFractions.@Tooltip": "Nt 19 asemel kuvatakse 9,5 tervist",
+  "text.autoconfig.onebar.option.textSettings.useFractionsPadZeroes": "Vanillisarnased murdarvud: täiendavad nullid",
+  "text.autoconfig.onebar.option.textSettings.useFractionsPadZeroes.@Tooltip": "Kui vanillisarnased murdarvud on lubatud: lisab täisarvudele täiendavaid nulle.\nSee on kasulik, kui arvud muutuvad tihti, kuna see vähendab nende vilkumist.",
   "text.autoconfig.onebar.category.goodThings": "Head mõjud",
   "text.autoconfig.onebar.option.goodThings.healthColor": "Tervise värv",
   "text.autoconfig.onebar.option.goodThings.naturalRegenerationColor": "Loomuliku taastumise värv",
