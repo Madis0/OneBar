@@ -14,7 +14,7 @@ public class ClientProperties {
     public final int baseEndH;
     public int xpStartW;
     public final int xpEndW;
-    public final int xpStartH;
+    public int xpStartH;
     public final int xpEndH;
     public final int horseJumpStartW;
     public final int horseJumpEndW;
@@ -39,8 +39,12 @@ public class ClientProperties {
         baseEndW = baseStartW + 182;
         baseStartH = scaledHeight - 33;
 
-        if (FabricLoader.getInstance().getObjectShare().get("raised:distance") instanceof Integer distance) {
+        if (FabricLoader.getInstance().getObjectShare().get("raised:hud") instanceof Integer distance) {
             baseStartH -= distance;
+        }
+
+        if (MinecraftClient.getInstance().options.debugTpsEnabled){
+            baseStartH -= 50;
         }
 
         baseEndH = baseStartH + 9;
@@ -56,8 +60,12 @@ public class ClientProperties {
                 xpStartW = xpStartW - 20;
         }
 
+        if (MinecraftClient.getInstance().options.debugTpsEnabled)
+            xpStartH = baseStartH + 11;
+        else
+            xpStartH = baseStartH + 28;
+
         xpEndW = xpStartW + 18;
-        xpStartH = baseStartH + 28;
         xpEndH = xpStartH + 1;
 
         horseJumpStartW = (scaledWidth / 2) - 7;

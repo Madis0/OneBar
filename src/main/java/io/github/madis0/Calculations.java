@@ -17,7 +17,7 @@ public class Calculations {
     }
 
     public static String makeFraction(int number, boolean italic){
-        DecimalFormat df =  new DecimalFormat("0.#");
+        DecimalFormat df = new DecimalFormat(config.textSettings.useFractionsPadZeroes ? "0.0#" : "0.#");
         String result;
 
         if(config.textSettings.useFractions)

@@ -69,6 +69,8 @@
   "text.autoconfig.onebar.option.textSettings.extraSymbols.@Tooltip": "Shows emoji or abbreviations for health, hunger and absorption as well",
   "text.autoconfig.onebar.option.textSettings.useFractions": "Vanilla-like fractions",
   "text.autoconfig.onebar.option.textSettings.useFractions.@Tooltip": "E.g. show 9,5 instead of 19 health",
+  "text.autoconfig.onebar.option.textSettings.useFractionsPadZeroes": "Vanilla-like fractions: pad zeroes",
+  "text.autoconfig.onebar.option.textSettings.useFractionsPadZeroes.@Tooltip": "If vanilla-like fractions are enabled: adds zeroes to even numbers.\nThis is beneficial if the numbers change a lot as it will reduce flickering.",
   "text.autoconfig.onebar.category.goodThings": "Good effects",
   "text.autoconfig.onebar.option.goodThings.healthColor": "Health color",
   "text.autoconfig.onebar.option.goodThings.naturalRegenerationColor": "Natural regeneration color",
