@@ -54,6 +54,8 @@
   "text.autoconfig.onebar.option.textSettings.extraSymbols.@Tooltip": "为生命值、饥饿值、伤害吸收等显示表情或缩略文字",
   "text.autoconfig.onebar.option.textSettings.useFractions": "原版计量单位",
   "text.autoconfig.onebar.option.textSettings.useFractions.@Tooltip": "例如：显示 9.5 而非 19",
+  "text.autoconfig.onebar.option.textSettings.useFractionsPadZeroes": "原版计量单位：整数修饰",
+  "text.autoconfig.onebar.option.textSettings.useFractionsPadZeroes.@Tooltip": "如果启用了原版计量单位，为所有整数添加 .0 以在数值快速变化时降低闪烁。",
   "text.autoconfig.onebar.category.goodThings": "正面效果",
   "text.autoconfig.onebar.option.goodThings.healthColor": "生命值颜色",
   "text.autoconfig.onebar.option.goodThings.naturalRegenerationColor": "自然回复颜色",
