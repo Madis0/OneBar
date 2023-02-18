@@ -17,10 +17,8 @@ public class ModConfig implements ConfigData {
     @ConfigEntry.Gui.PrefixText
     @ConfigEntry.ColorPicker(allowAlpha = true)
     public int backgroundColor = 0xFF000000;
-
     @ConfigEntry.Gui.Tooltip
     public boolean enableGradient = false;
-
     @ConfigEntry.Gui.Tooltip
     @ConfigEntry.BoundedDiscrete(max = 200, min = 0)
     public int gradientShift = 50;

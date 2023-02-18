@@ -31,12 +31,10 @@ public class OneBar implements ClientModInitializer {
 			while (showOneBar.wasPressed()) {
 				config.showOneBar = !config.showOneBar;
 			}
-
 			while (healthEstimates.wasPressed()) {
 				config.healthEstimates = !config.healthEstimates;
 				showState(client, config.healthEstimates, "text.autoconfig.onebar.option.healthEstimates");
 			}
-
 			while (uhcMode.wasPressed()) {
 				config.uhcMode = !config.uhcMode;
 				showState(client, config.uhcMode, "text.autoconfig.onebar.option.uhcMode");
