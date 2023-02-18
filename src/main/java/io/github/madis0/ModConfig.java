@@ -14,6 +14,8 @@ public class ModConfig implements ConfigData {
     public boolean uhcMode = false;
     @ConfigEntry.Gui.Tooltip
     public boolean disableHunger = false;
+    @ConfigEntry.Gui.Tooltip
+    public boolean phantomIndicator = false;
     @ConfigEntry.Gui.PrefixText
     @ConfigEntry.ColorPicker(allowAlpha = true)
     public int backgroundColor = 0xFF000000;

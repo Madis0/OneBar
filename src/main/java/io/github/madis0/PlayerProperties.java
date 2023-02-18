@@ -13,10 +13,12 @@ import net.minecraft.entity.mob.WardenEntity;
 import net.minecraft.entity.player.HungerManager;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.*;
+import net.minecraft.stat.Stats;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Box;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.world.Difficulty;
+import net.minecraft.world.GameMode;
 
 import java.util.Comparator;
 import java.util.List;
@@ -169,6 +171,9 @@ public class PlayerProperties {
     public int maxWardenDanger;
     public int rawWardenDanger;
     public int rawMaxWardenDanger;
+
+    public boolean eligiblePhantomSpawning;
+    public int chancePhantomSpawning;
 
     public PlayerProperties(){
         PlayerEntity playerEntity = MinecraftClient.getInstance().player;
@@ -466,6 +471,14 @@ public class PlayerProperties {
             isWardenAngry = rawWardenDanger > Angriness.ANGRY.getThreshold();
             wardenDanger = (int) (rawWardenDanger / Calculations.getPrettyDivisor(rawMaxWardenDanger, playerEntity.defaultMaxHealth));
         }
+        var ticksLastRest = MinecraftClient.getInstance().player.getStatHandler().getStat(Stats.CUSTOM.getOrCreateStat(Stats.TIME_SINCE_REST));
+        var threeDays = 72000;
+        var seaLevel = 64;
+        eligiblePhantomSpawning = playerEntity.world.getDifficulty() != Difficulty.PEACEFUL &&
+                Objects.requireNonNull(Objects.requireNonNull(MinecraftClient.getInstance().getNetworkHandler()).getPlayerListEntry(playerEntity.getGameProfile().getId())).getGameMode() != GameMode.SPECTATOR &&
+                (Objects.requireNonNull(MinecraftClient.getInstance().getServer()).getOverworld().isNight() || Objects.requireNonNull(MinecraftClient.getInstance().getServer()).getOverworld().getLevelProperties().isThundering()) &&
+                ticksLastRest > threeDays && client.cameraEntity.getY() >= seaLevel;
+        chancePhantomSpawning = ticksLastRest > threeDays ? (int)(((double)(ticksLastRest - threeDays) / ticksLastRest) * 100) : 0;
     }
 
     public static void setPlayerBurningOnSoulFire(boolean isBurning){

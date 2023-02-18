@@ -26,7 +26,7 @@ public class OneBar implements ClientModInitializer {
 		KeyBinding healthEstimates = KeyBindingHelper.registerKeyBinding(new KeyBinding("text.autoconfig.onebar.option.healthEstimates", InputUtil.Type.KEYSYM, InputUtil.UNKNOWN_KEY.getCode(), "text.autoconfig.onebar.title"));
 		KeyBinding uhcMode = KeyBindingHelper.registerKeyBinding(new KeyBinding("text.autoconfig.onebar.option.uhcMode", InputUtil.Type.KEYSYM, InputUtil.UNKNOWN_KEY.getCode(), "text.autoconfig.onebar.title"));
 		KeyBinding disableHunger = KeyBindingHelper.registerKeyBinding(new KeyBinding("text.autoconfig.onebar.option.disableHunger", InputUtil.Type.KEYSYM, InputUtil.UNKNOWN_KEY.getCode(), "text.autoconfig.onebar.title"));
-
+		KeyBinding phantomIndicator = KeyBindingHelper.registerKeyBinding(new KeyBinding("text.autoconfig.onebar.option.phantomIndicator", InputUtil.Type.KEYSYM, InputUtil.UNKNOWN_KEY.getCode(), "text.autoconfig.onebar.title"));
 		ClientTickEvents.END_CLIENT_TICK.register(client -> {
 			while (showOneBar.wasPressed()) {
 				config.showOneBar = !config.showOneBar;
@@ -44,6 +44,10 @@ public class OneBar implements ClientModInitializer {
 			while (disableHunger.wasPressed()) {
 				config.disableHunger = !config.disableHunger;
 				showState(client, config.disableHunger, "text.autoconfig.onebar.option.disableHunger");
+			}
+			while (phantomIndicator.wasPressed()) {
+				config.phantomIndicator = !config.phantomIndicator;
+				showState(client, config.disableHunger, "text.autoconfig.onebar.option.phantomIndicator");
 			}
 		});
 	}

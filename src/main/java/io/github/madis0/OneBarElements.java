@@ -301,6 +301,8 @@ public class OneBarElements {
                 value += minus + para + "m" + Calculations.emojiOrText("text.onebar.fireEmoji","text.onebar.fire", false, playerProperties.burningMultiplier) + para + "r";
             if (playerProperties.hasLevitation && !playerProperties.isInWater && config.badThings.showLevitation)
                 value += minus + Calculations.emojiOrText("text.onebar.levitationEmoji", "text.onebar.levitation", false, playerProperties.levitationTime);
+            if(playerProperties.eligiblePhantomSpawning && config.phantomIndicator)
+                value += minus + Calculations.emojiOrText("text.onebar.phantomEmoji","text.onebar.phantom", false, playerProperties.chancePhantomSpawning);
             if (playerProperties.hasLevitation && playerProperties.isInWater && config.badThings.showLevitation)
                 value += minus + para + "m" + Calculations.emojiOrText("text.onebar.levitationEmoji", "text.onebar.levitation", false, playerProperties.levitationTime + para + "r");
             if (playerProperties.levitationFallHeight >= config.badThings.fallHeightMin && config.badThings.showFallHeight && config.badThings.showLevitation)
