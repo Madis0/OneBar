@@ -88,7 +88,7 @@
   "text.autoconfig.onebar.category.badThings": "Bad effects",
   "text.autoconfig.onebar.option.badThings.hungerColor": "Hunger color",
   "text.autoconfig.onebar.option.badThings.hungerEffectColor": "Hunger effect color",
-  "text.autoconfig.onebar.option.badThings.showHungerDecreasing": "Show ↓ when you're getting hungrier",
+  "text.autoconfig.onebar.option.badThings.showHungerDecreasing": "Getting hungrier indicator",
   "text.autoconfig.onebar.option.badThings.showHungerDecreasing.@Tooltip": "Meaning zero saturation - various activities will increase the hunger",
   "text.autoconfig.onebar.option.badThings.airColor": "Air color (underwater)",
   "text.autoconfig.onebar.option.badThings.freezeColor": "Freezing color",
