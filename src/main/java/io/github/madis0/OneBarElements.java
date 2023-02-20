@@ -94,12 +94,15 @@ public class OneBarElements {
         var bootsLength =  leggingsLength + gap + playerProperties.leggingsMaxArmor;
 
         var totalLength = bootsLength + playerProperties.bootsMaxArmor;
+        var elytraDurability = playerProperties.getArmorElementDurability(client.player, EquipmentSlot.CHEST, 8); //8 aka same full width as Diamond/Netherite
 
         if (!config.armor.showSegmentedArmorBar)
             renderBar(clientProperties.baseStartW, clientProperties.baseStartH - 1, clientProperties.baseRelativeEndW(playerProperties.armor, playerProperties.maxArmor), clientProperties.baseStartH, config.armor.armorColor);
         else {
             renderBar(clientProperties.baseRelativeEndW(0, totalLength), clientProperties.baseStartH - 1, clientProperties.baseRelativeEndW(playerProperties.helmetArmor, totalLength), clientProperties.baseStartH, config.armor.armorColor);
             renderBar(clientProperties.baseRelativeEndW(chestplateLength, totalLength), clientProperties.baseStartH - 1, clientProperties.baseRelativeEndW(chestplateLength + playerProperties.chestplateArmor, totalLength), clientProperties.baseStartH, config.armor.armorColor);
+            if(config.armor.showElytraDurabilityBar && playerProperties.hasElytra && !config.armor.showArmorDurabilityBar)
+                renderBar(clientProperties.baseRelativeEndW(chestplateLength, totalLength), clientProperties.baseStartH - 1, clientProperties.baseRelativeEndW(chestplateLength + elytraDurability, totalLength), clientProperties.baseStartH, config.armor.elytraDurabilityColor); // duplicated from armorDurabilityBar() as a fallback
             renderBar(clientProperties.baseRelativeEndW(leggingsLength, totalLength), clientProperties.baseStartH - 1, clientProperties.baseRelativeEndW(leggingsLength + playerProperties.leggingsArmor, totalLength), clientProperties.baseStartH, config.armor.armorColor);
             renderBar(clientProperties.baseRelativeEndW(bootsLength, totalLength), clientProperties.baseStartH - 1, clientProperties.baseRelativeEndW(bootsLength + playerProperties.bootsArmor, totalLength), clientProperties.baseStartH, config.armor.armorColor);
         }
@@ -114,6 +117,7 @@ public class OneBarElements {
 
         var helmetDurability = playerProperties.getArmorElementDurability(client.player, EquipmentSlot.HEAD, playerProperties.helmetArmor);
         var chestplateDurability = playerProperties.getArmorElementDurability(client.player, EquipmentSlot.CHEST, playerProperties.chestplateArmor);
+        var elytraDurability = playerProperties.getArmorElementDurability(client.player, EquipmentSlot.CHEST, 8); //8 aka same full width as Diamond/Netherite
         var leggingsDurability = playerProperties.getArmorElementDurability(client.player, EquipmentSlot.LEGS, playerProperties.leggingsArmor);
         var bootsDurability = playerProperties.getArmorElementDurability(client.player, EquipmentSlot.FEET, playerProperties.bootsArmor);
 
@@ -122,13 +126,15 @@ public class OneBarElements {
         else {
             renderBar(clientProperties.baseRelativeEndW(0, totalLength), clientProperties.baseStartH - 1, clientProperties.baseRelativeEndW(helmetDurability, totalLength), clientProperties.baseStartH, config.armor.armorDurabilityColor);
             renderBar(clientProperties.baseRelativeEndW(chestplateLength, totalLength), clientProperties.baseStartH - 1, clientProperties.baseRelativeEndW(chestplateLength + chestplateDurability, totalLength), clientProperties.baseStartH, config.armor.armorDurabilityColor);
+            if(config.armor.showElytraDurabilityBar && playerProperties.hasElytra)
+                renderBar(clientProperties.baseRelativeEndW(chestplateLength, totalLength), clientProperties.baseStartH - 1, clientProperties.baseRelativeEndW(chestplateLength + elytraDurability, totalLength), clientProperties.baseStartH, config.armor.elytraDurabilityColor);
             renderBar(clientProperties.baseRelativeEndW(leggingsLength, totalLength), clientProperties.baseStartH - 1, clientProperties.baseRelativeEndW(leggingsLength + leggingsDurability, totalLength), clientProperties.baseStartH, config.armor.armorDurabilityColor);
             renderBar(clientProperties.baseRelativeEndW(bootsLength, totalLength), clientProperties.baseStartH - 1, clientProperties.baseRelativeEndW(bootsLength + bootsDurability, totalLength), clientProperties.baseStartH, config.armor.armorDurabilityColor);
         }
     }
 
     private void elytraDurabilityBar(){
-        if(playerProperties.isFlyingWithElytra)
+        if(playerProperties.isFlyingWithElytra && !config.armor.showSegmentedArmorBar)
             renderBar(clientProperties.baseStartW, clientProperties.baseStartH - 1, clientProperties.baseRelativeEndW(playerProperties.elytraDurability, playerProperties.elytraMaxDurability), clientProperties.baseStartH, config.armor.elytraDurabilityColor);
     }
 

@@ -106,9 +106,9 @@ The mod only uses client-side data, so it is never needed on a server. There are
 | Effect | Color | Bar | Emoji | Text | Where | Description/comment |
 |-|-|-|-|-|-|-|
 | Armor | White | ▔ |  |  | Above OneBar, above mount health | Equivalent of vanilla's armor indicator; also shown for horses if applicable |
-| Armor durability | Light blue | ▔ |  |  | Overlaid on armor bar | Opt-in, width adapts to armor bar |
+| Armor durability | Light blue | ▔ |  |  | Overlaid on armor bar | Opt-in, width adapts to armor bar or armor bar segment |
 | Segmented armor | White | ▔ |  |  | Above OneBar | Opt-in, similar to normal bar but each armor piece is a separate bar |
-| Elytra durability | Purple | ▔ |  |  | Overlaid on armor bar | Shown only when flying |
+| Elytra durability | Purple | ▔ |  |  | Armor bar area | Normal armor bar: displayed as a full-width overlay only when flying; segmented armor bar: displayed constantly as a diamond-width bar at chest segment. |
 | Mob head indicator |  |  | +a☻ | +aH | OneBar | Opt-in, "a" represents s̲keleton, c̲reeper, z̲ombie head; e̲nderman (carved pumpkin), p̲iglin (any golden armor) |
 
 #### Others
