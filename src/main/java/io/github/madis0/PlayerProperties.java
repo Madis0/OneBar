@@ -75,7 +75,6 @@ public class PlayerProperties {
 
     public int elytraDurability;
     public int elytraMaxDurability;
-    public boolean hasElytra;
     public final boolean isFlyingWithElytra;
 
     public final int maxFoodLevel;
@@ -245,7 +244,6 @@ public class PlayerProperties {
 
         ItemStack chestItem = playerEntity.getEquippedStack(EquipmentSlot.CHEST);
         if (chestItem.isOf(Items.ELYTRA) && ElytraItem.isUsable(chestItem)) {
-            hasElytra = true;
             elytraDurability = chestItem.getMaxDamage() - chestItem.getDamage();
             elytraMaxDurability = chestItem.getMaxDamage();
         }
