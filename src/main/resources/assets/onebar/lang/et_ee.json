@@ -82,8 +82,6 @@
   "text.autoconfig.onebar.option.badThings.levitationColor": "Õhkukerkimise värv",
   "text.autoconfig.onebar.option.badThings.showFallHeight": "Kukkumiskõrguse indikaator (katsetusjärgus)",
   "text.autoconfig.onebar.option.badThings.showFallHeight.@Tooltip": "Kuvab kukutavate plokkide arvu õhus,\nõhkukerkimise mõjuga või hiilides.\nHetkel ei arvesta sihtploki materjali (nt limaplokk)\nvõi tahkust (nt kõrge muru) ning ei ennusta tervist.",
-  "text.autoconfig.onebar.option.badThings.fallHeightMin": "Minimaalne kukkumiskõrgus",
-  "text.autoconfig.onebar.option.badThings.fallHeightMin.@Tooltip": "Minimaalne kukkumiskõrgus plokkides, enne mida indikaatorit ei kuvata.\n4 plokki on vaikeväärtus, mil ilma rüüta mängija saab haiget.",
   "text.autoconfig.onebar.option.badThings.showGlowing": "Hõõgumise indikaator",
   "text.autoconfig.onebar.option.badThings.showGlowing.@Tooltip": "Kuvab indikaatorit, kui omad hõõgumise mõju spektraalselt noolelt",
   "text.autoconfig.onebar.option.badThings.showBadOmen": "Halva ende tase",

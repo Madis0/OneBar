@@ -313,9 +313,9 @@ public class OneBarElements {
                 value += minus + Calculations.emojiOrText("text.onebar.levitationEmoji", "text.onebar.levitation", false, playerProperties.levitationTime);
             if (playerProperties.hasLevitation && playerProperties.isInWater && config.badThings.showLevitation)
                 value += minus + para + "m" + Calculations.emojiOrText("text.onebar.levitationEmoji", "text.onebar.levitation", false, playerProperties.levitationTime + para + "r");
-            if (playerProperties.levitationFallHeight >= config.badThings.fallHeightMin && config.badThings.showFallHeight && config.badThings.showLevitation)
+            if (playerProperties.levitationFallHurts && config.badThings.showFallHeight && config.badThings.showLevitation)
                 value += Calculations.emojiOrText("text.onebar.fallingEmoji", "text.onebar.fallingEmoji", false, playerProperties.levitationFallHeight);
-            if (playerProperties.normalFallHeight >= config.badThings.fallHeightMin && config.badThings.showFallHeight && !playerProperties.hasLevitation)
+            if (playerProperties.normalFallHurts && config.badThings.showFallHeight && !playerProperties.hasLevitation)
                 value += minus + Calculations.emojiOrText("text.onebar.fallingEmoji", "text.onebar.fallingEmoji", false, playerProperties.normalFallHeight);
             if (playerProperties.hasGlowing && config.badThings.showGlowing)
                 value += minus + Calculations.emojiOrText("text.onebar.glowingEmoji","text.onebar.glowing", false, (Object) null);

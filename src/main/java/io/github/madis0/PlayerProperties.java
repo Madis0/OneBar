@@ -118,10 +118,12 @@ public class PlayerProperties {
     public double levitationResultYRaw;
     public double levitationFallHeightRaw;
     public int levitationFallHeight;
+    public boolean levitationFallHurts;
     public double belowBlockYRaw;
     public int belowBlockY;
     public double normalFallHeightRaw;
     public int normalFallHeight;
+    public boolean normalFallHurts;
     public final boolean hasLevitation;
 
 
@@ -316,9 +318,11 @@ public class PlayerProperties {
             levitationResultYRaw = playerEntity.getY() + estHeight;
             levitationFallHeightRaw = levitationResultYRaw - belowBlockYRaw;
             levitationFallHeight = (int) Math.round(levitationFallHeightRaw);
+            levitationFallHurts = levitationFallHeight >= 4;
         }
         normalFallHeightRaw = playerEntity.getY() - belowBlockYRaw;
         normalFallHeight = (int) Math.round(normalFallHeightRaw);
+        normalFallHurts = normalFallHeight >= 4;
 
         badOmenLevel = hasBadOmen ? Objects.requireNonNull(playerEntity.getStatusEffect(StatusEffects.BAD_OMEN)).getAmplifier() + 1: 0;
 

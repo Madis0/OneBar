@@ -89,9 +89,6 @@ public class ModConfig implements ConfigData {
         @ConfigEntry.Gui.Tooltip
         public boolean showFallHeight = false;
         @ConfigEntry.Gui.Tooltip
-        @ConfigEntry.BoundedDiscrete(max = 384, min = 4)
-        public int fallHeightMin = 4;
-        @ConfigEntry.Gui.Tooltip
         public boolean showGlowing = true;
         @ConfigEntry.Gui.Tooltip
         public boolean showBadOmen = true;

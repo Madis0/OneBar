@@ -102,8 +102,6 @@
   "text.autoconfig.onebar.option.badThings.levitationColor": "Levitation color",
   "text.autoconfig.onebar.option.badThings.showFallHeight": "Fall height indicator (experimental)",
   "text.autoconfig.onebar.option.badThings.showFallHeight.@Tooltip": "Tells you the amount of blocks you're about to fall in-air,\nwhile having levitation effect or while crouching on an edge.\nCurrently does not consider target block material (e.g. slime block)\nor solidness (e.g. tall grass) and does not estimate health.",
-  "text.autoconfig.onebar.option.badThings.fallHeightMin": "Minimum fall height",
-  "text.autoconfig.onebar.option.badThings.fallHeightMin.@Tooltip": "Minimum fall height in blocks required to display the indicator.\n4 blocks is the default where player will get damage without armor.",
   "text.autoconfig.onebar.option.badThings.showGlowing": "Glowing indicator",
   "text.autoconfig.onebar.option.badThings.showGlowing.@Tooltip": "Shows an indicator when you have glowing effect from a spectral arrow",
   "text.autoconfig.onebar.option.badThings.showBadOmen": "Bad Omen level",
