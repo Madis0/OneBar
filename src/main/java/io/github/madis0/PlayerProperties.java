@@ -4,6 +4,8 @@ import net.minecraft.block.BlockState;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.screen.ingame.EnchantmentScreen;
 import net.minecraft.client.gui.screen.ingame.HandledScreen;
+import net.minecraft.enchantment.EnchantmentHelper;
+import net.minecraft.enchantment.Enchantments;
 import net.minecraft.entity.EquipmentSlot;
 import net.minecraft.entity.ai.TargetPredicate;
 import net.minecraft.entity.effect.StatusEffectInstance;
@@ -322,12 +324,12 @@ public class PlayerProperties {
             levitationFallHeightRaw = getFallingHeightEstimate(playerEntity, levitationResultYRaw - belowBlockYRaw);
 
             levitationFallHeight = (int) Math.round(levitationFallHeightRaw); //Round to avoid excessive flickering
-            levitationFallHurts = levitationFallHeight >= 4;
+            levitationFallHurts = levitationFallHeight > 3;
             levitationFallHealthEstimate = getFallingHealthEstimate(health, levitationFallHeight, levitationFallHurts);
         }
         normalFallHeightRaw = getFallingHeightEstimate(playerEntity, playerEntity.getY() - belowBlockYRaw);
 
-        normalFallHurts = normalFallHeightRaw >= 4;
+        normalFallHurts = normalFallHeightRaw > 3;
         normalFallHealthEstimate = getFallingHealthEstimate(health, normalFallHeightRaw, normalFallHurts);
         normalFallHeightDisplay = new DecimalFormat("0.#").format(normalFallHeightRaw);
 
@@ -486,8 +488,20 @@ public class PlayerProperties {
     }
 
     private double getFallingHeightEstimate(PlayerEntity playerEntity, double height){
+        //TODO: not precise enough
+        /*
+        ItemStack[] armorTypes = {
+                playerEntity.getEquippedStack(EquipmentSlot.HEAD),
+                playerEntity.getEquippedStack(EquipmentSlot.CHEST),
+                playerEntity.getEquippedStack(EquipmentSlot.LEGS),
+                playerEntity.getEquippedStack(EquipmentSlot.FEET)
+        };
 
-
+        for (var piece : armorTypes) {
+            height = (height * (1 - (4 * ((double)EnchantmentHelper.getLevel(Enchantments.PROTECTION, piece) / 100))));
+            height = (height * (1 - (12 * ((double)EnchantmentHelper.getLevel(Enchantments.FEATHER_FALLING, piece) / 100))));
+        }
+        */
         // TODO: figure out fall speed in ticks and compare it with effect duration
         /*
         if(playerEntity.hasStatusEffect(StatusEffects.JUMP_BOOST))
