@@ -18,6 +18,7 @@ import net.minecraft.util.math.Box;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.world.Difficulty;
 
+import java.text.DecimalFormat;
 import java.util.Comparator;
 import java.util.List;
 import java.util.Objects;
@@ -119,11 +120,13 @@ public class PlayerProperties {
     public double levitationFallHeightRaw;
     public int levitationFallHeight;
     public boolean levitationFallHurts;
+    public int levitationFallHealthEstimate;
     public double belowBlockYRaw;
     public int belowBlockY;
     public double normalFallHeightRaw;
-    public int normalFallHeight;
+    public String normalFallHeightDisplay;
     public boolean normalFallHurts;
+    public int normalFallHealthEstimate;
     public final boolean hasLevitation;
 
 
@@ -306,7 +309,7 @@ public class PlayerProperties {
             var world = playerEntity.getWorld();
             var x = playerEntity.getX();
             var z = playerEntity.getZ();
-            while((state = world.getBlockState(new BlockPos(x, --y, z))).isAir() && y >= voidLimit) { //TODO: detect if block is solid
+            while((state = world.getBlockState(new BlockPos(x, --y, z))).isAir() && y >= voidLimit) { //TODO: detect if block is solid and what height it has
                 belowBlockYRaw = y;
             }
         }
@@ -316,13 +319,17 @@ public class PlayerProperties {
             var effect = playerEntity.getStatusEffect(StatusEffects.LEVITATION);
             var estHeight = (effect.getAmplifier() + 1) * 0.9 * ((float) effect.getDuration() / 20);
             levitationResultYRaw = playerEntity.getY() + estHeight;
-            levitationFallHeightRaw = levitationResultYRaw - belowBlockYRaw;
-            levitationFallHeight = (int) Math.round(levitationFallHeightRaw);
+            levitationFallHeightRaw = getFallingHeightEstimate(playerEntity, levitationResultYRaw - belowBlockYRaw);
+
+            levitationFallHeight = (int) Math.round(levitationFallHeightRaw); //Round to avoid excessive flickering
             levitationFallHurts = levitationFallHeight >= 4;
+            levitationFallHealthEstimate = getFallingHealthEstimate(health, levitationFallHeight, levitationFallHurts);
         }
-        normalFallHeightRaw = playerEntity.getY() - belowBlockYRaw;
-        normalFallHeight = (int) Math.round(normalFallHeightRaw);
-        normalFallHurts = normalFallHeight >= 4;
+        normalFallHeightRaw = getFallingHeightEstimate(playerEntity, playerEntity.getY() - belowBlockYRaw);
+
+        normalFallHurts = normalFallHeightRaw >= 4;
+        normalFallHealthEstimate = getFallingHealthEstimate(health, normalFallHeightRaw, normalFallHurts);
+        normalFallHeightDisplay = new DecimalFormat("0.#").format(normalFallHeightRaw);
 
         badOmenLevel = hasBadOmen ? Objects.requireNonNull(playerEntity.getStatusEffect(StatusEffects.BAD_OMEN)).getAmplifier() + 1: 0;
 
@@ -476,6 +483,27 @@ public class PlayerProperties {
 
     public static void setPlayerBurningOnSoulFire(boolean isBurning){
         isBurningOnSoulFire = isBurning;
+    }
+
+    private double getFallingHeightEstimate(PlayerEntity playerEntity, double height){
+
+
+        // TODO: figure out fall speed in ticks and compare it with effect duration
+        /*
+        if(playerEntity.hasStatusEffect(StatusEffects.JUMP_BOOST))
+            height = height - (playerEntity.getStatusEffect(StatusEffects.JUMP_BOOST).getAmplifier() + 1);
+        if(playerEntity.hasStatusEffect(StatusEffects.RESISTANCE))
+            height = (height * (1 - ((float)resistancePercent / 100)));
+        if(playerEntity.hasStatusEffect(StatusEffects.SLOW_FALLING)) height = 0;
+        */
+        return height;
+    }
+
+    private int getFallingHealthEstimate(int health, double height, boolean hurts){
+        int value = hurts ? (int) (health - Math.max(0, height - 3)) : health;
+        if(value == 0) value = 1; // Fatal height is always +0.5 blocks of the estimate;
+        if(value <= -1) value = 0;
+        return value;
     }
 
     private WardenEntity getClosestWarden(PlayerEntity player, int range){
