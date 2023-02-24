@@ -325,12 +325,12 @@ public class PlayerProperties {
 
             levitationFallHeight = (int) Math.round(levitationFallHeightRaw); //Round to avoid excessive flickering
             levitationFallHurts = levitationFallHeight > 3;
-            levitationFallHealthEstimate = getFallingHealthEstimate(health, levitationFallHeight, levitationFallHurts);
+            levitationFallHealthEstimate = getFallingHealthEstimate(healthRaw, levitationFallHeight, levitationFallHurts);
         }
         normalFallHeightRaw = getFallingHeightEstimate(playerEntity, playerEntity.getY() - belowBlockYRaw);
 
         normalFallHurts = normalFallHeightRaw > 3;
-        normalFallHealthEstimate = getFallingHealthEstimate(health, normalFallHeightRaw, normalFallHurts);
+        normalFallHealthEstimate = getFallingHealthEstimate(healthRaw, normalFallHeightRaw, normalFallHurts);
         normalFallHeightDisplay = new DecimalFormat("0.#").format(normalFallHeightRaw);
 
         badOmenLevel = hasBadOmen ? Objects.requireNonNull(playerEntity.getStatusEffect(StatusEffects.BAD_OMEN)).getAmplifier() + 1: 0;
@@ -513,11 +513,11 @@ public class PlayerProperties {
         return height;
     }
 
-    private int getFallingHealthEstimate(int health, double height, boolean hurts){
-        int value = hurts ? (int) (health - Math.max(0, height - 3)) : health;
+    private int getFallingHealthEstimate(float health, double height, boolean hurts){
+        double value = hurts ? (health - Math.max(0, height - 3)) : health;
         if(value == 0) value = 1; // Fatal height is always +0.5 blocks of the estimate;
         if(value <= -1) value = 0;
-        return value;
+        return (int)value; //Round down
     }
 
     private WardenEntity getClosestWarden(PlayerEntity player, int range){
