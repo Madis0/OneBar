@@ -402,7 +402,7 @@ public class PlayerProperties {
             float hungerEffectExhaustionLoss = 0.005F * (float)(hungerEffect.getAmplifier() + 1) * duration;
             hungerEffectSaturationLoss = hungerEffectExhaustionLoss / (float)4;
 
-            if (Math.ceil(hungerRaw + hungerEffectSaturationLoss) != (Math.ceil(previousHungerEffectEstimate) - 1)) {
+            if (MathHelper.ceil(hungerRaw + hungerEffectSaturationLoss) != (MathHelper.ceil(previousHungerEffectEstimate) - 1)) {
                 hungerEffectEstimateRaw = !hasSaturation ? Math.max(Math.min(hungerRaw + hungerEffectSaturationLoss, maxFoodLevelRaw), 0) : hungerRaw;
                 previousHungerEffectEstimate = hungerEffectEstimateRaw;
             }
@@ -411,7 +411,7 @@ public class PlayerProperties {
             hungerEffectEstimateRaw = hungerRaw;
             previousHungerEffectEstimate = hungerEffectEstimateRaw;
         }
-        hungerEffectEstimate = (int) Math.ceil(hungerEffectEstimateRaw);
+        hungerEffectEstimate = MathHelper.ceil(hungerEffectEstimateRaw);
 
         if(isStarving){
             if(difficulty == Difficulty.EASY)
@@ -429,7 +429,7 @@ public class PlayerProperties {
             else if(difficulty.equals(Difficulty.PEACEFUL))
                 naturalRegenerationAddition = maxHealthRaw - healthRaw;
 
-            if(Math.ceil(health + naturalRegenerationAddition) != (Math.ceil(previousNaturalRegenerationHealth) + 1)){
+            if(MathHelper.ceil(health + naturalRegenerationAddition) != (MathHelper.ceil(previousNaturalRegenerationHealth) + 1)){
                 naturalRegenerationHealthRaw = Math.min(healthRaw + naturalRegenerationAddition, maxHealthRaw);
                 previousNaturalRegenerationHealth = naturalRegenerationHealth;
             }
@@ -438,7 +438,7 @@ public class PlayerProperties {
             naturalRegenerationHealthRaw = healthRaw;
             previousNaturalRegenerationHealth = naturalRegenerationHealthRaw;
         }
-        naturalRegenerationHealth = (int) Math.ceil(naturalRegenerationHealthRaw);
+        naturalRegenerationHealth = MathHelper.ceil(naturalRegenerationHealthRaw);
 
         heldFoodHunger = 0;
         ItemStack heldItem = Objects.requireNonNull(playerEntity).getMainHandStack();
@@ -464,7 +464,7 @@ public class PlayerProperties {
             heldFoodHealthEstimateRaw = 0;
             heldFoodSaturationEstimateRaw = 0;
         }
-        heldFoodHealthEstimate = (int) Math.ceil(heldFoodHealthEstimateRaw);
+        heldFoodHealthEstimate = MathHelper.ceil(heldFoodHealthEstimateRaw);
 
         rawMaxWardenDanger = 149;
         maxWardenDanger = 20;
@@ -517,7 +517,7 @@ public class PlayerProperties {
         double value = hurts ? (health - Math.max(0, height - 3)) : health;
         if(value == 0) value = 1; // Fatal height is always +0.5 blocks of the estimate;
         if(value <= -1) value = 0;
-        return (int)value; //Round down
+        return MathHelper.ceil(value);
     }
 
     private WardenEntity getClosestWarden(PlayerEntity player, int range){
