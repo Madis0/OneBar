@@ -15,6 +15,7 @@ import net.minecraft.entity.passive.CamelEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.HorseArmorItem;
 import net.minecraft.item.Items;
+import net.minecraft.text.Text;
 import net.minecraft.util.Arm;
 import net.minecraft.world.Difficulty;
 
@@ -226,12 +227,12 @@ public class OneBarElements {
         boolean showHealthParentheses = config.textSettings.estimatesParentheses &&
                 (hasHunger || playerProperties.hasHungerEffect && !config.disableHunger || playerProperties.isUnderwater || playerProperties.isFreezing || playerProperties.isBurning || playerProperties.hasAbsorption || (playerProperties.hasResistance && config.goodThings.showResistance)) &&
                 ((playerProperties.naturalRegenerationHealth > playerProperties.health && !config.uhcMode) || playerProperties.hasRegeneration || playerProperties.isStarving && !config.disableHunger || playerProperties.hasPoison || playerProperties.hasWither || playerProperties.isGettingFreezeDamage
-                        || playerProperties.isBurningOnFire || playerProperties.isDrowning || playerProperties.isSuffocating || ((playerProperties.levitationFallHurts && playerProperties.hasLevitation) || (playerProperties.normalFallHurts && !playerProperties.hasLevitation) && config.badThings.showFallHeight));
+                        || playerProperties.isBurningOnFire || playerProperties.isDrowning || playerProperties.isSuffocating || (playerProperties.levitationFallHurts && playerProperties.hasLevitation && config.badThings.showFallHeight)
+                        || (playerProperties.normalFallHurts && !playerProperties.hasLevitation && config.badThings.showFallHeight));
 
         boolean showHungerParentheses = config.textSettings.estimatesParentheses && config.healthEstimates && (playerProperties.hasHungerEffect && !config.disableHunger || (hasHunger && playerProperties.isHoldingFood && config.goodThings.heldFoodHungerBar));
 
-        final String arrowRight = "→";
-        final String arrowDown = "↓";
+        final String arrowRight = Text.translatable("text.onebar.healthEstimateEmoji").getString();
         final String plus = "+";
         final String minus = "-";
         final String para = "§";
@@ -336,7 +337,7 @@ public class OneBarElements {
             if (hasHunger || (playerProperties.hasHungerEffect && config.healthEstimates && !config.disableHunger))
                 value += Calculations.emojiOrText("text.onebar.hungerEmoji","text.onebar.hunger", true, Calculations.makeFraction(playerProperties.hunger, false));
             if (hasHunger && playerProperties.saturation < 1 && config.badThings.showHungerDecreasing)
-                value += arrowDown;
+                value += Text.translatable("text.onebar.gettingHungrierEmoji").getString();
             if (playerProperties.hasHungerEffect && !config.disableHunger && config.healthEstimates)
                 value += arrowRight + Calculations.makeFraction(playerProperties.hungerEffectEstimate, config.textSettings.estimatesItalic);
             if (hasHunger && playerProperties.isHoldingFood && config.goodThings.heldFoodHungerBar)
