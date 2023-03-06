@@ -57,7 +57,7 @@ public abstract class InGameHudMixin {
 
     @Inject(method = "renderStatusBars", at = @At(value = "HEAD"), cancellable = true)
     private void hideHud(MatrixStack matrices, CallbackInfo ci){
-        if(!config.otherBars.compatibilityMode) genericCancel(ci);
+        //if(!config.otherBars.compatibilityMode) genericCancel(ci);
     }
     @Inject(method = "renderExperienceBar", at = @At(value = "HEAD"), cancellable = true)
     private void hideXpBar(MatrixStack matrices, int x, CallbackInfo ci){

@@ -47,7 +47,7 @@ public class OneBarElements {
         if (playerEntity != null) {
             barBackground();
             if(config.healthEstimates && !config.uhcMode) naturalRegenerationBar();
-            //if(config.healthEstimates && !config.uhcMode) heldFoodHealthBar();
+            if(config.healthEstimates && !config.uhcMode) heldFoodHealthBar();
             if(config.healthEstimates) regenerationBar();
             healthBar();
             if(config.healthEstimates){
@@ -68,7 +68,9 @@ public class OneBarElements {
             if(config.armor.showArmorDurabilityBar) armorDurabilityBar();
             if(config.armor.showElytraDurabilityBar) elytraDurabilityBar();
             if(config.otherBars.showSaturationBar) saturationBar();
-            //if(config.healthEstimates && config.otherBars.showSaturationBar) heldFoodSaturationBar();
+            if(config.healthEstimates && config.otherBars.showSaturationBar) heldFoodSaturationBar();
+
+            debugText("sat " + playerProperties.heldFoodSaturation + ", hun " + playerProperties.heldFoodHungerEstimate + ",    hel " + playerProperties.heldFoodHealthEstimate);
 
             if(hasExordium) {
                 ExordiumModBase.setForceBlend(false);
@@ -251,8 +253,8 @@ public class OneBarElements {
             if(config.healthEstimates){
                 if (playerProperties.naturalRegenerationHealth > playerProperties.health && !config.uhcMode)
                     value += arrowRight + Calculations.makeFraction(playerProperties.naturalRegenerationHealth, config.textSettings.estimatesItalic);
-                //if (hasHunger && playerProperties.isHoldingFood && playerProperties.heldFoodHealthEstimate > playerProperties.health)
-                //    value += arrowRight + Calculations.MakeFraction(playerProperties.heldFoodHealthEstimate, config.textSettings.estimatesItalic);
+                if (hasHunger && playerProperties.isHoldingFood && playerProperties.heldFoodHealthEstimate > playerProperties.health)
+                    value += arrowRight + Calculations.makeFraction(playerProperties.heldFoodHealthEstimate, config.textSettings.estimatesItalic);
                 if (playerProperties.levitationFallHurts && playerProperties.hasLevitation && config.badThings.showFallHeight)
                     value += arrowRight + Calculations.makeFraction(playerProperties.levitationFallHealthEstimate, config.textSettings.estimatesItalic);
                 if (playerProperties.normalFallHurts && !playerProperties.hasLevitation && config.badThings.showFallHeight)

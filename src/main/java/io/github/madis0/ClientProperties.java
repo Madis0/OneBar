@@ -37,7 +37,7 @@ public class ClientProperties {
 
         baseStartW = scaledWidth / 2 - 91;
         baseEndW = baseStartW + 182;
-        baseStartH = scaledHeight - 33;
+        baseStartH = scaledHeight - 53;
 
         if (FabricLoader.getInstance().getObjectShare().get("raised:hud") instanceof Integer distance) {
             baseStartH -= distance;

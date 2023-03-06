@@ -1,5 +1,7 @@
 package io.github.madis0;
 
+import io.github.madis0.appleSkin.FoodHelper;
+import io.github.madis0.appleSkin.FoodValues;
 import net.minecraft.block.BlockState;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.screen.ingame.EnchantmentScreen;
@@ -457,7 +459,7 @@ public class PlayerProperties {
         heldFoodHungerEstimate = hunger - heldFoodHunger;
 
         if (isHoldingFood && hasHunger){
-            heldFoodHealthEstimateRaw = !difficulty.equals(Difficulty.PEACEFUL) ? Math.min(healthRaw + Calculations.getNaturalRegenAddition(saturationRaw + extraRegenFoodLevel + heldFoodSaturation, hungerRaw), maxFoodLevelRaw) : maxHealthRaw - healthRaw;
+            heldFoodHealthEstimateRaw = FoodHelper.getEstimatedHealthIncrement(heldItem, new FoodValues(foodLevel, saturation), playerEntity);// !difficulty.equals(Difficulty.PEACEFUL) ? Math.min(healthRaw + Calculations.getNaturalRegenAddition(saturationRaw + extraRegenFoodLevel + heldFoodSaturation, hungerRaw), maxFoodLevelRaw) : maxHealthRaw - healthRaw;
             heldFoodSaturationEstimateRaw = Math.max(heldFoodSaturation - (maxHealthRaw - healthRaw) - extraRegenFoodLevel, 0);
         }
         else {
