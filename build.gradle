@@ -45,7 +45,7 @@ dependencies {
 	}
 
 	//Exordium support
-	modImplementation "maven.modrinth:exordium:${project.exordium_version}"
+	//modImplementation "maven.modrinth:exordium:${project.exordium_version}"
 }
 
 processResources {

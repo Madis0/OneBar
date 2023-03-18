@@ -19,7 +19,6 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Box;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.world.Difficulty;
-
 import java.text.DecimalFormat;
 import java.util.Comparator;
 import java.util.List;
@@ -304,14 +303,14 @@ public class PlayerProperties {
         levitationTime = levitationTimeRaw / (int) Calculations.getPrettyDivisor(maxLevitationTimeRaw, maxLevitationTime);
 
         belowBlockYRaw = playerEntity.getY();
-        double y = playerEntity.getY();
+        double y = (int)playerEntity.getY();
         double voidLimit = -128;
         BlockState state; //TODO: use material to determine fall damage
         if(playerEntity.getWorld() != null && (!playerEntity.isOnGround() || playerEntity.isSneaking())){
             var world = playerEntity.getWorld();
-            var x = playerEntity.getX();
-            var z = playerEntity.getZ();
-            while((state = world.getBlockState(new BlockPos(x, --y, z))).isAir() && y >= voidLimit) { //TODO: detect if block is solid and what height it has
+            var x = (int)playerEntity.getX();
+            var z = (int)playerEntity.getZ();
+            while((state = world.getBlockState(new BlockPos(x, (int)--y, z))).isAir() && y >= voidLimit) { //TODO: detect if block is solid and what height it has
                 belowBlockYRaw = y;
             }
         }
