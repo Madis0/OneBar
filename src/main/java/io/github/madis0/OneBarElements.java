@@ -2,7 +2,6 @@ package io.github.madis0;
 
 import com.mojang.blaze3d.systems.RenderSystem;
 //import dev.tr7zw.exordium.ExordiumModBase;
-import io.github.madis0.mixin.DrawableHelperAccessor;
 import me.shedaniel.autoconfig.AutoConfig;
 import net.fabricmc.loader.api.FabricLoader;
 import net.minecraft.client.MinecraftClient;
