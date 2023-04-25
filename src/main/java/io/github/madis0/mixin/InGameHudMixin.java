@@ -42,34 +42,34 @@ public abstract class InGameHudMixin {
 
 
     @Inject(method = "renderStatusBars", at = @At(value = "INVOKE", target = "Lnet/minecraft/util/profiler/Profiler;push(Ljava/lang/String;)V"), cancellable = true)
-    private void hideHudCompat(MatrixStack matrices, CallbackInfo ci){
+    private void hideHudCompat(DrawContext context, CallbackInfo ci){
         if(config.otherBars.compatibilityMode) genericCancel(ci);
     }
     @Inject(method = "renderExperienceBar", at = @At(value = "TAIL"), cancellable = true)
-    private void hideXpBarCompat(MatrixStack matrices, int x, CallbackInfo ci){
+    private void hideXpBarCompat(DrawContext context, int x, CallbackInfo ci){
         if(config.otherBars.compatibilityMode) genericCancel(ci);
     }
     @Inject(method = "renderMountJumpBar", at = @At(value = "TAIL"), cancellable = true)
-    private void hideMountJumpCompat(JumpingMount jumpingMount, MatrixStack matrices, int x, CallbackInfo ci) {
+    private void hideMountJumpCompat(JumpingMount jumpingMount, DrawContext context, int x, CallbackInfo ci) {
         if(config.otherBars.compatibilityMode) mountJump(ci);
     }
 
     // "Override" injections
 
     @Inject(method = "renderStatusBars", at = @At(value = "HEAD"), cancellable = true)
-    private void hideHud(MatrixStack matrices, CallbackInfo ci){
+    private void hideHud(DrawContext context, CallbackInfo ci){
         if(!config.otherBars.compatibilityMode) genericCancel(ci);
     }
     @Inject(method = "renderExperienceBar", at = @At(value = "HEAD"), cancellable = true)
-    private void hideXpBar(MatrixStack matrices, int x, CallbackInfo ci){
+    private void hideXpBar(DrawContext context, int x, CallbackInfo ci){
         if(!config.otherBars.compatibilityMode) genericCancel(ci);
     }
     @Inject(method = "renderMountJumpBar", at = @At(value = "HEAD"), cancellable = true)
-    private void hideMountJump(JumpingMount jumpingMount, MatrixStack matrices, int x, CallbackInfo ci) {
+    private void hideMountJump(JumpingMount jumpingMount, DrawContext context, int x, CallbackInfo ci) {
         if(!config.otherBars.compatibilityMode) mountJump(ci);
     }
     @Inject(method = "renderMountHealth", at = @At(value = "HEAD"), cancellable = true)
-    private void hideMountHealth(MatrixStack matrices, CallbackInfo ci) {
+    private void hideMountHealth(DrawContext context, CallbackInfo ci) {
         if(showOneBar){
             ci.cancel();
             oneBarElements.mountBar(getRiddenEntity());
