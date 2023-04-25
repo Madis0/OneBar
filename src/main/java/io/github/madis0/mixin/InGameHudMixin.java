@@ -4,6 +4,7 @@ import io.github.madis0.ModConfig;
 import io.github.madis0.OneBarElements;
 import me.shedaniel.autoconfig.AutoConfig;
 import net.minecraft.client.MinecraftClient;
+import net.minecraft.client.gui.DrawContext;
 import net.minecraft.client.gui.hud.InGameHud;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.entity.JumpingMount;
@@ -29,8 +30,8 @@ public abstract class InGameHudMixin {
     private boolean showOneBar = false;
 
     @Inject(at = @At("TAIL"), method = "render")
-    public void render(MatrixStack matrixStack, float tickDelta, CallbackInfo ci) {
-        oneBarElements = new OneBarElements(matrixStack);
+    public void render(DrawContext drawContext, float tickDelta, CallbackInfo ci) {
+        oneBarElements = new OneBarElements(drawContext);
         showOneBar = config.showOneBar; // This var exists because it also shows whether oneBarElements is initialized
 
         boolean barsVisible = !client.options.hudHidden && Objects.requireNonNull(client.interactionManager).hasStatusBars();

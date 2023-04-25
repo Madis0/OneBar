@@ -29,13 +29,14 @@ public class OneBarElements {
     private final PlayerProperties playerProperties = new PlayerProperties();
     private final MinecraftClient client = MinecraftClient.getInstance();
     private final Difficulty difficulty = Objects.requireNonNull(client.getCameraEntity()).world.getDifficulty();
-    private final MatrixStack stack;
+    private final DrawContext drawContext;
+    private final TextRenderer textRenderer = client.textRenderer;
     private static final boolean hasExordium = FabricLoader.getInstance().isModLoaded("exordium");
 
     boolean hasHunger = playerProperties.hasHunger && !config.disableHunger;
 
-    public OneBarElements(MatrixStack matrixStack){
-        stack = matrixStack;
+    public OneBarElements(DrawContext context){
+        drawContext = context;
     }
 
     public void renderOneBar(){
@@ -71,18 +72,18 @@ public class OneBarElements {
             if(config.otherBars.showSaturationBar) saturationBar();
             //if(config.healthEstimates && config.otherBars.showSaturationBar) heldFoodSaturationBar();
 
-          //  if(hasExordium) {
-          //      ExordiumModBase.setForceBlend(false);
-          //      RenderSystem.defaultBlendFunc();
-          //  }
+            //  if(hasExordium) {
+            //      ExordiumModBase.setForceBlend(false);
+            //      RenderSystem.defaultBlendFunc();
+            //  }
         }
     }
 
     private void renderBar(int x1, int y1, int x2, int y2, int color){
         if(!config.enableGradient)
-            DrawContext.fill(stack, x1, y1, x2, y2, color);
+            drawContext.fill(x1, y1, x2, y2, color);
         else
-            DrawableHelperAccessor.callFillGradient(stack, x1, y1, x2, y2, color, Calculations.manipulateColor(color, config.gradientShift), 0);
+            drawContext.fillGradient(x1, y1, x2, y2, color, Calculations.manipulateColor(color, config.gradientShift), 0);
     }
 
     private void barBackground(){
@@ -350,7 +351,7 @@ public class OneBarElements {
         int textX = clientProperties.baseEndW - client.textRenderer.getWidth(value);
         int textY = clientProperties.baseStartH + 1;
 
-        client.textRenderer.draw(stack, value, textX, textY, config.textSettings.textColor);
+        drawContext.drawText(textRenderer, value, textX, textY, config.textSettings.textColor, false);
     }
 
     private void xpBar(){
@@ -379,13 +380,13 @@ public class OneBarElements {
             int edgeAlignedConst = 13;
 
             if(playerProperties.xpLevel >= 0 && playerProperties.xpLevel < sizeLimit){
-                DrawContext.drawCenteredTextWithShadow(stack, client.textRenderer, String.valueOf(playerProperties.xpLevel), textX, textY, config.otherBars.xpColor);
+                drawContext.drawCenteredTextWithShadow(textRenderer, String.valueOf(playerProperties.xpLevel), textX, textY, config.otherBars.xpColor);
             }
             else if(playerProperties.xpLevel >= sizeLimit){
                 if(client.options.getMainArm().getValue() == Arm.RIGHT)
-                    client.textRenderer.drawWithShadow(stack, String.valueOf(playerProperties.xpLevel), textX - edgeAlignedConst, textY, config.otherBars.xpColor);
+                    drawContext.drawTextWithShadow(textRenderer, String.valueOf(playerProperties.xpLevel), textX - edgeAlignedConst, textY, config.otherBars.xpColor);
                 else if(client.options.getMainArm().getValue()  == Arm.LEFT)
-                    client.textRenderer.drawWithShadow(stack, String.valueOf(playerProperties.xpLevel), textX + edgeAlignedConst - client.textRenderer.getWidth(String.valueOf(playerProperties.xpLevel)), textY, config.otherBars.xpColor);
+                    drawContext.drawTextWithShadow(textRenderer, String.valueOf(playerProperties.xpLevel), textX + edgeAlignedConst - client.textRenderer.getWidth(String.valueOf(playerProperties.xpLevel)), textY, config.otherBars.xpColor);
             }
 
             if(config.otherBars.lapisCounter){
@@ -394,7 +395,7 @@ public class OneBarElements {
                     lapisTextX = clientProperties.xpStartW - 1 - client.textRenderer.getWidth(lapisText);
 
                 var lapisTextY = clientProperties.xpStartH - 5;
-                client.textRenderer.drawWithShadow(stack, lapisText, lapisTextX, lapisTextY, config.otherBars.lapisColor);
+                drawContext.drawTextWithShadow(textRenderer, lapisText, lapisTextX, lapisTextY, config.otherBars.lapisColor);
             }
         }
         if(!config.otherBars.adaptiveXpBar || playerProperties.xp > 0){
@@ -415,13 +416,13 @@ public class OneBarElements {
         int relativeStartH = Calculations.relativeW(clientProperties.horseJumpEndH, clientProperties.horseJumpStartH, jumpHeight, barHeight);
         renderBar(clientProperties.horseJumpStartW, clientProperties.horseJumpStartH, clientProperties.horseJumpEndW, clientProperties.horseJumpEndH, config.backgroundColor);
         //renderBar(clientProperties.jumpStartW, clientProperties.jumpEndH, clientProperties.jumpEndW, relativeStartH, config.entity.jumpColor);
-        DrawContext.fill(stack, clientProperties.horseJumpStartW, clientProperties.horseJumpEndH, clientProperties.horseJumpEndW, relativeStartH, config.entity.jumpColor); //TODO: fix gradient
+        drawContext.fill(clientProperties.horseJumpStartW, clientProperties.horseJumpEndH, clientProperties.horseJumpEndW, relativeStartH, config.entity.jumpColor); //TODO: fix gradient
 
         int textX = clientProperties.horseJumpEndW - client.textRenderer.getWidth(roundedHeightInBlocks);
         int textY = clientProperties.horseJumpEndH - 10;
 
         if(config.textSettings.showText && config.entity.showMountJumpText)
-            client.textRenderer.draw(stack, roundedHeightInBlocks, textX, textY, config.textSettings.textColor);
+            drawContext.drawText(textRenderer, roundedHeightInBlocks, textX, textY, config.textSettings.textColor, false);
     }
 
     public void camelJumpBar(LivingEntity mountEntity){
@@ -452,7 +453,7 @@ public class OneBarElements {
                 String text = Calculations.getSubscriptNumber(-1 - cooldownTimer);
                 int textX = clientProperties.camelJumpEndW - client.textRenderer.getWidth(text);
                 int textY = clientProperties.camelJumpEndH - 9;
-                client.textRenderer.draw(stack, text, textX, textY, config.textSettings.textColor);
+                drawContext.drawText(textRenderer, text, textX, textY, config.textSettings.textColor, false);
             }
         }
     }
@@ -472,7 +473,7 @@ public class OneBarElements {
         renderBar(clientProperties.baseStartW, clientProperties.mountStartH, clientProperties.baseEndW, clientProperties.mountEndH, config.backgroundColor);
         renderBar(clientProperties.baseStartW, clientProperties.mountStartH, clientProperties.baseRelativeEndW(Calculations.getPreciseInt(mountRawHealth), Calculations.getPreciseInt(mountMaxHealth)), clientProperties.mountEndH, config.entity.healthColor);
         if(config.armor.showArmorBar) renderBar(clientProperties.baseStartW, clientProperties.mountStartH - 1, clientProperties.baseRelativeEndW(horseArmor, horseMaxArmor), clientProperties.mountStartH, config.armor.armorColor);
-        if(config.textSettings.showText) client.textRenderer.draw(stack, value, textX, textY, config.textSettings.textColor);
+        if(config.textSettings.showText) drawContext.drawText(textRenderer, value, textX, textY, config.textSettings.textColor, false);
 
         if(mountEntity instanceof CamelEntity){
             long standingUpMax = 52;
@@ -487,6 +488,6 @@ public class OneBarElements {
     }
 
     private void debugText(String value){
-        DrawContext.drawTextWithShadow(stack, value, clientProperties.baseEndW + 15, clientProperties.baseStartH + 1, config.textSettings.textColor);
+        drawContext.drawTextWithShadow(textRenderer, value, clientProperties.baseEndW + 15, clientProperties.baseStartH + 1, config.textSettings.textColor);
     }
 }
