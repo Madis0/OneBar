@@ -1,12 +1,13 @@
 package io.github.madis0;
 
 import com.mojang.blaze3d.systems.RenderSystem;
-import dev.tr7zw.exordium.ExordiumModBase;
+//import dev.tr7zw.exordium.ExordiumModBase;
 import io.github.madis0.mixin.DrawableHelperAccessor;
 import me.shedaniel.autoconfig.AutoConfig;
 import net.fabricmc.loader.api.FabricLoader;
 import net.minecraft.client.MinecraftClient;
-import net.minecraft.client.gui.DrawableHelper;
+import net.minecraft.client.font.TextRenderer;
+import net.minecraft.client.gui.DrawContext;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.entity.EquipmentSlot;
 import net.minecraft.entity.LivingEntity;
@@ -38,10 +39,10 @@ public class OneBarElements {
     }
 
     public void renderOneBar(){
-        if(hasExordium) {
-            ExordiumModBase.correctBlendMode();
-            ExordiumModBase.setForceBlend(true);
-        }
+       // if(hasExordium) {
+       //     ExordiumModBase.correctBlendMode();
+       //     ExordiumModBase.setForceBlend(true);
+       // }
 
         PlayerEntity playerEntity = MinecraftClient.getInstance().player;
         if (playerEntity != null) {
@@ -70,16 +71,16 @@ public class OneBarElements {
             if(config.otherBars.showSaturationBar) saturationBar();
             //if(config.healthEstimates && config.otherBars.showSaturationBar) heldFoodSaturationBar();
 
-            if(hasExordium) {
-                ExordiumModBase.setForceBlend(false);
-                RenderSystem.defaultBlendFunc();
-            }
+          //  if(hasExordium) {
+          //      ExordiumModBase.setForceBlend(false);
+          //      RenderSystem.defaultBlendFunc();
+          //  }
         }
     }
 
     private void renderBar(int x1, int y1, int x2, int y2, int color){
         if(!config.enableGradient)
-            DrawableHelper.fill(stack, x1, y1, x2, y2, color);
+            DrawContext.fill(stack, x1, y1, x2, y2, color);
         else
             DrawableHelperAccessor.callFillGradient(stack, x1, y1, x2, y2, color, Calculations.manipulateColor(color, config.gradientShift), 0);
     }
@@ -378,7 +379,7 @@ public class OneBarElements {
             int edgeAlignedConst = 13;
 
             if(playerProperties.xpLevel >= 0 && playerProperties.xpLevel < sizeLimit){
-                DrawableHelper.drawCenteredTextWithShadow(stack, client.textRenderer, String.valueOf(playerProperties.xpLevel), textX, textY, config.otherBars.xpColor);
+                DrawContext.drawCenteredTextWithShadow(stack, client.textRenderer, String.valueOf(playerProperties.xpLevel), textX, textY, config.otherBars.xpColor);
             }
             else if(playerProperties.xpLevel >= sizeLimit){
                 if(client.options.getMainArm().getValue() == Arm.RIGHT)
@@ -414,7 +415,7 @@ public class OneBarElements {
         int relativeStartH = Calculations.relativeW(clientProperties.horseJumpEndH, clientProperties.horseJumpStartH, jumpHeight, barHeight);
         renderBar(clientProperties.horseJumpStartW, clientProperties.horseJumpStartH, clientProperties.horseJumpEndW, clientProperties.horseJumpEndH, config.backgroundColor);
         //renderBar(clientProperties.jumpStartW, clientProperties.jumpEndH, clientProperties.jumpEndW, relativeStartH, config.entity.jumpColor);
-        DrawableHelper.fill(stack, clientProperties.horseJumpStartW, clientProperties.horseJumpEndH, clientProperties.horseJumpEndW, relativeStartH, config.entity.jumpColor); //TODO: fix gradient
+        DrawContext.fill(stack, clientProperties.horseJumpStartW, clientProperties.horseJumpEndH, clientProperties.horseJumpEndW, relativeStartH, config.entity.jumpColor); //TODO: fix gradient
 
         int textX = clientProperties.horseJumpEndW - client.textRenderer.getWidth(roundedHeightInBlocks);
         int textY = clientProperties.horseJumpEndH - 10;
@@ -486,6 +487,6 @@ public class OneBarElements {
     }
 
     private void debugText(String value){
-        client.textRenderer.drawWithShadow(stack, value, clientProperties.baseEndW + 15, clientProperties.baseStartH + 1, config.textSettings.textColor);
+        DrawContext.drawTextWithShadow(stack, value, clientProperties.baseEndW + 15, clientProperties.baseStartH + 1, config.textSettings.textColor);
     }
 }
