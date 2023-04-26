@@ -1,6 +1,7 @@
 {
   "modmenu.descriptionTranslation.onebar": "HUD mod that shows the values and bars only when you need them.",
   "text.onebar.health": "he%s",
+  "text.onebar.mountHealth": "mh%s",
   "text.onebar.absorption": "ab%s",
   "text.onebar.hunger": "hu%s",
   "text.onebar.resistance": "re%s%%",
@@ -21,6 +22,7 @@
   "text.onebar.mobHeadEnderman": "eH",
   "text.onebar.mobHeadPiglin": "pH",
   "text.onebar.healthEmoji": "\u2764%s",
+  "text.onebar.mountHealthEmoji": "\uD83D\uDC9D%s",
   "text.onebar.healthEstimateEmoji": "\u2192",
   "text.onebar.absorptionEmoji": "\uD83D\uDC9F%s",
   "text.onebar.hungerEmoji": "\uD83C\uDF56%s",

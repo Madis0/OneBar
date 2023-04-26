@@ -1,6 +1,7 @@
 {
   "modmenu.descriptionTranslation.onebar": "Liidese mod, mis kuvab väärtuseid ja ribasid vaid siis, kui neid vajad.",
   "text.onebar.health": "te%s",
+  "text.onebar.mountHealth": "rt%s",
   "text.onebar.absorption": "ne%s",
   "text.onebar.hunger": "nä%s",
   "text.onebar.resistance": "va%s%%",
