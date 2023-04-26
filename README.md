@@ -63,9 +63,9 @@ The mod only uses client-side data, so it is never needed on a server. There are
 | Natural regeneration | Yellow | █ | _→1_ | _→1_ | Number is the resulting health |
 | Regeneration | Pink | █ | _→1_ | _→1_ | Number is the resulting health |
 | Absorption |  |  | +1 | +1 | Number is your absorption health points |
-| Absorption (extra symbols) |  |  | +♥1 | +ab1 | When enabling "Show additional symbols" in Text options; emoji looks smaller than the health one in-game |
+| Absorption (extra symbols) |  |  | +💟1 | +ab1 | When enabling "Show additional symbols" in Text options; in-game the emoji looks like a heart in picture frame |
 | Resistance |  |  | +⛨1% | +re1% | Number is [the effect level × 20%](https://minecraft.gamepedia.com/Resistance#Effect) |
-| Invisibility |  |  | +♤ | +in | Crossed out when wearing armor/offhand item, have glowing effect or arrow(s) stuck in you. Emoji chosen to remind of the effect icon. |
+| Invisibility |  |  | +🫥 | +in | Crossed out when wearing armor/offhand item, have glowing effect or arrow(s) stuck in you. |
 | Totem of Undying |  |  | +♀1 | +tu1 | Opt-in, shows the amount of Totem of Undyings in your inventory; crossed out when not held in main/offhand. Emoji chosen to approximate the icon. |
 | Fire resistance |  |  | -~🔥1×~ | -~bu1×~ | Number is a rough damage multiplier (1× - burning, 2× - in fire, 3× - in soul fire, 4× - in lava), only shown if you are on fire |
 | Water Breathing, Conduit Power | Blue | █ | -~⭘1~ | -~ai1~ | The bar is only shown if you got the effect after losing air, text is only shown if you are in water |
@@ -85,7 +85,7 @@ The mod only uses client-side data, so it is never needed on a server. There are
 | Burning | Orange | █ | -🔥1× | -bu1× | Number is a rough damage multiplier (1× - burning, 2× - in fire, 3× - in soul fire, 4× - in lava) |
 | Poison | Yellowish green | █ | _→1_ | _→1_ | Number is the resulting health |
 | Wither | Dark gray | █ | _→1_ | _→1_ | Number is the resulting health |
-| Warden anger | Dark teal | █ | -❌1 | -wa1 | The closest (100 blocks) warden's anger level towards the player. [20-11 - angry, chasing; 10-6 - agitated, 5-0 - calm, can despawn.](https://minecraft.fandom.com/wiki/Warden#Anger) Emoji chosen as the closest alternative to 💢.
+| Warden anger | Dark teal | █ | -💢1 | -wa1 | The closest (100 blocks) warden's anger level towards the player. [20-11 - angry, chasing; 10-6 - agitated, 5-0 - calm, can despawn.](https://minecraft.fandom.com/wiki/Warden#Anger)
 | Levitation | Dark purple | █ | -⏏1 | -le1 | Number is the effect time, crossed out while in water |
 | Fall height (experimental) |  |  | -⊻1 | -fa1 | Opt-in, indicates the amount of blocks you're about to fall in-air/with levitation effect/while sneaking on an edge. Currently does not consider target block type, your effects and enchants. |
 | Glowing |  |  | -☀ | -gl | Usually given when shot by a spectral arrow. Emoji chosen to remind of the effect icon. |
