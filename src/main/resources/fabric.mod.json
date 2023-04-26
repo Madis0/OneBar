@@ -29,8 +29,7 @@
   "depends": {
     "fabric-api": "*",
     "cloth-config2": "*",
-    "minecraft": ">=1.19.4-",
-    "java": ">=17"
+    "minecraft": ">=1.19.4 <=1.20-alpha.23.14"
   },
   "suggests": {
     "modmenu": "*"
