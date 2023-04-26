@@ -96,8 +96,9 @@ The mod only uses client-side data, so it is never needed on a server. There are
 #### Mounts
 
 | Effect | Color | Bar | Emoji | Text | Where | Description/comment |
-|-|-|-|-|-|-|
-| Mount health | Orange | █ | 1 | 💝1 | Above OneBar | Similar to OneBar itself |
+|-|-|-|-|-|-|-|
+| Mount health | Orange | █ | 1 | 1 | Above OneBar | Similar to OneBar itself |
+| Mount health (extra symbols) | Orange | █ | 💝1 | mh1 | Above OneBar | When enabling "Show additional symbols" in Text options |
 | Mount jump | Brown | ▄▄ or █ | 1.0 | 1.0 | Below crosshair | Vertical (horse and others) or horizontal (camel) bar, number shows approximate height of blocks the mount can jump (no est. for camels yet) | 
 | Camel cooldown | Orange-red | ▄▄ | -1 | -1 | Below crosshair | Decreasing horizontal bar, number shows time in seconds before the camel can jump or move again | 
 
