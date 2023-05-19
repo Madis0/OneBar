@@ -7,6 +7,7 @@ import net.fabricmc.loader.api.FabricLoader;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.font.TextRenderer;
 import net.minecraft.client.gui.DrawContext;
+import net.minecraft.client.render.RenderLayer;
 import net.minecraft.entity.EquipmentSlot;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.passive.AbstractHorseEntity;
@@ -81,7 +82,7 @@ public class OneBarElements {
         if(!config.enableGradient)
             drawContext.fill(x1, y1, x2, y2, color);
         else
-            drawContext.fillGradient(x1, y1, x2, y2, color, Calculations.manipulateColor(color, config.gradientShift), 0);
+            drawContext.fillGradient(RenderLayer.getGui(), x1, y1, x2, y2, color, Calculations.manipulateColor(color, config.gradientShift), 0);
     }
 
     private void barBackground(){
