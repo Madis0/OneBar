@@ -4,6 +4,7 @@ import io.github.madis0.ModConfig;
 import io.github.madis0.OneBarElements;
 import me.shedaniel.autoconfig.AutoConfig;
 import net.minecraft.client.MinecraftClient;
+import net.minecraft.client.gui.DrawContext;
 import net.minecraft.client.gui.hud.InGameHud;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.entity.JumpingMount;
@@ -29,8 +30,8 @@ public abstract class InGameHudMixin {
     private boolean showOneBar = false;
 
     @Inject(at = @At("TAIL"), method = "render")
-    public void render(MatrixStack matrixStack, float tickDelta, CallbackInfo ci) {
-        oneBarElements = new OneBarElements(matrixStack);
+    public void render(DrawContext drawContext, float tickDelta, CallbackInfo ci) {
+        oneBarElements = new OneBarElements(drawContext);
         showOneBar = config.showOneBar; // This var exists because it also shows whether oneBarElements is initialized
 
         boolean barsVisible = !client.options.hudHidden && Objects.requireNonNull(client.interactionManager).hasStatusBars();
@@ -41,34 +42,34 @@ public abstract class InGameHudMixin {
 
 
     @Inject(method = "renderStatusBars", at = @At(value = "INVOKE", target = "Lnet/minecraft/util/profiler/Profiler;push(Ljava/lang/String;)V"), cancellable = true)
-    private void hideHudCompat(MatrixStack matrices, CallbackInfo ci){
+    private void hideHudCompat(DrawContext context, CallbackInfo ci){
         if(config.otherBars.compatibilityMode) genericCancel(ci);
     }
     @Inject(method = "renderExperienceBar", at = @At(value = "TAIL"), cancellable = true)
-    private void hideXpBarCompat(MatrixStack matrices, int x, CallbackInfo ci){
+    private void hideXpBarCompat(DrawContext context, int x, CallbackInfo ci){
         if(config.otherBars.compatibilityMode) genericCancel(ci);
     }
     @Inject(method = "renderMountJumpBar", at = @At(value = "TAIL"), cancellable = true)
-    private void hideMountJumpCompat(JumpingMount jumpingMount, MatrixStack matrices, int x, CallbackInfo ci) {
+    private void hideMountJumpCompat(JumpingMount jumpingMount, DrawContext context, int x, CallbackInfo ci) {
         if(config.otherBars.compatibilityMode) mountJump(ci);
     }
 
     // "Override" injections
 
     @Inject(method = "renderStatusBars", at = @At(value = "HEAD"), cancellable = true)
-    private void hideHud(MatrixStack matrices, CallbackInfo ci){
+    private void hideHud(DrawContext context, CallbackInfo ci){
         if(!config.otherBars.compatibilityMode) genericCancel(ci);
     }
     @Inject(method = "renderExperienceBar", at = @At(value = "HEAD"), cancellable = true)
-    private void hideXpBar(MatrixStack matrices, int x, CallbackInfo ci){
+    private void hideXpBar(DrawContext context, int x, CallbackInfo ci){
         if(!config.otherBars.compatibilityMode) genericCancel(ci);
     }
     @Inject(method = "renderMountJumpBar", at = @At(value = "HEAD"), cancellable = true)
-    private void hideMountJump(JumpingMount jumpingMount, MatrixStack matrices, int x, CallbackInfo ci) {
+    private void hideMountJump(JumpingMount jumpingMount, DrawContext context, int x, CallbackInfo ci) {
         if(!config.otherBars.compatibilityMode) mountJump(ci);
     }
     @Inject(method = "renderMountHealth", at = @At(value = "HEAD"), cancellable = true)
-    private void hideMountHealth(MatrixStack matrices, CallbackInfo ci) {
+    private void hideMountHealth(DrawContext context, CallbackInfo ci) {
         if(showOneBar){
             ci.cancel();
             oneBarElements.mountBar(getRiddenEntity());

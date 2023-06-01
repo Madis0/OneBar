@@ -180,7 +180,7 @@ public class PlayerProperties {
     public PlayerProperties(){
         PlayerEntity playerEntity = MinecraftClient.getInstance().player;
         HungerManager hungerManager = Objects.requireNonNull(playerEntity).getHungerManager();
-        difficulty = playerEntity.world.getDifficulty();
+        difficulty = playerEntity.getWorld().getDifficulty();
 
         // Player property calculations
         hasResistance = playerEntity.hasStatusEffect(StatusEffects.RESISTANCE);
@@ -522,7 +522,7 @@ public class PlayerProperties {
     private WardenEntity getClosestWarden(PlayerEntity player, int range){
         TargetPredicate targetPredicate = TargetPredicate.createAttackable().setBaseMaxDistance(range + 1);
         Box boundingBox = player.getBoundingBox().expand(range, range, range);
-        List<WardenEntity> nearbyWardens = player.world.getTargets(WardenEntity.class, targetPredicate, player, boundingBox);
+        List<WardenEntity> nearbyWardens = player.getWorld().getTargets(WardenEntity.class, targetPredicate, player, boundingBox);
 
         return nearbyWardens.stream().min(Comparator.comparingDouble(e ->
                 Calculations.getDistance(player.getX(), player.getY(), player.getZ(), e.getX(), e.getY(), e.getZ()))).orElse(null);
