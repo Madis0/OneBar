@@ -1,5 +1,6 @@
 package io.github.madis0;
 
+import io.github.madis0.mixin.DebugHudAccessor;
 import net.fabricmc.loader.api.FabricLoader;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.option.AttackIndicator;
@@ -43,7 +44,8 @@ public class ClientProperties {
             baseStartH -= distance;
         }
 
-        if (MinecraftClient.getInstance().options.debugTpsEnabled){
+        if (((DebugHudAccessor)MinecraftClient.getInstance().inGameHud.getDebugHud()).isRenderingAndTickChartsVisible() ||
+                MinecraftClient.getInstance().inGameHud.getDebugHud().showShowPacketSizeAndPingCharts()) {
             baseStartH -= 50;
         }
 
@@ -60,10 +62,12 @@ public class ClientProperties {
                 xpStartW = xpStartW - 20;
         }
 
-        if (MinecraftClient.getInstance().options.debugTpsEnabled)
+        if (((DebugHudAccessor)MinecraftClient.getInstance().inGameHud.getDebugHud()).isRenderingAndTickChartsVisible()  ||
+                MinecraftClient.getInstance().inGameHud.getDebugHud().showShowPacketSizeAndPingCharts()) {
             xpStartH = baseStartH + 11;
-        else
+        } else {
             xpStartH = baseStartH + 28;
+        }
 
         xpEndW = xpStartW + 18;
         xpEndH = xpStartH + 1;
