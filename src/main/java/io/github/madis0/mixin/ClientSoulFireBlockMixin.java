@@ -12,7 +12,7 @@ import org.spongepowered.asm.mixin.Shadow;
 
 @Environment(EnvType.CLIENT)
 @Mixin(SoulFireBlock.class)
-public class ClientSoulFireBlockMixin extends AbstractFireBlock {
+public abstract class ClientSoulFireBlockMixin extends AbstractFireBlock {
 
     public ClientSoulFireBlockMixin(Settings settings, float damage) {
         super(settings, damage);

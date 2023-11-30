@@ -45,7 +45,7 @@ public class ClientProperties {
         }
 
         if (((DebugHudAccessor)MinecraftClient.getInstance().inGameHud.getDebugHud()).isRenderingAndTickChartsVisible() ||
-                MinecraftClient.getInstance().inGameHud.getDebugHud().showShowPacketSizeAndPingCharts()) {
+                MinecraftClient.getInstance().inGameHud.getDebugHud().shouldShowPacketSizeAndPingCharts()) {
             baseStartH -= 50;
         }
 
@@ -63,7 +63,7 @@ public class ClientProperties {
         }
 
         if (((DebugHudAccessor)MinecraftClient.getInstance().inGameHud.getDebugHud()).isRenderingAndTickChartsVisible()  ||
-                MinecraftClient.getInstance().inGameHud.getDebugHud().showShowPacketSizeAndPingCharts()) {
+                MinecraftClient.getInstance().inGameHud.getDebugHud().shouldShowPacketSizeAndPingCharts()) {
             xpStartH = baseStartH + 11;
         } else {
             xpStartH = baseStartH + 28;
