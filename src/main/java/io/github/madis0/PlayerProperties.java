@@ -1,6 +1,10 @@
 package io.github.madis0;
 
+import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
+import net.minecraft.block.Blocks;
+import net.minecraft.block.entity.BlockEntity;
+import net.minecraft.block.entity.TrialSpawnerBlockEntity;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.screen.ingame.EnchantmentScreen;
 import net.minecraft.client.gui.screen.ingame.HandledScreen;
@@ -479,6 +483,20 @@ public class PlayerProperties {
             rawWardenDanger = warden.getAnger();
             isWardenAngry = rawWardenDanger > Angriness.ANGRY.getThreshold();
             wardenDanger = (int) (rawWardenDanger / Calculations.getPrettyDivisor(rawMaxWardenDanger, playerEntity.defaultMaxHealth));
+        }
+
+        BlockState trialSpawner = BlockFinder.findClosestBlock(playerEntity, Blocks.TRIAL_SPAWNER, 14);
+
+        BlockEntity trialSpawnerEnt = BlockFinder.findClosestBlockEntity(playerEntity, TrialSpawnerBlockEntity.class, 14);
+
+        if(trialSpawner != null){
+            int aa = 1;
+            var blok = trialSpawner.getBlock();
+            int b = 2;
+
+            var what = 2;
+
+            //var nextMob = trialSpawnerEnt.spawner.data.nextMob
         }
     }
 
