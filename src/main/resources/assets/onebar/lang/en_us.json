@@ -76,6 +76,8 @@
   "text.autoconfig.onebar.option.textSettings.useFractions.@Tooltip": "E.g. show 9,5 instead of 19 health",
   "text.autoconfig.onebar.option.textSettings.useFractionsPadZeroes": "Vanilla-like fractions: pad zeroes",
   "text.autoconfig.onebar.option.textSettings.useFractionsPadZeroes.@Tooltip": "If vanilla-like fractions are enabled: adds zeroes to even numbers.\nThis is beneficial if the numbers change a lot as it will reduce flickering.",
+  "text.autoconfig.onebar.option.textSettings.rawHealth": "Raw health value",
+  "text.autoconfig.onebar.option.textSettings.rawHealth.@Tooltip": "Shows the decimal-based health value the game uses internally\nand OneBar uses for the bar, rounded to two decimals.\nOnly for your or mount's main health, not estimates etc.\nIgnores the vanilla-like fractions option.",
   "text.autoconfig.onebar.category.goodThings": "Good effects",
   "text.autoconfig.onebar.option.goodThings.healthColor": "Health color",
   "text.autoconfig.onebar.option.goodThings.naturalRegenerationColor": "Natural regeneration color",

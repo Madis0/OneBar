@@ -247,7 +247,7 @@ public class OneBarElements {
             if (config.healthEstimates && showHealthParentheses)
                 value += pStart;
 
-            value += Calculations.emojiOrText("text.onebar.healthEmoji","text.onebar.health", true, Calculations.makeFraction(playerProperties.health, false));
+            value += Calculations.emojiOrText("text.onebar.healthEmoji","text.onebar.health", true, config.textSettings.rawHealth ? (Math.round(playerProperties.healthRaw * 100.0) / 100.0) : Calculations.makeFraction(playerProperties.health, false));
 
             if(config.healthEstimates){
                 if (playerProperties.naturalRegenerationHealth > playerProperties.health && !config.uhcMode)
@@ -465,7 +465,7 @@ public class OneBarElements {
         int horseArmor = mountEntity.getArmor();
         int horseMaxArmor = ((HorseArmorItem)Items.DIAMOND_HORSE_ARMOR).getBonus();
 
-        String value = Calculations.emojiOrText("text.onebar.mountHealthEmoji","text.onebar.mountHealth", true, Calculations.makeFraction(health, false));
+        String value = Calculations.emojiOrText("text.onebar.mountHealthEmoji","text.onebar.mountHealth", true, config.textSettings.rawHealth ? (Math.round(mountRawHealth * 100.0) / 100.0) : Calculations.makeFraction(health, false));
         int textX = clientProperties.baseEndW - client.textRenderer.getWidth(value);
         int textY = clientProperties.mountStartH + 1;
 

@@ -40,6 +40,8 @@ public class ModConfig implements ConfigData {
         public boolean useFractions = false;
         @ConfigEntry.Gui.Tooltip
         public boolean useFractionsPadZeroes = true;
+        @ConfigEntry.Gui.Tooltip
+        public boolean rawHealth = false;
     }
 
     public static class GoodThings {
