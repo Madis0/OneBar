@@ -39,6 +39,9 @@
       "links": {
         "modmenu.modrinth": "https://modrinth.com/mod/onebar"
       }
+    },
+    "catalogue": {
+      "configFactory": "io.github.madis0.CatalogueIntegration"
     }
   }
 }
