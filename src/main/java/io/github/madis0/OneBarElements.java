@@ -13,7 +13,7 @@ import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.passive.AbstractHorseEntity;
 import net.minecraft.entity.passive.CamelEntity;
 import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.item.HorseArmorItem;
+import net.minecraft.item.AnimalArmorItem;
 import net.minecraft.item.Items;
 import net.minecraft.text.Text;
 import net.minecraft.util.Arm;
@@ -463,7 +463,7 @@ public class OneBarElements {
         float mountMaxHealth = mountEntity.getMaxHealth();
         int health = (int) Math.ceil(mountRawHealth);
         int horseArmor = mountEntity.getArmor();
-        int horseMaxArmor = ((HorseArmorItem)Items.DIAMOND_HORSE_ARMOR).getBonus();
+        int horseMaxArmor = ((AnimalArmorItem)Items.DIAMOND_HORSE_ARMOR).getBonus();
 
         String value = Calculations.emojiOrText("text.onebar.mountHealthEmoji","text.onebar.mountHealth", true, config.textSettings.rawHealth ? (Math.round(mountRawHealth * 100.0) / 100.0) : Calculations.makeFraction(health, false));
         int textX = clientProperties.baseEndW - client.textRenderer.getWidth(value);
