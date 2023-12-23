@@ -64,6 +64,8 @@ public class OneBarElements {
             freezeBar();
             airBar();
             xpBar();
+            if(config.enableNotches) barNotches();
+            if(config.enableOutline) barOutline();
             barText();
             if(config.armor.showArmorBar) armorBar();
             if(config.armor.showArmorDurabilityBar) armorDurabilityBar();
@@ -114,8 +116,8 @@ public class OneBarElements {
     private void armorDurabilityBar(){
         var gap = 0.1F;
         var chestplateLength = gap + playerProperties.helmetMaxArmor;
-        var leggingsLength = chestplateLength + gap + playerProperties.chestplateMaxArmor;
-        var bootsLength =  leggingsLength + gap + playerProperties.leggingsMaxArmor;
+        var leggingsLength = chestplateLength + gap + playerProperties.chestplateMaxArmor + gap;
+        var bootsLength =  leggingsLength + playerProperties.leggingsMaxArmor;
         var totalLength = bootsLength + playerProperties.bootsMaxArmor;
 
         var helmetDurability = playerProperties.getArmorElementDurability(client.player, EquipmentSlot.HEAD, playerProperties.helmetArmor);
@@ -221,6 +223,28 @@ public class OneBarElements {
         if (playerProperties.isBurning && !playerProperties.hasFireResistance){
             renderBar(clientProperties.baseRelativeStartW((playerProperties.maxHealthRaw - playerProperties.healthRaw) + playerProperties.burningMultiplier, playerProperties.maxHealthRaw), clientProperties.baseStartH, clientProperties.baseEndW, clientProperties.baseEndH, config.badThings.fireColor);
         }
+    }
+
+    private void barNotches(){
+        var max = !config.textSettings.useFractions ? playerProperties.maxHealth : Math.round((float) playerProperties.maxHealth / 2);
+
+        for (int i = 1; i < max; i++) {
+            int notchPosition = clientProperties.baseStartW + ((clientProperties.baseEndW - clientProperties.baseStartW) * i / max);
+            renderBar(notchPosition, clientProperties.baseStartH, notchPosition + 1, clientProperties.baseEndH, config.backgroundColor);
+        }
+    }
+
+    private void barOutline() {
+        int outlineThickness = 1;
+
+        // Top
+        renderBar(clientProperties.baseStartW - outlineThickness, clientProperties.baseStartH - outlineThickness, clientProperties.baseEndW + outlineThickness, clientProperties.baseStartH, config.backgroundColor);
+        // Bottom
+        renderBar(clientProperties.baseStartW - outlineThickness, clientProperties.baseEndH, clientProperties.baseEndW + outlineThickness, clientProperties.baseEndH + outlineThickness, config.backgroundColor);
+        // Left
+        renderBar(clientProperties.baseStartW - outlineThickness, clientProperties.baseStartH, clientProperties.baseStartW, clientProperties.baseEndH, config.backgroundColor);
+        // Right
+        renderBar(clientProperties.baseEndW, clientProperties.baseStartH, clientProperties.baseEndW + outlineThickness, clientProperties.baseEndH, config.backgroundColor);
     }
 
     private void barText(){
@@ -350,7 +374,7 @@ public class OneBarElements {
         int textX = clientProperties.baseEndW - client.textRenderer.getWidth(value);
         int textY = clientProperties.baseStartH + 1;
 
-        drawContext.drawText(textRenderer, value, textX, textY, config.textSettings.textColor, false);
+        drawContext.drawText(textRenderer, value, textX, textY, config.textSettings.textColor, config.textSettings.textShadow);
     }
 
     private void xpBar(){
@@ -421,7 +445,7 @@ public class OneBarElements {
         int textY = clientProperties.horseJumpEndH - 10;
 
         if(config.textSettings.showText && config.entity.showMountJumpText)
-            drawContext.drawText(textRenderer, roundedHeightInBlocks, textX, textY, config.textSettings.textColor, false);
+            drawContext.drawText(textRenderer, roundedHeightInBlocks, textX, textY, config.textSettings.textColor, config.textSettings.textShadow);
     }
 
     public void camelJumpBar(LivingEntity mountEntity){
@@ -452,7 +476,7 @@ public class OneBarElements {
                 String text = Calculations.getSubscriptNumber(-1 - cooldownTimer);
                 int textX = clientProperties.camelJumpEndW - client.textRenderer.getWidth(text);
                 int textY = clientProperties.camelJumpEndH - 9;
-                drawContext.drawText(textRenderer, text, textX, textY, config.textSettings.textColor, false);
+                drawContext.drawText(textRenderer, text, textX, textY, config.textSettings.textColor, config.textSettings.textShadow);
             }
         }
     }
@@ -472,7 +496,7 @@ public class OneBarElements {
         renderBar(clientProperties.baseStartW, clientProperties.mountStartH, clientProperties.baseEndW, clientProperties.mountEndH, config.backgroundColor);
         renderBar(clientProperties.baseStartW, clientProperties.mountStartH, clientProperties.baseRelativeEndW(Calculations.getPreciseInt(mountRawHealth), Calculations.getPreciseInt(mountMaxHealth)), clientProperties.mountEndH, config.entity.healthColor);
         if(config.armor.showArmorBar) renderBar(clientProperties.baseStartW, clientProperties.mountStartH - 1, clientProperties.baseRelativeEndW(horseArmor, horseMaxArmor), clientProperties.mountStartH, config.armor.armorColor);
-        if(config.textSettings.showText) drawContext.drawText(textRenderer, value, textX, textY, config.textSettings.textColor, false);
+        if(config.textSettings.showText) drawContext.drawText(textRenderer, value, textX, textY, config.textSettings.textColor, config.textSettings.textShadow);
 
         if(mountEntity instanceof CamelEntity){
             long standingUpMax = 52;

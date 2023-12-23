@@ -18,6 +18,10 @@ public class ModConfig implements ConfigData {
     @ConfigEntry.ColorPicker(allowAlpha = true)
     public int backgroundColor = 0xFF000000;
     @ConfigEntry.Gui.Tooltip
+    public boolean enableNotches = false;
+    @ConfigEntry.Gui.Tooltip
+    public boolean enableOutline = false;
+    @ConfigEntry.Gui.Tooltip
     public boolean enableGradient = false;
     @ConfigEntry.Gui.Tooltip
     @ConfigEntry.BoundedDiscrete(max = 200, min = 0)
@@ -28,6 +32,9 @@ public class ModConfig implements ConfigData {
         public boolean showText = true;
         @ConfigEntry.ColorPicker(allowAlpha = true)
         public int textColor = 0xB3FFFFFF;
+
+        @ConfigEntry.Gui.Tooltip
+        public boolean textShadow = false;
         @ConfigEntry.Gui.Tooltip
         public boolean estimatesItalic = true;
         @ConfigEntry.Gui.Tooltip
