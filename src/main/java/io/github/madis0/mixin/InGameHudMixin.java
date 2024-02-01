@@ -45,6 +45,10 @@ public abstract class InGameHudMixin {
     private void hideHudCompat(DrawContext context, CallbackInfo ci){
         if(config.otherBars.compatibilityMode) genericCancel(ci);
     }
+    @Inject(method = "renderExperienceLevel", at = @At(value = "TAIL"), cancellable = true)
+    private void hideXpLevelCompat(DrawContext context, float x, CallbackInfo ci){
+        if(config.otherBars.compatibilityMode) genericCancel(ci);
+    }
     @Inject(method = "renderExperienceBar", at = @At(value = "TAIL"), cancellable = true)
     private void hideXpBarCompat(DrawContext context, int x, CallbackInfo ci){
         if(config.otherBars.compatibilityMode) genericCancel(ci);
@@ -58,6 +62,10 @@ public abstract class InGameHudMixin {
 
     @Inject(method = "renderStatusBars", at = @At(value = "HEAD"), cancellable = true)
     private void hideHud(DrawContext context, CallbackInfo ci){
+        if(!config.otherBars.compatibilityMode) genericCancel(ci);
+    }
+    @Inject(method = "renderExperienceLevel", at = @At(value = "HEAD"), cancellable = true)
+    private void hideXpLevel(DrawContext context, float x, CallbackInfo ci){
         if(!config.otherBars.compatibilityMode) genericCancel(ci);
     }
     @Inject(method = "renderExperienceBar", at = @At(value = "HEAD"), cancellable = true)

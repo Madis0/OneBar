@@ -463,7 +463,7 @@ public class OneBarElements {
         float mountMaxHealth = mountEntity.getMaxHealth();
         int health = (int) Math.ceil(mountRawHealth);
         int horseArmor = mountEntity.getArmor();
-        int horseMaxArmor = ((AnimalArmorItem)Items.DIAMOND_HORSE_ARMOR).getBonus();
+        int horseMaxArmor = ((AnimalArmorItem)Items.DIAMOND_HORSE_ARMOR).getProtection();
 
         String value = Calculations.emojiOrText("text.onebar.mountHealthEmoji","text.onebar.mountHealth", true, config.textSettings.rawHealth ? (Math.round(mountRawHealth * 100.0) / 100.0) : Calculations.makeFraction(health, false));
         int textX = clientProperties.baseEndW - client.textRenderer.getWidth(value);
