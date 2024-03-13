@@ -67,7 +67,7 @@ public class Calculations {
                 .replace('7', '₇')
                 .replace('8', '₈')
                 .replace('9', '₉')
-                .replace('.','ͺ')
+                .replace(".","ִ")
                 .replace('-','₋');
     }
 
