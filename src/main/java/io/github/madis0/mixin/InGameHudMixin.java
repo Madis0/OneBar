@@ -9,6 +9,7 @@ import net.minecraft.client.gui.hud.InGameHud;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.entity.JumpingMount;
 import net.minecraft.entity.LivingEntity;
+import net.minecraft.entity.passive.CamelEntity;
 import net.minecraft.entity.passive.HorseEntity;
 import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
@@ -106,10 +107,10 @@ public abstract class InGameHudMixin {
             var entity = getRiddenEntity();
 
             if(config.entity.showMountJump){
-                if(!(entity instanceof HorseEntity))
-                    oneBarElements.camelJumpBar(getRiddenEntity());
-                else
-                    oneBarElements.horseJumpBar(getRiddenEntity());
+                if(entity instanceof CamelEntity)
+                    oneBarElements.camelJumpBar();
+                else // Ideally works for any modded entity too
+                    oneBarElements.horseJumpBar();
             }
         }
     }

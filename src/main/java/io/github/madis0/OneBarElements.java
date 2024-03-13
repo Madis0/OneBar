@@ -403,11 +403,11 @@ public class OneBarElements {
         }
     }
 
-    public void horseJumpBar(LivingEntity mountEntity){
+    public void horseJumpBar(){
         int barHeight = Calculations.getPreciseInt(1.0F);
         int jumpHeight = Calculations.getPreciseInt(Objects.requireNonNull(client.player).getMountJumpStrength());
 
-        double heightInBlocks = Math.max(0, ((AbstractHorseEntity)mountEntity).getJumpStrength() *
+        double heightInBlocks = Math.max(0, Objects.requireNonNull(client.player).getMountJumpStrength() *
                                                 Calculations.horseJumpStrengthToJumpHeight(Objects.requireNonNull(client.player).getMountJumpStrength()));
 
         String roundedHeightInBlocks = Calculations.getSubscriptNumber(Double.parseDouble(String.format(Locale.US, "%,.1f",(heightInBlocks))));
@@ -424,7 +424,7 @@ public class OneBarElements {
             drawContext.drawText(textRenderer, roundedHeightInBlocks, textX, textY, config.textSettings.textColor, false);
     }
 
-    public void camelJumpBar(LivingEntity mountEntity){
+    public void camelJumpBar(){
         int jumpStrength = Calculations.getPreciseInt(Math.max(Objects.requireNonNull(client.player).getMountJumpStrength(), 0)); //TODO: strength can be negative???
         int maxStrength = Calculations.getPreciseInt(1.0F);
         int cooldown = Objects.requireNonNull(Objects.requireNonNull(client.player).getJumpingMount()).getJumpCooldown();
