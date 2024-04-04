@@ -4,8 +4,8 @@ import net.minecraft.block.BlockState;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.screen.ingame.EnchantmentScreen;
 import net.minecraft.client.gui.screen.ingame.HandledScreen;
-import net.minecraft.enchantment.EnchantmentHelper;
-import net.minecraft.enchantment.Enchantments;
+import net.minecraft.component.DataComponentTypes;
+import net.minecraft.component.type.FoodComponent;
 import net.minecraft.entity.EquipmentSlot;
 import net.minecraft.entity.ai.TargetPredicate;
 import net.minecraft.entity.effect.StatusEffectInstance;
@@ -441,13 +441,13 @@ public class PlayerProperties {
 
         heldFoodHunger = 0;
         ItemStack heldItem = Objects.requireNonNull(playerEntity).getMainHandStack();
-        if(!heldItem.isFood()) heldItem = playerEntity.getOffHandStack();
+        if(!heldItem.getComponents().contains(DataComponentTypes.FOOD)) heldItem = playerEntity.getOffHandStack();
 
-        if(heldItem.isFood()){
+        if(heldItem.getComponents().contains(DataComponentTypes.FOOD)){
             isHoldingFood = true;
-            FoodComponent itemFood = heldItem.getItem().getFoodComponent();
-            heldFoodHunger = Objects.requireNonNull(itemFood).getHunger();
-            heldFoodSaturation = Objects.requireNonNull(itemFood).getSaturationModifier() * heldFoodHunger * 2.0F; // See HungerManager -> add() for more info
+            FoodComponent itemFood = heldItem.getItem().getComponents().get(DataComponentTypes.FOOD);
+            heldFoodHunger = Objects.requireNonNull(itemFood).nutrition();
+            heldFoodSaturation = Objects.requireNonNull(itemFood).saturationModifier() * heldFoodHunger * 2.0F; // See HungerManager -> add() for more info
         }
         else {
             isHoldingFood = false;
