@@ -43,7 +43,7 @@ OneBar is meant to be contextual, showing the values and bars only when you need
 * Health is _always_ the first number and hunger is _almost always_ the last number (except when you have the hunger effect).
   * Everything in between is an estimate, additional health or damage source (can be disabled).
   * You can also enable "Show additional symbols" in options to get icons for those
-* Remember [old Minecraft without hunger and experience](https://minecraft.fandom.com/wiki/File:Beta_1.7.png)? This mod gives you a visually similar experience without losing modern functionality.
+* Remember [old Minecraft without hunger and experience](https://minecraft.wiki/w/File:Beta_1.7.png)? This mod gives you a visually similar experience without losing modern functionality.
  
 The mod only uses client-side data, so it is never needed on a server. There are also a lot of settings for configuring the colors and visibility of various elements.
 
@@ -64,7 +64,7 @@ The mod only uses client-side data, so it is never needed on a server. There are
 | Regeneration | Pink | █ | _→1_ | _→1_ | Number is the resulting health |
 | Absorption |  |  | +1 | +1 | Number is your absorption health points |
 | Absorption (extra symbols) |  |  | +💟1 | +ab1 | When enabling "Show additional symbols" in Text options; in-game the emoji looks like a heart in picture frame |
-| Resistance |  |  | +⛨1% | +re1% | Number is [the effect level × 20%](https://minecraft.gamepedia.com/Resistance#Effect) |
+| Resistance |  |  | +⛨1% | +re1% | Number is [the effect level × 20%](https://minecraft.wiki/Resistance#Effect) |
 | Invisibility |  |  | +🫥 | +in | Crossed out when wearing armor/offhand item, have glowing effect or arrow(s) stuck in you. |
 | Totem of Undying |  |  | +ቶ1 | +tu1 | Opt-in, shows the amount of Totem of Undyings in your inventory; crossed out when not held in main/offhand. |
 | Fire resistance |  |  | -~🔥1×~ | -~bu1×~ | Number is a rough damage multiplier (1× - burning, 2× - in fire, 3× - in soul fire, 4× - in lava), only shown if you are on fire |
@@ -85,11 +85,11 @@ The mod only uses client-side data, so it is never needed on a server. There are
 | Burning | Orange | █ | -🔥1× | -bu1× | Number is a rough damage multiplier (1× - burning, 2× - in fire, 3× - in soul fire, 4× - in lava) |
 | Poison | Yellowish green | █ | _→1_ | _→1_ | Number is the resulting health |
 | Wither | Dark gray | █ | _→1_ | _→1_ | Number is the resulting health |
-| Warden anger | Dark teal | █ | -💢1 | -wa1 | The closest (100 blocks) warden's anger level towards the player. [20-11 - angry, chasing; 10-6 - agitated, 5-0 - calm, can despawn.](https://minecraft.fandom.com/wiki/Warden#Anger)
+| Warden anger | Dark teal | █ | -💢1 | -wa1 | The closest (100 blocks) warden's anger level towards the player. [20-11 - angry, chasing; 10-6 - agitated, 5-0 - calm, can despawn.](https://minecraft.wiki/w/Warden#Anger)
 | Levitation | Dark purple | █ | -⏏1 | -le1 | Number is the effect time, crossed out while in water |
 | Fall height (experimental) |  |  | -⊻1 | -fa1 | Opt-in, indicates the amount of blocks you're about to fall in-air/with levitation effect/while sneaking on an edge. Currently does not consider target block type, your effects and enchants. |
 | Glowing |  |  | -☀ | -gl | Usually given when shot by a spectral arrow. Emoji chosen to remind of the effect icon. |
-| Bad Omen |  |  | -🪓1× | -bo1× | Number is [the effect level](https://minecraft.fandom.com/wiki/Bad_Omen#Effect) |
+| Bad Omen |  |  | -🪓1× | -bo1× | Number is [the effect level](https://minecraft.wiki/w/Bad_Omen#Effect) |
 | Impending death |  |  | _→0_ | _→0_ | Drowning, freezing damage, burning in fire/lava, starvation, suffocation, angry warden. Zero is the resulting health (death) |
 | Hardcore mode |  |  | -☠ | -HC | The vanilla one, not the UHC mode of OneBar which has no indicators |
 
