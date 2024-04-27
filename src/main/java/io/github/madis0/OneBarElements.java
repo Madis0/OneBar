@@ -13,7 +13,7 @@ import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.passive.AbstractHorseEntity;
 import net.minecraft.entity.passive.CamelEntity;
 import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.item.HorseArmorItem;
+import net.minecraft.item.AnimalArmorItem;
 import net.minecraft.item.Items;
 import net.minecraft.text.Text;
 import net.minecraft.util.Arm;
@@ -403,11 +403,11 @@ public class OneBarElements {
         }
     }
 
-    public void horseJumpBar(LivingEntity mountEntity){
+    public void horseJumpBar(){
         int barHeight = Calculations.getPreciseInt(1.0F);
         int jumpHeight = Calculations.getPreciseInt(Objects.requireNonNull(client.player).getMountJumpStrength());
 
-        double heightInBlocks = Math.max(0, ((AbstractHorseEntity)mountEntity).getJumpStrength() *
+        double heightInBlocks = Math.max(0, Objects.requireNonNull(client.player).getMountJumpStrength() *
                                                 Calculations.horseJumpStrengthToJumpHeight(Objects.requireNonNull(client.player).getMountJumpStrength()));
 
         String roundedHeightInBlocks = Calculations.getSubscriptNumber(Double.parseDouble(String.format(Locale.US, "%,.1f",(heightInBlocks))));
@@ -424,7 +424,7 @@ public class OneBarElements {
             drawContext.drawText(textRenderer, roundedHeightInBlocks, textX, textY, config.textSettings.textColor, false);
     }
 
-    public void camelJumpBar(LivingEntity mountEntity){
+    public void camelJumpBar(){
         int jumpStrength = Calculations.getPreciseInt(Math.max(Objects.requireNonNull(client.player).getMountJumpStrength(), 0)); //TODO: strength can be negative???
         int maxStrength = Calculations.getPreciseInt(1.0F);
         int cooldown = Objects.requireNonNull(Objects.requireNonNull(client.player).getJumpingMount()).getJumpCooldown();
@@ -463,7 +463,7 @@ public class OneBarElements {
         float mountMaxHealth = mountEntity.getMaxHealth();
         int health = (int) Math.ceil(mountRawHealth);
         int horseArmor = mountEntity.getArmor();
-        int horseMaxArmor = ((HorseArmorItem)Items.DIAMOND_HORSE_ARMOR).getBonus();
+        int horseMaxArmor = ((AnimalArmorItem)Items.DIAMOND_HORSE_ARMOR).getProtection();
 
         String value = Calculations.emojiOrText("text.onebar.mountHealthEmoji","text.onebar.mountHealth", true, config.textSettings.rawHealth ? (Math.round(mountRawHealth * 100.0) / 100.0) : Calculations.makeFraction(health, false));
         int textX = clientProperties.baseEndW - client.textRenderer.getWidth(value);

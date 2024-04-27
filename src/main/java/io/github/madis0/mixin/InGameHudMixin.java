@@ -9,6 +9,7 @@ import net.minecraft.client.gui.hud.InGameHud;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.entity.JumpingMount;
 import net.minecraft.entity.LivingEntity;
+import net.minecraft.entity.passive.CamelEntity;
 import net.minecraft.entity.passive.HorseEntity;
 import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
@@ -45,6 +46,10 @@ public abstract class InGameHudMixin {
     private void hideHudCompat(DrawContext context, CallbackInfo ci){
         if(config.otherBars.compatibilityMode) genericCancel(ci);
     }
+    @Inject(method = "renderExperienceLevel", at = @At(value = "TAIL"), cancellable = true)
+    private void hideXpLevelCompat(DrawContext context, float x, CallbackInfo ci){
+        if(config.otherBars.compatibilityMode) genericCancel(ci);
+    }
     @Inject(method = "renderExperienceBar", at = @At(value = "TAIL"), cancellable = true)
     private void hideXpBarCompat(DrawContext context, int x, CallbackInfo ci){
         if(config.otherBars.compatibilityMode) genericCancel(ci);
@@ -58,6 +63,10 @@ public abstract class InGameHudMixin {
 
     @Inject(method = "renderStatusBars", at = @At(value = "HEAD"), cancellable = true)
     private void hideHud(DrawContext context, CallbackInfo ci){
+        if(!config.otherBars.compatibilityMode) genericCancel(ci);
+    }
+    @Inject(method = "renderExperienceLevel", at = @At(value = "HEAD"), cancellable = true)
+    private void hideXpLevel(DrawContext context, float x, CallbackInfo ci){
         if(!config.otherBars.compatibilityMode) genericCancel(ci);
     }
     @Inject(method = "renderExperienceBar", at = @At(value = "HEAD"), cancellable = true)
@@ -98,10 +107,10 @@ public abstract class InGameHudMixin {
             var entity = getRiddenEntity();
 
             if(config.entity.showMountJump){
-                if(!(entity instanceof HorseEntity))
-                    oneBarElements.camelJumpBar(getRiddenEntity());
-                else
-                    oneBarElements.horseJumpBar(getRiddenEntity());
+                if(entity instanceof CamelEntity)
+                    oneBarElements.camelJumpBar();
+                else // Ideally works for any modded entity too
+                    oneBarElements.horseJumpBar();
             }
         }
     }
