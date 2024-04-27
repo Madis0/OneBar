@@ -447,7 +447,7 @@ public class PlayerProperties {
             isHoldingFood = true;
             FoodComponent itemFood = heldItem.getItem().getComponents().get(DataComponentTypes.FOOD);
             heldFoodHunger = Objects.requireNonNull(itemFood).nutrition();
-            heldFoodSaturation = Objects.requireNonNull(itemFood).saturationModifier() * heldFoodHunger * 2.0F; // See HungerManager -> add() for more info
+            heldFoodSaturation = Objects.requireNonNull(itemFood).saturation() * heldFoodHunger * 2.0F; // See HungerManager -> add() for more info
         }
         else {
             isHoldingFood = false;
