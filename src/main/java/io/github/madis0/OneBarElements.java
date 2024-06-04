@@ -1,6 +1,5 @@
 package io.github.madis0;
 
-import com.mojang.blaze3d.systems.RenderSystem;
 //import dev.tr7zw.exordium.ExordiumModBase;
 import me.shedaniel.autoconfig.AutoConfig;
 import net.fabricmc.loader.api.FabricLoader;
@@ -10,7 +9,6 @@ import net.minecraft.client.gui.DrawContext;
 import net.minecraft.client.render.RenderLayer;
 import net.minecraft.entity.EquipmentSlot;
 import net.minecraft.entity.LivingEntity;
-import net.minecraft.entity.passive.AbstractHorseEntity;
 import net.minecraft.entity.passive.CamelEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.AnimalArmorItem;
@@ -96,7 +94,7 @@ public class OneBarElements {
         var bootsLength =  leggingsLength + gap + playerProperties.leggingsMaxArmor;
 
         var totalLength = bootsLength + playerProperties.bootsMaxArmor;
-        var elytraDurability = playerProperties.getArmorElementDurability(client.player, EquipmentSlot.CHEST, 8); //8 aka same full width as Diamond/Netherite
+        var elytraDurability = playerProperties.getArmorElementDurability(Objects.requireNonNull(client.player), EquipmentSlot.CHEST, 8); //8 aka same full width as Diamond/Netherite
 
         if (!config.armor.showSegmentedArmorBar)
             renderBar(clientProperties.baseStartW, clientProperties.baseStartH - 1, clientProperties.baseRelativeEndW(playerProperties.armor, playerProperties.maxArmor), clientProperties.baseStartH, config.armor.armorColor);
@@ -118,7 +116,7 @@ public class OneBarElements {
         var bootsLength =  leggingsLength + gap + playerProperties.leggingsMaxArmor;
         var totalLength = bootsLength + playerProperties.bootsMaxArmor;
 
-        var helmetDurability = playerProperties.getArmorElementDurability(client.player, EquipmentSlot.HEAD, playerProperties.helmetArmor);
+        var helmetDurability = playerProperties.getArmorElementDurability(Objects.requireNonNull(client.player), EquipmentSlot.HEAD, playerProperties.helmetArmor);
         var chestplateDurability = playerProperties.getArmorElementDurability(client.player, EquipmentSlot.CHEST, playerProperties.chestplateArmor);
         var elytraDurability = playerProperties.getArmorElementDurability(client.player, EquipmentSlot.CHEST, 8); //8 aka same full width as Diamond/Netherite
         var leggingsDurability = playerProperties.getArmorElementDurability(client.player, EquipmentSlot.LEGS, playerProperties.leggingsArmor);
@@ -289,7 +287,7 @@ public class OneBarElements {
         if(config.textSettings.showText) { // Separated if because order matters
             if (playerProperties.hasResistance && config.goodThings.showResistance)
                 value += plus + Calculations.emojiOrText("text.onebar.resistanceEmoji","text.onebar.resistance", false, playerProperties.resistancePercent);
-            if(PlayerProperties.getMobHead(client.player) != null && config.armor.showMobHeads)
+            if(PlayerProperties.getMobHead(Objects.requireNonNull(client.player)) != null && config.armor.showMobHeads)
                 value += plus + PlayerProperties.getMobHead(client.player);
             if(playerProperties.hasGoldenArmorItem && config.armor.showMobHeads)
                 value += plus + Calculations.emojiOrText("text.onebar.mobHeadPiglinEmoji","text.onebar.mobHeadPiglin", false, (Object) null);

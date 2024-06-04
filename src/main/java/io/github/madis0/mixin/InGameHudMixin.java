@@ -6,6 +6,7 @@ import me.shedaniel.autoconfig.AutoConfig;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.DrawContext;
 import net.minecraft.client.gui.hud.InGameHud;
+import net.minecraft.client.render.RenderTickCounter;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.entity.JumpingMount;
 import net.minecraft.entity.LivingEntity;
@@ -31,8 +32,8 @@ public abstract class InGameHudMixin {
     private boolean showOneBar = false;
 
     @Inject(at = @At("TAIL"), method = "render")
-    public void render(DrawContext drawContext, float tickDelta, CallbackInfo ci) {
-        oneBarElements = new OneBarElements(drawContext);
+    public void render(DrawContext context, RenderTickCounter tickCounter, CallbackInfo ci) {
+        oneBarElements = new OneBarElements(context);
         showOneBar = config.showOneBar; // This var exists because it also shows whether oneBarElements is initialized
 
         boolean barsVisible = !client.options.hudHidden && Objects.requireNonNull(client.interactionManager).hasStatusBars();
@@ -47,7 +48,7 @@ public abstract class InGameHudMixin {
         if(config.otherBars.compatibilityMode) genericCancel(ci);
     }
     @Inject(method = "renderExperienceLevel", at = @At(value = "TAIL"), cancellable = true)
-    private void hideXpLevelCompat(DrawContext context, float x, CallbackInfo ci){
+    private void hideXpLevelCompat(DrawContext context, RenderTickCounter tickCounter, CallbackInfo ci){
         if(config.otherBars.compatibilityMode) genericCancel(ci);
     }
     @Inject(method = "renderExperienceBar", at = @At(value = "TAIL"), cancellable = true)
@@ -66,7 +67,7 @@ public abstract class InGameHudMixin {
         if(!config.otherBars.compatibilityMode) genericCancel(ci);
     }
     @Inject(method = "renderExperienceLevel", at = @At(value = "HEAD"), cancellable = true)
-    private void hideXpLevel(DrawContext context, float x, CallbackInfo ci){
+    private void hideXpLevel(DrawContext context, RenderTickCounter tickCounter, CallbackInfo ci){
         if(!config.otherBars.compatibilityMode) genericCancel(ci);
     }
     @Inject(method = "renderExperienceBar", at = @At(value = "HEAD"), cancellable = true)
