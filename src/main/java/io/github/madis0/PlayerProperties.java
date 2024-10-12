@@ -249,12 +249,12 @@ public class PlayerProperties {
         hasArrowsStuck = playerEntity.getStuckArrowCount() > 0;
 
         ItemStack chestItem = playerEntity.getEquippedStack(EquipmentSlot.CHEST);
-        if (chestItem.isOf(Items.ELYTRA) && ElytraItem.isUsable(chestItem)) {
+        if (chestItem.isOf(Items.ELYTRA)) {
             hasElytra = true;
             elytraDurability = chestItem.getMaxDamage() - chestItem.getDamage();
             elytraMaxDurability = chestItem.getMaxDamage();
         }
-        isFlyingWithElytra = playerEntity.isFallFlying();
+        isFlyingWithElytra = playerEntity.isGliding();
 
         maxFoodLevel = playerEntity.defaultMaxHealth;
         maxFoodLevelRaw = (float)maxFoodLevel; // Used for saturation calculations
