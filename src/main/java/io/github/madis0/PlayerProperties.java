@@ -26,7 +26,6 @@ import java.util.Objects;
 
 public class PlayerProperties {
     Difficulty difficulty;
-    private final MinecraftClient client = MinecraftClient.getInstance();
 
     public final boolean hasResistance;
     public final boolean hasRegeneration;
@@ -318,7 +317,7 @@ public class PlayerProperties {
 
         if(playerEntity.hasStatusEffect(StatusEffects.LEVITATION)){
             var effect = playerEntity.getStatusEffect(StatusEffects.LEVITATION);
-            var estHeight = (effect.getAmplifier() + 1) * 0.9 * ((float) effect.getDuration() / 20);
+            var estHeight = (Objects.requireNonNull(effect).getAmplifier() + 1) * 0.9 * ((float) effect.getDuration() / 20);
             levitationResultYRaw = playerEntity.getY() + estHeight;
             levitationFallHeightRaw = getFallingHeightEstimate(playerEntity, levitationResultYRaw - belowBlockYRaw);
 
@@ -340,11 +339,12 @@ public class PlayerProperties {
         lapisLazuli = playerEntity.getInventory().count(Items.LAPIS_LAZULI) +
                 (playerEntity.getInventory().count(Items.LAPIS_BLOCK) * 9);
 
+        MinecraftClient client = MinecraftClient.getInstance();
         if(client.currentScreen instanceof EnchantmentScreen){
             lapisLazuli += ((EnchantmentScreen) client.currentScreen).getScreenHandler().getLapisCount();
         }
 
-        if (client.currentScreen != null && client.currentScreen instanceof HandledScreen<?>){
+        if (client.currentScreen instanceof HandledScreen<?>){
             var pickedUpItemInInventory = ((HandledScreen<?>) client.currentScreen).getScreenHandler().getCursorStack();
             if(pickedUpItemInInventory.isOf(Items.LAPIS_BLOCK)) lapisLazuli += pickedUpItemInInventory.getCount() * 9;
             if(pickedUpItemInInventory.isOf(Items.LAPIS_LAZULI)) lapisLazuli += pickedUpItemInInventory.getCount();
