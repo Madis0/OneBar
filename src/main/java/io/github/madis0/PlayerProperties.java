@@ -1,5 +1,6 @@
 package io.github.madis0;
 
+import com.google.common.base.Predicates;
 import net.minecraft.block.BlockState;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.screen.ingame.EnchantmentScreen;
@@ -19,11 +20,14 @@ import net.minecraft.entity.player.HungerManager;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.*;
 import net.minecraft.registry.RegistryKey;
+import net.minecraft.util.TypeFilter;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Box;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.world.Difficulty;
 import java.text.DecimalFormat;
+import java.util.Comparator;
+import java.util.List;
 import java.util.Objects;
 
 public class PlayerProperties {
@@ -524,10 +528,14 @@ public class PlayerProperties {
     private WardenEntity getClosestWarden(PlayerEntity player, int range){
         TargetPredicate targetPredicate = TargetPredicate.createAttackable().setBaseMaxDistance(range + 1);
         Box boundingBox = player.getBoundingBox().expand(range, range, range);
-        //List<WardenEntity> nearbyWardens = player.getWorld().getTargets(WardenEntity.class, targetPredicate, player, boundingBox);
-        return null;
-        //return nearbyWardens.stream().min(Comparator.comparingDouble(e ->
-        //       Calculations.getDistance(player.getX(), player.getY(), player.getZ(), e.getX(), e.getY(), e.getZ()))).orElse(null);
+        List<WardenEntity> nearbyWardens = player.getWorld().getEntitiesByType(
+                TypeFilter.instanceOf(WardenEntity.class),
+                boundingBox,
+                Predicates.alwaysTrue()
+        );
+
+        return nearbyWardens.stream().min(Comparator.comparingDouble(e ->
+               Calculations.getDistance(player.getX(), player.getY(), player.getZ(), e.getX(), e.getY(), e.getZ()))).orElse(null);
     }
 
     public static int getProtectionFromArmor(ItemStack armorItem) {
