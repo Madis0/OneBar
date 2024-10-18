@@ -5,9 +5,12 @@ import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.screen.ingame.EnchantmentScreen;
 import net.minecraft.client.gui.screen.ingame.HandledScreen;
 import net.minecraft.component.DataComponentTypes;
+import net.minecraft.component.type.AttributeModifiersComponent;
 import net.minecraft.component.type.FoodComponent;
 import net.minecraft.entity.EquipmentSlot;
 import net.minecraft.entity.ai.TargetPredicate;
+import net.minecraft.entity.attribute.EntityAttribute;
+import net.minecraft.entity.attribute.EntityAttributes;
 import net.minecraft.entity.effect.StatusEffectInstance;
 import net.minecraft.entity.effect.StatusEffects;
 import net.minecraft.entity.mob.Angriness;
@@ -15,13 +18,12 @@ import net.minecraft.entity.mob.WardenEntity;
 import net.minecraft.entity.player.HungerManager;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.*;
+import net.minecraft.registry.RegistryKey;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Box;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.world.Difficulty;
 import java.text.DecimalFormat;
-import java.util.Comparator;
-import java.util.List;
 import java.util.Objects;
 
 public class PlayerProperties {
@@ -522,23 +524,33 @@ public class PlayerProperties {
     private WardenEntity getClosestWarden(PlayerEntity player, int range){
         TargetPredicate targetPredicate = TargetPredicate.createAttackable().setBaseMaxDistance(range + 1);
         Box boundingBox = player.getBoundingBox().expand(range, range, range);
-        List<WardenEntity> nearbyWardens = player.getWorld().getTargets(WardenEntity.class, targetPredicate, player, boundingBox);
-
-        return nearbyWardens.stream().min(Comparator.comparingDouble(e ->
-                Calculations.getDistance(player.getX(), player.getY(), player.getZ(), e.getX(), e.getY(), e.getZ()))).orElse(null);
+        //List<WardenEntity> nearbyWardens = player.getWorld().getTargets(WardenEntity.class, targetPredicate, player, boundingBox);
+        return null;
+        //return nearbyWardens.stream().min(Comparator.comparingDouble(e ->
+        //       Calculations.getDistance(player.getX(), player.getY(), player.getZ(), e.getX(), e.getY(), e.getZ()))).orElse(null);
     }
 
-    private int getArmorElementArmor(PlayerEntity playerEntity, EquipmentSlot slot){
-        var armorItem = playerEntity.getEquippedStack(slot).getItem();
-        if(armorItem instanceof ArmorItem){
-            return ((ArmorItem)armorItem).getProtection();
+    public static int getProtectionFromArmor(ItemStack armorItem) {
+        AttributeModifiersComponent attributeModifierComponent = armorItem.get(DataComponentTypes.ATTRIBUTE_MODIFIERS);
+        RegistryKey<EntityAttribute> ARMOR = EntityAttributes.ARMOR.getKey().get();
+
+        return attributeModifierComponent.modifiers().stream()
+                .filter(entry -> entry.attribute().matchesKey(ARMOR))
+                .mapToInt(entry -> (int) entry.modifier().value())
+                .findFirst()
+                .orElse(0);
+    }
+
+
+    private int getArmorElementArmor(PlayerEntity playerEntity, EquipmentSlot slot) {
+        return getProtectionFromArmor(playerEntity.getEquippedStack(slot));
+    }
+
+
+    private int getArmorItemMaxArmor(Item armorItem) {
+        if (armorItem instanceof ArmorItem) {
+            return getProtectionFromArmor(new ItemStack(armorItem));
         }
-        return 0;
-    }
-
-    private int getArmorItemMaxArmor(Item armorItem){
-        if(armorItem instanceof ArmorItem)
-            return ((ArmorItem)armorItem).getProtection();
         return 0;
     }
 
