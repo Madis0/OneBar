@@ -65,7 +65,7 @@
   "text.onebar.air.speech": "%s air",
   "text.onebar.freeze.speech": "%s freeze",
   "text.onebar.levitation.speech": "%s levitation",
-  "text.onebar.falling.speech": "%s drop",
+  "text.onebar.falling.speech": "%s block fall",
   "text.onebar.fire.speech": "%s times fire",
   "text.onebar.warden.speech": "%s times warden anger",
   "text.onebar.hardcore.speech": "hardcore",
