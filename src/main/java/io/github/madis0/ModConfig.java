@@ -93,7 +93,7 @@ public class ModConfig implements ConfigData {
         @ConfigEntry.Gui.Tooltip
         public boolean showGlowing = true;
         @ConfigEntry.Gui.Tooltip
-        public boolean showBadOmen = true;
+        public boolean showOmens = true;
         @ConfigEntry.Gui.Tooltip
         public boolean showWarden = true;
         @ConfigEntry.ColorPicker(allowAlpha = true)

@@ -337,8 +337,12 @@ public class OneBarElements {
                 value += minus + Calculations.emojiOrText("text.onebar.oozingEmoji","text.onebar.oozing", false, (Object) null);
             if (playerProperties.hasWindCharged && config.badThings.showPostDeathEffects)
                 value += minus + Calculations.emojiOrText("text.onebar.windChargedEmoji","text.onebar.windCharged", false, (Object) null);
-            if (playerProperties.hasBadOmen && config.badThings.showBadOmen)
+            if (playerProperties.hasBadOmen && config.badThings.showOmens)
                 value += minus + Calculations.emojiOrText("text.onebar.badOmenEmoji","text.onebar.badOmen", false, playerProperties.badOmenLevel);
+            if (playerProperties.hasRaidOmen && config.badThings.showOmens)
+                value += minus + Calculations.emojiOrText("text.onebar.raidOmenEmoji","text.onebar.raidOmen", false, playerProperties.raidOmenLevel);
+            if (playerProperties.hasTrialOmen && config.badThings.showOmens)
+                value += minus + Calculations.emojiOrText("text.onebar.trialOmenEmoji","text.onebar.trialOmen", false, playerProperties.trialOmenLevel);
             if (clientProperties.isHardcore)
                 value += minus + Calculations.emojiOrText("text.onebar.hardcoreEmoji","text.onebar.hardcore", false, (Object) null);
             if (hasHunger || (playerProperties.hasHungerEffect && config.healthEstimates && !config.disableHunger))

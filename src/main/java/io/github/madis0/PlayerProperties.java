@@ -41,6 +41,8 @@ public class PlayerProperties {
     public final boolean hasWaterBreathing;
     public final boolean hasHungerEffect;
     public final boolean hasBadOmen;
+    public final boolean hasRaidOmen;
+    public final boolean hasTrialOmen;
     public final boolean hasInvisibility;
     public final boolean hasGlowing;
     public final boolean hasWeaving;
@@ -158,6 +160,8 @@ public class PlayerProperties {
     public int starvationHealthEstimate;
 
     public int badOmenLevel;
+    public int raidOmenLevel;
+    public int trialOmenLevel;
 
     public float naturalRegenerationAddition;
     public float naturalRegenerationHealthRaw;
@@ -200,6 +204,8 @@ public class PlayerProperties {
         hasWaterBreathing = playerEntity.hasStatusEffect(StatusEffects.WATER_BREATHING) || playerEntity.hasStatusEffect(StatusEffects.CONDUIT_POWER);
         hasHungerEffect = playerEntity.hasStatusEffect(StatusEffects.HUNGER) && !difficulty.equals(Difficulty.PEACEFUL);
         hasBadOmen = playerEntity.hasStatusEffect(StatusEffects.BAD_OMEN) && !difficulty.equals(Difficulty.PEACEFUL);
+        hasRaidOmen = playerEntity.hasStatusEffect(StatusEffects.RAID_OMEN) && !difficulty.equals(Difficulty.PEACEFUL);
+        hasTrialOmen = playerEntity.hasStatusEffect(StatusEffects.TRIAL_OMEN) && !difficulty.equals(Difficulty.PEACEFUL);
         hasInvisibility = playerEntity.hasStatusEffect(StatusEffects.INVISIBILITY);
         hasGlowing = playerEntity.hasStatusEffect(StatusEffects.GLOWING);
         hasWeaving = playerEntity.hasStatusEffect(StatusEffects.WEAVING);
@@ -346,6 +352,9 @@ public class PlayerProperties {
         normalFallHeightDisplay = new DecimalFormat("0.#").format(normalFallHeightRaw);
 
         badOmenLevel = hasBadOmen ? Objects.requireNonNull(playerEntity.getStatusEffect(StatusEffects.BAD_OMEN)).getAmplifier() + 1: 0;
+        raidOmenLevel = hasRaidOmen ? Objects.requireNonNull(playerEntity.getStatusEffect(StatusEffects.RAID_OMEN)).getAmplifier() + 1: 0;
+        // 20 ticks * 60 sec * 15 min = one "level" of trial omen
+        trialOmenLevel = hasTrialOmen ? Math.round((float)(Objects.requireNonNull(playerEntity.getStatusEffect(StatusEffects.TRIAL_OMEN)).getDuration()) / (20 * 60 * 15)): 0;
 
         xpLevel = playerEntity.experienceLevel;
         maxXp = 183; //renderExperienceBar @ InGameHud.class
