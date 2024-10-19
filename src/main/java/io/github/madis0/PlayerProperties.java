@@ -601,13 +601,13 @@ public class PlayerProperties {
         Item headItem = playerEntity.getEquippedStack(EquipmentSlot.HEAD).getItem();
 
         if(headItem == Items.ZOMBIE_HEAD)
-            return Calculations.emojiOrText("text.onebar.mobHeadZombieEmoji","text.onebar.mobHeadZombie", false, (Object) null);
+            return Calculations.emojiOrText("text.onebar.mobHeadZombie", false, (Object) null);
         else if(headItem == Items.SKELETON_SKULL)
-            return Calculations.emojiOrText("text.onebar.mobHeadSkeletonEmoji","text.onebar.mobHeadSkeleton", false, (Object) null);
+            return Calculations.emojiOrText("text.onebar.mobHeadSkeleton", false, (Object) null);
         else if(headItem == Items.CREEPER_HEAD)
-            return Calculations.emojiOrText("text.onebar.mobHeadCreeperEmoji","text.onebar.mobHeadCreeper", false, (Object) null);
+            return Calculations.emojiOrText("text.onebar.mobHeadCreeper", false, (Object) null);
         else if(headItem == Items.CARVED_PUMPKIN)
-            return Calculations.emojiOrText("text.onebar.mobHeadEndermanEmoji","text.onebar.mobHeadEnderman", false, (Object) null);
+            return Calculations.emojiOrText("text.onebar.mobHeadEnderman", false, (Object) null);
         else
             return null;
     }

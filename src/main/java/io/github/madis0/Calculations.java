@@ -71,11 +71,11 @@ public class Calculations {
                 .replace('-','₋');
     }
 
-    public static String emojiOrText(String emojiPhrase, String textPhrase, boolean extra, Object... args){
+    public static String emojiOrText(String textPhrase, boolean extra, Object... args){
         if(extra && !config.textSettings.extraSymbols)
             return String.valueOf(args[0]);
 
-        return Text.translatable(config.textSettings.useEmoji ? emojiPhrase : textPhrase, args).getString();
+        return Text.translatable(config.textSettings.useEmoji ? textPhrase + ".emoji" : textPhrase, args).getString();
     }
 
     /**
