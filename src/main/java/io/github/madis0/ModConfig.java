@@ -93,11 +93,15 @@ public class ModConfig implements ConfigData {
         @ConfigEntry.Gui.Tooltip
         public boolean showGlowing = true;
         @ConfigEntry.Gui.Tooltip
-        public boolean showBadOmen = true;
+        public boolean showOmens = true;
         @ConfigEntry.Gui.Tooltip
         public boolean showWarden = true;
         @ConfigEntry.ColorPicker(allowAlpha = true)
         public int wardenColor = 0xBF004d40;
+        @ConfigEntry.Gui.Tooltip
+        public boolean showInfested = true;
+        @ConfigEntry.Gui.Tooltip
+        public boolean showPostDeathEffects = false;
     }
 
     public static class Entity {

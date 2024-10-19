@@ -7,12 +7,17 @@ import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.font.TextRenderer;
 import net.minecraft.client.gui.DrawContext;
 import net.minecraft.client.render.RenderLayer;
+import net.minecraft.component.DataComponentTypes;
+import net.minecraft.component.type.AttributeModifiersComponent;
 import net.minecraft.entity.EquipmentSlot;
 import net.minecraft.entity.LivingEntity;
+import net.minecraft.entity.attribute.EntityAttribute;
+import net.minecraft.entity.attribute.EntityAttributes;
 import net.minecraft.entity.passive.CamelEntity;
 import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.item.AnimalArmorItem;
+import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
+import net.minecraft.registry.RegistryKey;
 import net.minecraft.text.Text;
 import net.minecraft.util.Arm;
 import net.minecraft.world.Difficulty;
@@ -324,8 +329,20 @@ public class OneBarElements {
                 value += minus + Calculations.emojiOrText("text.onebar.fallingEmoji", "text.onebar.falling", false, playerProperties.normalFallHeightDisplay);
             if (playerProperties.hasGlowing && config.badThings.showGlowing)
                 value += minus + Calculations.emojiOrText("text.onebar.glowingEmoji","text.onebar.glowing", false, (Object) null);
-            if (playerProperties.hasBadOmen && config.badThings.showBadOmen)
+            if (playerProperties.hasInfested && config.badThings.showInfested)
+                value += minus + Calculations.emojiOrText("text.onebar.infestedEmoji","text.onebar.infested", false, (Object) null);
+            if (playerProperties.hasWeaving && config.badThings.showPostDeathEffects)
+                value += minus + Calculations.emojiOrText("text.onebar.weavingEmoji","text.onebar.weaving", false, (Object) null);
+            if (playerProperties.hasOozing && config.badThings.showPostDeathEffects)
+                value += minus + Calculations.emojiOrText("text.onebar.oozingEmoji","text.onebar.oozing", false, (Object) null);
+            if (playerProperties.hasWindCharged && config.badThings.showPostDeathEffects)
+                value += minus + Calculations.emojiOrText("text.onebar.windChargedEmoji","text.onebar.windCharged", false, (Object) null);
+            if (playerProperties.hasBadOmen && config.badThings.showOmens)
                 value += minus + Calculations.emojiOrText("text.onebar.badOmenEmoji","text.onebar.badOmen", false, playerProperties.badOmenLevel);
+            if (playerProperties.hasRaidOmen && config.badThings.showOmens)
+                value += minus + Calculations.emojiOrText("text.onebar.raidOmenEmoji","text.onebar.raidOmen", false, playerProperties.raidOmenLevel);
+            if (playerProperties.hasTrialOmen && config.badThings.showOmens)
+                value += minus + Calculations.emojiOrText("text.onebar.trialOmenEmoji","text.onebar.trialOmen", false, playerProperties.trialOmenLevel);
             if (clientProperties.isHardcore)
                 value += minus + Calculations.emojiOrText("text.onebar.hardcoreEmoji","text.onebar.hardcore", false, (Object) null);
             if (hasHunger || (playerProperties.hasHungerEffect && config.healthEstimates && !config.disableHunger))
@@ -412,8 +429,7 @@ public class OneBarElements {
 
         int relativeStartH = Calculations.relativeW(clientProperties.horseJumpEndH, clientProperties.horseJumpStartH, jumpHeight, barHeight);
         renderBar(clientProperties.horseJumpStartW, clientProperties.horseJumpStartH, clientProperties.horseJumpEndW, clientProperties.horseJumpEndH, config.backgroundColor);
-        //renderBar(clientProperties.jumpStartW, clientProperties.jumpEndH, clientProperties.jumpEndW, relativeStartH, config.entity.jumpColor);
-        drawContext.fill(clientProperties.horseJumpStartW, clientProperties.horseJumpEndH, clientProperties.horseJumpEndW, relativeStartH, config.entity.jumpColor); //TODO: fix gradient
+        renderBar(clientProperties.horseJumpStartW, relativeStartH, clientProperties.horseJumpEndW, clientProperties.horseJumpEndH, config.entity.jumpColor);
 
         int textX = clientProperties.horseJumpEndW - client.textRenderer.getWidth(roundedHeightInBlocks);
         int textY = clientProperties.horseJumpEndH - 10;
@@ -455,13 +471,27 @@ public class OneBarElements {
         }
     }
 
+    public static int getProtectionFromArmor(ItemStack armorItem) {
+        AttributeModifiersComponent attributeModifierComponent = armorItem.get(DataComponentTypes.ATTRIBUTE_MODIFIERS);
+        if (attributeModifierComponent == null)
+            return 0;
+        RegistryKey<EntityAttribute> ARMOR = EntityAttributes.ARMOR.getKey().get();
+
+        return attributeModifierComponent.modifiers().stream()
+                .filter(entry -> entry.attribute().matchesKey(ARMOR))
+                .mapToInt(entry -> (int) entry.modifier().value())
+                .findFirst()
+                .orElse(0);
+    }
+
+
     public void mountBar(LivingEntity mountEntity){
         if (mountEntity == null) {return;}
         float mountRawHealth = mountEntity.getHealth();
         float mountMaxHealth = mountEntity.getMaxHealth();
         int health = (int) Math.ceil(mountRawHealth);
         int horseArmor = mountEntity.getArmor();
-        int horseMaxArmor = ((AnimalArmorItem)Items.DIAMOND_HORSE_ARMOR).getProtection();
+        int horseMaxArmor = getProtectionFromArmor(new ItemStack((Items.DIAMOND_HORSE_ARMOR)));
 
         String value = Calculations.emojiOrText("text.onebar.mountHealthEmoji","text.onebar.mountHealth", true, config.textSettings.rawHealth ? (Math.round(mountRawHealth * 100.0) / 100.0) : Calculations.makeFraction(health, false));
         int textX = clientProperties.baseEndW - client.textRenderer.getWidth(value);

@@ -1,13 +1,16 @@
 package io.github.madis0;
 
+import com.google.common.base.Predicates;
 import net.minecraft.block.BlockState;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.screen.ingame.EnchantmentScreen;
 import net.minecraft.client.gui.screen.ingame.HandledScreen;
 import net.minecraft.component.DataComponentTypes;
+import net.minecraft.component.type.AttributeModifiersComponent;
 import net.minecraft.component.type.FoodComponent;
 import net.minecraft.entity.EquipmentSlot;
-import net.minecraft.entity.ai.TargetPredicate;
+import net.minecraft.entity.attribute.EntityAttribute;
+import net.minecraft.entity.attribute.EntityAttributes;
 import net.minecraft.entity.effect.StatusEffectInstance;
 import net.minecraft.entity.effect.StatusEffects;
 import net.minecraft.entity.mob.Angriness;
@@ -15,6 +18,8 @@ import net.minecraft.entity.mob.WardenEntity;
 import net.minecraft.entity.player.HungerManager;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.*;
+import net.minecraft.registry.RegistryKey;
+import net.minecraft.util.TypeFilter;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Box;
 import net.minecraft.util.math.MathHelper;
@@ -35,8 +40,14 @@ public class PlayerProperties {
     public final boolean hasWaterBreathing;
     public final boolean hasHungerEffect;
     public final boolean hasBadOmen;
+    public final boolean hasRaidOmen;
+    public final boolean hasTrialOmen;
     public final boolean hasInvisibility;
     public final boolean hasGlowing;
+    public final boolean hasWeaving;
+    public final boolean hasOozing;
+    public final boolean hasWindCharged;
+    public final boolean hasInfested;
 
     public final float healthRaw;
     public final int health;
@@ -148,6 +159,8 @@ public class PlayerProperties {
     public int starvationHealthEstimate;
 
     public int badOmenLevel;
+    public int raidOmenLevel;
+    public int trialOmenLevel;
 
     public float naturalRegenerationAddition;
     public float naturalRegenerationHealthRaw;
@@ -190,8 +203,14 @@ public class PlayerProperties {
         hasWaterBreathing = playerEntity.hasStatusEffect(StatusEffects.WATER_BREATHING) || playerEntity.hasStatusEffect(StatusEffects.CONDUIT_POWER);
         hasHungerEffect = playerEntity.hasStatusEffect(StatusEffects.HUNGER) && !difficulty.equals(Difficulty.PEACEFUL);
         hasBadOmen = playerEntity.hasStatusEffect(StatusEffects.BAD_OMEN) && !difficulty.equals(Difficulty.PEACEFUL);
+        hasRaidOmen = playerEntity.hasStatusEffect(StatusEffects.RAID_OMEN) && !difficulty.equals(Difficulty.PEACEFUL);
+        hasTrialOmen = playerEntity.hasStatusEffect(StatusEffects.TRIAL_OMEN) && !difficulty.equals(Difficulty.PEACEFUL);
         hasInvisibility = playerEntity.hasStatusEffect(StatusEffects.INVISIBILITY);
         hasGlowing = playerEntity.hasStatusEffect(StatusEffects.GLOWING);
+        hasWeaving = playerEntity.hasStatusEffect(StatusEffects.WEAVING);
+        hasOozing = playerEntity.hasStatusEffect(StatusEffects.OOZING);
+        hasWindCharged = playerEntity.hasStatusEffect(StatusEffects.WIND_CHARGED);
+        hasInfested = playerEntity.hasStatusEffect(StatusEffects.INFESTED);
         hasLevitation = playerEntity.hasStatusEffect(StatusEffects.LEVITATION);
 
         healthRaw = playerEntity.getHealth();
@@ -249,12 +268,12 @@ public class PlayerProperties {
         hasArrowsStuck = playerEntity.getStuckArrowCount() > 0;
 
         ItemStack chestItem = playerEntity.getEquippedStack(EquipmentSlot.CHEST);
-        if (chestItem.isOf(Items.ELYTRA) && ElytraItem.isUsable(chestItem)) {
+        if (chestItem.isOf(Items.ELYTRA)) {
             hasElytra = true;
             elytraDurability = chestItem.getMaxDamage() - chestItem.getDamage();
             elytraMaxDurability = chestItem.getMaxDamage();
         }
-        isFlyingWithElytra = playerEntity.isFallFlying();
+        isFlyingWithElytra = playerEntity.isGliding();
 
         maxFoodLevel = playerEntity.defaultMaxHealth;
         maxFoodLevelRaw = (float)maxFoodLevel; // Used for saturation calculations
@@ -332,6 +351,9 @@ public class PlayerProperties {
         normalFallHeightDisplay = new DecimalFormat("0.#").format(normalFallHeightRaw);
 
         badOmenLevel = hasBadOmen ? Objects.requireNonNull(playerEntity.getStatusEffect(StatusEffects.BAD_OMEN)).getAmplifier() + 1: 0;
+        raidOmenLevel = hasRaidOmen ? Objects.requireNonNull(playerEntity.getStatusEffect(StatusEffects.RAID_OMEN)).getAmplifier() + 1: 0;
+        // 20 ticks * 60 sec * 15 min = one "level" of trial omen
+        trialOmenLevel = hasTrialOmen ? Math.round((float)(Objects.requireNonNull(playerEntity.getStatusEffect(StatusEffects.TRIAL_OMEN)).getDuration()) / (20 * 60 * 15)): 0;
 
         xpLevel = playerEntity.experienceLevel;
         maxXp = 183; //renderExperienceBar @ InGameHud.class
@@ -472,7 +494,7 @@ public class PlayerProperties {
         isWardenNear = false;
         isWardenAngry = false;
 
-        WardenEntity warden = getClosestWarden(playerEntity, 100);
+        WardenEntity warden = getClosestWarden(playerEntity);
 
         if(warden != null){
             isWardenNear = true;
@@ -514,31 +536,47 @@ public class PlayerProperties {
 
     private int getFallingHealthEstimate(float health, double height, boolean hurts){
         double value = hurts ? (health - Math.max(0, height - 3)) : health;
-        if(value == 0) value = 1; // Fatal height is always +0.5 blocks of the estimate;
+        if(value == 0) value = 1; // Fatal height is always +0.5 blocks of the estimate
         if(value <= -1) value = 0;
         return MathHelper.ceil(value);
     }
 
-    private WardenEntity getClosestWarden(PlayerEntity player, int range){
-        TargetPredicate targetPredicate = TargetPredicate.createAttackable().setBaseMaxDistance(range + 1);
-        Box boundingBox = player.getBoundingBox().expand(range, range, range);
-        List<WardenEntity> nearbyWardens = player.getWorld().getTargets(WardenEntity.class, targetPredicate, player, boundingBox);
+    private WardenEntity getClosestWarden(PlayerEntity player){
+        // A warden is aware of all targetable entities within a 49×51×49 box around itself. https://minecraft.wiki/w/Warden#Behavior
+        Box boundingBox = player.getBoundingBox().expand(49, 51, 49);
+        List<WardenEntity> nearbyWardens = player.getWorld().getEntitiesByType(
+                TypeFilter.instanceOf(WardenEntity.class),
+                boundingBox,
+                Predicates.alwaysTrue()
+        );
 
         return nearbyWardens.stream().min(Comparator.comparingDouble(e ->
-                Calculations.getDistance(player.getX(), player.getY(), player.getZ(), e.getX(), e.getY(), e.getZ()))).orElse(null);
+               Calculations.getDistance(player.getX(), player.getY(), player.getZ(), e.getX(), e.getY(), e.getZ()))).orElse(null);
     }
 
-    private int getArmorElementArmor(PlayerEntity playerEntity, EquipmentSlot slot){
-        var armorItem = playerEntity.getEquippedStack(slot).getItem();
-        if(armorItem instanceof ArmorItem){
-            return ((ArmorItem)armorItem).getProtection();
+    public static int getProtectionFromArmor(ItemStack armorItem) {
+        AttributeModifiersComponent attributeModifierComponent = armorItem.get(DataComponentTypes.ATTRIBUTE_MODIFIERS);
+        if (attributeModifierComponent == null)
+            return 0;
+        RegistryKey<EntityAttribute> ARMOR = EntityAttributes.ARMOR.getKey().get();
+
+        return attributeModifierComponent.modifiers().stream()
+                .filter(entry -> entry.attribute().matchesKey(ARMOR))
+                .mapToInt(entry -> (int) entry.modifier().value())
+                .findFirst()
+                .orElse(0);
+    }
+
+
+    private int getArmorElementArmor(PlayerEntity playerEntity, EquipmentSlot slot) {
+        return getProtectionFromArmor(playerEntity.getEquippedStack(slot));
+    }
+
+
+    private int getArmorItemMaxArmor(Item armorItem) {
+        if (armorItem instanceof ArmorItem) {
+            return getProtectionFromArmor(new ItemStack(armorItem));
         }
-        return 0;
-    }
-
-    private int getArmorItemMaxArmor(Item armorItem){
-        if(armorItem instanceof ArmorItem)
-            return ((ArmorItem)armorItem).getProtection();
         return 0;
     }
 
