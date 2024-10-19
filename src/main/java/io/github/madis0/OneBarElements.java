@@ -329,6 +329,14 @@ public class OneBarElements {
                 value += minus + Calculations.emojiOrText("text.onebar.fallingEmoji", "text.onebar.falling", false, playerProperties.normalFallHeightDisplay);
             if (playerProperties.hasGlowing && config.badThings.showGlowing)
                 value += minus + Calculations.emojiOrText("text.onebar.glowingEmoji","text.onebar.glowing", false, (Object) null);
+            if (playerProperties.hasInfested && config.badThings.showInfested)
+                value += minus + Calculations.emojiOrText("text.onebar.infestedEmoji","text.onebar.infested", false, (Object) null);
+            if (playerProperties.hasWeaving && config.badThings.showPostDeathEffects)
+                value += minus + Calculations.emojiOrText("text.onebar.weavingEmoji","text.onebar.weaving", false, (Object) null);
+            if (playerProperties.hasOozing && config.badThings.showPostDeathEffects)
+                value += minus + Calculations.emojiOrText("text.onebar.oozingEmoji","text.onebar.oozing", false, (Object) null);
+            if (playerProperties.hasWindCharged && config.badThings.showPostDeathEffects)
+                value += minus + Calculations.emojiOrText("text.onebar.windChargedEmoji","text.onebar.windCharged", false, (Object) null);
             if (playerProperties.hasBadOmen && config.badThings.showBadOmen)
                 value += minus + Calculations.emojiOrText("text.onebar.badOmenEmoji","text.onebar.badOmen", false, playerProperties.badOmenLevel);
             if (clientProperties.isHardcore)

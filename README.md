@@ -89,6 +89,10 @@ The mod only uses client-side data, so it is never needed on a server. There are
 | Levitation | Dark purple | █ | -⏏1 | -le1 | Number is the effect time, crossed out while in water |
 | Fall height (experimental) |  |  | -⊻1 | -fa1 | Opt-in, indicates the amount of blocks you're about to fall in-air/with levitation effect/while sneaking on an edge. Currently does not consider target block type, your effects and enchants. |
 | Glowing |  |  | -☀ | -gl | Usually given when shot by a spectral arrow. Emoji chosen to remind of the effect icon. |
+| Infested |  |  | -💔🐛 | -Hin | Having infested effect may summon silverfish upon getting hit. Given in ominous trials. |
+| Weaving |  |  | -😵🕸 | -Dwe | Having weaving effect may summon cobwebs upon death. Given in ominous trials. |
+| Oozing |  |  | -😵▪▪ | -Doo | Having oozing effect may summon two slimes upon death. Given in ominous trials. |
+| Wind Charged |  |  | -😵💨 | -Dwi | Having wind charged effect may summon a wind charge upon death. Given in ominous trials. |
 | Bad Omen |  |  | -🪓1× | -bo1× | Number is [the effect level](https://minecraft.wiki/w/Bad_Omen#Effect) |
 | Impending death |  |  | _→0_ | _→0_ | Drowning, freezing damage, burning in fire/lava, starvation, suffocation, angry warden. Zero is the resulting health (death) |
 | Hardcore mode |  |  | -☠ | -HC | The vanilla one, not the UHC mode of OneBar which has no indicators |

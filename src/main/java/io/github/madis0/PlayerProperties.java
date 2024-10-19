@@ -43,6 +43,10 @@ public class PlayerProperties {
     public final boolean hasBadOmen;
     public final boolean hasInvisibility;
     public final boolean hasGlowing;
+    public final boolean hasWeaving;
+    public final boolean hasOozing;
+    public final boolean hasWindCharged;
+    public final boolean hasInfested;
 
     public final float healthRaw;
     public final int health;
@@ -198,6 +202,10 @@ public class PlayerProperties {
         hasBadOmen = playerEntity.hasStatusEffect(StatusEffects.BAD_OMEN) && !difficulty.equals(Difficulty.PEACEFUL);
         hasInvisibility = playerEntity.hasStatusEffect(StatusEffects.INVISIBILITY);
         hasGlowing = playerEntity.hasStatusEffect(StatusEffects.GLOWING);
+        hasWeaving = playerEntity.hasStatusEffect(StatusEffects.WEAVING);
+        hasOozing = playerEntity.hasStatusEffect(StatusEffects.OOZING);
+        hasWindCharged = playerEntity.hasStatusEffect(StatusEffects.WIND_CHARGED);
+        hasInfested = playerEntity.hasStatusEffect(StatusEffects.INFESTED);
         hasLevitation = playerEntity.hasStatusEffect(StatusEffects.LEVITATION);
 
         healthRaw = playerEntity.getHealth();
