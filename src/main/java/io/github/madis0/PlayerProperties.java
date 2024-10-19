@@ -353,7 +353,7 @@ public class PlayerProperties {
         badOmenLevel = hasBadOmen ? Objects.requireNonNull(playerEntity.getStatusEffect(StatusEffects.BAD_OMEN)).getAmplifier() + 1: 0;
         raidOmenLevel = hasRaidOmen ? Objects.requireNonNull(playerEntity.getStatusEffect(StatusEffects.RAID_OMEN)).getAmplifier() + 1: 0;
         // 20 ticks * 60 sec * 15 min = one "level" of trial omen
-        trialOmenLevel = hasTrialOmen ? Math.round((float)(Objects.requireNonNull(playerEntity.getStatusEffect(StatusEffects.TRIAL_OMEN)).getDuration()) / (20 * 60 * 15)): 0;
+        trialOmenLevel = hasTrialOmen ? (int)(Objects.requireNonNull(playerEntity.getStatusEffect(StatusEffects.TRIAL_OMEN)).getDuration() / (20 * 60 * 15)) + 1 : 0;
 
         xpLevel = playerEntity.experienceLevel;
         maxXp = 183; //renderExperienceBar @ InGameHud.class
