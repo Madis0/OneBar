@@ -417,8 +417,7 @@ public class OneBarElements {
 
         int relativeStartH = Calculations.relativeW(clientProperties.horseJumpEndH, clientProperties.horseJumpStartH, jumpHeight, barHeight);
         renderBar(clientProperties.horseJumpStartW, clientProperties.horseJumpStartH, clientProperties.horseJumpEndW, clientProperties.horseJumpEndH, config.backgroundColor);
-        //renderBar(clientProperties.jumpStartW, clientProperties.jumpEndH, clientProperties.jumpEndW, relativeStartH, config.entity.jumpColor);
-        drawContext.fill(clientProperties.horseJumpStartW, clientProperties.horseJumpEndH, clientProperties.horseJumpEndW, relativeStartH, config.entity.jumpColor); //TODO: fix gradient
+        renderBar(clientProperties.horseJumpStartW, relativeStartH, clientProperties.horseJumpEndW, clientProperties.horseJumpEndH, config.entity.jumpColor);
 
         int textX = clientProperties.horseJumpEndW - client.textRenderer.getWidth(roundedHeightInBlocks);
         int textY = clientProperties.horseJumpEndH - 10;
