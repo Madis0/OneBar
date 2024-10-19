@@ -462,6 +462,8 @@ public class OneBarElements {
 
     public static int getProtectionFromArmor(ItemStack armorItem) {
         AttributeModifiersComponent attributeModifierComponent = armorItem.get(DataComponentTypes.ATTRIBUTE_MODIFIERS);
+        if (attributeModifierComponent == null)
+            return 0;
         RegistryKey<EntityAttribute> ARMOR = EntityAttributes.ARMOR.getKey().get();
 
         return attributeModifierComponent.modifiers().stream()

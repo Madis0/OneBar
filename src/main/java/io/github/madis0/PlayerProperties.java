@@ -478,7 +478,7 @@ public class PlayerProperties {
         isWardenNear = false;
         isWardenAngry = false;
 
-        WardenEntity warden = getClosestWarden(playerEntity, 100);
+        WardenEntity warden = getClosestWarden(playerEntity);
 
         if(warden != null){
             isWardenNear = true;
@@ -520,14 +520,14 @@ public class PlayerProperties {
 
     private int getFallingHealthEstimate(float health, double height, boolean hurts){
         double value = hurts ? (health - Math.max(0, height - 3)) : health;
-        if(value == 0) value = 1; // Fatal height is always +0.5 blocks of the estimate;
+        if(value == 0) value = 1; // Fatal height is always +0.5 blocks of the estimate
         if(value <= -1) value = 0;
         return MathHelper.ceil(value);
     }
 
-    private WardenEntity getClosestWarden(PlayerEntity player, int range){
-        TargetPredicate targetPredicate = TargetPredicate.createAttackable().setBaseMaxDistance(range + 1);
-        Box boundingBox = player.getBoundingBox().expand(range, range, range);
+    private WardenEntity getClosestWarden(PlayerEntity player){
+        // A warden is aware of all targetable entities within a 49×51×49 box around itself. https://minecraft.wiki/w/Warden#Behavior
+        Box boundingBox = player.getBoundingBox().expand(49, 51, 49);
         List<WardenEntity> nearbyWardens = player.getWorld().getEntitiesByType(
                 TypeFilter.instanceOf(WardenEntity.class),
                 boundingBox,
@@ -540,6 +540,8 @@ public class PlayerProperties {
 
     public static int getProtectionFromArmor(ItemStack armorItem) {
         AttributeModifiersComponent attributeModifierComponent = armorItem.get(DataComponentTypes.ATTRIBUTE_MODIFIERS);
+        if (attributeModifierComponent == null)
+            return 0;
         RegistryKey<EntityAttribute> ARMOR = EntityAttributes.ARMOR.getKey().get();
 
         return attributeModifierComponent.modifiers().stream()
