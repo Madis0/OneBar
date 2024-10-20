@@ -58,7 +58,7 @@ public class Calculations {
      * @param strength Horse jump strength
      * @return Jump height in blocks
      */
-    public static double horseJumpStrengthToJumpHeight(double strength) {
+    public static double getHorseJumpHeight(double strength) {
         double height = 0;
         double velocity = strength;
         while(velocity > 0) {
@@ -66,6 +66,28 @@ public class Calculations {
             velocity = (velocity - .08) * .98 * .98;
         }
         return height;
+    }
+
+    public static double getCamelDashDistance(float strength) {
+        // Minecraft gravity constant (approximately)
+        final double gravity = 0.08; // Blocks/tick^2
+        final double jumpVelocityOneBlock = Math.sqrt(2 * gravity * 1); // Velocity needed to reach 1 block high
+
+        // Default values for movement speed and velocity multiplier
+        final double defaultMovementSpeed = 0.12; // Adjusted for the camel's movement speed
+        final double defaultVelocityMultiplier = 1.0; // Neutral velocity multiplier
+
+        // Horizontal velocity calculation with adjusted factor
+        double horizontalVelocity = 11.1111F * strength * defaultMovementSpeed * defaultVelocityMultiplier;
+
+        // Time in the air (based on jumping 1 block high)
+        double initialVerticalVelocity = jumpVelocityOneBlock * strength;
+        double timeUp = initialVerticalVelocity / gravity; // Time to reach the peak
+        double timeDown = timeUp; // Symmetrical falling
+        double totalTimeInAir = timeUp + timeDown;
+
+        // Horizontal distance = horizontal velocity * total time in air
+        return horizontalVelocity * totalTimeInAir;
     }
 
     /**

@@ -287,8 +287,7 @@ public class OneBarElements {
         int barHeight = Calculations.getPreciseInt(1.0F);
         int jumpHeight = Calculations.getPreciseInt(client.player.getMountJumpStrength());
 
-        double heightInBlocks = Math.max(0, client.player.getMountJumpStrength() *
-                                                Calculations.horseJumpStrengthToJumpHeight(client.player.getMountJumpStrength()));
+        double heightInBlocks = Math.max(0, Calculations.getHorseJumpHeight(client.player.getMountJumpStrength()));
 
         String roundedHeightInBlocks = Calculations.getSubscriptNumber(Double.parseDouble(String.format(Locale.US, "%,.1f",(heightInBlocks))));
 
@@ -304,11 +303,13 @@ public class OneBarElements {
     }
 
     public void camelJumpBar(){
-        int jumpStrength = Calculations.getPreciseInt(Math.max(client.player.getMountJumpStrength(), 0)); //TODO: strength can be negative???
+        int jumpStrength = Calculations.getPreciseInt(client.player.getMountJumpStrength()); //TODO: strength can be negative???
         int maxStrength = Calculations.getPreciseInt(1.0F);
         int cooldown = client.player.getJumpingMount().getJumpCooldown();
         int maxCooldown = 50;
         int cooldownVisible = cooldown / 20;
+
+        double distanceInBlocks = Math.max(0, Calculations.getCamelDashDistance(client.player.getMountJumpStrength()));
 
         int relativeEndW = clientProperties.camelRelativeEndW(jumpStrength, maxStrength);
         int relativeEndWCooldown = clientProperties.camelRelativeEndW(cooldown, maxCooldown);
@@ -319,6 +320,13 @@ public class OneBarElements {
         else {
             renderBar(clientProperties.camelJumpStartW, clientProperties.camelJumpStartH, clientProperties.camelJumpEndW, clientProperties.camelJumpEndH, config.backgroundColor);
             renderBar(clientProperties.camelJumpStartW, clientProperties.camelJumpStartH, relativeEndW, clientProperties.camelJumpEndH, config.entity.jumpColor);
+
+            if(config.textSettings.showText && config.entity.showMountJumpText){
+                String roundedDistanceInBlocks = Calculations.getSubscriptNumber(Double.parseDouble(String.format(Locale.US, "%,.1f",(distanceInBlocks))));
+                int textX = clientProperties.camelJumpEndW - client.textRenderer.getWidth(roundedDistanceInBlocks);
+                int textY = clientProperties.camelJumpEndH - 9;
+                drawContext.drawText(textRenderer, roundedDistanceInBlocks, textX, textY, config.textSettings.textColor, false);
+            }
         }
     }
 
