@@ -27,9 +27,9 @@ public class TextGeneration {
 
     public String GenerateOneBarText()
     {
+        String value = "";
         boolean hasHunger = playerProperties.hasHunger && !config.disableHunger;
 
-        String value = "";
         boolean showHealthParentheses = config.textSettings.estimatesParentheses &&
                 (((hasHunger || playerProperties.hasHungerEffect && !config.disableHunger || playerProperties.isUnderwater || playerProperties.isFreezing || playerProperties.isBurning || playerProperties.hasAbsorption || (playerProperties.hasResistance && config.goodThings.showResistance)) &&
                         ((playerProperties.naturalRegenerationHealth > playerProperties.health && !config.uhcMode) || playerProperties.hasRegeneration || playerProperties.isStarving && !config.disableHunger || playerProperties.hasPoison || playerProperties.hasWither || playerProperties.isGettingFreezeDamage
@@ -175,6 +175,37 @@ public class TextGeneration {
                 config.textSettings.rawHealth ?
                         getFraction(Math.round(rawHealth * 100.0) / 100.0) :
                         getFraction(health, false));
+    }
+
+    public String GenerateMountSpeechText(){
+        String value = "";
+        //Mount health, armor, jump distance, jump cooldown
+        return value;
+    }
+
+    public String GenerateArmorSpeechText(){
+        String value = "";
+        //Armor global/individual, elytra, saturation
+        return value;
+    }
+
+    public String GenerateExperienceSpeechText(){
+        String value = "";
+
+        if(playerProperties.xpLevel > 0){
+            value += getSymbol("text.onebar.xpLevel", playerProperties.xpLevel);
+        }
+        if(playerProperties.xp > 0){
+            value += getSymbol("text.onebar.xp", Calculations.calculatePercentage(playerProperties.xp, playerProperties.maxXp));
+        }
+        if(playerProperties.lapisLazuli > 0){
+            value += getSymbol("text.onebar.lapisLazuli", playerProperties.lapisLazuli);
+        }
+        if(playerProperties.lapisLazuliMax > 0){
+            value += getSymbol("text.onebar.lapisLazuliMax", playerProperties.lapisLazuliMax);
+        }
+
+        return value;
     }
 
     private boolean translationStringValid(String key){

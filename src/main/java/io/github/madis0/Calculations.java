@@ -138,4 +138,12 @@ public class Calculations {
     private static int clampTo8Bit(int v) {
         return (v & ~0xFF) != 0 ? ((~v) >> 31) & 0xFF : v;
     }
+
+    public static int calculatePercentage(int value, int max) {
+        if (max == 0) {
+            throw new IllegalArgumentException("Max value cannot be zero.");
+        }
+        // Calculate percentage and round to the nearest integer
+        return Math.round((value * 100.0f) / max);
+    }
 }
