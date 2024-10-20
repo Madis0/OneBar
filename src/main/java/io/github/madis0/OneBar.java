@@ -78,7 +78,7 @@ public class OneBar implements ClientModInitializer {
 		}
 		final TextGeneration textGeneration = new TextGeneration(true);
 
-		narrator.narrate(textGeneration.GenerateExperienceSpeechText());
+		narrator.narrate(textGeneration.GenerateOneBarText());
 		//client.player.sendMessage(Text.translatable(textGeneration.GenerateExperienceSpeechText()), false);
 	}
 
