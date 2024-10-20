@@ -1,8 +1,8 @@
 {
   "modmenu.descriptionTranslation.onebar": "只在你需要时显示长条和数值的界面模组",
-  "text.onebar.health": "命%s",
-  "text.onebar.absorption": "吸%s",
-  "text.onebar.hunger": "饿%s",
+  "text.onebar.health.extra": "命%s",
+  "text.onebar.absorption.extra": "吸%s",
+  "text.onebar.hunger.extra": "饿%s",
   "text.onebar.resistance": "抗%s%%",
   "text.onebar.invisibility": "隐",
   "text.onebar.air": "气%s",

@@ -44,7 +44,7 @@ public class TextGeneration {
             if (config.healthEstimates && showHealthParentheses)
                 value += pStart;
 
-            value += getSymbol("text.onebar.health", true, config.textSettings.rawHealth ? (Math.round(playerProperties.healthRaw * 100.0) / 100.0) : getFraction(playerProperties.health, false));
+            value += getSymbol("text.onebar.health", config.textSettings.rawHealth ? (Math.round(playerProperties.healthRaw * 100.0) / 100.0) : getFraction(playerProperties.health, false));
 
             if(config.healthEstimates){
                 if (playerProperties.naturalRegenerationHealth > playerProperties.health && !config.uhcMode)
@@ -81,11 +81,11 @@ public class TextGeneration {
         // Additive values
 
         if (playerProperties.hasAbsorption)
-            value += plus + getSymbol("text.onebar.absorption", true, getFraction(playerProperties.absorption, false));
+            value += plus + getSymbol("text.onebar.absorption", getFraction(playerProperties.absorption, false));
 
         if(config.textSettings.showText) { // Separated if because order matters
             if (playerProperties.hasResistance && config.goodThings.showResistance)
-                value += plus + getSymbol("text.onebar.resistance", false, playerProperties.resistancePercent);
+                value += plus + getSymbol("text.onebar.resistance", playerProperties.resistancePercent);
             if(getMobHead(Objects.requireNonNull(client.player)) != null && config.armor.showMobHeads)
                 value += plus + getMobHead(client.player);
             if(playerProperties.hasGoldenArmorItem && config.armor.showMobHeads)
@@ -95,32 +95,32 @@ public class TextGeneration {
             if(playerProperties.hasInvisibility && (playerProperties.hasAnyArmorItem || playerProperties.hasArrowsStuck || playerProperties.hasGlowing) && config.goodThings.showInvisibility)
                 value += plus + noStart + getSymbol("text.onebar.invisibility") + noEnd;
             if(playerProperties.hasTotemOfUndying && playerProperties.isHoldingTotemOfUndying && config.goodThings.showTotemOfUndying)
-                value += plus + getSymbol("text.onebar.totemOfUndying", false, playerProperties.amountTotemOfUndying);
+                value += plus + getSymbol("text.onebar.totemOfUndying", playerProperties.amountTotemOfUndying);
             if(playerProperties.hasTotemOfUndying && !playerProperties.isHoldingTotemOfUndying && config.goodThings.showTotemOfUndying)
-                value += plus + noStart + getSymbol("text.onebar.totemOfUndying", false, playerProperties.amountTotemOfUndying) + noEnd;
+                value += plus + noStart + getSymbol("text.onebar.totemOfUndying", playerProperties.amountTotemOfUndying) + noEnd;
 
             // Subtractive values
 
             if(playerProperties.isWardenNear && config.badThings.showWarden)
-                value += minus + getSymbol("text.onebar.warden",false, getFraction(playerProperties.wardenDanger, false));
+                value += minus + getSymbol("text.onebar.warden", getFraction(playerProperties.wardenDanger, false));
             if (playerProperties.isUnderwater && !playerProperties.hasWaterBreathing)
-                value += minus + getSymbol( "text.onebar.air", false, getFraction(playerProperties.air, false));
+                value += minus + getSymbol( "text.onebar.air", getFraction(playerProperties.air, false));
             if (playerProperties.isUnderwater && playerProperties.hasWaterBreathing)
-                value += minus + noStart + getSymbol("text.onebar.air", false, getFraction(playerProperties.air, false)) + noEnd;
+                value += minus + noStart + getSymbol("text.onebar.air", getFraction(playerProperties.air, false)) + noEnd;
             if (playerProperties.isFreezing)
-                value += minus + getSymbol("text.onebar.freeze", false, getFraction(playerProperties.freeze, false));
+                value += minus + getSymbol("text.onebar.freeze", getFraction(playerProperties.freeze, false));
             if (playerProperties.isBurning && !playerProperties.hasFireResistance && config.badThings.showFire)
-                value += minus + getSymbol("text.onebar.fire", false, playerProperties.burningMultiplier);
+                value += minus + getSymbol("text.onebar.fire", playerProperties.burningMultiplier);
             if (playerProperties.isBurning && playerProperties.hasFireResistance && config.badThings.showFire)
-                value += minus + noStart + getSymbol("text.onebar.fire",false,  playerProperties.burningMultiplier) + noEnd;
+                value += minus + noStart + getSymbol("text.onebar.fire", playerProperties.burningMultiplier) + noEnd;
             if (playerProperties.hasLevitation && !playerProperties.isInWater && config.badThings.showLevitation)
-                value += minus + getSymbol("text.onebar.levitation", false, playerProperties.levitationTime);
+                value += minus + getSymbol("text.onebar.levitation", playerProperties.levitationTime);
             if (playerProperties.hasLevitation && playerProperties.isInWater && config.badThings.showLevitation)
-                value += minus + noStart + getSymbol("text.onebar.levitation", false, playerProperties.levitationTime + noEnd);
+                value += minus + noStart + getSymbol("text.onebar.levitation", playerProperties.levitationTime + noEnd);
             if (playerProperties.levitationFallHurts && config.badThings.showFallHeight && config.badThings.showLevitation)
-                value += getSymbol("text.onebar.falling", false, playerProperties.levitationFallHeight);
+                value += getSymbol("text.onebar.falling", playerProperties.levitationFallHeight);
             if (playerProperties.normalFallHurts && config.badThings.showFallHeight && !playerProperties.hasLevitation)
-                value += minus + getSymbol("text.onebar.falling",false, playerProperties.normalFallHeightDisplay);
+                value += minus + getSymbol("text.onebar.falling", playerProperties.normalFallHeightDisplay);
             if (playerProperties.hasGlowing && config.badThings.showGlowing)
                 value += minus + getSymbol("text.onebar.glowing");
             if (playerProperties.hasInfested && config.badThings.showInfested)
@@ -132,11 +132,11 @@ public class TextGeneration {
             if (playerProperties.hasWindCharged && config.badThings.showPostDeathEffects)
                 value += minus + getSymbol("text.onebar.windCharged");
             if (playerProperties.hasBadOmen && config.badThings.showOmens)
-                value += minus + getSymbol("text.onebar.badOmen", false, playerProperties.badOmenLevel);
+                value += minus + getSymbol("text.onebar.badOmen", playerProperties.badOmenLevel);
             if (playerProperties.hasRaidOmen && config.badThings.showOmens)
-                value += minus + getSymbol("text.onebar.raidOmen", false, playerProperties.raidOmenLevel);
+                value += minus + getSymbol("text.onebar.raidOmen", playerProperties.raidOmenLevel);
             if (playerProperties.hasTrialOmen && config.badThings.showOmens)
-                value += minus + getSymbol("text.onebar.trialOmen",false, playerProperties.trialOmenLevel);
+                value += minus + getSymbol("text.onebar.trialOmen", playerProperties.trialOmenLevel);
             if (clientProperties.isHardcore)
                 value += minus + getSymbol("text.onebar.hardcore");
             if (hasHunger || (playerProperties.hasHungerEffect && config.healthEstimates && !config.disableHunger))
@@ -145,7 +145,7 @@ public class TextGeneration {
             if (showHungerParentheses)
                 value += pStart;
             if (hasHunger || (playerProperties.hasHungerEffect && config.healthEstimates && !config.disableHunger))
-                value += getSymbol("text.onebar.hunger", true, getFraction(playerProperties.hunger, false));
+                value += getSymbol("text.onebar.hunger", getFraction(playerProperties.hunger, false));
             if (hasHunger && playerProperties.saturation < 1 && config.badThings.showHungerDecreasing)
                 value += Text.translatable("text.onebar.gettingHungrier.emoji").getString();
             if (playerProperties.hasHungerEffect && !config.disableHunger && config.healthEstimates)
@@ -159,7 +159,11 @@ public class TextGeneration {
     }
 
     public String GenerateMountBarText(float rawHealth, int health){
-        return getSymbol("text.onebar.mountHealth", true, config.textSettings.rawHealth ? (Math.round(rawHealth * 100.0) / 100.0) : getFraction(health, false));
+        return getSymbol("text.onebar.mountHealth", config.textSettings.rawHealth ? (Math.round(rawHealth * 100.0) / 100.0) : getFraction(health, false));
+    }
+
+    private boolean translationStringValid(String key){
+        return !Objects.equals(Text.translatable(key).getString(), key);
     }
 
     private String getFraction(int number){
@@ -178,29 +182,35 @@ public class TextGeneration {
         if(number < 0) // Replace minus with hyphen (\u8208) to make it 2 px shorter and therefore more aesthetic
             result = result.replace("-", "‐");
 
-        if(isEffectEstimate) // Then use italic format
+        if(isEffectEstimate) // Use italic format for estimates
             result = "§o" + result + "§r";
 
         return result;
     }
 
     public String getSymbol(String stringKey){
-        return getSymbol(stringKey, false, (Object) null);
+        return getSymbol(stringKey, (Object) null);
     }
 
-    public String getSymbol(String stringKey, boolean extra, Object... args){
-        boolean speech = true;
+    public String getSymbol(String stringKey, Object... parameters){
+        boolean speech = false;
         String suffix = "";
 
-        if(speech)
+        if(speech){
             suffix = ".speech";
-        else if(config.textSettings.useEmoji)
+        }
+        else if(config.textSettings.extraSymbols && translationStringValid(stringKey + ".extra")){
+            suffix = ".extra";
+            if(config.textSettings.useEmoji && translationStringValid(stringKey + suffix + ".emoji"))
+                suffix += ".emoji";
+        }
+        else if(config.textSettings.useEmoji && translationStringValid(stringKey + ".emoji")){
             suffix = ".emoji";
+        }
+        else if(!translationStringValid(stringKey) && !config.textSettings.extraSymbols) // If extras are turned off, output value only
+            return String.valueOf(parameters[0]);
 
-        if(extra && !config.textSettings.extraSymbols)
-            return String.valueOf(args[0]);
-
-        return Text.translatable(stringKey + suffix, args).getString();
+        return Text.translatable(stringKey + suffix, parameters).getString();
     }
 
     public String getMobHead(PlayerEntity playerEntity){
