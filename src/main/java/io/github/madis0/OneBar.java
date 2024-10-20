@@ -61,8 +61,14 @@ public class OneBar implements ClientModInitializer {
 	}
 
 	private void handleSpeech(MinecraftClient client){
+		var narrator = client.getNarratorManager();
+		if(!narrator.isActive()){
+			client.player.sendMessage(Text.translatable(Text.translatable("options.narrator").getString() + " " + Text.translatable("options.narrator.notavailable").getString()), true);
+			return;
+		}
 		final TextGeneration textGeneration = new TextGeneration(true);
-		showState(client, false, textGeneration.GenerateOneBarText());
+		narrator.narrate(textGeneration.GenerateOneBarText());
+		//showState(client, false, textGeneration.GenerateOneBarText());
 	}
 
 	private static void showState(MinecraftClient client, boolean variable, String translationKey){
