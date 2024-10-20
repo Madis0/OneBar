@@ -1,9 +1,7 @@
 package io.github.madis0;
 
 import me.shedaniel.autoconfig.AutoConfig;
-import net.minecraft.text.Text;
 import net.minecraft.util.math.MathHelper;
-import java.text.DecimalFormat;
 
 public class Calculations {
     private static final ModConfig config = AutoConfig.getConfigHolder(ModConfig.class).getConfig();

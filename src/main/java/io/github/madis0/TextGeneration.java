@@ -200,13 +200,11 @@ public class TextGeneration {
         else
             result = String.valueOf(number);
 
-        if(!useSpeech){
-            if(number < 0) // Replace minus with hyphen (\u8208) to make it 2 px shorter and therefore more aesthetic
-                result = result.replace("-", "‐");
+        if(number < 0) // Make minus more aesthetic or differentiate in speech
+            result = getSymbol("text.onebar.negative", result.replace("-", ""));
 
-            if(isEffectEstimate) // Use italic format for estimates
-                result = "§o" + result + "§r";
-        }
+        if(isEffectEstimate && !useSpeech) // Use italic format for estimates
+            result = "§o" + result + "§r";
 
         return result;
     }
