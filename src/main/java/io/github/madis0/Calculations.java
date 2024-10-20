@@ -54,12 +54,18 @@ public class Calculations {
 
     /**
      * Converts horse's jump strength to jump height, may not be 100% accurate
-     * <a href="https://github.com/d4rkm0nkey/HorseStatsVanilla/blob/main/src/main/java/monkey/lumpy/horse/stats/vanilla/util/Converter.java">Source</a>
+     * <a href="https://github.com/d4rkm0nkey/HorseStatsVanilla/blob/main/src/client/java/monkey/lumpy/horse/stats/vanilla/util/Converter.java">Source</a>
      * @param strength Horse jump strength
      * @return Jump height in blocks
      */
     public static double horseJumpStrengthToJumpHeight(double strength) {
-        return -0.1817584952 * strength * strength * strength + 3.689713992 * strength * strength + 2.128599134 * strength - 0.343930367;
+        double height = 0;
+        double velocity = strength;
+        while(velocity > 0) {
+            height += velocity;
+            velocity = (velocity - .08) * .98 * .98;
+        }
+        return height;
     }
 
     /**
