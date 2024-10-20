@@ -300,11 +300,12 @@ public class PlayerProperties {
         isBurning = playerEntity.doesRenderOnFire();
         int rawBurningSource = playerEntity.getFireTicks();
 
+        final int onFireConst = 160;
         // Reset soul fire state if burning state changes
-        if(rawBurningSource != 1) isBurningOnSoulFire = false;
+        if(rawBurningSource != onFireConst) isBurningOnSoulFire = false;
 
         if(rawBurningSource == -20) burningMultiplier = 1;
-        if(rawBurningSource == 1) burningMultiplier = 2;
+        if(rawBurningSource == onFireConst) burningMultiplier = 2;
         if(isBurningOnSoulFire) burningMultiplier = 3;
         if(rawBurningSource == 0) burningMultiplier = 4;
         isBurningOnFire = (burningMultiplier == 2 || burningMultiplier == 4) && !hasFireResistance;
