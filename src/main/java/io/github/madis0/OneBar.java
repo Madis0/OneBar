@@ -27,8 +27,12 @@ public class OneBar implements ClientModInitializer {
 		KeyBinding uhcMode = KeyBindingHelper.registerKeyBinding(new KeyBinding("text.autoconfig.onebar.option.uhcMode", InputUtil.Type.KEYSYM, InputUtil.UNKNOWN_KEY.getCode(), "text.autoconfig.onebar.title"));
 		KeyBinding disableHunger = KeyBindingHelper.registerKeyBinding(new KeyBinding("text.autoconfig.onebar.option.disableHunger", InputUtil.Type.KEYSYM, InputUtil.UNKNOWN_KEY.getCode(), "text.autoconfig.onebar.title"));
 		KeyBinding configScreen = KeyBindingHelper.registerKeyBinding(new KeyBinding("text.autoconfig.onebar.title", InputUtil.Type.KEYSYM, InputUtil.UNKNOWN_KEY.getCode(), "text.autoconfig.onebar.title"));
+		KeyBinding narrateOneBar = KeyBindingHelper.registerKeyBinding(new KeyBinding("text.onebar.narrateOneBar", InputUtil.Type.KEYSYM, InputUtil.UNKNOWN_KEY.getCode(), "text.autoconfig.onebar.title"));
+		KeyBinding narrateExtras = KeyBindingHelper.registerKeyBinding(new KeyBinding("text.onebar.narrateExtras", InputUtil.Type.KEYSYM, InputUtil.UNKNOWN_KEY.getCode(), "text.autoconfig.onebar.title"));
 
 		ClientTickEvents.END_CLIENT_TICK.register(client -> {
+			//final TextGeneration textGeneration = new TextGeneration(true);
+
 			while (showOneBar.wasPressed()) {
 				config.showOneBar = !config.showOneBar;
 			}
@@ -46,6 +50,12 @@ public class OneBar implements ClientModInitializer {
 			}
 			while (configScreen.wasPressed()) {
 				client.setScreen(AutoConfig.getConfigScreen(ModConfig.class, null).get());
+			}
+			while (narrateOneBar.wasPressed()) {
+				//showState(client, false, textGeneration.GenerateOneBarText());
+			}
+			while (narrateExtras.wasPressed()) {
+				showState(client,false, "Not yet implemented");
 			}
 		});
 	}

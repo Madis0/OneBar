@@ -97,6 +97,8 @@
   "text.onebar.oozing.speech": "slimes on death",
   "text.onebar.windCharged.speech": "wind charge on death",
   "text.onebar.infested.speech": "silverfish on hurt",
+  "text.onebar.narrateOneBar": "Narrate OneBar symbols",
+  "text.onebar.narrateExtras": "Narrate extra bars",
   "text.autoconfig.onebar.title": "OneBar configuration",
   "text.autoconfig.onebar.category.default": "General",
   "text.autoconfig.onebar.option.showOneBar": "Enable OneBar",

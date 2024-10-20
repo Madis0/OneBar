@@ -16,26 +16,36 @@ public class TextGeneration {
     private final ModConfig config = AutoConfig.getConfigHolder(ModConfig.class).getConfig();
     private final ClientProperties clientProperties = new ClientProperties();
     private final MinecraftClient client = MinecraftClient.getInstance();
-    private boolean hasHunger = playerProperties.hasHunger && !config.disableHunger;
+    private boolean useSpeech;
+
+    public TextGeneration() {
+        this.useSpeech = false;
+    }
+    public TextGeneration(boolean useSpeech) {
+        this.useSpeech = useSpeech;
+    }
 
     public String GenerateOneBarText()
     {
+        boolean hasHunger = playerProperties.hasHunger && !config.disableHunger;
+
         String value = "";
         boolean showHealthParentheses = config.textSettings.estimatesParentheses &&
-                (((hasHunger || playerProperties.hasHungerEffect && !config.disableHunger || playerProperties.isUnderwater || playerProperties.isFreezing || playerProperties.isBurning || playerProperties.hasAbsorption || (playerProperties.hasResistance && config.goodThings.showResistance)) &&
+                ((((playerProperties.hasHunger && !config.disableHunger) || playerProperties.hasHungerEffect && !config.disableHunger || playerProperties.isUnderwater || playerProperties.isFreezing || playerProperties.isBurning || playerProperties.hasAbsorption || (playerProperties.hasResistance && config.goodThings.showResistance)) &&
                         ((playerProperties.naturalRegenerationHealth > playerProperties.health && !config.uhcMode) || playerProperties.hasRegeneration || playerProperties.isStarving && !config.disableHunger || playerProperties.hasPoison || playerProperties.hasWither || playerProperties.isGettingFreezeDamage
                                 || playerProperties.isBurningOnFire || playerProperties.isDrowning || playerProperties.isSuffocating)) || (playerProperties.levitationFallHurts && playerProperties.hasLevitation && config.badThings.showFallHeight)
                         || (playerProperties.normalFallHurts && !playerProperties.hasLevitation && config.badThings.showFallHeight));
 
         boolean showHungerParentheses = config.textSettings.estimatesParentheses && config.healthEstimates && (playerProperties.hasHungerEffect && !config.disableHunger || (hasHunger && playerProperties.isHoldingFood && config.goodThings.heldFoodHungerBar));
 
-        final String arrowRight = Text.translatable("text.onebar.estimateTo.emoji").getString();
-        final String plus = Text.translatable("text.onebar.plus.emoji").getString();
-        final String minus = Text.translatable("text.onebar.minus.emoji").getString();
-        final String noStart = Text.translatable("text.onebar.noStart.emoji").getString();
-        final String noEnd = Text.translatable("text.onebar.noEnd.emoji").getString();
-        final String pStart = Text.translatable("text.onebar.parStart.emoji").getString();
-        final String pEnd = Text.translatable("text.onebar.parEnd.emoji").getString();
+        String suffix = useSpeech ? ".speech" : ".emoji";
+        final String arrowRight = Text.translatable("text.onebar.estimateTo" + suffix).getString();
+        final String plus = Text.translatable("text.onebar.plus" + suffix).getString();
+        final String minus = Text.translatable("text.onebar.minus" + suffix).getString();
+        final String noStart = Text.translatable("text.onebar.noStart" + suffix).getString();
+        final String noEnd = Text.translatable("text.onebar.noEnd" + suffix).getString();
+        final String pStart = Text.translatable("text.onebar.parStart" + suffix).getString();
+        final String pEnd = Text.translatable("text.onebar.parEnd" + suffix).getString();
 
         if(config.textSettings.showText) {
 
@@ -193,10 +203,9 @@ public class TextGeneration {
     }
 
     public String getSymbol(String stringKey, Object... parameters){
-        boolean speech = false;
         String suffix = "";
 
-        if(speech){
+        if(useSpeech){
             suffix = ".speech";
         }
         else if(config.textSettings.extraSymbols && translationStringValid(stringKey + ".extra")){
