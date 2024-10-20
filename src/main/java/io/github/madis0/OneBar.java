@@ -31,7 +31,6 @@ public class OneBar implements ClientModInitializer {
 		KeyBinding narrateExtras = KeyBindingHelper.registerKeyBinding(new KeyBinding("text.onebar.narrateExtras", InputUtil.Type.KEYSYM, InputUtil.UNKNOWN_KEY.getCode(), "text.autoconfig.onebar.title"));
 
 		ClientTickEvents.END_CLIENT_TICK.register(client -> {
-			//final TextGeneration textGeneration = new TextGeneration(true);
 
 			while (showOneBar.wasPressed()) {
 				config.showOneBar = !config.showOneBar;
@@ -52,12 +51,18 @@ public class OneBar implements ClientModInitializer {
 				client.setScreen(AutoConfig.getConfigScreen(ModConfig.class, null).get());
 			}
 			while (narrateOneBar.wasPressed()) {
-				//showState(client, false, textGeneration.GenerateOneBarText());
+				if(client.world != null)
+					handleSpeech(client);
 			}
 			while (narrateExtras.wasPressed()) {
 				showState(client,false, "Not yet implemented");
 			}
 		});
+	}
+
+	private void handleSpeech(MinecraftClient client){
+		final TextGeneration textGeneration = new TextGeneration(true);
+		showState(client, false, textGeneration.GenerateOneBarText());
 	}
 
 	private static void showState(MinecraftClient client, boolean variable, String translationKey){
