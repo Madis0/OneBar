@@ -38,14 +38,13 @@ public class TextGeneration {
 
         boolean showHungerParentheses = config.textSettings.estimatesParentheses && config.healthEstimates && (playerProperties.hasHungerEffect && !config.disableHunger || (hasHunger && playerProperties.isHoldingFood && config.goodThings.heldFoodHungerBar));
 
-        String suffix = useSpeech ? ".speech" : ".emoji";
-        final String arrowRight = Text.translatable("text.onebar.estimateTo" + suffix).getString();
-        final String plus = Text.translatable("text.onebar.plus" + suffix).getString();
-        final String minus = Text.translatable("text.onebar.minus" + suffix).getString();
-        final String noStart = Text.translatable("text.onebar.noStart" + suffix).getString();
-        final String noEnd = Text.translatable("text.onebar.noEnd" + suffix).getString();
-        final String pStart = Text.translatable("text.onebar.parStart" + suffix).getString();
-        final String pEnd = Text.translatable("text.onebar.parEnd" + suffix).getString();
+        final String arrowRight = getSymbol("text.onebar.estimateTo");
+        final String plus = getSymbol("text.onebar.plus");
+        final String minus = getSymbol("text.onebar.minus");
+        final String noStart = getSymbol("text.onebar.noStart");
+        final String noEnd = getSymbol("text.onebar.noEnd");
+        final String pStart = getSymbol("text.onebar.parStart");
+        final String pEnd = getSymbol("text.onebar.parEnd");
 
         if(config.textSettings.showText) {
 
@@ -160,7 +159,7 @@ public class TextGeneration {
             if (hasHunger || (playerProperties.hasHungerEffect && config.healthEstimates && !config.disableHunger))
                 value += getSymbol("text.onebar.hunger", getFraction(playerProperties.hunger, false));
             if (hasHunger && playerProperties.saturation < 1 && config.badThings.showHungerDecreasing)
-                value += Text.translatable("text.onebar.gettingHungrier.emoji").getString();
+                value += getSymbol("text.onebar.gettingHungrier");
             if (playerProperties.hasHungerEffect && !config.disableHunger && config.healthEstimates)
                 value += arrowRight + getFraction(playerProperties.hungerEffectEstimate);
             if (hasHunger && playerProperties.isHoldingFood && config.goodThings.heldFoodHungerBar)
