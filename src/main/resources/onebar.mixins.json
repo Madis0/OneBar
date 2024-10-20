@@ -6,7 +6,8 @@
   "client": [
     "ClientSoulFireBlockMixin",
     "DebugHudAccessor",
-    "InGameHudMixin"
+    "InGameHudMixin",
+    "NarratorManagerMixin"
   ],
   "injectors": {
     "defaultRequire": 1

@@ -99,6 +99,7 @@
   "text.onebar.infested.speech": "silverfish on hurt",
   "text.onebar.narrateOneBar": "Narrate OneBar symbols",
   "text.onebar.narrateExtras": "Narrate extra bars",
+  "text.onebar.narrator.error": "Narrator must be active and set to System or All",
   "text.autoconfig.onebar.title": "OneBar configuration",
   "text.autoconfig.onebar.category.default": "General",
   "text.autoconfig.onebar.option.showOneBar": "Enable OneBar",

@@ -1,5 +1,6 @@
 package io.github.madis0;
 
+import io.github.madis0.mixin.NarratorManagerMixin;
 import me.shedaniel.autoconfig.AutoConfig;
 import me.shedaniel.autoconfig.serializer.GsonConfigSerializer;
 import net.fabricmc.api.ClientModInitializer;
@@ -62,13 +63,12 @@ public class OneBar implements ClientModInitializer {
 
 	private void handleSpeech(MinecraftClient client){
 		var narrator = client.getNarratorManager();
-		if(!narrator.isActive()){
-			client.player.sendMessage(Text.translatable("options.generic_value", Text.translatable("options.narrator"), Text.translatable("options.narrator.notavailable")), true);
+		if(!narrator.isActive() || !((NarratorManagerMixin) narrator).invokeGetNarratorMode().shouldNarrateSystem()){
+			client.player.sendMessage(Text.translatable("text.onebar.narrator.error"), true);
 			return;
 		}
 		final TextGeneration textGeneration = new TextGeneration(true);
 		narrator.narrate(textGeneration.GenerateOneBarText());
-		//showState(client, false, textGeneration.GenerateOneBarText());
 	}
 
 	private static void showState(MinecraftClient client, boolean variable, String translationKey){
