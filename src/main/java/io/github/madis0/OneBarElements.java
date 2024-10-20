@@ -18,12 +18,10 @@ import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
 import net.minecraft.registry.RegistryKey;
-import net.minecraft.text.Text;
 import net.minecraft.util.Arm;
 import net.minecraft.world.Difficulty;
 
 import java.util.Locale;
-import java.util.Objects;
 
 public class OneBarElements {
     private final ModConfig config = AutoConfig.getConfigHolder(ModConfig.class).getConfig();

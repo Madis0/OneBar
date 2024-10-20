@@ -54,7 +54,10 @@ public class TextGeneration {
             if (config.healthEstimates && showHealthParentheses)
                 value += pStart;
 
-            value += getSymbol("text.onebar.health", config.textSettings.rawHealth ? (Math.round(playerProperties.healthRaw * 100.0) / 100.0) : getFraction(playerProperties.health, false));
+            value += getSymbol("text.onebar.health",
+                    config.textSettings.rawHealth ?
+                            getFraction(Math.round(playerProperties.healthRaw * 100.0) / 100.0) :
+                            getFraction(playerProperties.health, false));
 
             if(config.healthEstimates){
                 if (playerProperties.naturalRegenerationHealth > playerProperties.health && !config.uhcMode)
@@ -169,11 +172,19 @@ public class TextGeneration {
     }
 
     public String GenerateMountBarText(float rawHealth, int health){
-        return getSymbol("text.onebar.mountHealth", config.textSettings.rawHealth ? (Math.round(rawHealth * 100.0) / 100.0) : getFraction(health, false));
+        return getSymbol("text.onebar.mountHealth",
+                config.textSettings.rawHealth ?
+                        getFraction(Math.round(rawHealth * 100.0) / 100.0) :
+                        getFraction(health, false));
     }
 
     private boolean translationStringValid(String key){
         return !Objects.equals(Text.translatable(key).getString(), key);
+    }
+
+    private String getFraction(double number){
+        DecimalFormat df = new DecimalFormat("0.00");
+        return df.format(number);
     }
 
     private String getFraction(int number){
