@@ -75,6 +75,14 @@ public class Calculations {
                 .replace('-','₋');
     }
 
+    public static String emojiOrText(String textPhrase){
+        return emojiOrText(textPhrase, false, (Object) null);
+    }
+
+    public static String emojiOrText(String textPhrase, Object... args){
+        return emojiOrText(textPhrase, false, args);
+    }
+
     public static String emojiOrText(String textPhrase, boolean extra, Object... args){
         if(extra && !config.textSettings.extraSymbols)
             return String.valueOf(args[0]);
