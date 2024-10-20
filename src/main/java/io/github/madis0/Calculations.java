@@ -16,6 +16,10 @@ public class Calculations {
         return MathHelper.ceil(number * 10000.0F);
     }
 
+    public static String makeFraction(int number){
+        return makeFraction(number, config.textSettings.estimatesItalic);
+    }
+
     public static String makeFraction(int number, boolean italic){
         DecimalFormat df = new DecimalFormat(config.textSettings.useFractionsPadZeroes ? "0.0#" : "0.#");
         String result;
