@@ -28,8 +28,10 @@ public class OneBar implements ClientModInitializer {
 		KeyBinding uhcMode = KeyBindingHelper.registerKeyBinding(new KeyBinding("text.autoconfig.onebar.option.uhcMode", InputUtil.Type.KEYSYM, InputUtil.UNKNOWN_KEY.getCode(), "text.autoconfig.onebar.title"));
 		KeyBinding disableHunger = KeyBindingHelper.registerKeyBinding(new KeyBinding("text.autoconfig.onebar.option.disableHunger", InputUtil.Type.KEYSYM, InputUtil.UNKNOWN_KEY.getCode(), "text.autoconfig.onebar.title"));
 		KeyBinding configScreen = KeyBindingHelper.registerKeyBinding(new KeyBinding("text.autoconfig.onebar.title", InputUtil.Type.KEYSYM, InputUtil.UNKNOWN_KEY.getCode(), "text.autoconfig.onebar.title"));
-		KeyBinding narrateOneBar = KeyBindingHelper.registerKeyBinding(new KeyBinding("text.onebar.narrateOneBar", InputUtil.Type.KEYSYM, InputUtil.UNKNOWN_KEY.getCode(), "text.autoconfig.onebar.title"));
-		KeyBinding narrateExtras = KeyBindingHelper.registerKeyBinding(new KeyBinding("text.onebar.narrateExtras", InputUtil.Type.KEYSYM, InputUtil.UNKNOWN_KEY.getCode(), "text.autoconfig.onebar.title"));
+		KeyBinding narrateOneBar = KeyBindingHelper.registerKeyBinding(new KeyBinding("text.onebar.narrate.onebar", InputUtil.Type.KEYSYM, InputUtil.UNKNOWN_KEY.getCode(), "text.autoconfig.onebar.title"));
+		//KeyBinding narrateMount = KeyBindingHelper.registerKeyBinding(new KeyBinding("text.onebar.narrate.mount", InputUtil.Type.KEYSYM, InputUtil.UNKNOWN_KEY.getCode(), "text.autoconfig.onebar.title"));
+		//KeyBinding narrateArmor = KeyBindingHelper.registerKeyBinding(new KeyBinding("text.onebar.narrate.armor", InputUtil.Type.KEYSYM, InputUtil.UNKNOWN_KEY.getCode(), "text.autoconfig.onebar.title"));
+		//KeyBinding narrateXp = KeyBindingHelper.registerKeyBinding(new KeyBinding("text.onebar.narrate.xp", InputUtil.Type.KEYSYM, InputUtil.UNKNOWN_KEY.getCode(), "text.autoconfig.onebar.title"));
 
 		ClientTickEvents.END_CLIENT_TICK.register(client -> {
 
@@ -52,23 +54,32 @@ public class OneBar implements ClientModInitializer {
 				client.setScreen(AutoConfig.getConfigScreen(ModConfig.class, null).get());
 			}
 			while (narrateOneBar.wasPressed()) {
-				if(client.world != null)
-					handleSpeech(client);
+				handleSpeech(client);
 			}
-			while (narrateExtras.wasPressed()) {
-				showState(client,false, "Not yet implemented");
+			/*while (narrateMount.wasPressed()) {
+				handleSpeech(client);
 			}
+			while (narrateArmor.wasPressed()) {
+				handleSpeech(client);
+			}
+			while (narrateXp.wasPressed()) {
+				handleSpeech(client);
+			}*/
 		});
 	}
 
 	private void handleSpeech(MinecraftClient client){
+		if(client == null || client.world == null) return;
+
 		var narrator = client.getNarratorManager();
 		if(!narrator.isActive() || !((NarratorManagerMixin) narrator).invokeGetNarratorMode().shouldNarrateSystem()){
 			client.player.sendMessage(Text.translatable("text.onebar.narrator.error"), true);
 			return;
 		}
 		final TextGeneration textGeneration = new TextGeneration(true);
-		narrator.narrate(textGeneration.GenerateOneBarText());
+
+		narrator.narrate(textGeneration.GenerateExperienceSpeechText());
+		//client.player.sendMessage(Text.translatable(textGeneration.GenerateExperienceSpeechText()), false);
 	}
 
 	private static void showState(MinecraftClient client, boolean variable, String translationKey){
