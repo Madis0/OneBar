@@ -63,7 +63,7 @@ public class OneBar implements ClientModInitializer {
 	private void handleSpeech(MinecraftClient client){
 		var narrator = client.getNarratorManager();
 		if(!narrator.isActive()){
-			client.player.sendMessage(Text.translatable(Text.translatable("options.narrator").getString() + " " + Text.translatable("options.narrator.notavailable").getString()), true);
+			client.player.sendMessage(Text.translatable("options.generic_value", Text.translatable("options.narrator"), Text.translatable("options.narrator.notavailable")), true);
 			return;
 		}
 		final TextGeneration textGeneration = new TextGeneration(true);
