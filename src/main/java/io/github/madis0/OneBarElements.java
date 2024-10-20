@@ -29,6 +29,7 @@ public class OneBarElements {
     private final ModConfig config = AutoConfig.getConfigHolder(ModConfig.class).getConfig();
     private final ClientProperties clientProperties = new ClientProperties();
     private final PlayerProperties playerProperties = new PlayerProperties();
+    private final TextGeneration textGeneration = new TextGeneration();
     private final MinecraftClient client = MinecraftClient.getInstance();
     private final Difficulty difficulty = Objects.requireNonNull(client.getCameraEntity()).getWorld().getDifficulty();
     private final DrawContext drawContext;
@@ -227,142 +228,7 @@ public class OneBarElements {
     }
 
     private void barText(){
-        String value = "";
-        boolean showHealthParentheses = config.textSettings.estimatesParentheses &&
-                (((hasHunger || playerProperties.hasHungerEffect && !config.disableHunger || playerProperties.isUnderwater || playerProperties.isFreezing || playerProperties.isBurning || playerProperties.hasAbsorption || (playerProperties.hasResistance && config.goodThings.showResistance)) &&
-                ((playerProperties.naturalRegenerationHealth > playerProperties.health && !config.uhcMode) || playerProperties.hasRegeneration || playerProperties.isStarving && !config.disableHunger || playerProperties.hasPoison || playerProperties.hasWither || playerProperties.isGettingFreezeDamage
-                        || playerProperties.isBurningOnFire || playerProperties.isDrowning || playerProperties.isSuffocating)) || (playerProperties.levitationFallHurts && playerProperties.hasLevitation && config.badThings.showFallHeight)
-                || (playerProperties.normalFallHurts && !playerProperties.hasLevitation && config.badThings.showFallHeight));
-
-        boolean showHungerParentheses = config.textSettings.estimatesParentheses && config.healthEstimates && (playerProperties.hasHungerEffect && !config.disableHunger || (hasHunger && playerProperties.isHoldingFood && config.goodThings.heldFoodHungerBar));
-
-        final String arrowRight = Text.translatable("text.onebar.estimateTo.emoji").getString();
-        final String plus = Text.translatable("text.onebar.plus.emoji").getString();
-        final String minus = Text.translatable("text.onebar.minus.emoji").getString();
-        final String noStart = Text.translatable("text.onebar.noStart.emoji").getString();
-        final String noEnd = Text.translatable("text.onebar.noEnd.emoji").getString();
-        final String pStart = Text.translatable("text.onebar.parStart.emoji").getString();
-        final String pEnd = Text.translatable("text.onebar.parEnd.emoji").getString();
-
-        if(config.textSettings.showText) {
-
-            // Health values
-
-            if (config.healthEstimates && showHealthParentheses)
-                value += pStart;
-
-            value += Calculations.emojiOrText("text.onebar.health", true, config.textSettings.rawHealth ? (Math.round(playerProperties.healthRaw * 100.0) / 100.0) : Calculations.makeFraction(playerProperties.health, false));
-
-            if(config.healthEstimates){
-                if (playerProperties.naturalRegenerationHealth > playerProperties.health && !config.uhcMode)
-                    value += arrowRight + Calculations.makeFraction(playerProperties.naturalRegenerationHealth);
-                //if (hasHunger && playerProperties.isHoldingFood && playerProperties.heldFoodHealthEstimate > playerProperties.health)
-                //    value += arrowRight + Calculations.MakeFraction(playerProperties.heldFoodHealthEstimate);
-                if (playerProperties.levitationFallHurts && playerProperties.hasLevitation && config.badThings.showFallHeight)
-                    value += arrowRight + Calculations.makeFraction(playerProperties.levitationFallHealthEstimate);
-                if (playerProperties.normalFallHurts && !playerProperties.hasLevitation && config.badThings.showFallHeight)
-                    value += arrowRight + Calculations.makeFraction(playerProperties.normalFallHealthEstimate);
-                if (playerProperties.hasRegeneration)
-                    value += arrowRight + Calculations.makeFraction(playerProperties.regenerationHealth);
-                if (playerProperties.isStarving && hasHunger)
-                    value += arrowRight + Calculations.makeFraction(playerProperties.starvationHealthEstimate);
-                if (playerProperties.hasPoison)
-                    value += arrowRight + Calculations.makeFraction(playerProperties.poisonHealth);
-                if (playerProperties.hasWither)
-                    value += arrowRight + Calculations.makeFraction(playerProperties.witherHealth);
-                if (playerProperties.isWardenAngry)
-                    value += arrowRight + Calculations.makeFraction(0);
-                if (playerProperties.isGettingFreezeDamage)
-                    value += arrowRight + Calculations.makeFraction(0);
-                if (playerProperties.isBurningOnFire)
-                    value += arrowRight + Calculations.makeFraction(0);
-                if (playerProperties.isDrowning)
-                    value += arrowRight + Calculations.makeFraction(0);
-                if (playerProperties.isSuffocating)
-                    value += arrowRight + Calculations.makeFraction(0);
-                if (showHealthParentheses)
-                    value += pEnd;
-            }
-        }
-
-        // Additive values
-
-        if (playerProperties.hasAbsorption)
-            value += plus + Calculations.emojiOrText("text.onebar.absorption", true, Calculations.makeFraction(playerProperties.absorption, false));
-
-        if(config.textSettings.showText) { // Separated if because order matters
-            if (playerProperties.hasResistance && config.goodThings.showResistance)
-                value += plus + Calculations.emojiOrText("text.onebar.resistance", playerProperties.resistancePercent);
-            if(PlayerProperties.getMobHead(Objects.requireNonNull(client.player)) != null && config.armor.showMobHeads)
-                value += plus + PlayerProperties.getMobHead(client.player);
-            if(playerProperties.hasGoldenArmorItem && config.armor.showMobHeads)
-                value += plus + Calculations.emojiOrText("text.onebar.mobHeadPiglin");
-            if(playerProperties.hasInvisibility && !playerProperties.hasAnyArmorItem && !playerProperties.hasArrowsStuck && !playerProperties.hasGlowing && config.goodThings.showInvisibility)
-                value += plus + Calculations.emojiOrText("text.onebar.invisibility");
-            if(playerProperties.hasInvisibility && (playerProperties.hasAnyArmorItem || playerProperties.hasArrowsStuck || playerProperties.hasGlowing) && config.goodThings.showInvisibility)
-                value += plus + noStart + Calculations.emojiOrText("text.onebar.invisibility") + noEnd;
-            if(playerProperties.hasTotemOfUndying && playerProperties.isHoldingTotemOfUndying && config.goodThings.showTotemOfUndying)
-                value += plus + Calculations.emojiOrText("text.onebar.totemOfUndying", playerProperties.amountTotemOfUndying);
-            if(playerProperties.hasTotemOfUndying && !playerProperties.isHoldingTotemOfUndying && config.goodThings.showTotemOfUndying)
-                value += plus + noStart + Calculations.emojiOrText("text.onebar.totemOfUndying", playerProperties.amountTotemOfUndying) + noEnd;
-
-            // Subtractive values
-
-            if(playerProperties.isWardenNear && config.badThings.showWarden)
-                value += minus + Calculations.emojiOrText("text.onebar.warden",false, Calculations.makeFraction(playerProperties.wardenDanger, false));
-            if (playerProperties.isUnderwater && !playerProperties.hasWaterBreathing)
-                value += minus + Calculations.emojiOrText( "text.onebar.air", false, Calculations.makeFraction(playerProperties.air, false));
-            if (playerProperties.isUnderwater && playerProperties.hasWaterBreathing)
-                value += minus + noStart + Calculations.emojiOrText("text.onebar.air", false, Calculations.makeFraction(playerProperties.air, false)) + noEnd;
-            if (playerProperties.isFreezing)
-                value += minus + Calculations.emojiOrText("text.onebar.freeze", false, Calculations.makeFraction(playerProperties.freeze, false));
-            if (playerProperties.isBurning && !playerProperties.hasFireResistance && config.badThings.showFire)
-                value += minus + Calculations.emojiOrText("text.onebar.fire", playerProperties.burningMultiplier);
-            if (playerProperties.isBurning && playerProperties.hasFireResistance && config.badThings.showFire)
-                value += minus + noStart + Calculations.emojiOrText("text.onebar.fire", playerProperties.burningMultiplier) + noEnd;
-            if (playerProperties.hasLevitation && !playerProperties.isInWater && config.badThings.showLevitation)
-                value += minus + Calculations.emojiOrText("text.onebar.levitation", playerProperties.levitationTime);
-            if (playerProperties.hasLevitation && playerProperties.isInWater && config.badThings.showLevitation)
-                value += minus + noStart + Calculations.emojiOrText("text.onebar.levitation", playerProperties.levitationTime + noEnd);
-            if (playerProperties.levitationFallHurts && config.badThings.showFallHeight && config.badThings.showLevitation)
-                value += Calculations.emojiOrText("text.onebar.falling", playerProperties.levitationFallHeight);
-            if (playerProperties.normalFallHurts && config.badThings.showFallHeight && !playerProperties.hasLevitation)
-                value += minus + Calculations.emojiOrText("text.onebar.falling", playerProperties.normalFallHeightDisplay);
-            if (playerProperties.hasGlowing && config.badThings.showGlowing)
-                value += minus + Calculations.emojiOrText("text.onebar.glowing");
-            if (playerProperties.hasInfested && config.badThings.showInfested)
-                value += minus + Calculations.emojiOrText("text.onebar.infested");
-            if (playerProperties.hasWeaving && config.badThings.showPostDeathEffects)
-                value += minus + Calculations.emojiOrText("text.onebar.weaving");
-            if (playerProperties.hasOozing && config.badThings.showPostDeathEffects)
-                value += minus + Calculations.emojiOrText("text.onebar.oozing");
-            if (playerProperties.hasWindCharged && config.badThings.showPostDeathEffects)
-                value += minus + Calculations.emojiOrText("text.onebar.windCharged");
-            if (playerProperties.hasBadOmen && config.badThings.showOmens)
-                value += minus + Calculations.emojiOrText("text.onebar.badOmen", playerProperties.badOmenLevel);
-            if (playerProperties.hasRaidOmen && config.badThings.showOmens)
-                value += minus + Calculations.emojiOrText("text.onebar.raidOmen", playerProperties.raidOmenLevel);
-            if (playerProperties.hasTrialOmen && config.badThings.showOmens)
-                value += minus + Calculations.emojiOrText("text.onebar.trialOmen", playerProperties.trialOmenLevel);
-            if (clientProperties.isHardcore)
-                value += minus + Calculations.emojiOrText("text.onebar.hardcore");
-            if (hasHunger || (playerProperties.hasHungerEffect && config.healthEstimates && !config.disableHunger))
-                value += minus;
-
-            if (showHungerParentheses)
-                value += pStart;
-            if (hasHunger || (playerProperties.hasHungerEffect && config.healthEstimates && !config.disableHunger))
-                value += Calculations.emojiOrText("text.onebar.hunger", true, Calculations.makeFraction(playerProperties.hunger, false));
-            if (hasHunger && playerProperties.saturation < 1 && config.badThings.showHungerDecreasing)
-                value += Text.translatable("text.onebar.gettingHungrier.emoji").getString();
-            if (playerProperties.hasHungerEffect && !config.disableHunger && config.healthEstimates)
-                value += arrowRight + Calculations.makeFraction(playerProperties.hungerEffectEstimate);
-            if (hasHunger && playerProperties.isHoldingFood && config.goodThings.heldFoodHungerBar)
-                value += arrowRight + Calculations.makeFraction(playerProperties.heldFoodHungerEstimate);
-            if (showHungerParentheses)
-                value += pEnd;
-        }
-
+        String value = textGeneration.GenerateOneBarText();
         int textX = clientProperties.baseEndW - client.textRenderer.getWidth(value);
         int textY = clientProperties.baseStartH + 1;
 
@@ -494,7 +360,7 @@ public class OneBarElements {
         int horseArmor = mountEntity.getArmor();
         int horseMaxArmor = getProtectionFromArmor(new ItemStack((Items.DIAMOND_HORSE_ARMOR)));
 
-        String value = Calculations.emojiOrText("text.onebar.mountHealth", true, config.textSettings.rawHealth ? (Math.round(mountRawHealth * 100.0) / 100.0) : Calculations.makeFraction(health, false));
+        String value = textGeneration.GenerateMountBarText(mountRawHealth, health);
         int textX = clientProperties.baseEndW - client.textRenderer.getWidth(value);
         int textY = clientProperties.mountStartH + 1;
 

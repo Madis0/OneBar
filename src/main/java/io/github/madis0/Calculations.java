@@ -16,28 +16,6 @@ public class Calculations {
         return MathHelper.ceil(number * 10000.0F);
     }
 
-    public static String makeFraction(int number){
-        return makeFraction(number, config.textSettings.estimatesItalic);
-    }
-
-    public static String makeFraction(int number, boolean italic){
-        DecimalFormat df = new DecimalFormat(config.textSettings.useFractionsPadZeroes ? "0.0#" : "0.#");
-        String result;
-
-        if(config.textSettings.useFractions)
-            result = df.format((float) number / 2);
-        else
-            result = String.valueOf(number);
-
-        if(number < 0) // Replace minus with hyphen (\u8208) to make it 2 px shorter and therefore more aesthetic
-            result = result.replace("-", "‐");
-
-        if(italic)
-            result = "§o" + result + "§r";
-        
-        return result;
-    }
-
     public static float getEstimatedHealthDelta(int constant, int rawLevel, int duration){
         // See canApplyUpdateEffect and https://www.geeksforgeeks.org/bitwise-shift-operators-in-java/
         int ticks = Math.max(constant >> rawLevel, 1);
@@ -75,20 +53,6 @@ public class Calculations {
                 .replace('-','₋');
     }
 
-    public static String emojiOrText(String textPhrase){
-        return emojiOrText(textPhrase, false, (Object) null);
-    }
-
-    public static String emojiOrText(String textPhrase, Object... args){
-        return emojiOrText(textPhrase, false, args);
-    }
-
-    public static String emojiOrText(String textPhrase, boolean extra, Object... args){
-        if(extra && !config.textSettings.extraSymbols)
-            return String.valueOf(args[0]);
-
-        return Text.translatable(config.textSettings.useEmoji ? textPhrase + ".emoji" : textPhrase, args).getString();
-    }
 
     /**
      * Converts horse's jump strength to jump height, may not be 100% accurate
