@@ -191,7 +191,7 @@ public class PlayerProperties {
 
     public PlayerProperties(){
         PlayerEntity playerEntity = MinecraftClient.getInstance().player;
-        HungerManager hungerManager = Objects.requireNonNull(playerEntity).getHungerManager();
+        HungerManager hungerManager = playerEntity.getHungerManager();
         difficulty = playerEntity.getWorld().getDifficulty();
 
         // Player property calculations
@@ -316,7 +316,7 @@ public class PlayerProperties {
         isGettingFreezeDamage = playerEntity.isFrozen() && !difficulty.equals(Difficulty.PEACEFUL);
 
         maxLevitationTimeRaw = 200;
-        levitationTimeRaw = hasLevitation ? Math.max(Objects.requireNonNull(playerEntity.getStatusEffect(StatusEffects.LEVITATION)).getDuration(), 0) : 0;
+        levitationTimeRaw = hasLevitation ? Math.max(playerEntity.getStatusEffect(StatusEffects.LEVITATION).getDuration(), 0) : 0;
         maxLevitationTime = maxLevitationTimeRaw / 20;
         levitationTime = levitationTimeRaw / (int) Calculations.getPrettyDivisor(maxLevitationTimeRaw, maxLevitationTime);
 
@@ -336,7 +336,7 @@ public class PlayerProperties {
 
         if(playerEntity.hasStatusEffect(StatusEffects.LEVITATION)){
             var effect = playerEntity.getStatusEffect(StatusEffects.LEVITATION);
-            var estHeight = (Objects.requireNonNull(effect).getAmplifier() + 1) * 0.9 * ((float) effect.getDuration() / 20);
+            var estHeight = (effect.getAmplifier() + 1) * 0.9 * ((float) effect.getDuration() / 20);
             levitationResultYRaw = playerEntity.getY() + estHeight;
             levitationFallHeightRaw = getFallingHeightEstimate(playerEntity, levitationResultYRaw - belowBlockYRaw);
 
@@ -350,10 +350,10 @@ public class PlayerProperties {
         normalFallHealthEstimate = getFallingHealthEstimate(healthRaw, normalFallHeightRaw, normalFallHurts);
         normalFallHeightDisplay = new DecimalFormat("0.#").format(normalFallHeightRaw);
 
-        badOmenLevel = hasBadOmen ? Objects.requireNonNull(playerEntity.getStatusEffect(StatusEffects.BAD_OMEN)).getAmplifier() + 1: 0;
-        raidOmenLevel = hasRaidOmen ? Objects.requireNonNull(playerEntity.getStatusEffect(StatusEffects.RAID_OMEN)).getAmplifier() + 1: 0;
+        badOmenLevel = hasBadOmen ? playerEntity.getStatusEffect(StatusEffects.BAD_OMEN).getAmplifier() + 1: 0;
+        raidOmenLevel = hasRaidOmen ? playerEntity.getStatusEffect(StatusEffects.RAID_OMEN).getAmplifier() + 1: 0;
         // 20 ticks * 60 sec * 15 min = one "level" of trial omen
-        trialOmenLevel = hasTrialOmen ? (int)(Objects.requireNonNull(playerEntity.getStatusEffect(StatusEffects.TRIAL_OMEN)).getDuration() / (20 * 60 * 15)) + 1 : 0;
+        trialOmenLevel = hasTrialOmen ? (int)(playerEntity.getStatusEffect(StatusEffects.TRIAL_OMEN).getDuration() / (20 * 60 * 15)) + 1 : 0;
 
         xpLevel = playerEntity.experienceLevel;
         maxXp = 183; //renderExperienceBar @ InGameHud.class
@@ -462,14 +462,14 @@ public class PlayerProperties {
         naturalRegenerationHealth = MathHelper.ceil(naturalRegenerationHealthRaw);
 
         heldFoodHunger = 0;
-        ItemStack heldItem = Objects.requireNonNull(playerEntity).getMainHandStack();
+        ItemStack heldItem = playerEntity.getMainHandStack();
         if(!heldItem.getComponents().contains(DataComponentTypes.FOOD)) heldItem = playerEntity.getOffHandStack();
 
         if(heldItem.getComponents().contains(DataComponentTypes.FOOD)){
             isHoldingFood = true;
             FoodComponent itemFood = heldItem.getItem().getComponents().get(DataComponentTypes.FOOD);
-            heldFoodHunger = Objects.requireNonNull(itemFood).nutrition();
-            heldFoodSaturation = Objects.requireNonNull(itemFood).saturation() * heldFoodHunger * 2.0F; // See HungerManager -> add() for more info
+            heldFoodHunger = itemFood.nutrition();
+            heldFoodSaturation = itemFood.saturation() * heldFoodHunger * 2.0F; // See HungerManager -> add() for more info
         }
         else {
             isHoldingFood = false;

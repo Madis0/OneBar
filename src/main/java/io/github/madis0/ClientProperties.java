@@ -85,7 +85,7 @@ public class ClientProperties {
         mountStartH = baseStartH - 12;
         mountEndH = mountStartH + 9;
 
-        isHardcore = Objects.requireNonNull(client.world).getLevelProperties().isHardcore();
+        isHardcore = client.world.getLevelProperties().isHardcore();
     }
 
     public int baseRelativeEndW(int value, int total){

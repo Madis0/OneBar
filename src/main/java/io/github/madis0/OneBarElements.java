@@ -31,7 +31,7 @@ public class OneBarElements {
     private final PlayerProperties playerProperties = new PlayerProperties();
     private final TextGeneration textGeneration = new TextGeneration();
     private final MinecraftClient client = MinecraftClient.getInstance();
-    private final Difficulty difficulty = Objects.requireNonNull(client.getCameraEntity()).getWorld().getDifficulty();
+    private final Difficulty difficulty = client.getCameraEntity().getWorld().getDifficulty();
     private final DrawContext drawContext;
     private final TextRenderer textRenderer = client.textRenderer;
     private static final boolean hasExordium = FabricLoader.getInstance().isModLoaded("exordium");
@@ -100,7 +100,7 @@ public class OneBarElements {
         var bootsLength =  leggingsLength + gap + playerProperties.leggingsMaxArmor;
 
         var totalLength = bootsLength + playerProperties.bootsMaxArmor;
-        var elytraDurability = playerProperties.getArmorElementDurability(Objects.requireNonNull(client.player), EquipmentSlot.CHEST, 8); //8 aka same full width as Diamond/Netherite
+        var elytraDurability = playerProperties.getArmorElementDurability(client.player, EquipmentSlot.CHEST, 8); //8 aka same full width as Diamond/Netherite
 
         if (!config.armor.showSegmentedArmorBar)
             renderBar(clientProperties.baseStartW, clientProperties.baseStartH - 1, clientProperties.baseRelativeEndW(playerProperties.armor, playerProperties.maxArmor), clientProperties.baseStartH, config.armor.armorColor);
@@ -122,7 +122,7 @@ public class OneBarElements {
         var bootsLength =  leggingsLength + gap + playerProperties.leggingsMaxArmor;
         var totalLength = bootsLength + playerProperties.bootsMaxArmor;
 
-        var helmetDurability = playerProperties.getArmorElementDurability(Objects.requireNonNull(client.player), EquipmentSlot.HEAD, playerProperties.helmetArmor);
+        var helmetDurability = playerProperties.getArmorElementDurability(client.player, EquipmentSlot.HEAD, playerProperties.helmetArmor);
         var chestplateDurability = playerProperties.getArmorElementDurability(client.player, EquipmentSlot.CHEST, playerProperties.chestplateArmor);
         var elytraDurability = playerProperties.getArmorElementDurability(client.player, EquipmentSlot.CHEST, 8); //8 aka same full width as Diamond/Netherite
         var leggingsDurability = playerProperties.getArmorElementDurability(client.player, EquipmentSlot.LEGS, playerProperties.leggingsArmor);
@@ -287,10 +287,10 @@ public class OneBarElements {
 
     public void horseJumpBar(){
         int barHeight = Calculations.getPreciseInt(1.0F);
-        int jumpHeight = Calculations.getPreciseInt(Objects.requireNonNull(client.player).getMountJumpStrength());
+        int jumpHeight = Calculations.getPreciseInt(client.player.getMountJumpStrength());
 
-        double heightInBlocks = Math.max(0, Objects.requireNonNull(client.player).getMountJumpStrength() *
-                                                Calculations.horseJumpStrengthToJumpHeight(Objects.requireNonNull(client.player).getMountJumpStrength()));
+        double heightInBlocks = Math.max(0, client.player.getMountJumpStrength() *
+                                                Calculations.horseJumpStrengthToJumpHeight(client.player.getMountJumpStrength()));
 
         String roundedHeightInBlocks = Calculations.getSubscriptNumber(Double.parseDouble(String.format(Locale.US, "%,.1f",(heightInBlocks))));
 
@@ -306,9 +306,9 @@ public class OneBarElements {
     }
 
     public void camelJumpBar(){
-        int jumpStrength = Calculations.getPreciseInt(Math.max(Objects.requireNonNull(client.player).getMountJumpStrength(), 0)); //TODO: strength can be negative???
+        int jumpStrength = Calculations.getPreciseInt(Math.max(client.player.getMountJumpStrength(), 0)); //TODO: strength can be negative???
         int maxStrength = Calculations.getPreciseInt(1.0F);
-        int cooldown = Objects.requireNonNull(Objects.requireNonNull(client.player).getJumpingMount()).getJumpCooldown();
+        int cooldown = client.player.getJumpingMount().getJumpCooldown();
         int maxCooldown = 50;
         int cooldownVisible = cooldown / 20;
 

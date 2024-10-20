@@ -96,7 +96,7 @@ public class TextGeneration {
         if(config.textSettings.showText) { // Separated if because order matters
             if (playerProperties.hasResistance && config.goodThings.showResistance)
                 value += plus + getSymbol("text.onebar.resistance", playerProperties.resistancePercent);
-            if(getMobHead(Objects.requireNonNull(client.player)) != null && config.armor.showMobHeads)
+            if(getMobHead(client.player) != null && config.armor.showMobHeads)
                 value += plus + getMobHead(client.player);
             if(playerProperties.hasGoldenArmorItem && config.armor.showMobHeads)
                 value += plus + getSymbol("text.onebar.mobHeadPiglin");

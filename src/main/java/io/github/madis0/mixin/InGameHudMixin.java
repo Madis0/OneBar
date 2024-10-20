@@ -34,7 +34,7 @@ public abstract class InGameHudMixin {
         oneBarElements = new OneBarElements(context);
         showOneBar = config.showOneBar; // This var exists because it also shows whether oneBarElements is initialized
 
-        boolean barsVisible = !client.options.hudHidden && Objects.requireNonNull(client.interactionManager).hasStatusBars();
+        boolean barsVisible = !client.options.hudHidden && client.interactionManager.hasStatusBars();
         if(showOneBar && barsVisible) oneBarElements.renderOneBar();
     }
 
@@ -87,9 +87,9 @@ public abstract class InGameHudMixin {
     @ModifyVariable(method = "renderHeldItemTooltip", at = @At(value = "STORE"), ordinal = 2)
     private int renderHeldItemTooltip(int k){
         if(showOneBar && config.otherBars.hotbarTooltipsDown) {
-            if (getRiddenEntity() == null && !Objects.requireNonNull(client.interactionManager).hasCreativeInventory())
+            if (getRiddenEntity() == null && !client.interactionManager.hasCreativeInventory())
                 return k + 14;
-            else if (Objects.requireNonNull(client.interactionManager).hasCreativeInventory())
+            else if (client.interactionManager.hasCreativeInventory())
                 return k + 12;
             return k + 2;
         }
