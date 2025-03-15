@@ -224,22 +224,20 @@ public class PlayerProperties {
         maxArmor = playerEntity.defaultMaxHealth;
         armor = playerEntity.getArmor();
 
-        var chestItem = playerEntity.getInventory().getStack(EquipmentSlot.CHEST.getIndex());
-
-        if(!chestItem.isOf(Items.ELYTRA)){
-            rawArmorDurability += chestItem.getMaxDamage() - chestItem.getDamage();
-            rawMaxArmorDurability += chestItem.getMaxDamage();
-        }
-
-        EquipmentSlot[] playerArmorSlots = Arrays.stream(EquipmentSlot.values())
+        var playerArmorSlots = Arrays.stream(EquipmentSlot.values())
                 .filter(slot -> slot.getType() == EquipmentSlot.Type.HUMANOID_ARMOR)
                 .toArray(EquipmentSlot[]::new);
 
         for (EquipmentSlot slot : playerArmorSlots) {
-            ItemStack armorStack = playerEntity.getInventory().getStack(slot.getIndex());
+            var armorStack = playerEntity.getEquippedStack(slot);
             if (!armorStack.isEmpty() && !armorStack.isOf(Items.ELYTRA)) {
                 rawArmorDurability += armorStack.getMaxDamage() - armorStack.getDamage();
                 rawMaxArmorDurability += armorStack.getMaxDamage();
+            }
+            else if (armorStack.isOf(Items.ELYTRA)) {
+                hasElytra = true;
+                elytraDurability = armorStack.getMaxDamage() - armorStack.getDamage();
+                elytraMaxDurability = armorStack.getMaxDamage();
             }
         }
 
@@ -280,11 +278,6 @@ public class PlayerProperties {
 
         hasArrowsStuck = playerEntity.getStuckArrowCount() > 0;
 
-        if (chestItem.isOf(Items.ELYTRA)) {
-            hasElytra = true;
-            elytraDurability = chestItem.getMaxDamage() - chestItem.getDamage();
-            elytraMaxDurability = chestItem.getMaxDamage();
-        }
         isFlyingWithElytra = playerEntity.isGliding();
 
         maxFoodLevel = playerEntity.defaultMaxHealth;
