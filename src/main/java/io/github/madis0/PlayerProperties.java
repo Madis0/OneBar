@@ -25,6 +25,7 @@ import net.minecraft.util.math.Box;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.world.Difficulty;
 import java.text.DecimalFormat;
+import java.util.Arrays;
 import java.util.Comparator;
 import java.util.List;
 import java.util.Objects;
@@ -222,14 +223,26 @@ public class PlayerProperties {
 
         maxArmor = playerEntity.defaultMaxHealth;
         armor = playerEntity.getArmor();
-        for (ItemStack armorItem : playerEntity.getArmorItems()) {
-            if(!armorItem.isOf(Items.ELYTRA))
-                rawArmorDurability += armorItem.getMaxDamage() - armorItem.getDamage();
+
+        var chestItem = playerEntity.getInventory().getStack(EquipmentSlot.CHEST.getIndex());
+
+        if(!chestItem.isOf(Items.ELYTRA)){
+            rawArmorDurability += chestItem.getMaxDamage() - chestItem.getDamage();
+            rawMaxArmorDurability += chestItem.getMaxDamage();
         }
-        for (ItemStack armorItem : playerEntity.getArmorItems()) {
-            if(!armorItem.isOf(Items.ELYTRA))
-                rawMaxArmorDurability += armorItem.getMaxDamage();
+
+        EquipmentSlot[] playerArmorSlots = Arrays.stream(EquipmentSlot.values())
+                .filter(slot -> slot.getType() == EquipmentSlot.Type.HUMANOID_ARMOR)
+                .toArray(EquipmentSlot[]::new);
+
+        for (EquipmentSlot slot : playerArmorSlots) {
+            ItemStack armorStack = playerEntity.getInventory().getStack(slot.getIndex());
+            if (!armorStack.isEmpty() && !armorStack.isOf(Items.ELYTRA)) {
+                rawArmorDurability += armorStack.getMaxDamage() - armorStack.getDamage();
+                rawMaxArmorDurability += armorStack.getMaxDamage();
+            }
         }
+
         maxArmorDurability = (float)armor; // Abstraction
         armorDurability = rawArmorDurability > 0 ? (((float)rawArmorDurability / rawMaxArmorDurability) * maxArmorDurability) : 0;
 
@@ -267,7 +280,6 @@ public class PlayerProperties {
 
         hasArrowsStuck = playerEntity.getStuckArrowCount() > 0;
 
-        ItemStack chestItem = playerEntity.getEquippedStack(EquipmentSlot.CHEST);
         if (chestItem.isOf(Items.ELYTRA)) {
             hasElytra = true;
             elytraDurability = chestItem.getMaxDamage() - chestItem.getDamage();
@@ -574,10 +586,7 @@ public class PlayerProperties {
 
 
     private int getArmorItemMaxArmor(Item armorItem) {
-        if (armorItem instanceof ArmorItem) {
-            return getProtectionFromArmor(new ItemStack(armorItem));
-        }
-        return 0;
+        return getProtectionFromArmor(new ItemStack(armorItem));
     }
 
     public float getArmorElementDurability(PlayerEntity playerEntity, EquipmentSlot slot, float maxLimit){

@@ -5,6 +5,7 @@ import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.minecraft.block.*;
 import net.minecraft.entity.Entity;
+import net.minecraft.entity.EntityCollisionHandler;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import org.spongepowered.asm.mixin.Mixin;
@@ -25,8 +26,8 @@ public abstract class ClientSoulFireBlockMixin extends AbstractFireBlock {
     }
 
     @Override
-    public void onEntityCollision(BlockState state, World world, BlockPos pos, Entity entity) {
+    public void onEntityCollision(BlockState state, World world, BlockPos pos, Entity entity, EntityCollisionHandler handler) {
         PlayerProperties.setPlayerBurningOnSoulFire(entity.isPlayer());
-        super.onEntityCollision(state, world, pos, entity);
+        super.onEntityCollision(state, world, pos, entity, handler);
     }
 }
