@@ -504,7 +504,7 @@ public class OneBarElements {
 
         if(mountEntity instanceof CamelEntity){
             long standingUpMax = 52;
-            var standingUpTimer = Math.min(standingUpMax, ((CamelEntity)mountEntity).getLastPoseTickDelta());
+            var standingUpTimer = Math.min(standingUpMax, ((CamelEntity)mountEntity).getTimeSinceLastPoseTick());
             int standingUpTimerVisible = Math.round((standingUpMax - standingUpTimer) / (float)20);
 
             if(((CamelEntity)mountEntity).isChangingPose()){
