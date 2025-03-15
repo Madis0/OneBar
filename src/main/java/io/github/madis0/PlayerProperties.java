@@ -303,16 +303,26 @@ public class PlayerProperties {
         isSuffocating = playerEntity.isInsideWall();
 
         isBurning = playerEntity.doesRenderOnFire();
-        int rawBurningSource = playerEntity.getFireTicks();
 
-        // Reset soul fire state if burning state changes
-        if(rawBurningSource != 1) isBurningOnSoulFire = false;
+        int currentFireTicks = playerEntity.getFireTicks();
 
-        if(rawBurningSource == -20) burningMultiplier = 1;
-        if(rawBurningSource == 1) burningMultiplier = 2;
-        if(isBurningOnSoulFire) burningMultiplier = 3;
-        if(rawBurningSource == 0) burningMultiplier = 4;
-        isBurningOnFire = (burningMultiplier == 2 || burningMultiplier == 4) && !hasFireResistance;
+        final int NO_FIRE_TICKS = 0;
+        final int BURNING_FIRE_TICKS = 160;
+        final int IN_LAVA_FIRE_TICKS = 300;
+
+        if (currentFireTicks != BURNING_FIRE_TICKS) {
+            isBurningOnSoulFire = false;
+        }
+
+        if (currentFireTicks == NO_FIRE_TICKS && isBurning) {
+            burningMultiplier = 1; // Burning in air.
+        } else if (currentFireTicks == BURNING_FIRE_TICKS) {
+            burningMultiplier = isBurningOnSoulFire ? 3 : 2; // 3 for soul fire, 2 for normal fire.
+        } else if (currentFireTicks == IN_LAVA_FIRE_TICKS) {
+            burningMultiplier = 4; // Burning in lava.
+        }
+
+        isBurningOnFire = isBurning && !hasFireResistance;
 
         maxFreezeRaw = playerEntity.getMinFreezeDamageTicks();
         freezeRaw = playerEntity.getFrozenTicks();
