@@ -6,6 +6,21 @@ import net.minecraft.util.math.MathHelper;
 public class Calculations {
     private static final ModConfig config = AutoConfig.getConfigHolder(ModConfig.class).getConfig();
 
+    /**
+     * Calculates an intermediate coordinate between a start and end value based on a given proportion.
+     *
+     * <p>
+     * This method computes the coordinate by determining the proportional distance between
+     * {@code start} and {@code end} using the fraction {@code value / total}. If {@code value} is less
+     * than {@code total}, the computed coordinate is rounded up; otherwise, the end coordinate is returned.
+     * </p>
+     *
+     * @param start the starting coordinate
+     * @param end the ending coordinate
+     * @param value the current relative progress value
+     * @param total the total value representing the full width or range
+     * @return the calculated coordinate relative to the start position
+     */
     public static int relativeW(int start, int end, int value, int total){
         return value < total ? MathHelper.ceil(start + ((float) (end - start) / total * value)) : end;
     }
