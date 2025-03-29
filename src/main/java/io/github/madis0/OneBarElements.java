@@ -22,6 +22,7 @@ import net.minecraft.util.Arm;
 import net.minecraft.world.Difficulty;
 
 import java.util.Locale;
+import java.util.Objects;
 
 public class OneBarElements {
     private final ModConfig config = AutoConfig.getConfigHolder(ModConfig.class).getConfig();
