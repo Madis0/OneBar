@@ -13,10 +13,18 @@ public class ClientProperties {
     public final int baseEndW;
     public int baseStartH;
     public final int baseEndH;
+
+    public int armorStartH;
+    public int armorEndH;
+
+    public int saturationStartH;
+    public int saturationEndH;
+
     public int xpStartW;
     public final int xpEndW;
     public int xpStartH;
     public final int xpEndH;
+
     public final int horseJumpStartW;
     public final int horseJumpEndW;
     public final int horseJumpStartH;
@@ -50,6 +58,12 @@ public class ClientProperties {
         }
 
         baseEndH = baseStartH + 9;
+
+        armorStartH = baseStartH - 1;
+        armorEndH = baseStartH;
+
+        saturationStartH = baseEndH;
+        saturationEndH = baseEndH + 1;
 
         if (client.options.getMainArm().getValue() == Arm.RIGHT){
             xpStartW = baseEndW + 4;

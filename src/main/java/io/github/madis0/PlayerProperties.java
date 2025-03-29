@@ -477,12 +477,12 @@ public class PlayerProperties {
         naturalRegenerationHealth = MathHelper.ceil(naturalRegenerationHealthRaw);
 
         heldFoodHunger = 0;
-        ItemStack heldItem = Objects.requireNonNull(playerEntity).getMainHandStack();
-        if(!heldItem.getComponents().contains(DataComponentTypes.FOOD)) heldItem = playerEntity.getOffHandStack();
+        ItemStack heldFoodItem = Objects.requireNonNull(playerEntity).getMainHandStack();
+        if(!heldFoodItem.getComponents().contains(DataComponentTypes.FOOD)) heldFoodItem = playerEntity.getOffHandStack();
 
-        if(heldItem.getComponents().contains(DataComponentTypes.FOOD)){
+        if(heldFoodItem.getComponents().contains(DataComponentTypes.FOOD)){
             isHoldingFood = true;
-            FoodComponent itemFood = heldItem.getItem().getComponents().get(DataComponentTypes.FOOD);
+            FoodComponent itemFood = heldFoodItem.getItem().getComponents().get(DataComponentTypes.FOOD);
             heldFoodHunger = Objects.requireNonNull(itemFood).nutrition();
             heldFoodSaturation = Objects.requireNonNull(itemFood).saturation() * heldFoodHunger * 2.0F; // See HungerManager -> add() for more info
         }
@@ -586,7 +586,6 @@ public class PlayerProperties {
     private int getArmorElementArmor(PlayerEntity playerEntity, EquipmentSlot slot) {
         return getProtectionFromArmor(playerEntity.getEquippedStack(slot));
     }
-
 
     private int getArmorItemMaxArmor(Item armorItem) {
         return getProtectionFromArmor(new ItemStack(armorItem));

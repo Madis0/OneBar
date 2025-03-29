@@ -60,9 +60,9 @@ public class ModConfig implements ConfigData {
         @ConfigEntry.Gui.Tooltip
         public boolean heldFoodHungerBar = true;
         @ConfigEntry.ColorPicker(allowAlpha = true)
-        public int heldFoodHungerWasteColor = 0xA6FFB04C;
-        @ConfigEntry.ColorPicker(allowAlpha = true)
         public int heldFoodHungerGoodColor = 0xBF76FF03;
+        @ConfigEntry.ColorPicker(allowAlpha = true)
+        public int heldFoodHungerWasteColor = 0xA6FFB04C;
     }
 
     public static class BadThings {
