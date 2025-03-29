@@ -1,5 +1,7 @@
 package io.github.madis0.mixin;
 
+import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
+import com.llamalad7.mixinextras.injector.wrapoperation.WrapOperation;
 import io.github.madis0.ModConfig;
 import io.github.madis0.OneBarElements;
 import me.shedaniel.autoconfig.AutoConfig;
@@ -68,10 +70,11 @@ public abstract class InGameHudMixin {
     private void hideXpLevel(DrawContext context, RenderTickCounter tickCounter, CallbackInfo ci){
         if(!config.otherBars.compatibilityMode) genericCancel(ci);
     }
-    @Inject(method = "renderExperienceBar", at = @At(value = "HEAD"), cancellable = true)
+    /*@Inject(method = "renderExperienceBar", at = @At(value = "HEAD"), cancellable = true)
     private void hideXpBar(DrawContext context, int x, CallbackInfo ci){
         if(!config.otherBars.compatibilityMode) genericCancel(ci);
-    }
+    }*/
+
     @Inject(method = "renderMountJumpBar", at = @At(value = "HEAD"), cancellable = true)
     private void hideMountJump(JumpingMount jumpingMount, DrawContext context, int x, CallbackInfo ci) {
         if(!config.otherBars.compatibilityMode) mountJump(ci);
@@ -82,6 +85,20 @@ public abstract class InGameHudMixin {
             ci.cancel();
             oneBarElements.mountBar(getRiddenEntity());
         }
+    }
+
+    @WrapOperation(
+            method = "renderMainHud",
+            at = @At(
+                    value = "INVOKE",
+                    target = "Lnet/minecraft/client/gui/hud/InGameHud;renderExperienceBar(Lnet/minecraft/client/gui/DrawContext;I)V"
+            )
+    )
+    private void autoHud$wrapExperienceBar(InGameHud instance, DrawContext context, int x, Operation<Void> original) {
+        context.getMatrices().push();
+        context.getMatrices().translate(0, -300, 0);
+        original.call(instance, context, x);
+        context.getMatrices().pop();
     }
 
     @ModifyVariable(method = "renderHeldItemTooltip", at = @At(value = "STORE"), ordinal = 2)
