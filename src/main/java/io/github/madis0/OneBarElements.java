@@ -76,6 +76,7 @@ public class OneBarElements {
             barText();
             if(config.armor.showArmorBar) armorBar();
             if(config.armor.showArmorDurabilityBar) armorDurabilityBar();
+            if(config.armor.showHeldArmorBar) armorDifferenceBar();
             if(config.armor.showElytraDurabilityBar) elytraDurabilityBar();
             if(config.otherBars.showSaturationBar) saturationBar();
             //if(config.healthEstimates && config.otherBars.showSaturationBar) heldFoodSaturationBar();
@@ -165,6 +166,39 @@ public class OneBarElements {
             renderLeftToRightBarWithOffset(armorBarBootsLength, bootsDurability, armorBarTotalLength, config.armor.armorDurabilityColor, clientProperties.armorStartH, clientProperties.armorEndH);
         }
     }
+
+    private void armorDifferenceBar(){
+        if (playerProperties.heldAllArmor == 0 || playerProperties.heldResultArmor == playerProperties.armor)
+            return;
+
+        if (!config.armor.showSegmentedArmorBar) {
+            int diffColor = (playerProperties.heldResultArmor > playerProperties.armor) ? config.armor.heldArmorGoodColor : config.armor.heldArmorBadColor;
+            renderLeftToRightBarMiddle(playerProperties.armor, playerProperties.heldResultArmor, playerProperties.maxArmor, diffColor, clientProperties.armorStartH, clientProperties.armorEndH);
+        } //Segmented variant is WIP
+        /* else {
+            // Helmet
+            int helmetColor = (playerProperties.heldHelmetArmor > playerProperties.helmetArmor) ? config.armor.heldArmorGoodColor : config.armor.heldArmorBadColor;
+            renderLeftToRightBarMiddle(0, playerProperties.heldResultHelmetArmor, playerProperties.maxArmor, helmetColor, clientProperties.armorStartH, clientProperties.armorEndH);
+
+            // Chestplate (or Elytra)
+            if (!playerProperties.hasElytra) {
+                int chestColor = (playerProperties.heldChestplateArmor > playerProperties.chestplateArmor) ? config.armor.heldArmorGoodColor : config.armor.heldArmorBadColor;
+                renderLeftToRightBarMiddle(armorBarChestplateLength, playerProperties.heldResultChestplateArmor, playerProperties.maxArmor, chestColor, clientProperties.armorStartH, clientProperties.armorEndH);
+            } else if (config.armor.showElytraDurabilityBar && !config.armor.showArmorDurabilityBar) {
+                int elytraColor = (playerProperties.heldElytraDurability > playerProperties.chestplateArmor) ? config.armor.heldArmorGoodColor : config.armor.heldArmorBadColor;
+                renderLeftToRightBarMiddle(armorBarChestplateLength, playerProperties.heldElytraDurability, playerProperties.maxArmor, elytraColor, clientProperties.armorStartH, clientProperties.armorEndH);
+            }
+
+            // Leggings
+            int leggingsColor = (playerProperties.heldLeggingsArmor > playerProperties.leggingsArmor) ? config.armor.heldArmorGoodColor : config.armor.heldArmorBadColor;
+            renderLeftToRightBarMiddle(armorBarLeggingsLength, playerProperties.heldResultLeggingsArmor, playerProperties.maxArmor, leggingsColor, clientProperties.armorStartH, clientProperties.armorEndH);
+
+            // Boots
+            int bootsColor = (playerProperties.heldBootsArmor > playerProperties.bootsArmor) ? config.armor.heldArmorGoodColor : config.armor.heldArmorBadColor;
+            renderLeftToRightBarMiddle(armorBarBootsLength, playerProperties.heldResultBootsArmor, playerProperties.maxArmor, bootsColor, clientProperties.armorStartH, clientProperties.armorEndH);
+        }*/
+    }
+
 
     private void elytraDurabilityBar(){
         if(playerProperties.isFlyingWithElytra && !config.armor.showSegmentedArmorBar)

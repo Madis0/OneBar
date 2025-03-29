@@ -133,6 +133,12 @@ public class ModConfig implements ConfigData {
         @ConfigEntry.Gui.Tooltip
         public boolean showSegmentedArmorBar = false;
         @ConfigEntry.Gui.Tooltip
+        public boolean showHeldArmorBar = false;
+        @ConfigEntry.ColorPicker(allowAlpha = true)
+        public int heldArmorGoodColor = 0xCC00C853;
+        @ConfigEntry.ColorPicker(allowAlpha = true)
+        public int heldArmorBadColor = 0xCC757575;
+        @ConfigEntry.Gui.Tooltip
         public boolean showElytraDurabilityBar = true;
         @ConfigEntry.ColorPicker(allowAlpha = true)
         public int elytraDurabilityColor = 0xCCE040FB;

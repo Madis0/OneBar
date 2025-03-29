@@ -6,6 +6,7 @@ import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.screen.ingame.EnchantmentScreen;
 import net.minecraft.client.gui.screen.ingame.HandledScreen;
 import net.minecraft.component.DataComponentTypes;
+import net.minecraft.component.type.AttributeModifierSlot;
 import net.minecraft.component.type.AttributeModifiersComponent;
 import net.minecraft.component.type.FoodComponent;
 import net.minecraft.entity.EquipmentSlot;
@@ -76,6 +77,20 @@ public class PlayerProperties {
     public int bootsArmor;
     public int bootsMaxArmor;
     public float bootsMaxDurability;
+
+    public boolean isHoldingAnyArmor;
+    public int heldAllArmor;
+    public int heldHelmetArmor;
+    public int heldChestplateArmor;
+    public int heldLeggingsArmor;
+    public int heldBootsArmor;
+
+    public int heldResultHelmetArmor;
+    public int heldResultChestplateArmor;
+    public int heldResultLeggingsArmor;
+    public int heldResultBootsArmor;
+    public int heldResultArmor;
+    public int heldElytraDurability;
 
     public boolean hasAnyArmorItem;
     public boolean hasGoldenArmorItem;
@@ -270,6 +285,34 @@ public class PlayerProperties {
                               playerEntity.getEquippedStack(EquipmentSlot.CHEST).getItem() == Items.GOLDEN_CHESTPLATE ||
                               playerEntity.getEquippedStack(EquipmentSlot.LEGS).getItem() == Items.GOLDEN_LEGGINGS ||
                               playerEntity.getEquippedStack(EquipmentSlot.FEET).getItem() == Items.GOLDEN_BOOTS);
+
+        heldAllArmor = 0;
+        ItemStack heldArmorItem = Objects.requireNonNull(playerEntity).getMainHandStack();
+        if(getProtectionFromArmor(heldArmorItem) == 0) heldArmorItem = playerEntity.getOffHandStack();
+
+        if(getProtectionFromArmor(heldArmorItem) != 0){
+            isHoldingAnyArmor = true;
+            heldHelmetArmor = getSpecificArmorProtection(heldArmorItem, AttributeModifierSlot.HEAD);
+            heldChestplateArmor = getSpecificArmorProtection(heldArmorItem, AttributeModifierSlot.CHEST);
+            heldLeggingsArmor = getSpecificArmorProtection(heldArmorItem, AttributeModifierSlot.LEGS);
+            heldBootsArmor = getSpecificArmorProtection(heldArmorItem, AttributeModifierSlot.FEET);
+            heldAllArmor = heldHelmetArmor + heldChestplateArmor + heldLeggingsArmor + heldBootsArmor;
+
+            heldResultHelmetArmor = heldHelmetArmor > 0 ? heldHelmetArmor - helmetArmor : helmetArmor;
+            heldResultChestplateArmor = heldChestplateArmor > 0 ? heldChestplateArmor - chestplateArmor : chestplateArmor;
+            heldResultLeggingsArmor = heldLeggingsArmor > 0 ? heldLeggingsArmor - leggingsArmor : leggingsArmor;
+            heldResultBootsArmor = heldBootsArmor > 0 ? heldBootsArmor - bootsArmor : bootsArmor;
+
+            heldResultArmor = heldResultHelmetArmor + heldResultChestplateArmor + heldResultLeggingsArmor + heldResultBootsArmor;
+        }
+        else {
+            isHoldingAnyArmor = false;
+        }
+
+        ItemStack heldElytraItem = Objects.requireNonNull(playerEntity).getMainHandStack();
+        if(!heldElytraItem.isOf(Items.ELYTRA)) heldElytraItem = playerEntity.getOffHandStack();
+
+        if(heldElytraItem.isOf(Items.ELYTRA)) heldElytraDurability = heldElytraItem.getMaxDamage() - heldElytraItem.getDamage();
 
         amountTotemOfUndying = playerEntity.getInventory().count(Items.TOTEM_OF_UNDYING);
         hasTotemOfUndying = amountTotemOfUndying > 0;
@@ -582,6 +625,20 @@ public class PlayerProperties {
                 .orElse(0);
     }
 
+    public static int getSpecificArmorProtection(ItemStack armorItem, AttributeModifierSlot slot) {
+        AttributeModifiersComponent attributeModifierComponent = armorItem.get(DataComponentTypes.ATTRIBUTE_MODIFIERS);
+        if (attributeModifierComponent == null)
+            return 0;
+
+        RegistryKey<EntityAttribute> ARMOR = EntityAttributes.ARMOR.getKey().get();
+
+        return attributeModifierComponent.modifiers().stream()
+                .filter(entry -> entry.attribute().matchesKey(ARMOR) &&
+                        entry.slot().equals(slot))
+                .mapToInt(entry -> (int) entry.modifier().value())
+                .findFirst()
+                .orElse(0);
+    }
 
     private int getArmorElementArmor(PlayerEntity playerEntity, EquipmentSlot slot) {
         return getProtectionFromArmor(playerEntity.getEquippedStack(slot));
