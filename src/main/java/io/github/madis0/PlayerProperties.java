@@ -78,7 +78,7 @@ public class PlayerProperties {
     public float bootsMaxDurability;
 
     public boolean hasAnyArmorItem;
-    public boolean hasGoldenArmorItem;
+    public boolean hasPiglinDeterArmorItem;
 
     public boolean hasTotemOfUndying;
     public int amountTotemOfUndying;
@@ -266,10 +266,11 @@ public class PlayerProperties {
                            playerEntity.getEquippedStack(EquipmentSlot.FEET).getItem() != Items.AIR ||
                            playerEntity.getEquippedStack(EquipmentSlot.OFFHAND).getItem() != Items.AIR);
 
-        hasGoldenArmorItem = (playerEntity.getEquippedStack(EquipmentSlot.HEAD).getItem() == Items.GOLDEN_HELMET ||
-                              playerEntity.getEquippedStack(EquipmentSlot.CHEST).getItem() == Items.GOLDEN_CHESTPLATE ||
-                              playerEntity.getEquippedStack(EquipmentSlot.LEGS).getItem() == Items.GOLDEN_LEGGINGS ||
-                              playerEntity.getEquippedStack(EquipmentSlot.FEET).getItem() == Items.GOLDEN_BOOTS);
+        hasPiglinDeterArmorItem = (playerEntity.getEquippedStack(EquipmentSlot.HEAD).getItem() == Items.GOLDEN_HELMET ||
+                                   playerEntity.getEquippedStack(EquipmentSlot.HEAD).getItem() == Items.PIGLIN_HEAD ||
+                                   playerEntity.getEquippedStack(EquipmentSlot.CHEST).getItem() == Items.GOLDEN_CHESTPLATE ||
+                                   playerEntity.getEquippedStack(EquipmentSlot.LEGS).getItem() == Items.GOLDEN_LEGGINGS ||
+                                   playerEntity.getEquippedStack(EquipmentSlot.FEET).getItem() == Items.GOLDEN_BOOTS);
 
         amountTotemOfUndying = playerEntity.getInventory().count(Items.TOTEM_OF_UNDYING);
         hasTotemOfUndying = amountTotemOfUndying > 0;
