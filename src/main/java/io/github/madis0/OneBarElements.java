@@ -36,6 +36,12 @@ public class OneBarElements {
     private static final boolean hasExordium = FabricLoader.getInstance().isModLoaded("exordium");
 
     boolean hasHunger = playerProperties.hasHunger && !config.disableHunger;
+    float armorBarGap = 0.1F;
+    float armorBarChestplateLength = armorBarGap + playerProperties.helmetMaxArmor;
+    float armorBarLeggingsLength = armorBarChestplateLength + armorBarGap + playerProperties.chestplateMaxArmor;
+    float armorBarBootsLength =  armorBarLeggingsLength + armorBarGap + playerProperties.leggingsMaxArmor;
+    float armorBarTotalLength = armorBarBootsLength + playerProperties.bootsMaxArmor;
+    float elytraDurability = playerProperties.getArmorElementDurability(Objects.requireNonNull(client.player), EquipmentSlot.CHEST, 8); //8 aka same full width as Diamond/Netherite
 
     public OneBarElements(DrawContext context){
         drawContext = context;
@@ -88,141 +94,158 @@ public class OneBarElements {
             drawContext.fillGradient(RenderLayer.getGui(), x1, y1, x2, y2, color, Calculations.manipulateColor(color, config.gradientShift), 0);
     }
 
+    private void renderLeftToRightBar(float currentValue, float maxValue, int color) {
+        renderBar(clientProperties.baseStartW, clientProperties.baseStartH, clientProperties.baseRelativeEndW(currentValue, maxValue), clientProperties.baseEndH, color);
+    }
+
+    private void renderLeftToRightBar(float currentValue, float maxValue, int color, int startH, int endH) {
+        renderBar(clientProperties.baseStartW, startH, clientProperties.baseRelativeEndW(currentValue, maxValue), endH, color);
+    }
+
+    private void renderRightToLeftBar(float currentValue, float maxValue, int color) {
+        renderBar(clientProperties.baseRelativeStartW(currentValue, maxValue), clientProperties.baseStartH, clientProperties.baseEndW, clientProperties.baseEndH, color);
+    }
+
+    private void renderLeftToRightBarWithOffset(float offset, float currentValue, float totalLength, int color, int startH, int endH) {
+        renderBar(clientProperties.baseRelativeEndW(offset, totalLength), startH, clientProperties.baseRelativeEndW(offset + currentValue, totalLength), endH, color);
+    }
+
+    private void renderRightToLeftBarMiddle(float leftValue, float rightValue, float maxValue, int color) {
+        renderBar(clientProperties.baseRelativeStartW(leftValue, maxValue), clientProperties.baseStartH, clientProperties.baseRelativeEndW(rightValue, maxValue), clientProperties.baseEndH, color);
+    }
+
+    private void renderLeftToRightBarMiddle(float leftValue, float rightValue, float maxValue, int color, int startH, int endH) {
+        float endValue = leftValue < rightValue ? rightValue : leftValue + rightValue;
+        renderBar(clientProperties.baseRelativeEndW(leftValue, maxValue), startH, clientProperties.baseRelativeEndW(endValue, maxValue), endH, color);
+    }
+
     private void barBackground(){
         renderBar(clientProperties.baseStartW, clientProperties.baseStartH, clientProperties.baseEndW, clientProperties.baseEndH, config.backgroundColor);
     }
 
     private void armorBar(){
-        var gap = 0.1F;
-        var chestplateLength = gap + playerProperties.helmetMaxArmor;
-        var leggingsLength = chestplateLength + gap + playerProperties.chestplateMaxArmor;
-        var bootsLength =  leggingsLength + gap + playerProperties.leggingsMaxArmor;
-
-        var totalLength = bootsLength + playerProperties.bootsMaxArmor;
-        var elytraDurability = playerProperties.getArmorElementDurability(Objects.requireNonNull(client.player), EquipmentSlot.CHEST, 8); //8 aka same full width as Diamond/Netherite
-
-        if (!config.armor.showSegmentedArmorBar)
-            renderBar(clientProperties.baseStartW, clientProperties.baseStartH - 1, clientProperties.baseRelativeEndW(playerProperties.armor, playerProperties.maxArmor), clientProperties.baseStartH, config.armor.armorColor);
-        else {
-            renderBar(clientProperties.baseRelativeEndW(0, totalLength), clientProperties.baseStartH - 1, clientProperties.baseRelativeEndW(playerProperties.helmetArmor, totalLength), clientProperties.baseStartH, config.armor.armorColor);
-            if (!playerProperties.hasElytra)
-                renderBar(clientProperties.baseRelativeEndW(chestplateLength, totalLength), clientProperties.baseStartH - 1, clientProperties.baseRelativeEndW(chestplateLength + playerProperties.chestplateArmor, totalLength), clientProperties.baseStartH, config.armor.armorColor);
-            else if (config.armor.showElytraDurabilityBar && !config.armor.showArmorDurabilityBar)
-                renderBar(clientProperties.baseRelativeEndW(chestplateLength, totalLength), clientProperties.baseStartH - 1, clientProperties.baseRelativeEndW(chestplateLength + elytraDurability, totalLength), clientProperties.baseStartH, config.armor.elytraDurabilityColor); // duplicated from armorDurabilityBar() as a fallback
-            renderBar(clientProperties.baseRelativeEndW(leggingsLength, totalLength), clientProperties.baseStartH - 1, clientProperties.baseRelativeEndW(leggingsLength + playerProperties.leggingsArmor, totalLength), clientProperties.baseStartH, config.armor.armorColor);
-            renderBar(clientProperties.baseRelativeEndW(bootsLength, totalLength), clientProperties.baseStartH - 1, clientProperties.baseRelativeEndW(bootsLength + playerProperties.bootsArmor, totalLength), clientProperties.baseStartH, config.armor.armorColor);
+        if (!config.armor.showSegmentedArmorBar) {
+            renderLeftToRightBar(playerProperties.armor, playerProperties.maxArmor, config.armor.armorColor, clientProperties.armorStartH, clientProperties.armorEndH);
+        } else {
+            // Helmet
+            renderLeftToRightBar(playerProperties.helmetArmor, armorBarTotalLength, config.armor.armorColor, clientProperties.armorStartH, clientProperties.armorEndH);
+            // Chestplate
+            if (!playerProperties.hasElytra) {
+                renderLeftToRightBarWithOffset(armorBarChestplateLength, playerProperties.chestplateArmor, armorBarTotalLength, config.armor.armorColor, clientProperties.armorStartH, clientProperties.armorEndH);
+            } else if (config.armor.showElytraDurabilityBar && !config.armor.showArmorDurabilityBar) {
+                renderLeftToRightBarWithOffset(armorBarChestplateLength, elytraDurability, armorBarTotalLength, config.armor.elytraDurabilityColor, clientProperties.armorStartH, clientProperties.armorEndH);
+            }
+            // Leggings
+            renderLeftToRightBarWithOffset(armorBarLeggingsLength, playerProperties.leggingsArmor, armorBarTotalLength, config.armor.armorColor, clientProperties.armorStartH, clientProperties.armorEndH);
+            // Boots
+            renderLeftToRightBarWithOffset(armorBarBootsLength, playerProperties.bootsArmor, armorBarTotalLength, config.armor.armorColor, clientProperties.armorStartH, clientProperties.armorEndH);
         }
     }
 
     private void armorDurabilityBar(){
-        var gap = 0.1F;
-        var chestplateLength = gap + playerProperties.helmetMaxArmor;
-        var leggingsLength = chestplateLength + gap + playerProperties.chestplateMaxArmor;
-        var bootsLength =  leggingsLength + gap + playerProperties.leggingsMaxArmor;
-        var totalLength = bootsLength + playerProperties.bootsMaxArmor;
-
         var helmetDurability = playerProperties.getArmorElementDurability(Objects.requireNonNull(client.player), EquipmentSlot.HEAD, playerProperties.helmetArmor);
         var chestplateDurability = playerProperties.getArmorElementDurability(client.player, EquipmentSlot.CHEST, playerProperties.chestplateArmor);
-        var elytraDurability = playerProperties.getArmorElementDurability(client.player, EquipmentSlot.CHEST, 8); //8 aka same full width as Diamond/Netherite
         var leggingsDurability = playerProperties.getArmorElementDurability(client.player, EquipmentSlot.LEGS, playerProperties.leggingsArmor);
         var bootsDurability = playerProperties.getArmorElementDurability(client.player, EquipmentSlot.FEET, playerProperties.bootsArmor);
 
         if(!config.armor.showSegmentedArmorBar){
             if(playerProperties.maxArmorDurability > 0)
-                renderBar(clientProperties.baseStartW, clientProperties.baseStartH - 1, clientProperties.baseRelativeEndW(playerProperties.armorDurability, playerProperties.maxArmor), clientProperties.baseStartH, config.armor.armorDurabilityColor);
-        }
-        else {
-            renderBar(clientProperties.baseRelativeEndW(0, totalLength), clientProperties.baseStartH - 1, clientProperties.baseRelativeEndW(helmetDurability, totalLength), clientProperties.baseStartH, config.armor.armorDurabilityColor);
+                renderLeftToRightBar(playerProperties.armorDurability, playerProperties.maxArmor, config.armor.armorDurabilityColor, clientProperties.armorStartH, clientProperties.armorEndH);
+        } else {
+            // Helmet
+            renderLeftToRightBar(helmetDurability, armorBarTotalLength, config.armor.armorDurabilityColor, clientProperties.armorStartH, clientProperties.armorEndH);
+            // Chestplate
             if(!playerProperties.hasElytra)
-                renderBar(clientProperties.baseRelativeEndW(chestplateLength, totalLength), clientProperties.baseStartH - 1, clientProperties.baseRelativeEndW(chestplateLength + chestplateDurability, totalLength), clientProperties.baseStartH, config.armor.armorDurabilityColor);
+                renderLeftToRightBarWithOffset(armorBarChestplateLength, chestplateDurability, armorBarTotalLength, config.armor.armorDurabilityColor, clientProperties.armorStartH, clientProperties.armorEndH);
             else if(config.armor.showElytraDurabilityBar)
-                renderBar(clientProperties.baseRelativeEndW(chestplateLength, totalLength), clientProperties.baseStartH - 1, clientProperties.baseRelativeEndW(chestplateLength + elytraDurability, totalLength), clientProperties.baseStartH, config.armor.elytraDurabilityColor);
-            renderBar(clientProperties.baseRelativeEndW(leggingsLength, totalLength), clientProperties.baseStartH - 1, clientProperties.baseRelativeEndW(leggingsLength + leggingsDurability, totalLength), clientProperties.baseStartH, config.armor.armorDurabilityColor);
-            renderBar(clientProperties.baseRelativeEndW(bootsLength, totalLength), clientProperties.baseStartH - 1, clientProperties.baseRelativeEndW(bootsLength + bootsDurability, totalLength), clientProperties.baseStartH, config.armor.armorDurabilityColor);
+                renderLeftToRightBarWithOffset(armorBarChestplateLength, elytraDurability, armorBarTotalLength, config.armor.elytraDurabilityColor, clientProperties.armorStartH, clientProperties.armorEndH);
+            // Leggings
+            renderLeftToRightBarWithOffset(armorBarLeggingsLength, leggingsDurability, armorBarTotalLength, config.armor.armorDurabilityColor, clientProperties.armorStartH, clientProperties.armorEndH);
+            // Boots
+            renderLeftToRightBarWithOffset(armorBarBootsLength, bootsDurability, armorBarTotalLength, config.armor.armorDurabilityColor, clientProperties.armorStartH, clientProperties.armorEndH);
         }
     }
 
     private void elytraDurabilityBar(){
         if(playerProperties.isFlyingWithElytra && !config.armor.showSegmentedArmorBar)
-            renderBar(clientProperties.baseStartW, clientProperties.baseStartH - 1, clientProperties.baseRelativeEndW(playerProperties.elytraDurability, playerProperties.elytraMaxDurability), clientProperties.baseStartH, config.armor.elytraDurabilityColor);
+            renderLeftToRightBar(playerProperties.elytraDurability, playerProperties.elytraMaxDurability, config.armor.elytraDurabilityColor, clientProperties.armorStartH, clientProperties.armorEndH);
     }
 
     private void saturationBar(){
-        renderBar(clientProperties.baseStartW, clientProperties.baseEndH, clientProperties.baseRelativeEndW(playerProperties.saturationRaw, playerProperties.maxFoodLevelRaw), clientProperties.baseEndH + 1, config.otherBars.saturationColor);
+        renderLeftToRightBar(playerProperties.saturationRaw, playerProperties.maxFoodLevelRaw, config.otherBars.saturationColor, clientProperties.saturationStartH, clientProperties.saturationEndH);
     }
 
     private void heldFoodHungerBar(){
         if(hasHunger){
-            if(playerProperties.heldFoodHungerEstimate >= 0) // Used food
-                renderBar(clientProperties.baseRelativeStartW(playerProperties.hunger, playerProperties.maxFoodLevel), clientProperties.baseStartH, clientProperties.baseRelativeEndW(playerProperties.maxFoodLevel - playerProperties.heldFoodHungerEstimate, playerProperties.maxFoodLevel), clientProperties.baseEndH, config.goodThings.heldFoodHungerGoodColor);
-            else // Wasted food
-                renderBar(clientProperties.baseRelativeStartW(playerProperties.heldFoodHunger, playerProperties.maxFoodLevel), clientProperties.baseStartH, clientProperties.baseEndW, clientProperties.baseEndH, config.goodThings.heldFoodHungerWasteColor);
+            if(playerProperties.heldFoodHungerEstimate >= 0) { // Used food
+                renderRightToLeftBarMiddle(playerProperties.hunger, playerProperties.maxFoodLevel - playerProperties.heldFoodHungerEstimate, playerProperties.maxFoodLevel, config.goodThings.heldFoodHungerGoodColor);
+            } else { // Wasted food
+                renderRightToLeftBar(playerProperties.heldFoodHunger, playerProperties.maxFoodLevel, config.goodThings.heldFoodHungerWasteColor);
+            }
         }
     }
 
     private void heldFoodSaturationBar(){ // Still WIP
-        renderBar(clientProperties.baseStartW, clientProperties.baseEndH, clientProperties.baseRelativeEndW(playerProperties.heldFoodSaturationEstimateRaw, playerProperties.maxFoodLevelRaw), clientProperties.baseEndH + 1, config.goodThings.heldFoodHungerGoodColor);
+        renderLeftToRightBar(playerProperties.heldFoodSaturationEstimateRaw, playerProperties.maxFoodLevelRaw, config.goodThings.heldFoodHungerGoodColor, clientProperties.saturationStartH, clientProperties.saturationEndH);
     }
 
-    private void heldFoodHealthBar(){ // Still WIP
-        if(playerProperties.heldFoodHealthEstimateRaw > playerProperties.healthRaw) {
-            renderBar(clientProperties.baseStartW, clientProperties.baseStartH, clientProperties.baseRelativeEndW(Math.max(playerProperties.heldFoodHealthEstimateRaw, playerProperties.healthRaw), playerProperties.maxHealthRaw), clientProperties.baseEndH, config.goodThings.naturalRegenerationColor);
-        }
+    private void heldFoodHealthBar(){
+        if(playerProperties.heldFoodHealthEstimateRaw > playerProperties.healthRaw)
+            renderLeftToRightBar(Math.max(playerProperties.heldFoodHealthEstimateRaw, playerProperties.healthRaw), playerProperties.maxHealthRaw, config.goodThings.naturalRegenerationColor);
     }
 
     private void naturalRegenerationBar(){
-        if (playerProperties.naturalRegenerationHealthRaw > playerProperties.healthRaw){
-            renderBar(clientProperties.baseStartW, clientProperties.baseStartH, clientProperties.baseRelativeEndW(Math.max(playerProperties.naturalRegenerationHealth, playerProperties.health), playerProperties.maxHealthRaw), clientProperties.baseEndH, config.goodThings.naturalRegenerationColor);
-        }
+        if(playerProperties.naturalRegenerationHealthRaw > playerProperties.healthRaw)
+            renderLeftToRightBar(Math.max(playerProperties.naturalRegenerationHealth, playerProperties.health), playerProperties.maxHealthRaw, config.goodThings.naturalRegenerationColor);
     }
 
     private void regenerationBar(){
         if(playerProperties.hasRegeneration)
-            renderBar(clientProperties.baseStartW, clientProperties.baseStartH, clientProperties.baseRelativeEndW(Math.max(playerProperties.regenerationHealthRaw, playerProperties.healthRaw), playerProperties.maxHealthRaw), clientProperties.baseEndH, config.goodThings.regenerationColor);
+            renderLeftToRightBar(Math.max(playerProperties.regenerationHealthRaw, playerProperties.healthRaw), playerProperties.maxHealthRaw, config.goodThings.regenerationColor);
     }
 
     private void healthBar(){
-        renderBar(clientProperties.baseStartW, clientProperties.baseStartH, clientProperties.baseRelativeEndW(playerProperties.healthRaw, playerProperties.maxHealthRaw), clientProperties.baseEndH, config.goodThings.healthColor);
+        renderLeftToRightBar(playerProperties.healthRaw, playerProperties.maxHealthRaw, config.goodThings.healthColor);
     }
 
     private void poisonBar(){
-        renderBar(clientProperties.baseRelativeStartW(playerProperties.maxHealthRaw - playerProperties.poisonHealthRaw, playerProperties.maxHealthRaw), clientProperties.baseStartH, clientProperties.baseEndW, clientProperties.baseEndH, config.badThings.poisonColor);
+        renderRightToLeftBar(playerProperties.maxHealthRaw - playerProperties.poisonHealthRaw, playerProperties.maxHealthRaw, config.badThings.poisonColor);
     }
 
     private void witherBar(){
-        renderBar(clientProperties.baseRelativeStartW(playerProperties.maxHealthRaw - playerProperties.witherHealthRaw, playerProperties.maxHealthRaw), clientProperties.baseStartH, clientProperties.baseEndW, clientProperties.baseEndH, config.badThings.witherColor);
+        renderRightToLeftBar(playerProperties.maxHealthRaw - playerProperties.witherHealthRaw, playerProperties.maxHealthRaw, config.badThings.witherColor);
     }
 
     private void wardenBar(){
-        renderBar(clientProperties.baseRelativeStartW(playerProperties.rawWardenDanger, playerProperties.rawMaxWardenDanger), clientProperties.baseStartH, clientProperties.baseEndW, clientProperties.baseEndH, config.badThings.wardenColor);
+        renderRightToLeftBar(playerProperties.rawWardenDanger, playerProperties.rawMaxWardenDanger, config.badThings.wardenColor);
     }
 
     private void hungerEffectBar(){
         if (playerProperties.hungerEffectEstimateRaw > playerProperties.hunger && !difficulty.equals(Difficulty.PEACEFUL) && !config.disableHunger){
-            renderBar(clientProperties.baseRelativeStartW(playerProperties.hungerEffectEstimateRaw, playerProperties.maxFoodLevelRaw), clientProperties.baseStartH, clientProperties.baseEndW, clientProperties.baseEndH, config.badThings.hungerEffectColor);
+            renderRightToLeftBar(playerProperties.hungerEffectEstimateRaw, playerProperties.maxFoodLevelRaw, config.badThings.hungerEffectColor);
         }
     }
 
     private void hungerBar(){
         if(hasHunger)
-            renderBar(clientProperties.baseRelativeStartW(playerProperties.hungerRaw, playerProperties.maxFoodLevelRaw), clientProperties.baseStartH, clientProperties.baseEndW, clientProperties.baseEndH, config.badThings.hungerColor);
+            renderRightToLeftBar(playerProperties.hungerRaw, playerProperties.maxFoodLevelRaw, config.badThings.hungerColor);
     }
 
     private void airBar(){
-        renderBar(clientProperties.baseRelativeStartW(playerProperties.airRaw, playerProperties.maxAirRaw), clientProperties.baseStartH, clientProperties.baseEndW, clientProperties.baseEndH, config.badThings.airColor);
+        renderRightToLeftBar(playerProperties.airRaw, playerProperties.maxAirRaw, config.badThings.airColor);
     }
 
     private void freezeBar(){
-        renderBar(clientProperties.baseRelativeStartW(playerProperties.freezeRaw, playerProperties.maxFreezeRaw), clientProperties.baseStartH, clientProperties.baseEndW, clientProperties.baseEndH, config.badThings.freezeColor);
+        renderRightToLeftBar(playerProperties.freezeRaw, playerProperties.maxFreezeRaw, config.badThings.freezeColor);
     }
 
     private void levitationBar(){
-        renderBar(clientProperties.baseRelativeStartW(playerProperties.levitationTimeRaw, playerProperties.maxLevitationTimeRaw), clientProperties.baseStartH, clientProperties.baseEndW, clientProperties.baseEndH, config.badThings.levitationColor);
+        renderRightToLeftBar(playerProperties.levitationTimeRaw, playerProperties.maxLevitationTimeRaw, config.badThings.levitationColor);
     }
 
     private void fireBar(){
         if (playerProperties.isBurning && !playerProperties.hasFireResistance){
-            renderBar(clientProperties.baseRelativeStartW((playerProperties.maxHealthRaw - playerProperties.healthRaw) + playerProperties.burningMultiplier, playerProperties.maxHealthRaw), clientProperties.baseStartH, clientProperties.baseEndW, clientProperties.baseEndH, config.badThings.fireColor);
+            renderRightToLeftBar((playerProperties.maxHealthRaw - playerProperties.healthRaw) + playerProperties.burningMultiplier, playerProperties.maxHealthRaw, config.badThings.fireColor);
         }
     }
 
@@ -294,7 +317,7 @@ public class OneBarElements {
                 value += plus + Calculations.emojiOrText("text.onebar.resistanceEmoji","text.onebar.resistance", false, playerProperties.resistancePercent);
             if(PlayerProperties.getMobHead(Objects.requireNonNull(client.player)) != null && config.armor.showMobHeads)
                 value += plus + PlayerProperties.getMobHead(client.player);
-            if(playerProperties.hasGoldenArmorItem && config.armor.showMobHeads)
+            if(playerProperties.hasPiglinDeterArmorItem && config.armor.showMobHeads)
                 value += plus + Calculations.emojiOrText("text.onebar.mobHeadPiglinEmoji","text.onebar.mobHeadPiglin", false, (Object) null);
             if(playerProperties.hasInvisibility && !playerProperties.hasAnyArmorItem && !playerProperties.hasArrowsStuck && !playerProperties.hasGlowing && config.goodThings.showInvisibility)
                 value += plus + Calculations.emojiOrText("text.onebar.invisibilityEmoji","text.onebar.invisibility", false, (Object) null);
@@ -504,7 +527,7 @@ public class OneBarElements {
 
         if(mountEntity instanceof CamelEntity){
             long standingUpMax = 52;
-            var standingUpTimer = Math.min(standingUpMax, ((CamelEntity)mountEntity).getLastPoseTickDelta());
+            var standingUpTimer = Math.min(standingUpMax, ((CamelEntity)mountEntity).getTimeSinceLastPoseTick());
             int standingUpTimerVisible = Math.round((standingUpMax - standingUpTimer) / (float)20);
 
             if(((CamelEntity)mountEntity).isChangingPose()){

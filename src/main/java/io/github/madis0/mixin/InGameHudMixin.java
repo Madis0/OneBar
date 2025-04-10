@@ -87,9 +87,9 @@ public abstract class InGameHudMixin {
     @ModifyVariable(method = "renderHeldItemTooltip", at = @At(value = "STORE"), ordinal = 2)
     private int renderHeldItemTooltip(int k){
         if(showOneBar && config.otherBars.hotbarTooltipsDown) {
-            if (getRiddenEntity() == null && !Objects.requireNonNull(client.interactionManager).hasCreativeInventory())
+            if (getRiddenEntity() == null && !Objects.requireNonNull(client.interactionManager).getCurrentGameMode().isCreative())
                 return k + 14;
-            else if (Objects.requireNonNull(client.interactionManager).hasCreativeInventory())
+            else if (Objects.requireNonNull(client.interactionManager).getCurrentGameMode().isCreative())
                 return k + 12;
             return k + 2;
         }

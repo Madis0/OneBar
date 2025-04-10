@@ -25,6 +25,7 @@ import net.minecraft.util.math.Box;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.world.Difficulty;
 import java.text.DecimalFormat;
+import java.util.Arrays;
 import java.util.Comparator;
 import java.util.List;
 import java.util.Objects;
@@ -77,7 +78,7 @@ public class PlayerProperties {
     public float bootsMaxDurability;
 
     public boolean hasAnyArmorItem;
-    public boolean hasGoldenArmorItem;
+    public boolean hasPiglinDeterArmorItem;
 
     public boolean hasTotemOfUndying;
     public int amountTotemOfUndying;
@@ -222,14 +223,24 @@ public class PlayerProperties {
 
         maxArmor = playerEntity.defaultMaxHealth;
         armor = playerEntity.getArmor();
-        for (ItemStack armorItem : playerEntity.getArmorItems()) {
-            if(!armorItem.isOf(Items.ELYTRA))
-                rawArmorDurability += armorItem.getMaxDamage() - armorItem.getDamage();
+
+        var playerArmorSlots = Arrays.stream(EquipmentSlot.values())
+                .filter(slot -> slot.getType() == EquipmentSlot.Type.HUMANOID_ARMOR)
+                .toArray(EquipmentSlot[]::new);
+
+        for (EquipmentSlot slot : playerArmorSlots) {
+            var armorStack = playerEntity.getEquippedStack(slot);
+            if (!armorStack.isEmpty() && !armorStack.isOf(Items.ELYTRA)) {
+                rawArmorDurability += armorStack.getMaxDamage() - armorStack.getDamage();
+                rawMaxArmorDurability += armorStack.getMaxDamage();
+            }
+            else if (armorStack.isOf(Items.ELYTRA)) {
+                hasElytra = true;
+                elytraDurability = armorStack.getMaxDamage() - armorStack.getDamage();
+                elytraMaxDurability = armorStack.getMaxDamage();
+            }
         }
-        for (ItemStack armorItem : playerEntity.getArmorItems()) {
-            if(!armorItem.isOf(Items.ELYTRA))
-                rawMaxArmorDurability += armorItem.getMaxDamage();
-        }
+
         maxArmorDurability = (float)armor; // Abstraction
         armorDurability = rawArmorDurability > 0 ? (((float)rawArmorDurability / rawMaxArmorDurability) * maxArmorDurability) : 0;
 
@@ -255,10 +266,11 @@ public class PlayerProperties {
                            playerEntity.getEquippedStack(EquipmentSlot.FEET).getItem() != Items.AIR ||
                            playerEntity.getEquippedStack(EquipmentSlot.OFFHAND).getItem() != Items.AIR);
 
-        hasGoldenArmorItem = (playerEntity.getEquippedStack(EquipmentSlot.HEAD).getItem() == Items.GOLDEN_HELMET ||
-                              playerEntity.getEquippedStack(EquipmentSlot.CHEST).getItem() == Items.GOLDEN_CHESTPLATE ||
-                              playerEntity.getEquippedStack(EquipmentSlot.LEGS).getItem() == Items.GOLDEN_LEGGINGS ||
-                              playerEntity.getEquippedStack(EquipmentSlot.FEET).getItem() == Items.GOLDEN_BOOTS);
+        hasPiglinDeterArmorItem = (playerEntity.getEquippedStack(EquipmentSlot.HEAD).getItem() == Items.GOLDEN_HELMET ||
+                                   playerEntity.getEquippedStack(EquipmentSlot.HEAD).getItem() == Items.PIGLIN_HEAD ||
+                                   playerEntity.getEquippedStack(EquipmentSlot.CHEST).getItem() == Items.GOLDEN_CHESTPLATE ||
+                                   playerEntity.getEquippedStack(EquipmentSlot.LEGS).getItem() == Items.GOLDEN_LEGGINGS ||
+                                   playerEntity.getEquippedStack(EquipmentSlot.FEET).getItem() == Items.GOLDEN_BOOTS);
 
         amountTotemOfUndying = playerEntity.getInventory().count(Items.TOTEM_OF_UNDYING);
         hasTotemOfUndying = amountTotemOfUndying > 0;
@@ -267,12 +279,6 @@ public class PlayerProperties {
 
         hasArrowsStuck = playerEntity.getStuckArrowCount() > 0;
 
-        ItemStack chestItem = playerEntity.getEquippedStack(EquipmentSlot.CHEST);
-        if (chestItem.isOf(Items.ELYTRA)) {
-            hasElytra = true;
-            elytraDurability = chestItem.getMaxDamage() - chestItem.getDamage();
-            elytraMaxDurability = chestItem.getMaxDamage();
-        }
         isFlyingWithElytra = playerEntity.isGliding();
 
         maxFoodLevel = playerEntity.defaultMaxHealth;
@@ -298,16 +304,26 @@ public class PlayerProperties {
         isSuffocating = playerEntity.isInsideWall();
 
         isBurning = playerEntity.doesRenderOnFire();
-        int rawBurningSource = playerEntity.getFireTicks();
 
-        // Reset soul fire state if burning state changes
-        if(rawBurningSource != 1) isBurningOnSoulFire = false;
+        int currentFireTicks = playerEntity.getFireTicks();
 
-        if(rawBurningSource == -20) burningMultiplier = 1;
-        if(rawBurningSource == 1) burningMultiplier = 2;
-        if(isBurningOnSoulFire) burningMultiplier = 3;
-        if(rawBurningSource == 0) burningMultiplier = 4;
-        isBurningOnFire = (burningMultiplier == 2 || burningMultiplier == 4) && !hasFireResistance;
+        final int NO_FIRE_TICKS = 0;
+        final int BURNING_FIRE_TICKS = 160;
+        final int IN_LAVA_FIRE_TICKS = 300;
+
+        if (currentFireTicks != BURNING_FIRE_TICKS) {
+            isBurningOnSoulFire = false;
+        }
+
+        if (currentFireTicks == NO_FIRE_TICKS && isBurning) {
+            burningMultiplier = 1; // Burning in air.
+        } else if (currentFireTicks == BURNING_FIRE_TICKS) {
+            burningMultiplier = isBurningOnSoulFire ? 3 : 2; // 3 for soul fire, 2 for normal fire.
+        } else if (currentFireTicks == IN_LAVA_FIRE_TICKS) {
+            burningMultiplier = 4; // Burning in lava.
+        }
+
+        isBurningOnFire = isBurning && !hasFireResistance;
 
         maxFreezeRaw = playerEntity.getMinFreezeDamageTicks();
         freezeRaw = playerEntity.getFrozenTicks();
@@ -462,12 +478,12 @@ public class PlayerProperties {
         naturalRegenerationHealth = MathHelper.ceil(naturalRegenerationHealthRaw);
 
         heldFoodHunger = 0;
-        ItemStack heldItem = Objects.requireNonNull(playerEntity).getMainHandStack();
-        if(!heldItem.getComponents().contains(DataComponentTypes.FOOD)) heldItem = playerEntity.getOffHandStack();
+        ItemStack heldFoodItem = Objects.requireNonNull(playerEntity).getMainHandStack();
+        if(!heldFoodItem.getComponents().contains(DataComponentTypes.FOOD)) heldFoodItem = playerEntity.getOffHandStack();
 
-        if(heldItem.getComponents().contains(DataComponentTypes.FOOD)){
+        if(heldFoodItem.getComponents().contains(DataComponentTypes.FOOD)){
             isHoldingFood = true;
-            FoodComponent itemFood = heldItem.getItem().getComponents().get(DataComponentTypes.FOOD);
+            FoodComponent itemFood = heldFoodItem.getItem().getComponents().get(DataComponentTypes.FOOD);
             heldFoodHunger = Objects.requireNonNull(itemFood).nutrition();
             heldFoodSaturation = Objects.requireNonNull(itemFood).saturation() * heldFoodHunger * 2.0F; // See HungerManager -> add() for more info
         }
@@ -572,12 +588,8 @@ public class PlayerProperties {
         return getProtectionFromArmor(playerEntity.getEquippedStack(slot));
     }
 
-
     private int getArmorItemMaxArmor(Item armorItem) {
-        if (armorItem instanceof ArmorItem) {
-            return getProtectionFromArmor(new ItemStack(armorItem));
-        }
-        return 0;
+        return getProtectionFromArmor(new ItemStack(armorItem));
     }
 
     public float getArmorElementDurability(PlayerEntity playerEntity, EquipmentSlot slot, float maxLimit){
