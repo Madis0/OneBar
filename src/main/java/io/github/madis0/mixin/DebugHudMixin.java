@@ -5,7 +5,7 @@ import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.gen.Accessor;
 
 @Mixin(DebugHud.class)
-public interface DebugHudAccessor {
+public interface DebugHudMixin {
 
     @Accessor
     boolean isRenderingAndTickChartsVisible();
