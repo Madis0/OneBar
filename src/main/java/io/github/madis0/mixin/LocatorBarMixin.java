@@ -14,19 +14,18 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 @Mixin(value = LocatorBar.class, priority = 800)
 public abstract class LocatorBarMixin {
 
-/*
     @ModifyArg(
             method = "renderBar(Lnet/minecraft/client/gui/DrawContext;Lnet/minecraft/client/render/RenderTickCounter;)V",
             at = @At(
                     value = "INVOKE",
                     target = "Lnet/minecraft/client/gui/DrawContext;drawGuiTexture(Lcom/mojang/blaze3d/pipeline/RenderPipeline;Lnet/minecraft/util/Identifier;IIII)V"
             ),
-            index = 5
+            index = 3
     )
     private int modifyHeightBar(int original) {
         var clientProperties = new io.github.madis0.ClientProperties();
-        return clientProperties.baseStartH + 30;
-    }*/
+        return clientProperties.baseStartH - 10;
+    }
 
     @ModifyVariable(
             method = "renderAddons(Lnet/minecraft/client/gui/DrawContext;Lnet/minecraft/client/render/RenderTickCounter;)V",
@@ -35,7 +34,7 @@ public abstract class LocatorBarMixin {
     )
     private int modifyHeightAddons(int original) {
         var clientProperties = new io.github.madis0.ClientProperties();
-        return clientProperties.baseStartH - 30;
+        return clientProperties.baseStartH - 10;
     }
 
 
