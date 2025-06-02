@@ -91,7 +91,7 @@ public class OneBarElements {
         if(!config.enableGradient)
             drawContext.fill(x1, y1, x2, y2, color);
         else
-            drawContext.fillGradient(RenderLayer.getGui(), x1, y1, x2, y2, color, Calculations.manipulateColor(color, config.gradientShift), 0);
+            drawContext.fillGradient(x1, y1, x2, y2, color, Calculations.manipulateColor(color, config.gradientShift));
     }
 
     private void renderLeftToRightBar(float currentValue, float maxValue, int color) {

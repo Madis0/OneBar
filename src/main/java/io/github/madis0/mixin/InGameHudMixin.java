@@ -47,6 +47,7 @@ public abstract class InGameHudMixin {
     private void hideHudCompat(DrawContext context, CallbackInfo ci){
         if(config.otherBars.compatibilityMode) genericCancel(ci);
     }
+    /*
     @Inject(method = "renderExperienceLevel", at = @At(value = "TAIL"), cancellable = true)
     private void hideXpLevelCompat(DrawContext context, RenderTickCounter tickCounter, CallbackInfo ci){
         if(config.otherBars.compatibilityMode) genericCancel(ci);
@@ -58,7 +59,7 @@ public abstract class InGameHudMixin {
     @Inject(method = "renderMountJumpBar", at = @At(value = "TAIL"), cancellable = true)
     private void hideMountJumpCompat(JumpingMount jumpingMount, DrawContext context, int x, CallbackInfo ci) {
         if(config.otherBars.compatibilityMode) mountJump(ci);
-    }
+    }*/
 
     // "Override" injections
 
@@ -66,39 +67,25 @@ public abstract class InGameHudMixin {
     private void hideHud(DrawContext context, CallbackInfo ci){
         if(!config.otherBars.compatibilityMode) genericCancel(ci);
     }
-    @Inject(method = "renderExperienceLevel", at = @At(value = "HEAD"), cancellable = true)
+    /*@Inject(method = "renderExperienceLevel", at = @At(value = "HEAD"), cancellable = true)
     private void hideXpLevel(DrawContext context, RenderTickCounter tickCounter, CallbackInfo ci){
         if(!config.otherBars.compatibilityMode) genericCancel(ci);
-    }
+    }*/
     /*@Inject(method = "renderExperienceBar", at = @At(value = "HEAD"), cancellable = true)
     private void hideXpBar(DrawContext context, int x, CallbackInfo ci){
         if(!config.otherBars.compatibilityMode) genericCancel(ci);
     }*/
 
-    @Inject(method = "renderMountJumpBar", at = @At(value = "HEAD"), cancellable = true)
+    /*@Inject(method = "renderMountJumpBar", at = @At(value = "HEAD"), cancellable = true)
     private void hideMountJump(JumpingMount jumpingMount, DrawContext context, int x, CallbackInfo ci) {
         if(!config.otherBars.compatibilityMode) mountJump(ci);
-    }
+    }*/
     @Inject(method = "renderMountHealth", at = @At(value = "HEAD"), cancellable = true)
     private void hideMountHealth(DrawContext context, CallbackInfo ci) {
         if(showOneBar){
             ci.cancel();
             oneBarElements.mountBar(getRiddenEntity());
         }
-    }
-
-    @WrapOperation(
-            method = "renderMainHud",
-            at = @At(
-                    value = "INVOKE",
-                    target = "Lnet/minecraft/client/gui/hud/InGameHud;renderExperienceBar(Lnet/minecraft/client/gui/DrawContext;I)V"
-            )
-    )
-    private void autoHud$wrapExperienceBar(InGameHud instance, DrawContext context, int x, Operation<Void> original) {
-        context.getMatrices().push();
-        context.getMatrices().translate(0, -300, 0);
-        original.call(instance, context, x);
-        context.getMatrices().pop();
     }
 
     @ModifyVariable(method = "renderHeldItemTooltip", at = @At(value = "STORE"), ordinal = 2)
