@@ -1,7 +1,6 @@
 package io.github.madis0.mixin;
 
-import io.github.madis0.ModConfig;
-import me.shedaniel.autoconfig.AutoConfig;
+import io.github.madis0.MixinConfigQuery;
 import net.minecraft.client.font.TextRenderer;
 import net.minecraft.client.gui.DrawContext;
 import net.minecraft.client.gui.hud.bar.Bar;
@@ -14,15 +13,13 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 public interface BarMixin {
     @Inject(method = "drawExperienceLevel", at = @At(value = "TAIL"), cancellable = true)
     private static void hideXpLevelCompat(DrawContext context, TextRenderer textRenderer, int level, CallbackInfo ci){
-        ModConfig config = AutoConfig.getConfigHolder(ModConfig.class).getConfig();
-        if(config.otherBars.compatibilityMode && config.showOneBar)
+        if(MixinConfigQuery.isCompatModeEnabled() && MixinConfigQuery.isOneBarEnabled())
             ci.cancel();
     }
 
     @Inject(method = "drawExperienceLevel", at = @At(value = "HEAD"), cancellable = true)
     private static void hideXpLevel(DrawContext context, TextRenderer textRenderer, int level, CallbackInfo ci){
-        ModConfig config = AutoConfig.getConfigHolder(ModConfig.class).getConfig();
-        if(!config.otherBars.compatibilityMode && config.showOneBar)
+        if(!MixinConfigQuery.isCompatModeEnabled() && MixinConfigQuery.isOneBarEnabled())
             ci.cancel();
     }
 }
