@@ -85,6 +85,7 @@ public class PlayerProperties {
     public boolean isHoldingTotemOfUndying;
     
     public boolean hasArrowsStuck;
+    public static boolean hasLocatorBar;
 
     public int elytraDurability;
     public int elytraMaxDurability;
@@ -140,7 +141,6 @@ public class PlayerProperties {
     public boolean normalFallHurts;
     public int normalFallHealthEstimate;
     public final boolean hasLevitation;
-
 
     public int resistancePercent;
 
@@ -524,6 +524,10 @@ public class PlayerProperties {
         isBurningOnSoulFire = isBurning;
     }
 
+    public static void setLocatorBarEnabled(boolean isEnabled){
+        hasLocatorBar = isEnabled;
+    }
+
     private double getFallingHeightEstimate(PlayerEntity playerEntity, double height){
         //TODO: not precise enough
         /*
@@ -611,6 +615,7 @@ public class PlayerProperties {
 
     public static String getMobHead(PlayerEntity playerEntity){
         Item headItem = playerEntity.getEquippedStack(EquipmentSlot.HEAD).getItem();
+        boolean hasLocatorBar = PlayerProperties.hasLocatorBar;
 
         if(headItem == Items.ZOMBIE_HEAD)
             return Calculations.emojiOrText("text.onebar.mobHeadZombieEmoji","text.onebar.mobHeadZombie", false, (Object) null);
@@ -620,7 +625,22 @@ public class PlayerProperties {
             return Calculations.emojiOrText("text.onebar.mobHeadCreeperEmoji","text.onebar.mobHeadCreeper", false, (Object) null);
         else if(headItem == Items.CARVED_PUMPKIN)
             return Calculations.emojiOrText("text.onebar.mobHeadEndermanEmoji","text.onebar.mobHeadEnderman", false, (Object) null);
-        else
-            return null;
+        else if(hasLocatorBar){
+            if(headItem == Items.PLAYER_HEAD)
+                return Calculations.emojiOrText("text.onebar.mobHeadPlayerEmoji","text.onebar.mobHeadPlayer", false, (Object) null);
+            if(headItem == Items.DRAGON_HEAD)
+                return Calculations.emojiOrText("text.onebar.mobHeadDragonEmoji", "text.onebar.mobHeadDragon", false, (Object) null);
+            if(headItem == Items.WITHER_SKELETON_SKULL)
+                return Calculations.emojiOrText("text.onebar.mobHeadWitherSkeletonEmoji", "text.onebar.mobHeadWitherSkeleton", false, (Object) null);
+        }
+        else if (!hasLocatorBar){
+            if(headItem == Items.PLAYER_HEAD)
+                return Calculations.emojiOrText("text.onebar.mobHeadPlayerEmoji.disabled","text.onebar.mobHeadPlayer.disabled", false, (Object) null);
+            if(headItem == Items.DRAGON_HEAD)
+                return Calculations.emojiOrText("text.onebar.mobHeadDragonEmoji.disabled", "text.onebar.mobHeadDragon.disabled", false, (Object) null);
+            if(headItem == Items.WITHER_SKELETON_SKULL)
+                return Calculations.emojiOrText("text.onebar.mobHeadWitherSkeletonEmoji.disabled", "text.onebar.mobHeadWitherSkeleton.disabled", false, (Object) null);
+        }
+        return null;
     }
 }

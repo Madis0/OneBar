@@ -2,6 +2,7 @@ package io.github.madis0.mixin;
 
 import io.github.madis0.MixinConfigQuery;
 import io.github.madis0.OneBarElements;
+import io.github.madis0.PlayerProperties;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.DrawContext;
 import net.minecraft.client.gui.hud.InGameHud;
@@ -22,6 +23,9 @@ public abstract class InGameHudMixin {
     @Final @Shadow private MinecraftClient client;
     @Shadow protected abstract LivingEntity getRiddenEntity();
 
+    @Shadow protected abstract boolean shouldShowExperienceBar();
+    @Shadow protected abstract boolean shouldShowJumpBar();
+
     private OneBarElements oneBarElements;
     private boolean showOneBar = false;
 
@@ -32,6 +36,8 @@ public abstract class InGameHudMixin {
 
         boolean barsVisible = !client.options.hudHidden && Objects.requireNonNull(client.interactionManager).hasStatusBars();
         if(showOneBar && barsVisible) oneBarElements.renderOneBar();
+
+        PlayerProperties.setLocatorBarEnabled(isLocatorBarActive());
     }
 
     @Inject(method = "renderStatusBars", at = @At(value = "INVOKE", target = "Lnet/minecraft/util/profiler/Profiler;push(Ljava/lang/String;)V"), cancellable = true)
@@ -64,5 +70,15 @@ public abstract class InGameHudMixin {
             return k + 2;
         }
         return k;
+    }
+
+    private boolean isLocatorBarActive() {
+        boolean hasWaypoint = client.player.networkHandler.getWaypointHandler().hasWaypoint();
+        boolean hasJumpingMount = client.player.getJumpingMount() != null;
+        boolean hasExpBar = client.interactionManager.hasExperienceBar();
+
+        return hasWaypoint &&
+                (!hasJumpingMount || !this.shouldShowJumpBar()) &&
+                (!hasExpBar || !this.shouldShowExperienceBar());
     }
 }
