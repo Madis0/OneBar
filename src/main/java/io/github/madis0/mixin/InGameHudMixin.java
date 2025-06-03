@@ -15,6 +15,7 @@ import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.ModifyVariable;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
+import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
 import java.util.Objects;
 
@@ -22,9 +23,6 @@ import java.util.Objects;
 public abstract class InGameHudMixin {
     @Final @Shadow private MinecraftClient client;
     @Shadow protected abstract LivingEntity getRiddenEntity();
-
-    @Shadow protected abstract boolean shouldShowExperienceBar();
-    @Shadow protected abstract boolean shouldShowJumpBar();
 
     private OneBarElements oneBarElements;
     private boolean showOneBar = false;
@@ -37,18 +35,18 @@ public abstract class InGameHudMixin {
         boolean barsVisible = !client.options.hudHidden && Objects.requireNonNull(client.interactionManager).hasStatusBars();
         if(showOneBar && barsVisible) oneBarElements.renderOneBar();
 
-        PlayerProperties.setLocatorBarEnabled(isLocatorBarActive());
+        PlayerProperties.setLocatorBarEnabled(client.player.networkHandler.getWaypointHandler().hasWaypoint());
     }
 
     @Inject(method = "renderStatusBars", at = @At(value = "INVOKE", target = "Lnet/minecraft/util/profiler/Profiler;push(Ljava/lang/String;)V"), cancellable = true)
     private void hideHudCompat(DrawContext context, CallbackInfo ci){
-        if(MixinConfigQuery.isCompatModeEnabled() && MixinConfigQuery.isOneBarEnabled())
+        if(showOneBar && MixinConfigQuery.isCompatModeEnabled())
             ci.cancel();
     }
 
     @Inject(method = "renderStatusBars", at = @At(value = "HEAD"), cancellable = true)
     private void hideHud(DrawContext context, CallbackInfo ci){
-        if(!MixinConfigQuery.isCompatModeEnabled() && MixinConfigQuery.isOneBarEnabled())
+        if(showOneBar && !MixinConfigQuery.isCompatModeEnabled())
             ci.cancel();
     }
 
@@ -57,6 +55,21 @@ public abstract class InGameHudMixin {
         if(showOneBar){
             ci.cancel();
             oneBarElements.mountBar(getRiddenEntity());
+        }
+    }
+
+    @Inject(method = "getCurrentBarType", at = @At("HEAD"), cancellable = true)
+    private void forceLocatorBar(CallbackInfoReturnable<Object> cir) {
+        if(showOneBar && !MixinConfigQuery.isCompatModeEnabled()){
+            try {
+                Class<?> barTypeClass = Class.forName("net.minecraft.client.gui.hud.InGameHud$BarType");
+                Object locatorConst = Enum.valueOf((Class<Enum>) barTypeClass, "LOCATOR");
+                cir.setReturnValue(locatorConst);
+                cir.cancel();
+            } catch (Exception e) {
+                // fallback or log
+                e.printStackTrace();
+            }
         }
     }
 
@@ -70,15 +83,5 @@ public abstract class InGameHudMixin {
             return k + 2;
         }
         return k;
-    }
-
-    private boolean isLocatorBarActive() {
-        boolean hasWaypoint = client.player.networkHandler.getWaypointHandler().hasWaypoint();
-        boolean hasJumpingMount = client.player.getJumpingMount() != null;
-        boolean hasExpBar = client.interactionManager.hasExperienceBar();
-
-        return hasWaypoint &&
-                (!hasJumpingMount || !this.shouldShowJumpBar()) &&
-                (!hasExpBar || !this.shouldShowExperienceBar());
     }
 }

@@ -23,8 +23,11 @@ public abstract class LocatorBarMixin {
             index = 3
     )
     private int modifyHeightBar(int original) {
+        if(!MixinConfigQuery.isOneBarEnabled() || MixinConfigQuery.isCompatModeEnabled())
+            return original;
+
         var clientProperties = new io.github.madis0.ClientProperties();
-        return clientProperties.baseStartH - 10;
+        return clientProperties.baseStartH - 7;
     }
 
     @ModifyVariable(
@@ -33,8 +36,11 @@ public abstract class LocatorBarMixin {
             index = 3
     )
     private int modifyHeightAddons(int original) {
+        if(!MixinConfigQuery.isOneBarEnabled() || MixinConfigQuery.isCompatModeEnabled())
+            return original;
+
         var clientProperties = new io.github.madis0.ClientProperties();
-        return clientProperties.baseStartH - 10;
+        return clientProperties.baseStartH - 7;
     }
 
 
