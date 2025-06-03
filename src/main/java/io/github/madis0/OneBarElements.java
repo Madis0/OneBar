@@ -317,8 +317,6 @@ public class OneBarElements {
                 value += plus + Calculations.emojiOrText("text.onebar.resistanceEmoji","text.onebar.resistance", false, playerProperties.resistancePercent);
             if(PlayerProperties.getMobHead(Objects.requireNonNull(client.player)) != null && config.armor.showMobHeads)
                 value += plus + PlayerProperties.getMobHead(client.player);
-            if(playerProperties.hasPiglinDeterArmorItem && config.armor.showMobHeads)
-                value += plus + Calculations.emojiOrText("text.onebar.mobHeadPiglinEmoji","text.onebar.mobHeadPiglin", false, (Object) null);
             if(playerProperties.hasInvisibility && !playerProperties.hasAnyArmorItem && !playerProperties.hasArrowsStuck && !playerProperties.hasGlowing && config.goodThings.showInvisibility)
                 value += plus + Calculations.emojiOrText("text.onebar.invisibilityEmoji","text.onebar.invisibility", false, (Object) null);
             if(playerProperties.hasInvisibility && (playerProperties.hasAnyArmorItem || playerProperties.hasArrowsStuck || playerProperties.hasGlowing) && config.goodThings.showInvisibility)
@@ -366,6 +364,8 @@ public class OneBarElements {
                 value += minus + Calculations.emojiOrText("text.onebar.raidOmenEmoji","text.onebar.raidOmen", false, playerProperties.raidOmenLevel);
             if (playerProperties.hasTrialOmen && config.badThings.showOmens)
                 value += minus + Calculations.emojiOrText("text.onebar.trialOmenEmoji","text.onebar.trialOmen", false, playerProperties.trialOmenLevel);
+            if(playerProperties.isVisibleOnLocatorBar && config.otherBars.showLocatability)
+                value += minus + Calculations.emojiOrText("text.onebar.locatorEmoji","text.onebar.locator", false, (Object) null);
             if (clientProperties.isHardcore)
                 value += minus + Calculations.emojiOrText("text.onebar.hardcoreEmoji","text.onebar.hardcore", false, (Object) null);
             if (hasHunger || (playerProperties.hasHungerEffect && config.healthEstimates && !config.disableHunger))

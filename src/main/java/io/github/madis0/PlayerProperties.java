@@ -24,11 +24,10 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Box;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.world.Difficulty;
+import net.minecraft.world.GameMode;
+
 import java.text.DecimalFormat;
-import java.util.Arrays;
-import java.util.Comparator;
-import java.util.List;
-import java.util.Objects;
+import java.util.*;
 
 public class PlayerProperties {
     Difficulty difficulty;
@@ -78,14 +77,14 @@ public class PlayerProperties {
     public float bootsMaxDurability;
 
     public boolean hasAnyArmorItem;
-    public boolean hasPiglinDeterArmorItem;
 
     public boolean hasTotemOfUndying;
     public int amountTotemOfUndying;
     public boolean isHoldingTotemOfUndying;
     
     public boolean hasArrowsStuck;
-    public static boolean hasLocatorBar;
+    public static boolean locatorBarAvailable;
+    public boolean isVisibleOnLocatorBar;
 
     public int elytraDurability;
     public int elytraMaxDurability;
@@ -266,18 +265,15 @@ public class PlayerProperties {
                            playerEntity.getEquippedStack(EquipmentSlot.FEET).getItem() != Items.AIR ||
                            playerEntity.getEquippedStack(EquipmentSlot.OFFHAND).getItem() != Items.AIR);
 
-        hasPiglinDeterArmorItem = (playerEntity.getEquippedStack(EquipmentSlot.HEAD).getItem() == Items.GOLDEN_HELMET ||
-                                   playerEntity.getEquippedStack(EquipmentSlot.HEAD).getItem() == Items.PIGLIN_HEAD ||
-                                   playerEntity.getEquippedStack(EquipmentSlot.CHEST).getItem() == Items.GOLDEN_CHESTPLATE ||
-                                   playerEntity.getEquippedStack(EquipmentSlot.LEGS).getItem() == Items.GOLDEN_LEGGINGS ||
-                                   playerEntity.getEquippedStack(EquipmentSlot.FEET).getItem() == Items.GOLDEN_BOOTS);
-
         amountTotemOfUndying = playerEntity.getInventory().count(Items.TOTEM_OF_UNDYING);
         hasTotemOfUndying = amountTotemOfUndying > 0;
         isHoldingTotemOfUndying = (playerEntity.getEquippedStack(EquipmentSlot.MAINHAND).getItem() == Items.TOTEM_OF_UNDYING ||
                                    playerEntity.getEquippedStack(EquipmentSlot.OFFHAND).getItem() == Items.TOTEM_OF_UNDYING);
 
         hasArrowsStuck = playerEntity.getStuckArrowCount() > 0;
+
+        isVisibleOnLocatorBar = locatorBarAvailable && !playerEntity.isSneaking() && !hasInvisibility && (playerEntity.getGameMode() != GameMode.SPECTATOR) &&
+                !Set.of(Items.CREEPER_HEAD, Items.DRAGON_HEAD, Items.PIGLIN_HEAD, Items.PLAYER_HEAD, Items.SKELETON_SKULL, Items.WITHER_SKELETON_SKULL, Items.ZOMBIE_HEAD, Items.CARVED_PUMPKIN).contains(playerEntity.getEquippedStack(EquipmentSlot.HEAD).getItem());
 
         isFlyingWithElytra = playerEntity.isGliding();
 
@@ -525,7 +521,7 @@ public class PlayerProperties {
     }
 
     public static void setLocatorBarEnabled(boolean isEnabled){
-        hasLocatorBar = isEnabled;
+        locatorBarAvailable = isEnabled;
     }
 
     private double getFallingHeightEstimate(PlayerEntity playerEntity, double height){
@@ -615,7 +611,11 @@ public class PlayerProperties {
 
     public static String getMobHead(PlayerEntity playerEntity){
         Item headItem = playerEntity.getEquippedStack(EquipmentSlot.HEAD).getItem();
-        boolean hasLocatorBar = PlayerProperties.hasLocatorBar;
+        boolean hasPiglinDeterArmorItem = (playerEntity.getEquippedStack(EquipmentSlot.HEAD).getItem() == Items.GOLDEN_HELMET ||
+                playerEntity.getEquippedStack(EquipmentSlot.HEAD).getItem() == Items.PIGLIN_HEAD ||
+                playerEntity.getEquippedStack(EquipmentSlot.CHEST).getItem() == Items.GOLDEN_CHESTPLATE ||
+                playerEntity.getEquippedStack(EquipmentSlot.LEGS).getItem() == Items.GOLDEN_LEGGINGS ||
+                playerEntity.getEquippedStack(EquipmentSlot.FEET).getItem() == Items.GOLDEN_BOOTS);
 
         if(headItem == Items.ZOMBIE_HEAD)
             return Calculations.emojiOrText("text.onebar.mobHeadZombieEmoji","text.onebar.mobHeadZombie", false, (Object) null);
@@ -623,9 +623,11 @@ public class PlayerProperties {
             return Calculations.emojiOrText("text.onebar.mobHeadSkeletonEmoji","text.onebar.mobHeadSkeleton", false, (Object) null);
         else if(headItem == Items.CREEPER_HEAD)
             return Calculations.emojiOrText("text.onebar.mobHeadCreeperEmoji","text.onebar.mobHeadCreeper", false, (Object) null);
+        else if(hasPiglinDeterArmorItem)
+            return Calculations.emojiOrText("text.onebar.mobHeadPiglinEmoji","text.onebar.mobHeadPiglin", false, (Object) null);
         else if(headItem == Items.CARVED_PUMPKIN)
             return Calculations.emojiOrText("text.onebar.mobHeadEndermanEmoji","text.onebar.mobHeadEnderman", false, (Object) null);
-        else if(hasLocatorBar && (headItem == Items.PLAYER_HEAD || headItem == Items.DRAGON_HEAD || headItem == Items.WITHER_SKELETON_SKULL))
+        else if(PlayerProperties.locatorBarAvailable && (headItem == Items.PLAYER_HEAD || headItem == Items.DRAGON_HEAD || headItem == Items.WITHER_SKELETON_SKULL))
             return Calculations.emojiOrText("text.onebar.mobHeadLocatorEmoji","text.onebar.mobHeadLocator", false, (Object) null);
         else
             return null;

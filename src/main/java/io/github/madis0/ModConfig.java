@@ -159,6 +159,8 @@ public class ModConfig implements ConfigData {
         public boolean hotbarTooltipsDown = true;
         @ConfigEntry.Gui.Tooltip
         public boolean compatibilityMode = false;
+        @ConfigEntry.Gui.Tooltip
+        public boolean showLocatability = false;
     }
 
     @ConfigEntry.Category("textSettings")

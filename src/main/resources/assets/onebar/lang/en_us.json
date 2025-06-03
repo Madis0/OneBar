@@ -24,6 +24,7 @@
   "text.onebar.mobHeadLocator": "lH",
   "text.onebar.mobHeadSkeleton": "sH",
   "text.onebar.mobHeadZombie": "zH",
+  "text.onebar.locator": "lo",
   "text.onebar.weaving": "Dwe",
   "text.onebar.oozing": "Doo",
   "text.onebar.windCharged": "Dwi",
@@ -54,6 +55,7 @@
   "text.onebar.mobHeadLocatorEmoji": "l\u263B",
   "text.onebar.mobHeadSkeletonEmoji": "s\u263B",
   "text.onebar.mobHeadZombieEmoji": "z\u263B",
+  "text.onebar.locatorEmoji": "\uD83D\uDD0D",
   "text.onebar.weavingEmoji": "\uD83D\uDE35\uD83D\uDD78",
   "text.onebar.oozingEmoji": "\uD83D\uDE35\u25AA\u25AA",
   "text.onebar.windChargedEmoji": "\uD83D\uDE35\uD83D\uDCA8",
@@ -175,5 +177,7 @@
   "text.autoconfig.onebar.option.otherBars.hotbarTooltipsDown": "Hotbar item tooltip down",
   "text.autoconfig.onebar.option.otherBars.hotbarTooltipsDown.@Tooltip": "Dynamically moves the hotbar selected item tooltip further down",
   "text.autoconfig.onebar.option.otherBars.compatibilityMode": "Compatibility mode",
-  "text.autoconfig.onebar.option.otherBars.compatibilityMode.@Tooltip": "Allows some other mods to show their HUD elements around OneBar"
+  "text.autoconfig.onebar.option.otherBars.compatibilityMode.@Tooltip": "Allows some other mods to show their HUD elements around OneBar",
+  "text.autoconfig.onebar.option.otherBars.showLocatability": "Locatability indicator",
+  "text.autoconfig.onebar.option.otherBars.showLocatability.@Tooltip": "Show an indicator if the locator bar is available in the server and you are visible for others. Only considers default vanilla visibility conditions, not plugins or server-side customizations."
 }
