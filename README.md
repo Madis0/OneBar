@@ -113,7 +113,7 @@ The mod only uses client-side data, so it is never needed on a server. There are
 | Armor durability | Light blue | ▔ |  |  | Overlaid on armor bar | Opt-in, width adapts to armor bar or armor bar segment |
 | Segmented armor | White | ▔ |  |  | Above OneBar | Opt-in, similar to normal bar but each armor piece is a separate bar |
 | Elytra durability | Purple | ▔ |  |  | Armor bar area | Normal armor bar: displayed as a full-width overlay only when flying; segmented armor bar: displayed constantly as a diamond-width bar at chest segment. |
-| Mob head indicator |  |  | +a☻ | +aH | OneBar | Opt-in, "a" represents each mob's initial, except e̲nderman (carved pumpkin) and g_olden (any golden armor or piglin head); some are crossed out if unnecessary (no locator bar = no effect) |
+| Mob head indicator |  |  | +a☻ | +aH | OneBar | Opt-in, "a" represents each mob's initial, except e̲nderman (carved pumpkin) and g_olden (any golden armor or piglin head) and l_ocator (all heads work overall but for player, dragon and wither skeleton head indicator is only shown when locator bar is available)
 
 #### Others
 

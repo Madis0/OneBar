@@ -625,22 +625,9 @@ public class PlayerProperties {
             return Calculations.emojiOrText("text.onebar.mobHeadCreeperEmoji","text.onebar.mobHeadCreeper", false, (Object) null);
         else if(headItem == Items.CARVED_PUMPKIN)
             return Calculations.emojiOrText("text.onebar.mobHeadEndermanEmoji","text.onebar.mobHeadEnderman", false, (Object) null);
-        else if(hasLocatorBar){
-            if(headItem == Items.PLAYER_HEAD)
-                return Calculations.emojiOrText("text.onebar.mobHeadPlayerEmoji","text.onebar.mobHeadPlayer", false, (Object) null);
-            if(headItem == Items.DRAGON_HEAD)
-                return Calculations.emojiOrText("text.onebar.mobHeadDragonEmoji", "text.onebar.mobHeadDragon", false, (Object) null);
-            if(headItem == Items.WITHER_SKELETON_SKULL)
-                return Calculations.emojiOrText("text.onebar.mobHeadWitherSkeletonEmoji", "text.onebar.mobHeadWitherSkeleton", false, (Object) null);
-        }
-        else if (!hasLocatorBar){
-            if(headItem == Items.PLAYER_HEAD)
-                return Calculations.emojiOrText("text.onebar.mobHeadPlayerEmoji.disabled","text.onebar.mobHeadPlayer.disabled", false, (Object) null);
-            if(headItem == Items.DRAGON_HEAD)
-                return Calculations.emojiOrText("text.onebar.mobHeadDragonEmoji.disabled", "text.onebar.mobHeadDragon.disabled", false, (Object) null);
-            if(headItem == Items.WITHER_SKELETON_SKULL)
-                return Calculations.emojiOrText("text.onebar.mobHeadWitherSkeletonEmoji.disabled", "text.onebar.mobHeadWitherSkeleton.disabled", false, (Object) null);
-        }
-        return null;
+        else if(hasLocatorBar && (headItem == Items.PLAYER_HEAD || headItem == Items.DRAGON_HEAD || headItem == Items.WITHER_SKELETON_SKULL))
+            return Calculations.emojiOrText("text.onebar.mobHeadLocatorEmoji","text.onebar.mobHeadLocator", false, (Object) null);
+        else
+            return null;
     }
 }
