@@ -612,24 +612,70 @@ public class PlayerProperties {
     public static String getMobHead(PlayerEntity playerEntity){
         Item headItem = playerEntity.getEquippedStack(EquipmentSlot.HEAD).getItem();
         boolean hasPiglinDeterArmorItem = (playerEntity.getEquippedStack(EquipmentSlot.HEAD).getItem() == Items.GOLDEN_HELMET ||
-                playerEntity.getEquippedStack(EquipmentSlot.HEAD).getItem() == Items.PIGLIN_HEAD ||
                 playerEntity.getEquippedStack(EquipmentSlot.CHEST).getItem() == Items.GOLDEN_CHESTPLATE ||
                 playerEntity.getEquippedStack(EquipmentSlot.LEGS).getItem() == Items.GOLDEN_LEGGINGS ||
                 playerEntity.getEquippedStack(EquipmentSlot.FEET).getItem() == Items.GOLDEN_BOOTS);
 
         if(headItem == Items.ZOMBIE_HEAD)
-            return Calculations.emojiOrText("text.onebar.mobHeadZombieEmoji","text.onebar.mobHeadZombie", false, (Object) null);
+            return Calculations.emojiOrText("text.onebar.mobHeadZombieEmoji","text.onebar.mobHeadZombie", false, calculateMobDetectionRange(playerEntity, 35));
         else if(headItem == Items.SKELETON_SKULL)
-            return Calculations.emojiOrText("text.onebar.mobHeadSkeletonEmoji","text.onebar.mobHeadSkeleton", false, (Object) null);
+            return Calculations.emojiOrText("text.onebar.mobHeadSkeletonEmoji","text.onebar.mobHeadSkeleton", false, calculateMobDetectionRange(playerEntity, 16));
         else if(headItem == Items.CREEPER_HEAD)
-            return Calculations.emojiOrText("text.onebar.mobHeadCreeperEmoji","text.onebar.mobHeadCreeper", false, (Object) null);
+            return Calculations.emojiOrText("text.onebar.mobHeadCreeperEmoji","text.onebar.mobHeadCreeper", false, calculateMobDetectionRange(playerEntity, 16));
+        else if(headItem == Items.PIGLIN_HEAD && !hasPiglinDeterArmorItem)
+            return Calculations.emojiOrText("text.onebar.mobHeadPiglinEmoji","text.onebar.mobHeadPiglin", false, calculateMobDetectionRange(playerEntity, 16));
         else if(hasPiglinDeterArmorItem)
-            return Calculations.emojiOrText("text.onebar.mobHeadPiglinEmoji","text.onebar.mobHeadPiglin", false, (Object) null);
+            return Calculations.emojiOrText("text.onebar.mobHeadPiglinEmoji","text.onebar.mobHeadPiglin", false, 0);
         else if(headItem == Items.CARVED_PUMPKIN)
-            return Calculations.emojiOrText("text.onebar.mobHeadEndermanEmoji","text.onebar.mobHeadEnderman", false, (Object) null);
+            return Calculations.emojiOrText("text.onebar.mobHeadEndermanEmoji","text.onebar.mobHeadEnderman", false, 0);
         else if(PlayerProperties.locatorBarAvailable && (headItem == Items.PLAYER_HEAD || headItem == Items.DRAGON_HEAD || headItem == Items.WITHER_SKELETON_SKULL))
-            return Calculations.emojiOrText("text.onebar.mobHeadLocatorEmoji","text.onebar.mobHeadLocator", false, (Object) null);
+            return Calculations.emojiOrText("text.onebar.mobHeadLocatorEmoji","text.onebar.mobHeadLocator", false, 0);
         else
             return null;
+    }
+
+    private static int calculateMobDetectionRange(PlayerEntity playerEntity, double baseRange) {
+        // If the player is in spectator mode or the world is on Peaceful difficulty, mobs won't detect them.
+        if (playerEntity.getGameMode() == GameMode.SPECTATOR ||
+                playerEntity.getWorld().getDifficulty() == Difficulty.PEACEFUL) {
+            return 0;
+        }
+
+        double modifiedRange = baseRange;
+
+        // Apply the head reduction
+        modifiedRange *= 0.50;
+
+        // Sneaking check
+        if (playerEntity.isSneaking()) {
+            modifiedRange *= 0.80; // 80% of normal
+        }
+
+        // Invisibility check
+        if (playerEntity.hasStatusEffect(StatusEffects.INVISIBILITY)) {
+            // Count how many armor slots are occupied
+            int armorPieces = 0;
+            if (playerEntity.getEquippedStack(EquipmentSlot.HEAD).getItem() != Items.AIR) {
+                armorPieces++;
+            }
+            if (playerEntity.getEquippedStack(EquipmentSlot.CHEST).getItem() != Items.AIR) {
+                armorPieces++;
+            }
+            if (playerEntity.getEquippedStack(EquipmentSlot.LEGS).getItem() != Items.AIR) {
+                armorPieces++;
+            }
+            if (playerEntity.getEquippedStack(EquipmentSlot.FEET).getItem() != Items.AIR) {
+                armorPieces++;
+            }
+
+            double invisFactor = 0.175 * armorPieces; // 17.5% per piece
+            if (invisFactor > 1.0) {
+                invisFactor = 1.0;
+            }
+            modifiedRange *= invisFactor;
+        }
+
+        // Round up to the next whole number
+        return (int) Math.ceil(modifiedRange);
     }
 }
