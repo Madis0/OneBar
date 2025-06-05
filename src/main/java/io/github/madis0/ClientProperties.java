@@ -37,6 +37,22 @@ public class ClientProperties {
     public final int mountStartH;
     public final int mountEndH;
 
+    public int locatorBarOneBarSurvivalH;
+    public int locatorBarOneBarCreativeH;
+    public int locatorBarOneBarSurvivalMountH;
+    public int locatorBarOneBarCreativeMountH;
+
+    public int locatorBarBossBarH;
+
+    public final int tooltipSurvivalH;
+    public final int tooltipCreativeH;
+    public final int tooltipSurvivalMountH;
+    public final int tooltipCreativeMountH;
+    public final int tooltipSurvivalLocatorH;
+    public final int tooltipCreativeLocatorH;
+    public final int tooltipSurvivalLocatorMountH;
+    public final int tooltipCreativeLocatorMountH;
+
     public final boolean isHardcore;
 
     public ClientProperties(){
@@ -99,6 +115,24 @@ public class ClientProperties {
         mountStartH = baseStartH - 12;
         mountEndH = mountStartH + 9;
 
+        locatorBarOneBarSurvivalH = baseStartH - 7;
+        locatorBarOneBarCreativeH = scaledHeight - 24 - 5; // Original value
+        locatorBarOneBarSurvivalMountH = mountStartH - 7;
+        locatorBarOneBarCreativeMountH = locatorBarOneBarSurvivalMountH;
+
+        locatorBarBossBarH = 12;
+
+        int defaultTooltipH = scaledHeight - 59;
+
+        tooltipSurvivalH = defaultTooltipH + 14;
+        tooltipCreativeH = defaultTooltipH + 12;
+        tooltipSurvivalMountH = tooltipSurvivalH - 12;
+        tooltipCreativeMountH = tooltipCreativeH - 8;
+        tooltipSurvivalLocatorH = tooltipSurvivalH - 7;
+        tooltipCreativeLocatorH = tooltipCreativeH - 7;
+        tooltipSurvivalLocatorMountH = tooltipSurvivalLocatorH - 12;
+        tooltipCreativeLocatorMountH = tooltipCreativeLocatorH - 8;
+
         isHardcore = Objects.requireNonNull(client.world).getLevelProperties().isHardcore();
     }
 
@@ -123,5 +157,21 @@ public class ClientProperties {
     }
     public int camelRelativeEndW(long value, long total){
         return camelRelativeEndW(Calculations.getPreciseInt(value), Calculations.getPreciseInt(total));
+    }
+
+    public int getLocatorOneBarHeight() {
+        var client = MinecraftClient.getInstance();
+        var player = client.player;
+        if (player == null) return 0;
+
+        var props = new ClientProperties();
+        boolean isCreative = player.isCreative() || player.isSpectator();
+        boolean hasMount = player.getVehicle() != null;
+
+        if (!isCreative) {
+            return hasMount ? props.locatorBarOneBarSurvivalMountH : props.locatorBarOneBarSurvivalH;
+        } else {
+            return hasMount ? props.locatorBarOneBarCreativeMountH : props.locatorBarOneBarCreativeH;
+        }
     }
 }

@@ -180,6 +180,8 @@
   "text.autoconfig.onebar.option.otherBars.hotbarTooltipsDown.@Tooltip": "Dynamically moves the hotbar selected item tooltip further down",
   "text.autoconfig.onebar.option.otherBars.compatibilityMode": "Compatibility mode",
   "text.autoconfig.onebar.option.otherBars.compatibilityMode.@Tooltip": "Allows some other mods to show their HUD elements around OneBar",
+  "text.autoconfig.onebar.option.otherBars.locatorBarMode": "Locator bar mode",
+  "text.autoconfig.onebar.option.otherBars.locatorBarMode.@Tooltip": "0 - hidden on the client (does not hide your indicator for others)\n1 - right above OneBar\n2 - in boss bar location",
   "text.autoconfig.onebar.option.otherBars.showLocatability": "Locatability indicator",
   "text.autoconfig.onebar.option.otherBars.showLocatability.@Tooltip": "Show an indicator if the locator bar is available\nin the server and you are visible for others.\nOnly considers default vanilla visibility conditions,\n not plugins or server-side customizations."
 }

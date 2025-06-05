@@ -1,6 +1,9 @@
 package io.github.madis0.mixin;
 
+import io.github.madis0.ClientProperties;
 import io.github.madis0.MixinConfigQuery;
+import io.github.madis0.ModConfig;
+import io.github.madis0.PlayerProperties;
 import net.minecraft.client.gui.DrawContext;
 import net.minecraft.client.gui.hud.bar.LocatorBar;
 import net.minecraft.client.render.RenderTickCounter;
@@ -26,8 +29,7 @@ public abstract class LocatorBarMixin {
         if(!MixinConfigQuery.isOneBarEnabled() || MixinConfigQuery.isCompatModeEnabled())
             return original;
 
-        var clientProperties = new io.github.madis0.ClientProperties();
-        return clientProperties.baseStartH - 7;
+        return MixinConfigQuery.getLocatorBarHeight();
     }
 
     @ModifyVariable(
@@ -39,32 +41,31 @@ public abstract class LocatorBarMixin {
         if(!MixinConfigQuery.isOneBarEnabled() || MixinConfigQuery.isCompatModeEnabled())
             return original;
 
-        var clientProperties = new io.github.madis0.ClientProperties();
-        return clientProperties.baseStartH - 7;
+        return MixinConfigQuery.getLocatorBarHeight();
     }
 
 
-    /*@Inject(method = "renderBar", at = @At(value = "TAIL"), cancellable = true)
+    @Inject(method = "renderBar", at = @At(value = "TAIL"), cancellable = true)
     private void hideBarCompat(DrawContext context, RenderTickCounter tickCounter, CallbackInfo ci){
-        if(MixinConfigQuery.isCompatModeEnabled() && MixinConfigQuery.isOneBarEnabled())
+        if(MixinConfigQuery.isOneBarEnabled() && MixinConfigQuery.isCompatModeEnabled() && !MixinConfigQuery.isLocatorBarEnabled())
             ci.cancel();
     }
 
     @Inject(method = "renderAddons", at = @At(value = "TAIL"), cancellable = true)
     private void renderAddonsCompat(DrawContext context, RenderTickCounter tickCounter, CallbackInfo ci){
-        if(MixinConfigQuery.isCompatModeEnabled() && MixinConfigQuery.isOneBarEnabled())
+        if(MixinConfigQuery.isOneBarEnabled() && MixinConfigQuery.isCompatModeEnabled() && !MixinConfigQuery.isLocatorBarEnabled())
             ci.cancel();
     }
 
     @Inject(method = "renderAddons", at = @At(value = "HEAD"), cancellable = true)
     private void hideBar(DrawContext context, RenderTickCounter tickCounter, CallbackInfo ci){
-        if(!MixinConfigQuery.isCompatModeEnabled() && MixinConfigQuery.isOneBarEnabled())
+        if(MixinConfigQuery.isOneBarEnabled() && !MixinConfigQuery.isCompatModeEnabled() && !MixinConfigQuery.isLocatorBarEnabled())
             ci.cancel();
     }
 
     @Inject(method = "renderAddons", at = @At(value = "HEAD"), cancellable = true)
     private void hideAddons(DrawContext context, RenderTickCounter tickCounter, CallbackInfo ci){
-        if(!MixinConfigQuery.isCompatModeEnabled() && MixinConfigQuery.isOneBarEnabled())
+        if(MixinConfigQuery.isOneBarEnabled() && !MixinConfigQuery.isCompatModeEnabled() && !MixinConfigQuery.isLocatorBarEnabled())
             ci.cancel();
-    }*/
+    }
 }

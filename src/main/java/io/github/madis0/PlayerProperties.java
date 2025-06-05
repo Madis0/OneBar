@@ -33,6 +33,8 @@ import java.util.*;
 public class PlayerProperties {
     Difficulty difficulty;
 
+    public static boolean isCreativeOrSpectator = false;
+
     public final boolean hasResistance;
     public final boolean hasRegeneration;
     public final boolean hasPoison;
@@ -196,6 +198,8 @@ public class PlayerProperties {
         difficulty = playerEntity.getWorld().getDifficulty();
 
         // Player property calculations
+        isCreativeOrSpectator = playerEntity.isCreative() || playerEntity.isSpectator();
+
         hasResistance = playerEntity.hasStatusEffect(StatusEffects.RESISTANCE);
         hasRegeneration = playerEntity.hasStatusEffect(StatusEffects.REGENERATION);
         hasPoison = playerEntity.hasStatusEffect(StatusEffects.POISON);
@@ -273,7 +277,7 @@ public class PlayerProperties {
 
         hasArrowsStuck = playerEntity.getStuckArrowCount() > 0;
 
-        isVisibleOnLocatorBar = locatorBarAvailable && !playerEntity.isSneaking() && !hasInvisibility && (playerEntity.getGameMode() != GameMode.SPECTATOR) &&
+        isVisibleOnLocatorBar = locatorBarAvailable && !playerEntity.isSneaking() && !hasInvisibility &&
                 !Set.of(Items.CREEPER_HEAD, Items.DRAGON_HEAD, Items.PIGLIN_HEAD, Items.PLAYER_HEAD, Items.SKELETON_SKULL, Items.WITHER_SKELETON_SKULL, Items.ZOMBIE_HEAD, Items.CARVED_PUMPKIN).contains(playerEntity.getEquippedStack(EquipmentSlot.HEAD).getItem());
 
         isFlyingWithElytra = playerEntity.isGliding();
@@ -635,9 +639,7 @@ public class PlayerProperties {
     }
 
     private static int calculateMobDetectionRange(PlayerEntity playerEntity, double baseRange) {
-        // If the player is in spectator mode or the world is on Peaceful difficulty, mobs won't detect them.
-        if (playerEntity.getGameMode() == GameMode.SPECTATOR ||
-                playerEntity.getWorld().getDifficulty() == Difficulty.PEACEFUL) {
+        if (playerEntity.getWorld().getDifficulty() == Difficulty.PEACEFUL) {
             return 0;
         }
 

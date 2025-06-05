@@ -1,8 +1,6 @@
 package io.github.madis0.mixin;
 
-import io.github.madis0.MixinConfigQuery;
-import io.github.madis0.OneBarElements;
-import io.github.madis0.PlayerProperties;
+import io.github.madis0.*;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.DrawContext;
 import net.minecraft.client.gui.hud.InGameHud;
@@ -60,7 +58,7 @@ public abstract class InGameHudMixin {
 
     @Inject(method = "getCurrentBarType", at = @At("HEAD"), cancellable = true)
     private void forceLocatorBar(CallbackInfoReturnable<Object> cir) {
-        if(showOneBar && !MixinConfigQuery.isCompatModeEnabled()){
+        if(showOneBar && !MixinConfigQuery.isCompatModeEnabled() && MixinConfigQuery.isLocatorBarEnabled()){
             try {
                 Class<?> barTypeClass = Class.forName("net.minecraft.client.gui.hud.InGameHud$BarType");
                 Object locatorConst = Enum.valueOf((Class<Enum>) barTypeClass, "LOCATOR");
@@ -74,14 +72,28 @@ public abstract class InGameHudMixin {
     }
 
     @ModifyVariable(method = "renderHeldItemTooltip", at = @At(value = "STORE"), ordinal = 2)
-    private int renderHeldItemTooltip(int k){
-        if(showOneBar && MixinConfigQuery.isHotbarTooltipsDown()) {
-            if (getRiddenEntity() == null && !Objects.requireNonNull(client.interactionManager).getCurrentGameMode().isCreative())
-                return k + 14;
-            else if (Objects.requireNonNull(client.interactionManager).getCurrentGameMode().isCreative())
-                return k + 12;
-            return k + 2;
+    private int renderHeldItemTooltip(int k) {
+        if (!showOneBar || !MixinConfigQuery.isHotbarTooltipsDown()) {
+            return k;
         }
-        return k;
+
+        boolean creativeOrSpectator = PlayerProperties.isCreativeOrSpectator;
+        boolean hasMount = (getRiddenEntity() != null);
+        boolean hasLocator = MixinConfigQuery.isLocatorBarEnabled() && MixinConfigQuery.isLocatorBarMode(ModConfig.LocatorBarMode.ONEBAR);
+        ClientProperties clientProperties = new ClientProperties();
+
+        if (!creativeOrSpectator) { // Survival
+            if (hasLocator) {
+                return hasMount ? clientProperties.tooltipSurvivalLocatorMountH : clientProperties.tooltipSurvivalLocatorH;
+            } else {
+                return hasMount ? clientProperties.tooltipSurvivalMountH : clientProperties.tooltipSurvivalH;
+            }
+        } else { // Creative or spectator
+            if (hasLocator) {
+                return hasMount ? clientProperties.tooltipCreativeLocatorMountH : clientProperties.tooltipCreativeLocatorH;
+            } else {
+                return clientProperties.tooltipCreativeH;
+            }
+        }
     }
 }

@@ -76,7 +76,8 @@ public class OneBarElements {
             if(config.armor.showArmorBar) armorBar();
             if(config.armor.showArmorDurabilityBar) armorDurabilityBar();
             if(config.armor.showElytraDurabilityBar) elytraDurabilityBar();
-            if(config.otherBars.showSaturationBar) saturationBar();
+            if(config.goodThings.showSaturationBar) saturationBar();
+            if(config.entity.showMountJump) mountJumpBar();
             //if(config.healthEstimates && config.otherBars.showSaturationBar) heldFoodSaturationBar();
 
             //  if(hasExordium) {
@@ -171,7 +172,7 @@ public class OneBarElements {
     }
 
     private void saturationBar(){
-        renderLeftToRightBar(playerProperties.saturationRaw, playerProperties.maxFoodLevelRaw, config.otherBars.saturationColor, clientProperties.saturationStartH, clientProperties.saturationEndH);
+        renderLeftToRightBar(playerProperties.saturationRaw, playerProperties.maxFoodLevelRaw, config.goodThings.saturationColor, clientProperties.saturationStartH, clientProperties.saturationEndH);
     }
 
     private void heldFoodHungerBar(){
@@ -437,6 +438,17 @@ public class OneBarElements {
         if(!config.otherBars.adaptiveXpBar || playerProperties.xp > 0){
             renderBar(clientProperties.xpStartW, clientProperties.xpStartH, clientProperties.xpEndW, clientProperties.xpEndH, config.backgroundColor);
             renderBar(clientProperties.xpStartW, clientProperties.xpStartH, relativeEndW, clientProperties.xpEndH, config.otherBars.xpColor);
+        }
+    }
+
+    public void mountJumpBar() {
+        var entity = client.player.getControllingVehicle();
+        if (entity == null) return;
+
+        if (entity instanceof CamelEntity) {
+            camelJumpBar();
+        } else {
+            horseJumpBar(); // Horse or modded entity
         }
     }
 

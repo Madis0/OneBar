@@ -6,6 +6,12 @@ import me.shedaniel.autoconfig.annotation.ConfigEntry;
 
 @Config(name = "onebar")
 public class ModConfig implements ConfigData {
+    public enum LocatorBarMode {
+        DISABLED,
+        ONEBAR,
+        BOSSBAR;
+    }
+
     @ConfigEntry.Gui.Tooltip
     public boolean showOneBar = true;
     @ConfigEntry.Gui.Tooltip
@@ -22,6 +28,10 @@ public class ModConfig implements ConfigData {
     @ConfigEntry.Gui.Tooltip
     @ConfigEntry.BoundedDiscrete(max = 200, min = 0)
     public int gradientShift = 50;
+    @ConfigEntry.Gui.Tooltip
+    public boolean hotbarTooltipsDown = true;
+    @ConfigEntry.Gui.Tooltip
+    public boolean compatibilityMode = false;
 
     public static class TextSettings {
         @ConfigEntry.Gui.Tooltip
@@ -63,6 +73,10 @@ public class ModConfig implements ConfigData {
         public int heldFoodHungerGoodColor = 0xBF76FF03;
         @ConfigEntry.ColorPicker(allowAlpha = true)
         public int heldFoodHungerWasteColor = 0xA6FFB04C;
+        @ConfigEntry.Gui.Tooltip
+        public boolean showSaturationBar = false;
+        @ConfigEntry.ColorPicker(allowAlpha = true)
+        public int saturationColor = 0xE6F9A825;
     }
 
     public static class BadThings {
@@ -152,13 +166,8 @@ public class ModConfig implements ConfigData {
         @ConfigEntry.ColorPicker(allowAlpha = true)
         public int lapisColor = 0xFF2196F3;
         @ConfigEntry.Gui.Tooltip
-        public boolean showSaturationBar = false;
-        @ConfigEntry.ColorPicker(allowAlpha = true)
-        public int saturationColor = 0xE6F9A825;
-        @ConfigEntry.Gui.Tooltip
-        public boolean hotbarTooltipsDown = true;
-        @ConfigEntry.Gui.Tooltip
-        public boolean compatibilityMode = false;
+        @ConfigEntry.BoundedDiscrete(max = 2, min = 0)
+        public int locatorBarMode = LocatorBarMode.BOSSBAR.ordinal();
         @ConfigEntry.Gui.Tooltip
         public boolean showLocatability = false;
     }

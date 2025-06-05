@@ -149,6 +149,8 @@
   "text.autoconfig.onebar.option.otherBars.hotbarTooltipsDown.@Tooltip": "Liigutab plokiriba valitud eseme hüpikteksti dünaamiliselt allapoole",
   "text.autoconfig.onebar.option.otherBars.compatibilityMode": "Ühilduvusrežiim",
   "text.autoconfig.onebar.option.otherBars.compatibilityMode.@Tooltip": "Võimaldab teatud teistel modidel kuvada OneBari ümber nende liideseelemente",
+  "text.autoconfig.onebar.option.otherBars.locatorBarMode": "Lokaatorriba režiim",
+  "text.autoconfig.onebar.option.otherBars.locatorBarMode.@Tooltip": "0 - kliendipoolselt peidetud (ei peida sinu indikaatorit teiste jaoks)\n1 - otse OneBari kohal\n2 - bossiriba kohas",
   "text.autoconfig.onebar.option.otherBars.showLocatability": "Leitavuse indikaator",
   "text.autoconfig.onebar.option.otherBars.showLocatability.@Tooltip": "Kuvab indikaatorit, kui lokaatorriba on serveris saadaval\nning sina oled seal teistele nähtav.\nArvestab vaid vaikimisi vanilli nähtavustingimusi,\nmitte pluginaid või serveripoolseid kohandusi."
 }
