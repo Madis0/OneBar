@@ -25,9 +25,9 @@ Currently also works on [Quilt](https://quiltmc.org), though no effort has yet b
 
 - [Raised](https://www.curseforge.com/minecraft/mc-mods/raised) - moves OneBar and hotbar upwards, height of both can be adjusted 
 - [Auto HUD](https://www.curseforge.com/minecraft/mc-mods/auto-hud) - automatically shows and hides certain elements of OneBar as needed
-- [Exordium](https://www.curseforge.com/minecraft/mc-mods/exordium) (beta) - improve HUD performance
 - [OneBar + MCC Island Compat](https://modrinth.com/mod/onebarmcci) (unofficial) - disables OneBar when you have no health bar on MCC Island
-- [Flour's Various Tweaks](https://modrinth.com/mod/fvt) and [Head-down display](https://www.curseforge.com/minecraft/mc-mods/headdowndisplay) - partial compatibility for the auto-hide feature, does not hide OneBar elements
+- [Head-down display](https://www.curseforge.com/minecraft/mc-mods/headdowndisplay) - partial compatibility for the auto-hide feature, does not hide OneBar elements
+- [Exordium](https://www.curseforge.com/minecraft/mc-mods/exordium) (beta, available in some versions of OneBar) - improve HUD performance
 
 ## How it works
 
