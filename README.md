@@ -91,10 +91,10 @@ The mod only uses client-side data, so it is never needed on a server. There are
 | Oozing |  |  | -😵▪▪ | -Doo | Having oozing effect may summon two slimes upon death. Given in ominous trials. |
 | Wind Charged |  |  | -😵💨 | -Dwi | Having wind charged effect may summon a wind charge upon death. Given in ominous trials. |
 | Bad Omen |  |  | -👹?1× | -bo1× | Number is the effect level; preserved when converting into Raid or Trial Omen |
-| Raid Omen |  |  | -👹🪓1× | -ro1× | Number is [the effect level](https://minecraft.wiki/w/Raid#Java_Edition) |
-| Trial Omen |  |  | -👹🗝1× | -to1× | Number is [the duration multiplier](https://minecraft.wiki/w/Trial_Omen#Causes), e.g. level 2 means 2×15=30 minutes of ominous trial |
 | Impending death |  |  | _→0_ | _→0_ | Drowning, freezing damage, burning in fire/lava, starvation, suffocation, angry warden. Zero is the resulting health (death) |
 | Hardcore mode |  |  | -☠ | -HC | The vanilla one, not the UHC mode of OneBar which has no indicators |
+| Raid Omen |  |  | -👹🪓1× | -ro1× | Number indicates the total amount of raid waves.                                                                                                                                               |
+| Trial Omen |  |  | -👹🗝1× | -to1× | Number indicates the remaining minutes of ominous trial.                                                                                                                                       |
 
 #### Mounts
 

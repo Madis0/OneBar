@@ -19,6 +19,7 @@ import net.minecraft.entity.player.HungerManager;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.*;
 import net.minecraft.registry.RegistryKey;
+import net.minecraft.text.Text;
 import net.minecraft.util.TypeFilter;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Box;
@@ -159,8 +160,8 @@ public class PlayerProperties {
     public int starvationHealthEstimate;
 
     public int badOmenLevel;
-    public int raidOmenLevel;
-    public int trialOmenLevel;
+    public int raidOmenWaves;
+    public String trialOmenMinutes;
 
     public float naturalRegenerationAddition;
     public float naturalRegenerationHealthRaw;
@@ -363,9 +364,8 @@ public class PlayerProperties {
         normalFallHeightDisplay = new DecimalFormat("0.#").format(normalFallHeightRaw);
 
         badOmenLevel = hasBadOmen ? Objects.requireNonNull(playerEntity.getStatusEffect(StatusEffects.BAD_OMEN)).getAmplifier() + 1: 0;
-        raidOmenLevel = hasRaidOmen ? Objects.requireNonNull(playerEntity.getStatusEffect(StatusEffects.RAID_OMEN)).getAmplifier() + 1: 0;
-        // 20 ticks * 60 sec * 15 min = one "level" of trial omen
-        trialOmenLevel = hasTrialOmen ? (int)(Objects.requireNonNull(playerEntity.getStatusEffect(StatusEffects.TRIAL_OMEN)).getDuration() / (20 * 60 * 15)) + 1 : 0;
+        raidOmenWaves = calculateRaidWaves(playerEntity);
+        trialOmenMinutes = getTrialOmenTimeString(playerEntity);
 
         xpLevel = playerEntity.experienceLevel;
         maxXp = 183; //renderExperienceBar @ InGameHud.class
@@ -678,4 +678,42 @@ public class PlayerProperties {
         // Round up to the next whole number
         return (int) Math.ceil(modifiedRange);
     }
+
+    private int calculateRaidWaves(PlayerEntity player) {
+        Difficulty diff = player.getWorld().getDifficulty();
+        int baseWaves = switch (diff) {
+            case PEACEFUL -> 0;
+            case EASY -> 3;
+            case NORMAL -> 5;
+            case HARD -> 7;
+        };
+
+        if (player.hasStatusEffect(StatusEffects.RAID_OMEN)) {
+            int amplifier = player.getStatusEffect(StatusEffects.RAID_OMEN).getAmplifier();
+            if ((amplifier + 1) >= 2) {
+                baseWaves++;
+            }
+        }
+
+        return baseWaves;
+    }
+
+    public String getTrialOmenTimeString(PlayerEntity player) {
+        if (!player.hasStatusEffect(StatusEffects.TRIAL_OMEN)) {
+            return "";
+        }
+        StatusEffectInstance trial = player.getStatusEffect(StatusEffects.TRIAL_OMEN);
+        int ticks = trial.getDuration();
+        int totalSeconds = ticks / 20;
+
+        if (totalSeconds >= 60) {
+            int minutes = totalSeconds / 60;
+            return Text.translatable("text.onebar.trialOmenEmoji.minutes", minutes).getString();
+        } else if (totalSeconds >= 30) {
+            return Text.translatable("text.onebar.trialOmenEmoji.underMinute").getString();
+        } else {
+            return String.valueOf(totalSeconds);
+        }
+    }
+
 }

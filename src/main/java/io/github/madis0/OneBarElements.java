@@ -6,7 +6,6 @@ import net.fabricmc.loader.api.FabricLoader;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.font.TextRenderer;
 import net.minecraft.client.gui.DrawContext;
-import net.minecraft.client.render.RenderLayer;
 import net.minecraft.component.DataComponentTypes;
 import net.minecraft.component.type.AttributeModifiersComponent;
 import net.minecraft.entity.EquipmentSlot;
@@ -361,9 +360,9 @@ public class OneBarElements {
             if (playerProperties.hasBadOmen && config.badThings.showOmens)
                 value += minus + Calculations.emojiOrText("text.onebar.badOmenEmoji","text.onebar.badOmen", false, playerProperties.badOmenLevel);
             if (playerProperties.hasRaidOmen && config.badThings.showOmens)
-                value += minus + Calculations.emojiOrText("text.onebar.raidOmenEmoji","text.onebar.raidOmen", false, playerProperties.raidOmenLevel);
+                value += minus + Calculations.emojiOrText("text.onebar.raidOmenEmoji","text.onebar.raidOmen", false, playerProperties.raidOmenWaves);
             if (playerProperties.hasTrialOmen && config.badThings.showOmens)
-                value += minus + Calculations.emojiOrText("text.onebar.trialOmenEmoji","text.onebar.trialOmen", false, playerProperties.trialOmenLevel);
+                value += minus + Calculations.emojiOrText("text.onebar.trialOmenEmoji","text.onebar.trialOmen", false, playerProperties.trialOmenMinutes);
             if(playerProperties.isVisibleOnLocatorBar && config.otherBars.showLocatability)
                 value += minus + Calculations.emojiOrText("text.onebar.locatorEmoji","text.onebar.locator", false, (Object) null);
             if (clientProperties.isHardcore)
