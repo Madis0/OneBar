@@ -1,9 +1,6 @@
 package io.github.madis0.mixin;
 
-import io.github.madis0.ClientProperties;
 import io.github.madis0.MixinConfigQuery;
-import io.github.madis0.ModConfig;
-import io.github.madis0.PlayerProperties;
 import net.minecraft.client.gui.DrawContext;
 import net.minecraft.client.gui.hud.bar.LocatorBar;
 import net.minecraft.client.render.RenderTickCounter;
