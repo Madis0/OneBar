@@ -25,7 +25,7 @@ public abstract class InGameHudMixin {
     private OneBarElements oneBarElements;
     private boolean showOneBar = false;
 
-    @Inject(at = @At("TAIL"), method = "render")
+    @Inject(at = @At("HEAD"), method = "render")
     public void render(DrawContext context, RenderTickCounter tickCounter, CallbackInfo ci) {
         oneBarElements = new OneBarElements(context);
         showOneBar = MixinConfigQuery.isOneBarEnabled(); // This var exists because it also shows whether oneBarElements is initialized
