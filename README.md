@@ -25,9 +25,9 @@ Currently also works on [Quilt](https://quiltmc.org), though no effort has yet b
 
 - [Raised](https://www.curseforge.com/minecraft/mc-mods/raised) - moves OneBar and hotbar upwards, height of both can be adjusted 
 - [Auto HUD](https://www.curseforge.com/minecraft/mc-mods/auto-hud) - automatically shows and hides certain elements of OneBar as needed
-- [Exordium](https://www.curseforge.com/minecraft/mc-mods/exordium) (beta) - improve HUD performance
 - [OneBar + MCC Island Compat](https://modrinth.com/mod/onebarmcci) (unofficial) - disables OneBar when you have no health bar on MCC Island
-- [Flour's Various Tweaks](https://modrinth.com/mod/fvt) and [Head-down display](https://www.curseforge.com/minecraft/mc-mods/headdowndisplay) - partial compatibility for the auto-hide feature, does not hide OneBar elements
+- [Head-down display](https://www.curseforge.com/minecraft/mc-mods/headdowndisplay) - partial compatibility for the auto-hide feature, does not hide OneBar elements
+- [Exordium](https://www.curseforge.com/minecraft/mc-mods/exordium) (beta, available in some versions of OneBar) - improve HUD performance
 
 ## How it works
 
@@ -113,7 +113,7 @@ The mod only uses client-side data, so it is never needed on a server. There are
 | Armor durability | Light blue | ▔ |  |  | Overlaid on armor bar | Opt-in, width adapts to armor bar or armor bar segment |
 | Segmented armor | White | ▔ |  |  | Above OneBar | Opt-in, similar to normal bar but each armor piece is a separate bar |
 | Elytra durability | Purple | ▔ |  |  | Armor bar area | Normal armor bar: displayed as a full-width overlay only when flying; segmented armor bar: displayed constantly as a diamond-width bar at chest segment. |
-| Mob head indicator |  |  | +a☻ | +aH | OneBar | Opt-in, "a" represents s̲keleton, c̲reeper, z̲ombie head; e̲nderman (carved pumpkin), p̲iglin (any golden armor) |
+| Mob head indicator |  |  | +a☻ | +aH | OneBar | Opt-in, "a" represents s̲keleton, c̲reeper, z̲ombie head; e̲nderman (carved pumpkin), p̲iglin (any golden armor or piglin head)                          |
 
 #### Others
 
