@@ -68,6 +68,7 @@ The mod only uses client-side data, so it is never needed on a server. There are
 | Water Breathing, Conduit Power | Blue | █ | -~⭘1~ | -~ai1~ | The bar is only shown if you got the effect after losing air, text is only shown if you are in water |
 | Held food restored hunger: exact/less | Green | █ | _→1_ | _→1_ | Overlaid on hunger bar; number is the resulting hunger (like AppleSkin) | 
 | Held food restored hunger: wasted | Orange | █ | _→-1_ | _→-1_ | Overlaid on hunger bar; number is the waste of hunger (how much more than needed) | 
+| Saturation | Orange | ▁ |  | Below OneBar | Opt-in |
 
 #### Negative (right-to-left)
 
@@ -122,6 +123,7 @@ The mod only uses client-side data, so it is never needed on a server. There are
 | Experience bar | Green | ▁ | 1 | Next to hotbar | Shown only when you have any XP (configurable) |
 | Lapis Lazuli counter | Blue |  | 1 or 1× | Next to experience bar | Opt-in, shows either the raw count or times enchantable maxed out (XP level 30+) |
 | Saturation | Orange | ▁ |  | Below OneBar | Opt-in |
+| Locatability indicator |  |  | -🔍 | -lo | Shows when locator bar is available on the server (even if you hide it) and you are visible to others. |
 
 ## FAQ
 
