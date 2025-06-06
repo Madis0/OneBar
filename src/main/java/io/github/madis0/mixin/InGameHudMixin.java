@@ -33,7 +33,7 @@ public abstract class InGameHudMixin {
         boolean barsVisible = !client.options.hudHidden && Objects.requireNonNull(client.interactionManager).hasStatusBars();
         if(showOneBar && barsVisible) oneBarElements.renderOneBar();
 
-        PlayerProperties.setLocatorBarEnabled(client.player.networkHandler.getWaypointHandler().hasWaypoint());
+        PlayerProperties.setLocatorBarAvailable(client.player.networkHandler.getWaypointHandler().hasWaypoint());
     }
 
     @Inject(method = "renderStatusBars", at = @At(value = "INVOKE", target = "Lnet/minecraft/util/profiler/Profiler;push(Ljava/lang/String;)V"), cancellable = true)

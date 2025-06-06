@@ -7,7 +7,6 @@
     "BossBarHudMixin",
     "ClientSoulFireBlockMixin",
     "DebugHudMixin",
-    "DrawContextMixin",
     "ExperienceBarMixin",
     "InGameHudMixin",
     "JumpBarMixin",

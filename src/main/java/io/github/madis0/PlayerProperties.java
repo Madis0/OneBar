@@ -25,7 +25,6 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Box;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.world.Difficulty;
-import net.minecraft.world.GameMode;
 
 import java.text.DecimalFormat;
 import java.util.*;
@@ -524,8 +523,8 @@ public class PlayerProperties {
         isBurningOnSoulFire = isBurning;
     }
 
-    public static void setLocatorBarEnabled(boolean isEnabled){
-        locatorBarAvailable = isEnabled;
+    public static void setLocatorBarAvailable(boolean isAvailable){
+        locatorBarAvailable = isAvailable;
     }
 
     private double getFallingHeightEstimate(PlayerEntity playerEntity, double height){

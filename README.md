@@ -88,14 +88,14 @@ The mod only uses client-side data, so it is never needed on a server. There are
 | Fall height (experimental) |  |  | -⊻1 | -fa1 | Opt-in, indicates the amount of blocks you're about to fall in-air/with levitation effect/while sneaking on an edge. Currently does not consider target block type, your effects and enchants. |
 | Glowing |  |  | -☀ | -gl | Usually given when shot by a spectral arrow. Emoji chosen to remind of the effect icon. |
 | Infested |  |  | -💔🐛 | -Hin | Having infested effect may summon silverfish upon getting hit. Given in ominous trials. |
-| Weaving |  |  | -😵🕸 | -Dwe | Having weaving effect may summon cobwebs upon death. Given in ominous trials. |
-| Oozing |  |  | -😵▪▪ | -Doo | Having oozing effect may summon two slimes upon death. Given in ominous trials. |
-| Wind Charged |  |  | -😵💨 | -Dwi | Having wind charged effect may summon a wind charge upon death. Given in ominous trials. |
 | Bad Omen |  |  | -👹?1× | -bo1× | Number is the effect level; preserved when converting into Raid or Trial Omen |
 | Impending death |  |  | _→0_ | _→0_ | Drowning, freezing damage, burning in fire/lava, starvation, suffocation, angry warden. Zero is the resulting health (death) |
 | Hardcore mode |  |  | -☠ | -HC | The vanilla one, not the UHC mode of OneBar which has no indicators |
-| Raid Omen |  |  | -👹🪓1× | -ro1× | Number indicates the total amount of raid waves.                                                                                                                                               |
-| Trial Omen |  |  | -👹🗝1× | -to1× | Number indicates the remaining minutes of ominous trial.                                                                                                                                       |
+| Weaving |  |  | -😵🕸   | -Dwe  | Opt-in, having weaving effect may summon cobwebs upon death. Given in ominous trials.                                                                                                          |
+| Oozing |  |  | -😵▪▪   | -Doo  | Opt-in, having oozing effect may summon two slimes upon death. Given in ominous trials.                                                                                                                |
+| Wind Charged |  |  | -😵💨   | -Dwi  | Opt-in, having wind charged effect may summon a wind charge upon death. Given in ominous trials.                                                                                                       |
+| Raid Omen |  |  | -👹🪓1w | -ro1w | Number indicates the total amount of raid waves.                                                                                                                                               |
+| Trial Omen |  |  | -👹🗝1m | -to1m | Number indicates the remaining minutes of ominous trial.                                                                                                                                       |
 
 #### Mounts
 
@@ -123,7 +123,7 @@ The mod only uses client-side data, so it is never needed on a server. There are
 | Experience bar | Green | ▁ | 1 | Next to hotbar | Shown only when you have any XP (configurable) |
 | Lapis Lazuli counter | Blue |  | 1 or 1× | Next to experience bar | Opt-in, shows either the raw count or times enchantable maxed out (XP level 30+) |
 | Saturation | Orange | ▁ |  | Below OneBar | Opt-in |
-| Locatability indicator |  |  | -🔍 | -lo | Shows when locator bar is available on the server (even if you hide it) and you are visible to others. |
+| Locatability indicator |  |  | -🔍 | -lo | Opt-in, shows when locator bar is available on the server (even if you hide it) and you are visible to others. |
 
 ## FAQ
 
