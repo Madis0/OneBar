@@ -77,7 +77,6 @@ public class OneBarElements {
             if(config.armor.showArmorDurabilityBar) armorDurabilityBar();
             if(config.armor.showElytraDurabilityBar) elytraDurabilityBar();
             if(config.goodThings.showSaturationBar) saturationBar();
-            if(config.entity.showMountJump) mountJumpBar();
             //if(config.healthEstimates && config.otherBars.showSaturationBar) heldFoodSaturationBar();
 
             //  if(hasExordium) {

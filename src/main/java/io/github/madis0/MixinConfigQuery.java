@@ -17,6 +17,10 @@ public class MixinConfigQuery {
         return config.hotbarTooltipsDown;
     }
 
+    public static boolean showMountJump(){
+        return config.entity.showMountJump;
+    }
+
     public static boolean isLocatorBarEnabled() {
         return config.otherBars.locatorBarMode != ModConfig.LocatorBarMode.DISABLED.ordinal() && PlayerProperties.locatorBarAvailable;
     }
