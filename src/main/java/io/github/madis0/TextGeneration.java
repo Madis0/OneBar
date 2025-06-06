@@ -100,7 +100,7 @@ public class TextGeneration {
                 value += plus + getSymbol("text.onebar.resistance", playerProperties.resistancePercent);
             if(getMobHead(client.player) != null && config.armor.showMobHeads)
                 value += plus + getMobHead(client.player);
-            if(playerProperties.hasGoldenArmorItem && config.armor.showMobHeads)
+            if(playerProperties.hasPiglinDeterArmorItem && config.armor.showMobHeads)
                 value += plus + getSymbol("text.onebar.mobHeadPiglin");
             if(playerProperties.hasInvisibility && !playerProperties.hasAnyArmorItem && !playerProperties.hasArrowsStuck && !playerProperties.hasGlowing && config.goodThings.showInvisibility)
                 value += plus + getSymbol("text.onebar.invisibility");
