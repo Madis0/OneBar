@@ -75,6 +75,9 @@
   "text.autoconfig.onebar.option.goodThings.heldFoodHungerBar.@Tooltip": "当玩家拥有饥饿条且手持食物时，在饥饿条上显示一个覆盖",
   "text.autoconfig.onebar.option.goodThings.heldFoodHungerGoodColor": "饥饿值回复颜色: 精确或小于",
   "text.autoconfig.onebar.option.goodThings.heldFoodHungerWasteColor": "饥饿值回复颜色: 溢出",
+  "text.autoconfig.onebar.option.goodThings.showSaturationBar": "饱和度条",
+  "text.autoconfig.onebar.option.goodThings.showSaturationBar.@Tooltip": "单条下方的扁条",
+  "text.autoconfig.onebar.option.goodThings.saturationColor": "饱和度颜色",
   "text.autoconfig.onebar.category.badThings": "负面效果",
   "text.autoconfig.onebar.option.badThings.hungerColor": "饥饿值颜色",
   "text.autoconfig.onebar.option.badThings.hungerEffectColor": "饥饿效果颜色",
@@ -131,8 +134,5 @@
   "text.autoconfig.onebar.option.otherBars.lapisCounter.@Tooltip": "一个在经验等级旁的计数器将计算你物品栏内的青金石/块的数量",
   "text.autoconfig.onebar.option.otherBars.lapisTimesEnchantable": "青金石计数器: 显示你目前能进行最高级附魔的次数",
   "text.autoconfig.onebar.option.otherBars.lapisTimesEnchantable.@Tooltip": "当经验等级大于 30 时，显示你能进行最高级附魔的次数而非原始数值",
-  "text.autoconfig.onebar.option.otherBars.lapisColor": "青金石计数器颜色",
-  "text.autoconfig.onebar.option.otherBars.showSaturationBar": "饱和度条",
-  "text.autoconfig.onebar.option.otherBars.showSaturationBar.@Tooltip": "单条下方的扁条",
-  "text.autoconfig.onebar.option.otherBars.saturationColor": "饱和度颜色"
+  "text.autoconfig.onebar.option.otherBars.lapisColor": "青金石计数器颜色"
 }
