@@ -89,3 +89,13 @@ publishing {
 		// retrieving dependencies.
 	}
 }
+
+tasks.register('moveMigrated') {
+	group = 'migration'
+	description = 'Moves all files from remappedSrc into src/main/java'
+	doLast {
+		ant.move(todir: file('src/main/java')) {
+			fileset(dir: file('remappedSrc'))
+		}
+	}
+}
