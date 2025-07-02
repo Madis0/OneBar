@@ -41,6 +41,10 @@
   "text.autoconfig.onebar.option.enableGradient.@Tooltip": "使所有单条的颜色都由亮色渐变为暗色\n已知问题：无法应用于马匹跳跃槽",
   "text.autoconfig.onebar.option.gradientShift": "渐变设置",
   "text.autoconfig.onebar.option.gradientShift.@Tooltip": "颜色改变百分比\n0 - 最暗\n100 - 无渐变\n200 - 最亮\n使用深色作为基础色时(例如黑色)，较难察觉到渐变效果。",
+  "text.autoconfig.onebar.option.hotbarTooltipsDown": "快捷栏物品工具提示下移",
+  "text.autoconfig.onebar.option.hotbarTooltipsDown.@Tooltip": "动态地将快捷栏选中物品的工具提示下移",
+  "text.autoconfig.onebar.option.compatibilityMode": "兼容模式",
+  "text.autoconfig.onebar.option.compatibilityMode.@Tooltip": "允许一些其他模组在单条周围显示它们的界面元素",
   "text.autoconfig.onebar.category.textSettings": "文字",
   "text.autoconfig.onebar.option.textSettings.showText": "在单条上显示数字和符号",
   "text.autoconfig.onebar.option.textSettings.showText.@Tooltip": "禁用后仍将显示生命吸收数值和硬核模式指示器(如果有)",
@@ -130,9 +134,5 @@
   "text.autoconfig.onebar.option.otherBars.lapisColor": "青金石计数器颜色",
   "text.autoconfig.onebar.option.otherBars.showSaturationBar": "饱和度条",
   "text.autoconfig.onebar.option.otherBars.showSaturationBar.@Tooltip": "单条下方的扁条",
-  "text.autoconfig.onebar.option.otherBars.saturationColor": "饱和度颜色",
-  "text.autoconfig.onebar.option.otherBars.hotbarTooltipsDown": "快捷栏物品工具提示下移",
-  "text.autoconfig.onebar.option.otherBars.hotbarTooltipsDown.@Tooltip": "动态地将快捷栏选中物品的工具提示下移",
-  "text.autoconfig.onebar.option.otherBars.compatibilityMode": "兼容模式",
-  "text.autoconfig.onebar.option.otherBars.compatibilityMode.@Tooltip": "允许一些其他模组在单条周围显示它们的界面元素"
+  "text.autoconfig.onebar.option.otherBars.saturationColor": "饱和度颜色"
 }

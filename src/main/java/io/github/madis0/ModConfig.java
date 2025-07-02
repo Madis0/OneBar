@@ -8,7 +8,7 @@ import me.shedaniel.autoconfig.annotation.ConfigEntry;
 public class ModConfig implements ConfigData {
     public enum LocatorBarMode {
         DISABLED,
-        ONEBAR,
+        HOTBAR,
         BOSSBAR;
     }
 
@@ -167,7 +167,7 @@ public class ModConfig implements ConfigData {
         public int lapisColor = 0xFF2196F3;
         @ConfigEntry.Gui.Tooltip
         @ConfigEntry.BoundedDiscrete(max = 2, min = 0)
-        public int locatorBarMode = LocatorBarMode.BOSSBAR.ordinal();
+        public int locatorBarMode = LocatorBarMode.HOTBAR.ordinal();
         @ConfigEntry.Gui.Tooltip
         public boolean showLocatability = false;
     }

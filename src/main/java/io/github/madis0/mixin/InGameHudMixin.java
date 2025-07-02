@@ -80,7 +80,7 @@ public abstract class InGameHudMixin {
 
         boolean creativeOrSpectator = PlayerProperties.isCreativeOrSpectator;
         boolean hasMount = (getRiddenEntity() != null);
-        boolean hasLocator = MixinConfigQuery.isLocatorBarEnabled() && MixinConfigQuery.isLocatorBarMode(ModConfig.LocatorBarMode.ONEBAR);
+        boolean hasLocator = MixinConfigQuery.isLocatorBarEnabled() && MixinConfigQuery.isLocatorBarMode(ModConfig.LocatorBarMode.HOTBAR);
         ClientProperties clientProperties = new ClientProperties();
 
         if (!creativeOrSpectator) { // Survival

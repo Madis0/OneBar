@@ -78,6 +78,10 @@
   "text.autoconfig.onebar.option.enableGradient.@Tooltip": "Makes all bars' colors gradually shift from base color to darker or lighter",
   "text.autoconfig.onebar.option.gradientShift": "Gradient shift",
   "text.autoconfig.onebar.option.gradientShift.@Tooltip": "Percentage of color change\n0 - darkest\n100 - no gradient\n200 - lightest\nThe gradient is harder to notice with dark background colors, such as black.",
+  "text.autoconfig.onebar.option.hotbarTooltipsDown": "Hotbar item tooltip down",
+  "text.autoconfig.onebar.option.hotbarTooltipsDown.@Tooltip": "Dynamically moves the hotbar selected item tooltip further down",
+  "text.autoconfig.onebar.option.compatibilityMode": "Compatibility mode",
+  "text.autoconfig.onebar.option.compatibilityMode.@Tooltip": "Allows some other mods to show their HUD elements around OneBar",
   "text.autoconfig.onebar.category.textSettings": "Text",
   "text.autoconfig.onebar.option.textSettings.showText": "Show numbers and symbols on OneBar",
   "text.autoconfig.onebar.option.textSettings.showText.@Tooltip": "Disabling will still show numeric absorption health and hardcore indicator (if exist)",
@@ -176,12 +180,8 @@
   "text.autoconfig.onebar.option.otherBars.showSaturationBar": "Saturation bar",
   "text.autoconfig.onebar.option.otherBars.showSaturationBar.@Tooltip": "Thin bar below OneBar",
   "text.autoconfig.onebar.option.otherBars.saturationColor": "Saturation color",
-  "text.autoconfig.onebar.option.otherBars.hotbarTooltipsDown": "Hotbar item tooltip down",
-  "text.autoconfig.onebar.option.otherBars.hotbarTooltipsDown.@Tooltip": "Dynamically moves the hotbar selected item tooltip further down",
-  "text.autoconfig.onebar.option.otherBars.compatibilityMode": "Compatibility mode",
-  "text.autoconfig.onebar.option.otherBars.compatibilityMode.@Tooltip": "Allows some other mods to show their HUD elements around OneBar",
   "text.autoconfig.onebar.option.otherBars.locatorBarMode": "Locator bar mode",
-  "text.autoconfig.onebar.option.otherBars.locatorBarMode.@Tooltip": "0 - hidden on the client (does not hide your indicator for others)\n1 - right above OneBar\n2 - in boss bar location",
+  "text.autoconfig.onebar.option.otherBars.locatorBarMode.@Tooltip": "0 - hidden on the client (does not hide your indicator for others)\n1 - between OneBar and hotbar\n2 - above boss bar",
   "text.autoconfig.onebar.option.otherBars.showLocatability": "Locatability indicator",
-  "text.autoconfig.onebar.option.otherBars.showLocatability.@Tooltip": "Show an indicator if the locator bar is available\nin the server and you are visible for others.\nOnly considers default vanilla visibility conditions,\n not plugins or server-side customizations."
+  "text.autoconfig.onebar.option.otherBars.showLocatability.@Tooltip": "Show an indicator if the locator bar is available\nin the server and you are visible for others.\nOnly considers default vanilla visibility conditions,\nnot plugins or server-side customizations."
 }
