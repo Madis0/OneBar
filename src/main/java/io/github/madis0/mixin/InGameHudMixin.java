@@ -59,11 +59,11 @@ public abstract class InGameHudMixin {
 
     @Inject(method = "getCurrentBarType", at = @At("HEAD"), cancellable = true)
     private void forceLocatorBar(CallbackInfoReturnable<Object> cir) {
-        if(showOneBar && !MixinConfigQuery.isCompatModeEnabled() && MixinConfigQuery.isLocatorBarEnabled()){
+        if(showOneBar && !MixinConfigQuery.isCompatModeEnabled()){
             try {
                 Class<?> barTypeClass = Class.forName("net.minecraft.client.gui.hud.InGameHud$BarType");
-                Object locatorConst = Enum.valueOf((Class<Enum>) barTypeClass, "LOCATOR");
-                cir.setReturnValue(locatorConst);
+                Object barType = Enum.valueOf((Class<Enum>) barTypeClass, MixinConfigQuery.isLocatorBarEnabled() ? "LOCATOR" : "EMPTY");
+                cir.setReturnValue(barType);
                 cir.cancel();
             } catch (Exception e) {
                 // fallback or log

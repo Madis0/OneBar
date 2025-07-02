@@ -41,7 +41,7 @@ public class MixinConfigQuery {
         }
 
         return switch (modeEnum) {
-            case HOTBAR -> clientProperties.getLocatorOneBarHeight();
+            case HOTBAR -> clientProperties.locatorBarOriginalH;
             case BOSSBAR -> clientProperties.locatorBarBossBarH;
             default -> 0;
         };

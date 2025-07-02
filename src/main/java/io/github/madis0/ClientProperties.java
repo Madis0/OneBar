@@ -37,11 +37,7 @@ public class ClientProperties {
     public final int mountStartH;
     public final int mountEndH;
 
-    public int locatorBarOneBarSurvivalH;
-    public int locatorBarOneBarCreativeH;
-    public int locatorBarOneBarSurvivalMountH;
-    public int locatorBarOneBarCreativeMountH;
-
+    public int locatorBarOriginalH;
     public int locatorBarBossBarH;
 
     public final int tooltipSurvivalH;
@@ -59,10 +55,11 @@ public class ClientProperties {
         MinecraftClient client = MinecraftClient.getInstance();
         int scaledWidth = client.getWindow().getScaledWidth();
         int scaledHeight = client.getWindow().getScaledHeight();
+        boolean hasHotbarLocatorBar = MixinConfigQuery.isLocatorBarEnabled() && MixinConfigQuery.isLocatorBarMode(ModConfig.LocatorBarMode.HOTBAR);
 
         baseStartW = scaledWidth / 2 - 91;
         baseEndW = baseStartW + 182;
-        baseStartH = scaledHeight - 33;
+        baseStartH = scaledHeight - (hasHotbarLocatorBar ? 40 : 33);
 
         if (FabricLoader.getInstance().getObjectShare().get("raised:hud") instanceof Integer distance) {
             baseStartH -= distance;
@@ -115,11 +112,7 @@ public class ClientProperties {
         mountStartH = baseStartH - 12;
         mountEndH = mountStartH + 9;
 
-        locatorBarOneBarSurvivalH = baseStartH - 7;
-        locatorBarOneBarCreativeH = scaledHeight - 24 - 5; // Original value
-        locatorBarOneBarSurvivalMountH = mountStartH - 7;
-        locatorBarOneBarCreativeMountH = locatorBarOneBarSurvivalMountH;
-
+        locatorBarOriginalH = scaledHeight - 24 - 5;
         locatorBarBossBarH = 12;
 
         int defaultTooltipH = scaledHeight - 59;
@@ -157,21 +150,5 @@ public class ClientProperties {
     }
     public int camelRelativeEndW(long value, long total){
         return camelRelativeEndW(Calculations.getPreciseInt(value), Calculations.getPreciseInt(total));
-    }
-
-    public int getLocatorOneBarHeight() {
-        var client = MinecraftClient.getInstance();
-        var player = client.player;
-        if (player == null) return 0;
-
-        var props = new ClientProperties();
-        boolean isCreative = player.isCreative() || player.isSpectator();
-        boolean hasMount = player.getVehicle() != null;
-
-        if (!isCreative) {
-            return hasMount ? props.locatorBarOneBarSurvivalMountH : props.locatorBarOneBarSurvivalH;
-        } else {
-            return hasMount ? props.locatorBarOneBarCreativeMountH : props.locatorBarOneBarCreativeH;
-        }
     }
 }
