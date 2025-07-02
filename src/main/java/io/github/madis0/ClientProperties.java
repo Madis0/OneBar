@@ -39,6 +39,7 @@ public class ClientProperties {
 
     public int locatorBarOriginalH;
     public int locatorBarBossBarH;
+    public int locatorBarHeightConst;
 
     public final int tooltipSurvivalH;
     public final int tooltipCreativeH;
@@ -55,11 +56,13 @@ public class ClientProperties {
         MinecraftClient client = MinecraftClient.getInstance();
         int scaledWidth = client.getWindow().getScaledWidth();
         int scaledHeight = client.getWindow().getScaledHeight();
+
         boolean hasHotbarLocatorBar = MixinConfigQuery.isLocatorBarEnabled() && MixinConfigQuery.isLocatorBarMode(ModConfig.LocatorBarMode.HOTBAR);
+        locatorBarHeightConst = 7;
 
         baseStartW = scaledWidth / 2 - 91;
         baseEndW = baseStartW + 182;
-        baseStartH = scaledHeight - (hasHotbarLocatorBar ? 40 : 33);
+        baseStartH = scaledHeight - 33 - (hasHotbarLocatorBar ? locatorBarHeightConst : 0);
 
         if (FabricLoader.getInstance().getObjectShare().get("raised:hud") instanceof Integer distance) {
             baseStartH -= distance;
@@ -92,7 +95,11 @@ public class ClientProperties {
         if (((DebugHudMixin)MinecraftClient.getInstance().inGameHud.getDebugHud()).isRenderingAndTickChartsVisible()  ||
                 MinecraftClient.getInstance().inGameHud.getDebugHud().shouldShowPacketSizeAndPingCharts()) {
             xpStartH = baseStartH + 11;
-        } else {
+        }
+        else if(hasHotbarLocatorBar){
+            xpStartH = baseStartH + 28 + locatorBarHeightConst;
+        }
+        else {
             xpStartH = baseStartH + 28;
         }
 
