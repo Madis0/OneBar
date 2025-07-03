@@ -53,23 +53,23 @@ public class ClientProperties {
         int scaledWidth = client.getWindow().getScaledWidth();
         int scaledHeight = client.getWindow().getScaledHeight();
 
+        boolean compatMode = MixinConfigQuery.isCompatModeEnabled();
         boolean hasHotbarLocatorBar = MixinConfigQuery.isLocatorBarEnabled() && MixinConfigQuery.isLocatorBarMode(ModConfig.LocatorBarMode.HOTBAR);
         locatorBarHeightConst = 7;
 
         boolean f3IsCovering = MinecraftClient.getInstance().inGameHud.getDebugHud().shouldRenderTickCharts() ||
                 MinecraftClient.getInstance().inGameHud.getDebugHud().shouldShowPacketSizeAndPingCharts();
-        boolean compatMode = MixinConfigQuery.isCompatModeEnabled();
 
         baseStartW = scaledWidth / 2 - 91;
         baseEndW = baseStartW + 182;
-        baseStartH = scaledHeight - 33 - (hasHotbarLocatorBar ? locatorBarHeightConst : 0);
+        baseStartH = scaledHeight - 33 - ((hasHotbarLocatorBar || compatMode) ? locatorBarHeightConst : 0);
 
         if (FabricLoader.getInstance().getObjectShare().get("raised:hud") instanceof Integer distance) {
             baseStartH -= distance;
         }
 
-        if (compatMode || hasHotbarLocatorBar) {
-            baseStartH -= 27;
+        if (compatMode) {
+            baseStartH -= 20;
         }
         else if (f3IsCovering) {
             baseStartH -= 42;
