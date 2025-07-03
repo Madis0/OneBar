@@ -14,7 +14,7 @@ public class MixinConfigQuery {
     }
 
     public static boolean isHotbarTooltipsDown(){
-        return config.hotbarTooltipsDown;
+        return config.otherBars.hotbarTooltipsDown;
     }
 
     public static boolean showMountJump(){

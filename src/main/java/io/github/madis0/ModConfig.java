@@ -15,6 +15,8 @@ public class ModConfig implements ConfigData {
     @ConfigEntry.Gui.Tooltip
     public boolean showOneBar = true;
     @ConfigEntry.Gui.Tooltip
+    public boolean compatibilityMode = false;
+    @ConfigEntry.Gui.Tooltip
     public boolean healthEstimates = true;
     @ConfigEntry.Gui.Tooltip
     public boolean uhcMode = false;
@@ -28,10 +30,6 @@ public class ModConfig implements ConfigData {
     @ConfigEntry.Gui.Tooltip
     @ConfigEntry.BoundedDiscrete(max = 200, min = 0)
     public int gradientShift = 50;
-    @ConfigEntry.Gui.Tooltip
-    public boolean hotbarTooltipsDown = true;
-    @ConfigEntry.Gui.Tooltip
-    public boolean compatibilityMode = false;
 
     public static class TextSettings {
         @ConfigEntry.Gui.Tooltip
@@ -155,6 +153,8 @@ public class ModConfig implements ConfigData {
     }
 
     public static class OtherBars {
+        @ConfigEntry.Gui.Tooltip
+        public boolean hotbarTooltipsDown = true;
         @ConfigEntry.Gui.Tooltip
         public boolean adaptiveXpBar = true;
         @ConfigEntry.ColorPicker(allowAlpha = true)
