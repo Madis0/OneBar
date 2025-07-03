@@ -26,6 +26,7 @@
   "mixins": [
     "onebar.mixins.json"
   ],
+  "accessWidener": "ingamehudbartype.accesswidener",
   "depends": {
     "fabric-api": "*",
     "cloth-config2": "*",

@@ -14,6 +14,7 @@ import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.ModifyVariable;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
+import net.minecraft.client.gui.hud.InGameHud.BarType;
 
 import java.util.Objects;
 
@@ -51,17 +52,13 @@ public abstract class InGameHudMixin {
     }
 
     @Inject(method = "getCurrentBarType", at = @At("HEAD"), cancellable = true)
-    private void forceLocatorBar(CallbackInfoReturnable<Object> cir) {
-        if(showOneBar && !MixinConfigQuery.isCompatModeEnabled()){
-            try {
-                Class<?> barTypeClass = Class.forName("net.minecraft.client.gui.hud.InGameHud$BarType");
-                Object barType = Enum.valueOf((Class<Enum>) barTypeClass, MixinConfigQuery.isLocatorBarEnabled() ? "LOCATOR" : "EMPTY");
-                cir.setReturnValue(barType);
-                cir.cancel();
-            } catch (Exception e) {
-                // fallback or log
-                e.printStackTrace();
-            }
+    private void forceLocatorBar(CallbackInfoReturnable<BarType> cir) {
+        if (showOneBar && !MixinConfigQuery.isCompatModeEnabled()) {
+            BarType barType = MixinConfigQuery.isLocatorBarEnabled()
+                    ? BarType.LOCATOR
+                    : BarType.EMPTY;
+            cir.setReturnValue(barType);
+            cir.cancel();
         }
     }
 
