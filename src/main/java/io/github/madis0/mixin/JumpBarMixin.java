@@ -12,19 +12,8 @@ import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
-@Mixin(value = JumpBar.class, priority = 800)
+@Mixin(value = JumpBar.class)
 public abstract class JumpBarMixin {
-    @Inject(method = "renderBar", at = @At(value = "TAIL"), cancellable = true)
-    private void hideBarCompat(DrawContext context, RenderTickCounter tickCounter, CallbackInfo ci){
-        if(MixinConfigQuery.isCompatModeEnabled() && MixinConfigQuery.isOneBarEnabled())
-            ci.cancel();
-    }
-
-    @Inject(method = "renderAddons", at = @At(value = "TAIL"), cancellable = true)
-    private void renderAddonsCompat(DrawContext context, RenderTickCounter tickCounter, CallbackInfo ci){
-        if(MixinConfigQuery.isCompatModeEnabled() && MixinConfigQuery.isOneBarEnabled())
-            ci.cancel();
-    }
 
     @Inject(method = "renderAddons", at = @At(value = "HEAD"), cancellable = true)
     private void hideBar(DrawContext context, RenderTickCounter tickCounter, CallbackInfo ci){

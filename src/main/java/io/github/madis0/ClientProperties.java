@@ -43,11 +43,8 @@ public class ClientProperties {
     public final int tooltipSurvivalH;
     public final int tooltipCreativeH;
     public final int tooltipSurvivalMountH;
-    public final int tooltipCreativeMountH;
-    public final int tooltipSurvivalLocatorH;
     public final int tooltipCreativeLocatorH;
-    public final int tooltipSurvivalLocatorMountH;
-    public final int tooltipCreativeLocatorMountH;
+    public final int tooltipCreativeMountCompatH;
 
     public final boolean isHardcore;
 
@@ -61,6 +58,7 @@ public class ClientProperties {
 
         boolean f3IsCovering = MinecraftClient.getInstance().inGameHud.getDebugHud().shouldRenderTickCharts() ||
                 MinecraftClient.getInstance().inGameHud.getDebugHud().shouldShowPacketSizeAndPingCharts();
+        boolean compatMode = MixinConfigQuery.isCompatModeEnabled();
 
         baseStartW = scaledWidth / 2 - 91;
         baseEndW = baseStartW + 182;
@@ -70,8 +68,11 @@ public class ClientProperties {
             baseStartH -= distance;
         }
 
-        if (f3IsCovering) {
-            baseStartH -= 50;
+        if (compatMode || hasHotbarLocatorBar) {
+            baseStartH -= 27;
+        }
+        else if (f3IsCovering) {
+            baseStartH -= 42;
         }
 
         baseEndH = baseStartH + 9;
@@ -85,15 +86,15 @@ public class ClientProperties {
         if (client.options.getMainArm().getValue() == Arm.RIGHT){
             xpStartW = baseEndW + 4;
             if(client.options.getAttackIndicator().getValue() == AttackIndicator.HOTBAR)
-                xpStartW = xpStartW + 20;
+                xpStartW += 20;
         }
         else if (client.options.getMainArm().getValue() == Arm.LEFT) {
             xpStartW = baseStartW - 22;
             if(client.options.getAttackIndicator().getValue() == AttackIndicator.HOTBAR)
-                xpStartW = xpStartW - 20;
+                xpStartW -= 20;
         }
 
-        if (f3IsCovering) {
+        if (f3IsCovering || compatMode) {
             xpStartH = baseStartH + 11;
         }
         else if(hasHotbarLocatorBar){
@@ -122,16 +123,12 @@ public class ClientProperties {
         locatorBarOriginalH = scaledHeight - 24 - 5;
         locatorBarBossBarH = 12;
 
-        int defaultTooltipH = scaledHeight - 59;
+        tooltipSurvivalH = baseStartH - 11;
+        tooltipSurvivalMountH = mountStartH - 11;
 
-        tooltipSurvivalH = defaultTooltipH + 14;
-        tooltipCreativeH = defaultTooltipH + 12;
-        tooltipSurvivalMountH = tooltipSurvivalH - 12;
-        tooltipCreativeMountH = tooltipCreativeH - 8;
-        tooltipSurvivalLocatorH = tooltipSurvivalH - 7;
-        tooltipCreativeLocatorH = tooltipCreativeH - 7;
-        tooltipSurvivalLocatorMountH = tooltipSurvivalLocatorH - 12;
-        tooltipCreativeLocatorMountH = tooltipCreativeLocatorH - 8;
+        tooltipCreativeH = (scaledHeight - 33) - 14;
+        tooltipCreativeLocatorH = tooltipCreativeH - locatorBarHeightConst;
+        tooltipCreativeMountCompatH = tooltipCreativeH - locatorBarHeightConst - 20;
 
         isHardcore = Objects.requireNonNull(client.world).getLevelProperties().isHardcore();
     }

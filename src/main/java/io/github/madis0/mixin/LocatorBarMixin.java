@@ -11,7 +11,7 @@ import org.spongepowered.asm.mixin.injection.ModifyArg;
 import org.spongepowered.asm.mixin.injection.ModifyVariable;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
-@Mixin(value = LocatorBar.class, priority = 800)
+@Mixin(value = LocatorBar.class)
 public abstract class LocatorBarMixin {
 
     @ModifyArg(
@@ -39,19 +39,6 @@ public abstract class LocatorBarMixin {
             return original;
 
         return MixinConfigQuery.getLocatorBarHeight();
-    }
-
-
-    @Inject(method = "renderBar", at = @At(value = "TAIL"), cancellable = true)
-    private void hideBarCompat(DrawContext context, RenderTickCounter tickCounter, CallbackInfo ci){
-        if(MixinConfigQuery.isOneBarEnabled() && MixinConfigQuery.isCompatModeEnabled() && !MixinConfigQuery.isLocatorBarEnabled())
-            ci.cancel();
-    }
-
-    @Inject(method = "renderAddons", at = @At(value = "TAIL"), cancellable = true)
-    private void renderAddonsCompat(DrawContext context, RenderTickCounter tickCounter, CallbackInfo ci){
-        if(MixinConfigQuery.isOneBarEnabled() && MixinConfigQuery.isCompatModeEnabled() && !MixinConfigQuery.isLocatorBarEnabled())
-            ci.cancel();
     }
 
     @Inject(method = "renderAddons", at = @At(value = "HEAD"), cancellable = true)

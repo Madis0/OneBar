@@ -17,7 +17,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
 import java.util.Objects;
 
-@Mixin(value = InGameHud.class, priority = 800)
+@Mixin(value = InGameHud.class)
 public abstract class InGameHudMixin {
     @Final @Shadow private MinecraftClient client;
     @Shadow protected abstract LivingEntity getRiddenEntity();
@@ -34,13 +34,7 @@ public abstract class InGameHudMixin {
         if(showOneBar && barsVisible) oneBarElements.renderOneBar();
         if(showOneBar && MixinConfigQuery.showMountJump() && !client.options.hudHidden) oneBarElements.mountJumpBar();
 
-        PlayerProperties.setLocatorBarAvailable(client.player.networkHandler.getWaypointHandler().hasWaypoint());
-    }
-
-    @Inject(method = "renderStatusBars", at = @At(value = "INVOKE", target = "Lnet/minecraft/util/profiler/Profiler;push(Ljava/lang/String;)V"), cancellable = true)
-    private void hideHudCompat(DrawContext context, CallbackInfo ci){
-        if(showOneBar && MixinConfigQuery.isCompatModeEnabled())
-            ci.cancel();
+        PlayerProperties.setLocatorBarAvailable(client.player.networkHandler.getWaypointHandler().hasWaypoint() || MixinConfigQuery.isCompatModeEnabled());
     }
 
     @Inject(method = "renderStatusBars", at = @At(value = "HEAD"), cancellable = true)
@@ -51,10 +45,9 @@ public abstract class InGameHudMixin {
 
     @Inject(method = "renderMountHealth", at = @At(value = "HEAD"), cancellable = true)
     private void hideMountHealth(DrawContext context, CallbackInfo ci) {
-        if(showOneBar){
+        if(showOneBar && !MixinConfigQuery.isCompatModeEnabled())
             ci.cancel();
-            oneBarElements.mountBar(getRiddenEntity());
-        }
+        oneBarElements.mountBar(getRiddenEntity());
     }
 
     @Inject(method = "getCurrentBarType", at = @At("HEAD"), cancellable = true)
@@ -80,21 +73,17 @@ public abstract class InGameHudMixin {
 
         boolean creativeOrSpectator = PlayerProperties.isCreativeOrSpectator;
         boolean hasMount = (getRiddenEntity() != null);
-        boolean hasLocator = MixinConfigQuery.isLocatorBarEnabled() && MixinConfigQuery.isLocatorBarMode(ModConfig.LocatorBarMode.HOTBAR);
+        boolean hasLocator = MixinConfigQuery.isLocatorBarEnabled() && MixinConfigQuery.isLocatorBarMode(ModConfig.LocatorBarMode.HOTBAR) || MixinConfigQuery.isCompatModeEnabled();
         ClientProperties clientProperties = new ClientProperties();
 
         if (!creativeOrSpectator) { // Survival
-            if (hasLocator) {
-                return hasMount ? clientProperties.tooltipSurvivalLocatorMountH : clientProperties.tooltipSurvivalLocatorH;
-            } else {
-                return hasMount ? clientProperties.tooltipSurvivalMountH : clientProperties.tooltipSurvivalH;
-            }
+            return hasMount ? clientProperties.tooltipSurvivalMountH : clientProperties.tooltipSurvivalH;
         } else { // Creative or spectator
-            if (hasLocator) {
-                return hasMount ? clientProperties.tooltipCreativeLocatorMountH : clientProperties.tooltipCreativeLocatorH;
-            } else {
-                return clientProperties.tooltipCreativeH;
-            }
+            if(MixinConfigQuery.isCompatModeEnabled() && hasMount)
+                return clientProperties.tooltipCreativeMountCompatH;
+            else if (hasLocator)
+                return clientProperties.tooltipCreativeLocatorH;
+            return clientProperties.tooltipCreativeH;
         }
     }
 }

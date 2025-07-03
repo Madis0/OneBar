@@ -9,17 +9,11 @@ import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
-@Mixin(value = Bar.class, priority = 800)
+@Mixin(value = Bar.class)
 public interface BarMixin {
-    @Inject(method = "drawExperienceLevel", at = @At(value = "TAIL"), cancellable = true)
-    private static void hideXpLevelCompat(DrawContext context, TextRenderer textRenderer, int level, CallbackInfo ci){
-        if(MixinConfigQuery.isCompatModeEnabled() && MixinConfigQuery.isOneBarEnabled())
-            ci.cancel();
-    }
-
     @Inject(method = "drawExperienceLevel", at = @At(value = "HEAD"), cancellable = true)
     private static void hideXpLevel(DrawContext context, TextRenderer textRenderer, int level, CallbackInfo ci){
-        if(!MixinConfigQuery.isCompatModeEnabled() && MixinConfigQuery.isOneBarEnabled())
+        if(MixinConfigQuery.isOneBarEnabled() && !MixinConfigQuery.isCompatModeEnabled())
             ci.cancel();
     }
 }
