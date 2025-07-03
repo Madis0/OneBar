@@ -42,7 +42,7 @@
   "text.autoconfig.onebar.option.uhcMode": "UHC-režiim",
   "text.autoconfig.onebar.option.uhcMode.@Tooltip": "Keelab loomuliku taastumise ennustused, kui mõjude ennustused on lubatud,\nmõeldud \"ultra-halastamatu\" minimängu jaoks.",
   "text.autoconfig.onebar.option.disableHunger": "Peida nälg",
-  "text.autoconfig.onebar.option.disableHunger.@Tooltip": "Peidab näljariba/-teksti, näljaefekti ja nälgimise ennustused jne,\nmõeldud teatud minimängude jaoks",
+  "text.autoconfig.onebar.option.disableHunger.@Tooltip": "Peidab näljariba/-teksti, näljaefekti ja nälgimise ennustused jne,\nmõeldud teatud minimängude jaoks.",
   "text.autoconfig.onebar.option.backgroundColor.@PrefixText": "§8Iga värvi ees on läbipaistmatuse väärtus kuueteistkümnendsüsteemis, vt abi saamiseks modi lehte",
   "text.autoconfig.onebar.option.backgroundColor": "Tausta värv",
   "text.autoconfig.onebar.option.enableGradient": "Luba värviüleminek",
@@ -140,7 +140,7 @@
   "text.autoconfig.onebar.option.armor.showMobHeads.@Tooltip": "Kuvab indikaatorit toetatud elukapea;\nnikerdatud kõrvitsa; kuldse rüüeseme kandmisel.\nKantud elukapead vähendavad vastava eluka tuvastuskaugust 50% võrra;\nnikerdatud kõrvits väldib vaatamisega endermanide ärritamist;\nmistahes kuldse rüü ese väldib piglinite ärritamist;\nkõik pead peidavad su lokaatorribalt (aga mängija, draakoni ja wither-luukere peaindikaatorit\nkuvatakse vaid lokaatorriba olemasolul).\nArv tähistab maksimaalset plokkide arvu, kui kaugel mängija saab olla.\nArv näitab minimaalset plokkide arvu, kui kaugel mängija saab ohutult elukast seista, kandes selle pead. \n(ümardatud, arvestab hiilimist ja nähtamatust)",
   "text.autoconfig.onebar.category.otherBars": "Muud ribad",
   "text.autoconfig.onebar.option.otherBars.hotbarTooltipsDown": "Kohanduvad plokiriba hüpiktekstid",
-  "text.autoconfig.onebar.option.otherBars.hotbarTooltipsDown.@Tooltip": "Liigutab plokiriba valitud eseme hüpikteksti dünaamiliselt allapoole",
+  "text.autoconfig.onebar.option.otherBars.hotbarTooltipsDown.@Tooltip": "Liigutab plokiriba valitud eseme hüpikteksti dünaamiliselt allapoole.\nTöötab vaid seni, kuni OneBar on lubatud.",
   "text.autoconfig.onebar.option.otherBars.adaptiveXpBar": "Kohanduv kogemusindikaator",
   "text.autoconfig.onebar.option.otherBars.adaptiveXpBar.@Tooltip": "Peidab kogemustasemed ja/või -riba, kui väärtus on null",
   "text.autoconfig.onebar.option.otherBars.xpColor": "Kogemustasemete/-riba värv",
@@ -150,7 +150,7 @@
   "text.autoconfig.onebar.option.otherBars.lapisTimesEnchantable.@Tooltip": "Toorväärtuse asemel kuvab, mitu korda saad\nmaksimaalselt loitsida 30+ kogemustaseme omamisel",
   "text.autoconfig.onebar.option.otherBars.lapisColor": "Lasuriidiloenduri värv",
   "text.autoconfig.onebar.option.otherBars.locatorBarMode": "Lokaatorriba režiim",
-  "text.autoconfig.onebar.option.otherBars.locatorBarMode.@Tooltip": "0 - kliendipoolselt peidetud (ei peida sinu indikaatorit teiste jaoks)\n1 - OneBari ja plokiriba vahel\n2 - bossiriba kohal",
+  "text.autoconfig.onebar.option.otherBars.locatorBarMode.@Tooltip": "0 - kliendipoolselt peidetud (ei peida sinu indikaatorit teiste jaoks)\n1 - OneBari ja plokiriba vahel\n2 - bossiriba kohal\nKonfliktide vältimiseks töötavad valikud vaid seni, kuni OneBar on lubatud ja mitte topeltrežiimis.",
   "text.autoconfig.onebar.option.otherBars.showLocatability": "Leitavuse indikaator",
   "text.autoconfig.onebar.option.otherBars.showLocatability.@Tooltip": "Kuvab indikaatorit, kui lokaatorriba on serveris saadaval\nning sina oled seal teistele nähtav.\nArvestab vaid vaikimisi vanilli nähtavustingimusi,\nmitte pluginaid või serveripoolseid kohandusi."
 }

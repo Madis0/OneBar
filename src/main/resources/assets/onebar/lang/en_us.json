@@ -73,7 +73,7 @@
   "text.autoconfig.onebar.option.uhcMode": "UHC mode",
   "text.autoconfig.onebar.option.uhcMode.@Tooltip": "Disables natural regen estimates (if effect estimates are enabled),\nmeant for \"ultra hardcore\" minigame.",
   "text.autoconfig.onebar.option.disableHunger": "Hide hunger",
-  "text.autoconfig.onebar.option.disableHunger.@Tooltip": "Hides the hunger bar/text, hunger effect and starvation estimates etc,\nmeant for certain minigames",
+  "text.autoconfig.onebar.option.disableHunger.@Tooltip": "Hides the hunger bar/text, hunger effect and starvation estimates etc,\nmeant for certain minigames.",
   "text.autoconfig.onebar.option.backgroundColor.@PrefixText": "§8Every color is preceded by the opacity value in hex, see mod page for help",
   "text.autoconfig.onebar.option.backgroundColor": "Background color",
   "text.autoconfig.onebar.option.enableGradient": "Enable gradient",
@@ -171,7 +171,7 @@
   "text.autoconfig.onebar.option.armor.showMobHeads.@Tooltip": "Shows an indicator when wearing a supported mob head; carved pumpkin; golden armor item.\nWorn mob heads reduce respective mob detection range by 50%;\ncarved pumpkin will prevent aggrevating endermen by looking;\nany golden armor item will prevent piglin aggrevation;\nall heads will hide you on the locator bar (but player, dragon and wither skeleton head indicator\nis only shown when locator bar is available).\nNumber indicates the minimum amount of blocks the player can safely stand from the mob when wearing its head.\n(rounded, considers sneaking and invisibility)",
   "text.autoconfig.onebar.category.otherBars": "Other bars",
   "text.autoconfig.onebar.option.otherBars.hotbarTooltipsDown": "Adapt hotbar tooltips",
-  "text.autoconfig.onebar.option.otherBars.hotbarTooltipsDown.@Tooltip": "Dynamically moves the hotbar selected item tooltip further down",
+  "text.autoconfig.onebar.option.otherBars.hotbarTooltipsDown.@Tooltip": "Dynamically moves the hotbar selected item tooltip further down.\nOnly works while OneBar is enabled.",
   "text.autoconfig.onebar.option.otherBars.adaptiveXpBar": "Adaptive experience indicator",
   "text.autoconfig.onebar.option.otherBars.adaptiveXpBar.@Tooltip": "Hides the experience level and/or bar when the value is zero",
   "text.autoconfig.onebar.option.otherBars.xpColor": "Experience level/bar color",
@@ -181,7 +181,7 @@
   "text.autoconfig.onebar.option.otherBars.lapisTimesEnchantable.@Tooltip": "Instead of raw value, shows how many times can you do max enchants with XP level 30+",
   "text.autoconfig.onebar.option.otherBars.lapisColor": "Lapis Lazuli counter color",
   "text.autoconfig.onebar.option.otherBars.locatorBarMode": "Locator bar mode",
-  "text.autoconfig.onebar.option.otherBars.locatorBarMode.@Tooltip": "0 - hidden on the client (does not hide your indicator for others)\n1 - between OneBar and hotbar\n2 - above boss bar",
+  "text.autoconfig.onebar.option.otherBars.locatorBarMode.@Tooltip": "0 - hidden on the client (does not hide your indicator for others)\n1 - between OneBar and hotbar\n2 - above boss bar\nTo avoid conflicts, the options work only while OneBar is enabled and not in double mode.",
   "text.autoconfig.onebar.option.otherBars.showLocatability": "Locatability indicator",
   "text.autoconfig.onebar.option.otherBars.showLocatability.@Tooltip": "Show an indicator if the locator bar is available\nin the server and you are visible for others.\nOnly considers default vanilla visibility conditions,\nnot plugins or server-side customizations."
 }
