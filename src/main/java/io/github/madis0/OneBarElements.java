@@ -6,7 +6,6 @@ import net.fabricmc.loader.api.FabricLoader;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.font.TextRenderer;
 import net.minecraft.client.gui.DrawContext;
-import net.minecraft.client.render.RenderLayer;
 import net.minecraft.component.DataComponentTypes;
 import net.minecraft.component.type.AttributeModifiersComponent;
 import net.minecraft.entity.EquipmentSlot;
@@ -77,7 +76,7 @@ public class OneBarElements {
             if(config.armor.showArmorBar) armorBar();
             if(config.armor.showArmorDurabilityBar) armorDurabilityBar();
             if(config.armor.showElytraDurabilityBar) elytraDurabilityBar();
-            if(config.otherBars.showSaturationBar) saturationBar();
+            if(config.goodThings.showSaturationBar) saturationBar();
             //if(config.healthEstimates && config.otherBars.showSaturationBar) heldFoodSaturationBar();
 
             //  if(hasExordium) {
@@ -91,7 +90,7 @@ public class OneBarElements {
         if(!config.enableGradient)
             drawContext.fill(x1, y1, x2, y2, color);
         else
-            drawContext.fillGradient(RenderLayer.getGui(), x1, y1, x2, y2, color, Calculations.manipulateColor(color, config.gradientShift), 0);
+            drawContext.fillGradient(x1, y1, x2, y2, color, Calculations.manipulateColor(color, config.gradientShift));
     }
 
     private void renderLeftToRightBar(float currentValue, float maxValue, int color) {
@@ -172,7 +171,7 @@ public class OneBarElements {
     }
 
     private void saturationBar(){
-        renderLeftToRightBar(playerProperties.saturationRaw, playerProperties.maxFoodLevelRaw, config.otherBars.saturationColor, clientProperties.saturationStartH, clientProperties.saturationEndH);
+        renderLeftToRightBar(playerProperties.saturationRaw, playerProperties.maxFoodLevelRaw, config.goodThings.saturationColor, clientProperties.saturationStartH, clientProperties.saturationEndH);
     }
 
     private void heldFoodHungerBar(){
@@ -317,8 +316,6 @@ public class OneBarElements {
                 value += plus + Calculations.emojiOrText("text.onebar.resistanceEmoji","text.onebar.resistance", false, playerProperties.resistancePercent);
             if(PlayerProperties.getMobHead(Objects.requireNonNull(client.player)) != null && config.armor.showMobHeads)
                 value += plus + PlayerProperties.getMobHead(client.player);
-            if(playerProperties.hasPiglinDeterArmorItem && config.armor.showMobHeads)
-                value += plus + Calculations.emojiOrText("text.onebar.mobHeadPiglinEmoji","text.onebar.mobHeadPiglin", false, (Object) null);
             if(playerProperties.hasInvisibility && !playerProperties.hasAnyArmorItem && !playerProperties.hasArrowsStuck && !playerProperties.hasGlowing && config.goodThings.showInvisibility)
                 value += plus + Calculations.emojiOrText("text.onebar.invisibilityEmoji","text.onebar.invisibility", false, (Object) null);
             if(playerProperties.hasInvisibility && (playerProperties.hasAnyArmorItem || playerProperties.hasArrowsStuck || playerProperties.hasGlowing) && config.goodThings.showInvisibility)
@@ -363,9 +360,11 @@ public class OneBarElements {
             if (playerProperties.hasBadOmen && config.badThings.showOmens)
                 value += minus + Calculations.emojiOrText("text.onebar.badOmenEmoji","text.onebar.badOmen", false, playerProperties.badOmenLevel);
             if (playerProperties.hasRaidOmen && config.badThings.showOmens)
-                value += minus + Calculations.emojiOrText("text.onebar.raidOmenEmoji","text.onebar.raidOmen", false, playerProperties.raidOmenLevel);
+                value += minus + Calculations.emojiOrText("text.onebar.raidOmenEmoji","text.onebar.raidOmen", false, playerProperties.raidOmenWaves);
             if (playerProperties.hasTrialOmen && config.badThings.showOmens)
-                value += minus + Calculations.emojiOrText("text.onebar.trialOmenEmoji","text.onebar.trialOmen", false, playerProperties.trialOmenLevel);
+                value += minus + Calculations.emojiOrText("text.onebar.trialOmenEmoji","text.onebar.trialOmen", false, playerProperties.trialOmenMinutes);
+            if(playerProperties.isVisibleOnLocatorBar && config.otherBars.showLocatability)
+                value += minus + Calculations.emojiOrText("text.onebar.locatorEmoji","text.onebar.locator", false, (Object) null);
             if (clientProperties.isHardcore)
                 value += minus + Calculations.emojiOrText("text.onebar.hardcoreEmoji","text.onebar.hardcore", false, (Object) null);
             if (hasHunger || (playerProperties.hasHungerEffect && config.healthEstimates && !config.disableHunger))
@@ -438,6 +437,17 @@ public class OneBarElements {
         if(!config.otherBars.adaptiveXpBar || playerProperties.xp > 0){
             renderBar(clientProperties.xpStartW, clientProperties.xpStartH, clientProperties.xpEndW, clientProperties.xpEndH, config.backgroundColor);
             renderBar(clientProperties.xpStartW, clientProperties.xpStartH, relativeEndW, clientProperties.xpEndH, config.otherBars.xpColor);
+        }
+    }
+
+    public void mountJumpBar() {
+        var entity = client.player.getControllingVehicle();
+        if (entity == null) return;
+
+        if (entity instanceof CamelEntity) {
+            camelJumpBar();
+        } else {
+            horseJumpBar(); // Horse or modded entity
         }
     }
 

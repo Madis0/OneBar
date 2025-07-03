@@ -26,10 +26,11 @@
   "mixins": [
     "onebar.mixins.json"
   ],
+  "accessWidener": "ingamehudbartype.accesswidener",
   "depends": {
     "fabric-api": "*",
     "cloth-config2": "*",
-    "minecraft": ">=1.21.5 <=1.21.6-alpha.25.14.craftmine"
+    "minecraft": ">=1.21.6"
   },
   "suggests": {
     "modmenu": "*"

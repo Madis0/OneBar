@@ -1,6 +1,5 @@
 package io.github.madis0;
 
-import io.github.madis0.mixin.DebugHudAccessor;
 import net.fabricmc.loader.api.FabricLoader;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.option.AttackIndicator;
@@ -37,6 +36,16 @@ public class ClientProperties {
     public final int mountStartH;
     public final int mountEndH;
 
+    public int locatorBarOriginalH;
+    public int locatorBarBossBarH;
+    public int locatorBarHeightConst;
+
+    public final int tooltipSurvivalH;
+    public final int tooltipCreativeH;
+    public final int tooltipSurvivalMountH;
+    public final int tooltipCreativeLocatorH;
+    public final int tooltipCreativeMountCompatH;
+
     public final boolean isHardcore;
 
     public ClientProperties(){
@@ -44,17 +53,26 @@ public class ClientProperties {
         int scaledWidth = client.getWindow().getScaledWidth();
         int scaledHeight = client.getWindow().getScaledHeight();
 
+        boolean compatMode = MixinConfigQuery.isCompatModeEnabled();
+        boolean hasHotbarLocatorBar = MixinConfigQuery.isLocatorBarEnabled() && MixinConfigQuery.isLocatorBarMode(ModConfig.LocatorBarMode.HOTBAR);
+        locatorBarHeightConst = 7;
+
+        boolean f3IsCovering = MinecraftClient.getInstance().inGameHud.getDebugHud().shouldRenderTickCharts() ||
+                MinecraftClient.getInstance().inGameHud.getDebugHud().shouldShowPacketSizeAndPingCharts();
+
         baseStartW = scaledWidth / 2 - 91;
         baseEndW = baseStartW + 182;
-        baseStartH = scaledHeight - 33;
+        baseStartH = scaledHeight - 33 - ((hasHotbarLocatorBar || compatMode) ? locatorBarHeightConst : 0);
 
         if (FabricLoader.getInstance().getObjectShare().get("raised:hud") instanceof Integer distance) {
             baseStartH -= distance;
         }
 
-        if (((DebugHudAccessor)MinecraftClient.getInstance().inGameHud.getDebugHud()).isRenderingAndTickChartsVisible() ||
-                MinecraftClient.getInstance().inGameHud.getDebugHud().shouldShowPacketSizeAndPingCharts()) {
-            baseStartH -= 50;
+        if (compatMode) {
+            baseStartH -= 20;
+        }
+        else if (f3IsCovering) {
+            baseStartH -= 42;
         }
 
         baseEndH = baseStartH + 9;
@@ -68,18 +86,21 @@ public class ClientProperties {
         if (client.options.getMainArm().getValue() == Arm.RIGHT){
             xpStartW = baseEndW + 4;
             if(client.options.getAttackIndicator().getValue() == AttackIndicator.HOTBAR)
-                xpStartW = xpStartW + 20;
+                xpStartW += 20;
         }
         else if (client.options.getMainArm().getValue() == Arm.LEFT) {
             xpStartW = baseStartW - 22;
             if(client.options.getAttackIndicator().getValue() == AttackIndicator.HOTBAR)
-                xpStartW = xpStartW - 20;
+                xpStartW -= 20;
         }
 
-        if (((DebugHudAccessor)MinecraftClient.getInstance().inGameHud.getDebugHud()).isRenderingAndTickChartsVisible()  ||
-                MinecraftClient.getInstance().inGameHud.getDebugHud().shouldShowPacketSizeAndPingCharts()) {
+        if (f3IsCovering || compatMode) {
             xpStartH = baseStartH + 11;
-        } else {
+        }
+        else if(hasHotbarLocatorBar){
+            xpStartH = baseStartH + 28 + locatorBarHeightConst;
+        }
+        else {
             xpStartH = baseStartH + 28;
         }
 
@@ -98,6 +119,16 @@ public class ClientProperties {
 
         mountStartH = baseStartH - 12;
         mountEndH = mountStartH + 9;
+
+        locatorBarOriginalH = scaledHeight - 24 - 5;
+        locatorBarBossBarH = 12;
+
+        tooltipSurvivalH = baseStartH - 11;
+        tooltipSurvivalMountH = mountStartH - 11;
+
+        tooltipCreativeH = (scaledHeight - 33) - 14;
+        tooltipCreativeLocatorH = tooltipCreativeH - locatorBarHeightConst;
+        tooltipCreativeMountCompatH = tooltipCreativeH - locatorBarHeightConst - 20;
 
         isHardcore = Objects.requireNonNull(client.world).getLevelProperties().isHardcore();
     }
