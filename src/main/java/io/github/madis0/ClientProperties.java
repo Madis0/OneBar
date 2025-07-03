@@ -1,6 +1,5 @@
 package io.github.madis0;
 
-import io.github.madis0.mixin.DebugHudMixin;
 import net.fabricmc.loader.api.FabricLoader;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.option.AttackIndicator;
@@ -60,6 +59,9 @@ public class ClientProperties {
         boolean hasHotbarLocatorBar = MixinConfigQuery.isLocatorBarEnabled() && MixinConfigQuery.isLocatorBarMode(ModConfig.LocatorBarMode.HOTBAR);
         locatorBarHeightConst = 7;
 
+        boolean f3IsCovering = MinecraftClient.getInstance().inGameHud.getDebugHud().shouldRenderTickCharts() ||
+                MinecraftClient.getInstance().inGameHud.getDebugHud().shouldShowPacketSizeAndPingCharts();
+
         baseStartW = scaledWidth / 2 - 91;
         baseEndW = baseStartW + 182;
         baseStartH = scaledHeight - 33 - (hasHotbarLocatorBar ? locatorBarHeightConst : 0);
@@ -68,8 +70,7 @@ public class ClientProperties {
             baseStartH -= distance;
         }
 
-        if (((DebugHudMixin)MinecraftClient.getInstance().inGameHud.getDebugHud()).isRenderingAndTickChartsVisible() ||
-                MinecraftClient.getInstance().inGameHud.getDebugHud().shouldShowPacketSizeAndPingCharts()) {
+        if (f3IsCovering) {
             baseStartH -= 50;
         }
 
@@ -92,8 +93,7 @@ public class ClientProperties {
                 xpStartW = xpStartW - 20;
         }
 
-        if (((DebugHudMixin)MinecraftClient.getInstance().inGameHud.getDebugHud()).isRenderingAndTickChartsVisible()  ||
-                MinecraftClient.getInstance().inGameHud.getDebugHud().shouldShowPacketSizeAndPingCharts()) {
+        if (f3IsCovering) {
             xpStartH = baseStartH + 11;
         }
         else if(hasHotbarLocatorBar){
