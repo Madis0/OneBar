@@ -35,7 +35,7 @@ public abstract class InGameHudMixin {
         if(showOneBar && barsVisible) oneBarElements.renderOneBar();
         if(showOneBar && MixinConfigQuery.showMountJump() && !client.options.hudHidden) oneBarElements.mountJumpBar();
 
-        PlayerProperties.setLocatorBarAvailable(client.player.networkHandler.getWaypointHandler().hasWaypoint() || MixinConfigQuery.isCompatModeEnabled());
+        PlayerProperties.setLocatorBarAvailable(client.player.networkHandler.getWaypointHandler().hasWaypoint());
     }
 
     @Inject(method = "renderStatusBars", at = @At(value = "HEAD"), cancellable = true)

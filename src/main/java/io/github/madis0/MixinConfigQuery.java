@@ -22,7 +22,7 @@ public class MixinConfigQuery {
     }
 
     public static boolean isLocatorBarEnabled() {
-        return config.otherBars.locatorBarMode != ModConfig.LocatorBarMode.DISABLED.ordinal() && PlayerProperties.locatorBarAvailable;
+        return (config.otherBars.locatorBarMode != ModConfig.LocatorBarMode.DISABLED.ordinal() && PlayerProperties.locatorBarAvailable) || MixinConfigQuery.isCompatModeEnabled();
     }
 
     public static boolean isLocatorBarMode(ModConfig.LocatorBarMode mode){
