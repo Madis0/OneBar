@@ -14,7 +14,7 @@ public abstract class BossBarHudMixin {
             constant = @Constant(intValue = 12)
     )
     private int adjustBossBarStartY(int original) {
-        return MixinConfigQuery.isLocatorBarMode(ModConfig.LocatorBarMode.BOSSBAR) && MixinConfigQuery.isLocatorBarEnabled() ?
+        return MixinConfigQuery.isLocatorBarMode(ModConfig.LocatorBarMode.BOSSBAR) && MixinConfigQuery.isLocatorBarEnabled() && !MixinConfigQuery.isCompatModeEnabled() ?
                 original + 9 + 9 : original; // 9 for bossbar, 9 for bossbar label
     }
 }
