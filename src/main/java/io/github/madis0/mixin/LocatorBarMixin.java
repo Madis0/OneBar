@@ -43,13 +43,13 @@ public abstract class LocatorBarMixin {
 
     @Inject(method = "renderAddons", at = @At(value = "HEAD"), cancellable = true)
     private void hideBar(DrawContext context, RenderTickCounter tickCounter, CallbackInfo ci){
-        if(MixinConfigQuery.isOneBarEnabled() && !MixinConfigQuery.isCompatModeEnabled() && !MixinConfigQuery.isLocatorBarEnabled())
+        if(MixinConfigQuery.isOneBarEnabled() && !MixinConfigQuery.isLocatorBarEnabled())
             ci.cancel();
     }
 
     @Inject(method = "renderAddons", at = @At(value = "HEAD"), cancellable = true)
     private void hideAddons(DrawContext context, RenderTickCounter tickCounter, CallbackInfo ci){
-        if(MixinConfigQuery.isOneBarEnabled() && !MixinConfigQuery.isCompatModeEnabled() && !MixinConfigQuery.isLocatorBarEnabled())
+        if(MixinConfigQuery.isOneBarEnabled() && !MixinConfigQuery.isLocatorBarEnabled())
             ci.cancel();
     }
 }
