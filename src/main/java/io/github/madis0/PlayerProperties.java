@@ -88,10 +88,18 @@ public class PlayerProperties {
     public static boolean locatorBarAvailable;
     public boolean isVisibleOnLocatorBar;
 
-    public int elytraDurability;
-    public int elytraMaxDurability;
     public boolean hasElytra;
     public final boolean isFlyingWithElytra;
+    public int elytraDurability;
+    public int elytraMaxDurability;
+
+    public boolean usesShield;
+    public int shieldDurability;
+    public int shieldMaxDurability;
+    public float shieldAxedCooldown;
+    public float shieldAxedMaxCooldown;
+    public float shieldRaiseTicksRemaining;
+    public float shieldMaxRaiseTicks;
 
     public final int maxFoodLevel;
     public final float maxFoodLevelRaw;
@@ -244,6 +252,28 @@ public class PlayerProperties {
             }
         }
 
+        ItemStack shieldStack = playerEntity.getMainHandStack().isOf(Items.SHIELD)
+                ? playerEntity.getMainHandStack()
+                : playerEntity.getOffHandStack().isOf(Items.SHIELD)
+                ? playerEntity.getOffHandStack()
+                : ItemStack.EMPTY;
+
+        boolean hasShield = !shieldStack.isEmpty();
+        shieldMaxDurability = hasShield ? shieldStack.getMaxDamage() : 0;
+        shieldDurability = hasShield ? shieldMaxDurability - shieldStack.getDamage() : 0;
+        usesShield = hasShield && playerEntity.isBlocking();
+
+        shieldAxedCooldown = hasShield
+                ? playerEntity.getItemCooldownManager().getCooldownProgress(shieldStack, 0.0F)
+                : 0.0F;
+        shieldAxedMaxCooldown = 1;
+
+        shieldMaxRaiseTicks = hasShield ? Objects.requireNonNull(shieldStack.get(DataComponentTypes.BLOCKS_ATTACKS)).getBlockDelayTicks() : 0;
+        shieldRaiseTicksRemaining = hasShield && playerEntity.isUsingItem()
+                && playerEntity.getActiveItem() == shieldStack ?
+                Math.max(0, shieldMaxRaiseTicks - (shieldStack.getMaxUseTime(playerEntity) - playerEntity.getItemUseTimeLeft()))
+                : 0;
+
         maxArmorDurability = (float)armor; // Abstraction
         armorDurability = rawArmorDurability > 0 ? (((float)rawArmorDurability / rawMaxArmorDurability) * maxArmorDurability) : 0;
 
@@ -271,8 +301,8 @@ public class PlayerProperties {
 
         amountTotemOfUndying = playerEntity.getInventory().count(Items.TOTEM_OF_UNDYING);
         hasTotemOfUndying = amountTotemOfUndying > 0;
-        isHoldingTotemOfUndying = (playerEntity.getEquippedStack(EquipmentSlot.MAINHAND).getItem() == Items.TOTEM_OF_UNDYING ||
-                                   playerEntity.getEquippedStack(EquipmentSlot.OFFHAND).getItem() == Items.TOTEM_OF_UNDYING);
+        isHoldingTotemOfUndying = playerEntity.getMainHandStack().isOf(Items.TOTEM_OF_UNDYING) ||
+                                  playerEntity.getOffHandStack().isOf(Items.TOTEM_OF_UNDYING);
 
         hasArrowsStuck = playerEntity.getStuckArrowCount() > 0;
 

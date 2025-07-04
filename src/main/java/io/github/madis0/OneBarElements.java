@@ -76,6 +76,8 @@ public class OneBarElements {
             if(config.armor.showArmorBar) armorBar();
             if(config.armor.showArmorDurabilityBar) armorDurabilityBar();
             if(config.armor.showElytraDurabilityBar) elytraDurabilityBar();
+            if(config.armor.showShieldDurabilityBar) shieldDurabilityBar();
+            if(config.armor.showShieldCooldownBar) shieldCooldownBar();
             if(config.goodThings.showSaturationBar) saturationBar();
             //if(config.healthEstimates && config.otherBars.showSaturationBar) heldFoodSaturationBar();
 
@@ -103,6 +105,10 @@ public class OneBarElements {
 
     private void renderRightToLeftBar(float currentValue, float maxValue, int color) {
         renderBar(clientProperties.baseRelativeStartW(currentValue, maxValue), clientProperties.baseStartH, clientProperties.baseEndW, clientProperties.baseEndH, color);
+    }
+
+    private void renderRightToLeftBar(float currentValue, float maxValue, int color, int startH, int endH) {
+        renderBar(clientProperties.baseRelativeStartW(currentValue, maxValue), startH, clientProperties.baseEndW, endH, color);
     }
 
     private void renderLeftToRightBarWithOffset(float offset, float currentValue, float totalLength, int color, int startH, int endH) {
@@ -168,6 +174,19 @@ public class OneBarElements {
     private void elytraDurabilityBar(){
         if(playerProperties.isFlyingWithElytra && !config.armor.showSegmentedArmorBar)
             renderLeftToRightBar(playerProperties.elytraDurability, playerProperties.elytraMaxDurability, config.armor.elytraDurabilityColor, clientProperties.armorStartH, clientProperties.armorEndH);
+    }
+
+    private void shieldDurabilityBar(){
+        if(playerProperties.usesShield){
+            renderLeftToRightBar(playerProperties.shieldDurability, playerProperties.shieldMaxDurability, config.armor.shieldDurabilityColor, clientProperties.armorStartH, clientProperties.armorEndH);
+        }
+    }
+
+    private void shieldCooldownBar(){
+        if(playerProperties.shieldRaiseTicksRemaining > 0)
+            renderLeftToRightBar(playerProperties.shieldDurability, playerProperties.shieldMaxDurability, config.armor.shieldCooldownColor, clientProperties.armorStartH, clientProperties.armorEndH);
+        else if(playerProperties.shieldAxedCooldown > 0)
+            renderLeftToRightBar(playerProperties.shieldAxedCooldown, playerProperties.shieldAxedMaxCooldown, config.armor.shieldCooldownColor, clientProperties.armorStartH, clientProperties.armorEndH);
     }
 
     private void saturationBar(){

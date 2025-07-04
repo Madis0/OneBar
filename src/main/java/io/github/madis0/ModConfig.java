@@ -149,6 +149,14 @@ public class ModConfig implements ConfigData {
         @ConfigEntry.ColorPicker(allowAlpha = true)
         public int elytraDurabilityColor = 0xCCE040FB;
         @ConfigEntry.Gui.Tooltip
+        public boolean showShieldDurabilityBar = false;
+        @ConfigEntry.ColorPicker(allowAlpha = true)
+        public int shieldDurabilityColor = 0xEE78909C;
+        @ConfigEntry.Gui.Tooltip
+        public boolean showShieldCooldownBar = false;
+        @ConfigEntry.ColorPicker(allowAlpha = true)
+        public int shieldCooldownColor = 0xEEFF3D00;
+        @ConfigEntry.Gui.Tooltip
         public boolean showMobHeads = false;
     }
 
