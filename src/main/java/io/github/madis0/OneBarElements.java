@@ -148,7 +148,9 @@ public class OneBarElements {
     }
 
     private void armorDurabilityBar(){
-        var helmetDurability = playerProperties.getArmorElementDurability(Objects.requireNonNull(client.player), EquipmentSlot.HEAD, playerProperties.helmetArmor);
+        if (client.player == null) return;
+
+        var helmetDurability = playerProperties.getArmorElementDurability(client.player, EquipmentSlot.HEAD, playerProperties.helmetArmor);
         var chestplateDurability = playerProperties.getArmorElementDurability(client.player, EquipmentSlot.CHEST, playerProperties.chestplateArmor);
         var leggingsDurability = playerProperties.getArmorElementDurability(client.player, EquipmentSlot.LEGS, playerProperties.leggingsArmor);
         var bootsDurability = playerProperties.getArmorElementDurability(client.player, EquipmentSlot.FEET, playerProperties.bootsArmor);
@@ -268,6 +270,8 @@ public class OneBarElements {
     }
 
     private void barText(){
+        if (client.player == null) return;
+
         String value = "";
         boolean showHealthParentheses = config.textSettings.estimatesParentheses &&
                 (((hasHunger || playerProperties.hasHungerEffect && !config.disableHunger || playerProperties.isUnderwater || playerProperties.isFreezing || playerProperties.isBurning || playerProperties.hasAbsorption || (playerProperties.hasResistance && config.goodThings.showResistance)) &&
@@ -333,7 +337,7 @@ public class OneBarElements {
         if(config.textSettings.showText) { // Separated if because order matters
             if (playerProperties.hasResistance && config.goodThings.showResistance)
                 value += plus + Calculations.emojiOrText("text.onebar.resistanceEmoji","text.onebar.resistance", false, playerProperties.resistancePercent);
-            if(PlayerProperties.getMobHead(Objects.requireNonNull(client.player)) != null && config.armor.showMobHeads)
+            if(PlayerProperties.getMobHead(client.player) != null && config.armor.showMobHeads)
                 value += plus + PlayerProperties.getMobHead(client.player);
             if(playerProperties.hasInvisibility && !playerProperties.hasAnyArmorItem && !playerProperties.hasArrowsStuck && !playerProperties.hasGlowing && config.goodThings.showInvisibility)
                 value += plus + Calculations.emojiOrText("text.onebar.invisibilityEmoji","text.onebar.invisibility", false, (Object) null);
@@ -460,6 +464,8 @@ public class OneBarElements {
     }
 
     public void mountJumpBar() {
+        if(client.player == null) return;
+
         var entity = client.player.getControllingVehicle();
         if (entity == null) return;
 
@@ -471,11 +477,13 @@ public class OneBarElements {
     }
 
     public void horseJumpBar(){
-        int barHeight = Calculations.getPreciseInt(1.0F);
-        int jumpHeight = Calculations.getPreciseInt(Objects.requireNonNull(client.player).getMountJumpStrength());
+        if (client.player == null || client.player.getJumpingMount() == null) return;
 
-        double heightInBlocks = Math.max(0, Objects.requireNonNull(client.player).getMountJumpStrength() *
-                                                Calculations.horseJumpStrengthToJumpHeight(Objects.requireNonNull(client.player).getMountJumpStrength()));
+        int barHeight = Calculations.getPreciseInt(1.0F);
+        int jumpHeight = Calculations.getPreciseInt(client.player.getMountJumpStrength());
+
+        double heightInBlocks = Math.max(0, client.player.getMountJumpStrength() *
+                                                Calculations.horseJumpStrengthToJumpHeight(client.player.getMountJumpStrength()));
 
         String roundedHeightInBlocks = Calculations.getSubscriptNumber(Double.parseDouble(String.format(Locale.US, "%,.1f",(heightInBlocks))));
 
@@ -491,9 +499,11 @@ public class OneBarElements {
     }
 
     public void camelJumpBar(){
-        int jumpStrength = Calculations.getPreciseInt(Math.max(Objects.requireNonNull(client.player).getMountJumpStrength(), 0)); //TODO: strength can be negative???
+        if (client.player == null || client.player.getJumpingMount() == null) return;
+        
+        int jumpStrength = Calculations.getPreciseInt(Math.max(client.player.getMountJumpStrength(), 0)); //TODO: strength can be negative???
         int maxStrength = Calculations.getPreciseInt(1.0F);
-        int cooldown = Objects.requireNonNull(Objects.requireNonNull(client.player).getJumpingMount()).getJumpCooldown();
+        int cooldown = client.player.getJumpingMount().getJumpCooldown();
         int maxCooldown = 50;
         int cooldownVisible = cooldown / 20;
 
