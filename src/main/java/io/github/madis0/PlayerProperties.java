@@ -8,6 +8,8 @@ import net.minecraft.client.gui.screen.ingame.HandledScreen;
 import net.minecraft.component.DataComponentTypes;
 import net.minecraft.component.type.AttributeModifiersComponent;
 import net.minecraft.component.type.FoodComponent;
+import net.minecraft.enchantment.Enchantment;
+import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.entity.EquipmentSlot;
 import net.minecraft.entity.attribute.EntityAttribute;
 import net.minecraft.entity.attribute.EntityAttributes;
@@ -19,7 +21,10 @@ import net.minecraft.entity.player.HungerManager;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.*;
 import net.minecraft.registry.RegistryKey;
+import net.minecraft.registry.RegistryKeys;
+import net.minecraft.registry.entry.RegistryEntry;
 import net.minecraft.text.Text;
+import net.minecraft.util.Identifier;
 import net.minecraft.util.TypeFilter;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Box;
@@ -28,6 +33,7 @@ import net.minecraft.world.Difficulty;
 
 import java.text.DecimalFormat;
 import java.util.*;
+import java.util.stream.Stream;
 
 public class PlayerProperties {
     Difficulty difficulty;
@@ -92,6 +98,8 @@ public class PlayerProperties {
     public final boolean isFlyingWithElytra;
     public int elytraDurability;
     public int elytraMaxDurability;
+
+    public boolean isMendingAnything;
 
     public boolean usesShield;
     public int shieldDurability;
@@ -310,6 +318,18 @@ public class PlayerProperties {
                 !Set.of(Items.CREEPER_HEAD, Items.DRAGON_HEAD, Items.PIGLIN_HEAD, Items.PLAYER_HEAD, Items.SKELETON_SKULL, Items.WITHER_SKELETON_SKULL, Items.ZOMBIE_HEAD, Items.CARVED_PUMPKIN).contains(playerEntity.getEquippedStack(EquipmentSlot.HEAD).getItem());
 
         isFlyingWithElytra = playerEntity.isGliding();
+
+        RegistryEntry<Enchantment> mendingEntry = playerEntity.getWorld()
+                .getRegistryManager()
+                .getOrThrow(RegistryKeys.ENCHANTMENT)
+                .getEntry(Identifier.ofVanilla("mending"))
+                .orElseThrow();
+
+        isMendingAnything = Stream.concat(
+                        Stream.of(playerEntity.getMainHandStack(), playerEntity.getOffHandStack()),
+                        Arrays.stream(playerArmorSlots).map(playerEntity::getEquippedStack)
+                )
+                .anyMatch(stack -> EnchantmentHelper.getLevel(mendingEntry, stack) > 0 && stack.isDamaged());
 
         maxFoodLevel = playerEntity.defaultMaxHealth;
         maxFoodLevelRaw = (float)maxFoodLevel; // Used for saturation calculations

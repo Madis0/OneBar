@@ -448,13 +448,20 @@ public class OneBarElements {
                     drawContext.drawTextWithShadow(textRenderer, String.valueOf(playerProperties.xpLevel), textX + edgeAlignedConst - client.textRenderer.getWidth(String.valueOf(playerProperties.xpLevel)), textY, config.otherBars.xpColor);
             }
 
-            if(config.otherBars.lapisCounter){
-                var lapisTextX = clientProperties.xpEndW + 1;
-                if(client.options.getMainArm().getValue()  == Arm.LEFT)
-                    lapisTextX = clientProperties.xpStartW - 1 - client.textRenderer.getWidth(lapisText);
+            var lapisTextX = clientProperties.xpEndW + 1;
+            var lapisTextY = clientProperties.xpStartH - 5;
 
-                var lapisTextY = clientProperties.xpStartH - 5;
+            var mendingTextY = textY - 8;
+            if(client.options.getMainArm().getValue() == Arm.LEFT){
+                lapisTextX = clientProperties.xpStartW - 1 - client.textRenderer.getWidth(lapisText);
+            }
+
+            if(config.otherBars.lapisCounter){
                 drawContext.drawTextWithShadow(textRenderer, lapisText, lapisTextX, lapisTextY, config.otherBars.lapisColor);
+            }
+
+            if(config.otherBars.mendingIndicator && playerProperties.isMendingAnything){
+                drawContext.drawCenteredTextWithShadow(textRenderer, Calculations.emojiOrText("text.onebar.mendingEmoji", "text.onebar.mending", false), textX, mendingTextY, config.otherBars.mendingColor);
             }
         }
         if(!config.otherBars.adaptiveXpBar || playerProperties.xp > 0){
@@ -500,7 +507,7 @@ public class OneBarElements {
 
     public void camelJumpBar(){
         if (client.player == null || client.player.getJumpingMount() == null) return;
-        
+
         int jumpStrength = Calculations.getPreciseInt(Math.max(client.player.getMountJumpStrength(), 0)); //TODO: strength can be negative???
         int maxStrength = Calculations.getPreciseInt(1.0F);
         int cooldown = client.player.getJumpingMount().getJumpCooldown();

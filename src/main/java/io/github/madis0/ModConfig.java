@@ -174,6 +174,10 @@ public class ModConfig implements ConfigData {
         @ConfigEntry.ColorPicker(allowAlpha = true)
         public int lapisColor = 0xFF2196F3;
         @ConfigEntry.Gui.Tooltip
+        public boolean mendingIndicator = false;
+        @ConfigEntry.ColorPicker(allowAlpha = true)
+        public int mendingColor = 0xFFEC407A;
+        @ConfigEntry.Gui.Tooltip
         @ConfigEntry.BoundedDiscrete(max = 2, min = 0)
         public int locatorBarMode = LocatorBarMode.HOTBAR.ordinal();
         @ConfigEntry.Gui.Tooltip

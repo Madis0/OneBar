@@ -126,6 +126,7 @@ The mod only uses client-side data, so it is never needed on a server. There are
 | Lapis Lazuli counter | Blue |  | 1 or 1× | Next to experience bar | Opt-in, shows either the raw count or times enchantable maxed out (XP level 30+) |
 | Saturation | Orange | ▁ |  | Below OneBar | Opt-in |
 | Locatability indicator |  |  | -🔍 | -lo | Opt-in, shows when locator bar is available on the server (even if you hide it) and you are visible to others. |
+| Mending indicator | Pink |  | 🔧 or md | Next to experience bar | Opt-in, shown when holding something with mending enchant that needs repair |
 
 ## FAQ
 
