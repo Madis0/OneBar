@@ -1,5 +1,5 @@
 {
-  "modmenu.descriptionTranslation.onebar": "HUD mod that shows the values and bars only when you need them.",
+  "modmenu.descriptionTranslation.onebar": "Everything you need to know to survive, in a single bar!",
   "text.onebar.health": "he%s",
   "text.onebar.mountHealth": "mh%s",
   "text.onebar.absorption": "ab%s",
@@ -64,6 +64,7 @@
   "text.onebar.windChargedEmoji": "\uD83D\uDE35\uD83D\uDCA8",
   "text.onebar.infestedEmoji": "\uD83D\uDC94\uD83D\uDC1B",
   "text.onebar.mendingEmoji": "\uD83D\uDD27",
+  "key.category.onebar.main": "OneBar",
   "text.autoconfig.onebar.title": "OneBar configuration",
   "text.autoconfig.onebar.category.default": "General",
   "text.autoconfig.onebar.option.showOneBar": "Enable OneBar",

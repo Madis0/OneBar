@@ -29,7 +29,7 @@ public class OneBarElements {
     private final ClientProperties clientProperties = new ClientProperties();
     private final PlayerProperties playerProperties = new PlayerProperties();
     private final MinecraftClient client = MinecraftClient.getInstance();
-    private final Difficulty difficulty = Objects.requireNonNull(client.getCameraEntity()).getWorld().getDifficulty();
+    private final Difficulty difficulty = Objects.requireNonNull(client.getCameraEntity()).getEntityWorld().getDifficulty();
     private final DrawContext drawContext;
     private final TextRenderer textRenderer = client.textRenderer;
     private static final boolean hasExordium = FabricLoader.getInstance().isModLoaded("exordium");

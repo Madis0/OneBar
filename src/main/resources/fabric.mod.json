@@ -3,7 +3,7 @@
   "id": "onebar",
   "version": "${version}",
   "name": "OneBar",
-  "description": "HUD mod that shows the values and bars only when you need them.",
+  "description": "Everything you need to know to survive, in a single bar!",
   "authors": [
     "Madis0"
   ],
@@ -30,7 +30,7 @@
   "depends": {
     "fabric-api": "*",
     "cloth-config2": "*",
-    "minecraft": ">=1.21.6"
+    "minecraft": ">=1.21.9"
   },
   "suggests": {
     "modmenu": "*"

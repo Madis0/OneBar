@@ -210,7 +210,7 @@ public class PlayerProperties {
     public PlayerProperties(){
         PlayerEntity playerEntity = MinecraftClient.getInstance().player;
         HungerManager hungerManager = Objects.requireNonNull(playerEntity).getHungerManager();
-        difficulty = playerEntity.getWorld().getDifficulty();
+        difficulty = playerEntity.getEntityWorld().getDifficulty();
 
         // Player property calculations
         isCreativeOrSpectator = playerEntity.isCreative() || playerEntity.isSpectator();
@@ -319,7 +319,7 @@ public class PlayerProperties {
 
         isFlyingWithElytra = playerEntity.isGliding();
 
-        RegistryEntry<Enchantment> mendingEntry = playerEntity.getWorld()
+        RegistryEntry<Enchantment> mendingEntry = playerEntity.getEntityWorld()
                 .getRegistryManager()
                 .getOrThrow(RegistryKeys.ENCHANTMENT)
                 .getEntry(Identifier.ofVanilla("mending"))
@@ -390,8 +390,8 @@ public class PlayerProperties {
         double y = (int)playerEntity.getY();
         double voidLimit = -128;
         BlockState state; //TODO: use material to determine fall damage
-        if(playerEntity.getWorld() != null && (!playerEntity.isOnGround() || playerEntity.isSneaking())){
-            var world = playerEntity.getWorld();
+        if(playerEntity.getEntityWorld() != null && (!playerEntity.isOnGround() || playerEntity.isSneaking())){
+            var world = playerEntity.getEntityWorld();
             var x = (int)playerEntity.getX();
             var z = (int)playerEntity.getZ();
             while((state = world.getBlockState(new BlockPos(x, (int)--y, z))).isAir() && y >= voidLimit) { //TODO: detect if block is solid and what height it has
@@ -613,7 +613,7 @@ public class PlayerProperties {
     private WardenEntity getClosestWarden(PlayerEntity player){
         // A warden is aware of all targetable entities within a 49×51×49 box around itself. https://minecraft.wiki/w/Warden#Behavior
         Box boundingBox = player.getBoundingBox().expand(49, 51, 49);
-        List<WardenEntity> nearbyWardens = player.getWorld().getEntitiesByType(
+        List<WardenEntity> nearbyWardens = player.getEntityWorld().getEntitiesByType(
                 TypeFilter.instanceOf(WardenEntity.class),
                 boundingBox,
                 Predicates.alwaysTrue()
@@ -688,7 +688,7 @@ public class PlayerProperties {
     }
 
     private static int calculateMobDetectionRange(PlayerEntity playerEntity, double baseRange) {
-        if (playerEntity.getWorld().getDifficulty() == Difficulty.PEACEFUL) {
+        if (playerEntity.getEntityWorld().getDifficulty() == Difficulty.PEACEFUL) {
             return 0;
         }
 
@@ -731,7 +731,7 @@ public class PlayerProperties {
     }
 
     private int calculateRaidWaves(PlayerEntity player) {
-        Difficulty diff = player.getWorld().getDifficulty();
+        Difficulty diff = player.getEntityWorld().getDifficulty();
         int baseWaves = switch (diff) {
             case PEACEFUL -> 0;
             case EASY -> 3;
