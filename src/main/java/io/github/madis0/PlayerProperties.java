@@ -1,36 +1,37 @@
 package io.github.madis0;
 
 import com.google.common.base.Predicates;
-import net.minecraft.block.BlockState;
-import net.minecraft.client.MinecraftClient;
-import net.minecraft.client.gui.screen.ingame.EnchantmentScreen;
-import net.minecraft.client.gui.screen.ingame.HandledScreen;
-import net.minecraft.component.DataComponentTypes;
-import net.minecraft.component.type.AttributeModifiersComponent;
-import net.minecraft.component.type.FoodComponent;
-import net.minecraft.enchantment.Enchantment;
-import net.minecraft.enchantment.EnchantmentHelper;
-import net.minecraft.entity.EquipmentSlot;
-import net.minecraft.entity.attribute.EntityAttribute;
-import net.minecraft.entity.attribute.EntityAttributes;
-import net.minecraft.entity.effect.StatusEffectInstance;
-import net.minecraft.entity.effect.StatusEffects;
-import net.minecraft.entity.mob.Angriness;
-import net.minecraft.entity.mob.WardenEntity;
-import net.minecraft.entity.player.HungerManager;
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.item.*;
-import net.minecraft.registry.RegistryKey;
-import net.minecraft.registry.RegistryKeys;
-import net.minecraft.registry.entry.RegistryEntry;
-import net.minecraft.text.Text;
-import net.minecraft.util.Identifier;
-import net.minecraft.util.TypeFilter;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.Box;
-import net.minecraft.util.math.MathHelper;
+import net.minecraft.client.Minecraft;
+import net.minecraft.client.gui.screens.inventory.AbstractContainerScreen;
+import net.minecraft.client.gui.screens.inventory.EnchantmentScreen;
+import net.minecraft.core.BlockPos;
+import net.minecraft.core.Holder;
+import net.minecraft.core.component.DataComponents;
+import net.minecraft.core.registries.Registries;
+import net.minecraft.network.chat.Component;
+import net.minecraft.resources.ResourceKey;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.util.Mth;
 import net.minecraft.world.Difficulty;
-
+import net.minecraft.world.effect.MobEffectInstance;
+import net.minecraft.world.effect.MobEffects;
+import net.minecraft.world.entity.EquipmentSlot;
+import net.minecraft.world.entity.ai.attributes.Attribute;
+import net.minecraft.world.entity.ai.attributes.Attributes;
+import net.minecraft.world.entity.monster.warden.AngerLevel;
+import net.minecraft.world.entity.monster.warden.Warden;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.food.FoodData;
+import net.minecraft.world.food.FoodProperties;
+import net.minecraft.world.item.Item;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.Items;
+import net.minecraft.world.item.component.ItemAttributeModifiers;
+import net.minecraft.world.item.enchantment.Enchantment;
+import net.minecraft.world.item.enchantment.EnchantmentHelper;
+import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.entity.EntityTypeTest;
+import net.minecraft.world.phys.AABB;
 import java.text.DecimalFormat;
 import java.util.*;
 import java.util.stream.Stream;
@@ -208,78 +209,78 @@ public class PlayerProperties {
     public int rawMaxWardenDanger;
 
     public PlayerProperties(){
-        PlayerEntity playerEntity = MinecraftClient.getInstance().player;
-        HungerManager hungerManager = Objects.requireNonNull(playerEntity).getHungerManager();
-        difficulty = playerEntity.getEntityWorld().getDifficulty();
+        Player playerEntity = Minecraft.getInstance().player;
+        FoodData hungerManager = Objects.requireNonNull(playerEntity).getFoodData();
+        difficulty = playerEntity.level().getDifficulty();
 
         // Player property calculations
         isCreativeOrSpectator = playerEntity.isCreative() || playerEntity.isSpectator();
 
-        hasResistance = playerEntity.hasStatusEffect(StatusEffects.RESISTANCE);
-        hasRegeneration = playerEntity.hasStatusEffect(StatusEffects.REGENERATION);
-        hasPoison = playerEntity.hasStatusEffect(StatusEffects.POISON);
-        hasWither = playerEntity.hasStatusEffect(StatusEffects.WITHER);
-        hasFireResistance = playerEntity.hasStatusEffect(StatusEffects.FIRE_RESISTANCE);
-        hasWaterBreathing = playerEntity.hasStatusEffect(StatusEffects.WATER_BREATHING) || playerEntity.hasStatusEffect(StatusEffects.CONDUIT_POWER);
-        hasHungerEffect = playerEntity.hasStatusEffect(StatusEffects.HUNGER) && !difficulty.equals(Difficulty.PEACEFUL);
-        hasBadOmen = playerEntity.hasStatusEffect(StatusEffects.BAD_OMEN) && !difficulty.equals(Difficulty.PEACEFUL);
-        hasRaidOmen = playerEntity.hasStatusEffect(StatusEffects.RAID_OMEN) && !difficulty.equals(Difficulty.PEACEFUL);
-        hasTrialOmen = playerEntity.hasStatusEffect(StatusEffects.TRIAL_OMEN) && !difficulty.equals(Difficulty.PEACEFUL);
-        hasInvisibility = playerEntity.hasStatusEffect(StatusEffects.INVISIBILITY);
-        hasGlowing = playerEntity.hasStatusEffect(StatusEffects.GLOWING);
-        hasWeaving = playerEntity.hasStatusEffect(StatusEffects.WEAVING);
-        hasOozing = playerEntity.hasStatusEffect(StatusEffects.OOZING);
-        hasWindCharged = playerEntity.hasStatusEffect(StatusEffects.WIND_CHARGED);
-        hasInfested = playerEntity.hasStatusEffect(StatusEffects.INFESTED);
-        hasLevitation = playerEntity.hasStatusEffect(StatusEffects.LEVITATION);
+        hasResistance = playerEntity.hasEffect(MobEffects.RESISTANCE);
+        hasRegeneration = playerEntity.hasEffect(MobEffects.REGENERATION);
+        hasPoison = playerEntity.hasEffect(MobEffects.POISON);
+        hasWither = playerEntity.hasEffect(MobEffects.WITHER);
+        hasFireResistance = playerEntity.hasEffect(MobEffects.FIRE_RESISTANCE);
+        hasWaterBreathing = playerEntity.hasEffect(MobEffects.WATER_BREATHING) || playerEntity.hasEffect(MobEffects.CONDUIT_POWER);
+        hasHungerEffect = playerEntity.hasEffect(MobEffects.HUNGER) && !difficulty.equals(Difficulty.PEACEFUL);
+        hasBadOmen = playerEntity.hasEffect(MobEffects.BAD_OMEN) && !difficulty.equals(Difficulty.PEACEFUL);
+        hasRaidOmen = playerEntity.hasEffect(MobEffects.RAID_OMEN) && !difficulty.equals(Difficulty.PEACEFUL);
+        hasTrialOmen = playerEntity.hasEffect(MobEffects.TRIAL_OMEN) && !difficulty.equals(Difficulty.PEACEFUL);
+        hasInvisibility = playerEntity.hasEffect(MobEffects.INVISIBILITY);
+        hasGlowing = playerEntity.hasEffect(MobEffects.GLOWING);
+        hasWeaving = playerEntity.hasEffect(MobEffects.WEAVING);
+        hasOozing = playerEntity.hasEffect(MobEffects.OOZING);
+        hasWindCharged = playerEntity.hasEffect(MobEffects.WIND_CHARGED);
+        hasInfested = playerEntity.hasEffect(MobEffects.INFESTED);
+        hasLevitation = playerEntity.hasEffect(MobEffects.LEVITATION);
 
         healthRaw = playerEntity.getHealth();
         maxHealthRaw = playerEntity.getMaxHealth();
-        health = MathHelper.ceil(healthRaw);
-        maxHealth = MathHelper.ceil(maxHealthRaw);
-        absorption = MathHelper.ceil(playerEntity.getAbsorptionAmount());
+        health = Mth.ceil(healthRaw);
+        maxHealth = Mth.ceil(maxHealthRaw);
+        absorption = Mth.ceil(playerEntity.getAbsorptionAmount());
         hasAbsorption = absorption > 0;
 
-        maxArmor = playerEntity.defaultMaxHealth;
-        armor = playerEntity.getArmor();
+        maxArmor = playerEntity.invulnerableDuration;
+        armor = playerEntity.getArmorValue();
 
         var playerArmorSlots = Arrays.stream(EquipmentSlot.values())
                 .filter(slot -> slot.getType() == EquipmentSlot.Type.HUMANOID_ARMOR)
                 .toArray(EquipmentSlot[]::new);
 
         for (EquipmentSlot slot : playerArmorSlots) {
-            var armorStack = playerEntity.getEquippedStack(slot);
-            if (!armorStack.isEmpty() && !armorStack.isOf(Items.ELYTRA)) {
-                rawArmorDurability += armorStack.getMaxDamage() - armorStack.getDamage();
+            var armorStack = playerEntity.getItemBySlot(slot);
+            if (!armorStack.isEmpty() && !armorStack.is(Items.ELYTRA)) {
+                rawArmorDurability += armorStack.getMaxDamage() - armorStack.getDamageValue();
                 rawMaxArmorDurability += armorStack.getMaxDamage();
             }
-            else if (armorStack.isOf(Items.ELYTRA)) {
+            else if (armorStack.is(Items.ELYTRA)) {
                 hasElytra = true;
-                elytraDurability = armorStack.getMaxDamage() - armorStack.getDamage();
+                elytraDurability = armorStack.getMaxDamage() - armorStack.getDamageValue();
                 elytraMaxDurability = armorStack.getMaxDamage();
             }
         }
 
-        ItemStack shieldStack = playerEntity.getMainHandStack().isOf(Items.SHIELD)
-                ? playerEntity.getMainHandStack()
-                : playerEntity.getOffHandStack().isOf(Items.SHIELD)
-                ? playerEntity.getOffHandStack()
+        ItemStack shieldStack = playerEntity.getMainHandItem().is(Items.SHIELD)
+                ? playerEntity.getMainHandItem()
+                : playerEntity.getOffhandItem().is(Items.SHIELD)
+                ? playerEntity.getOffhandItem()
                 : ItemStack.EMPTY;
 
         boolean hasShield = !shieldStack.isEmpty();
         shieldMaxDurability = hasShield ? shieldStack.getMaxDamage() : 0;
-        shieldDurability = hasShield ? shieldMaxDurability - shieldStack.getDamage() : 0;
+        shieldDurability = hasShield ? shieldMaxDurability - shieldStack.getDamageValue() : 0;
         usesShield = hasShield && playerEntity.isBlocking();
 
         shieldAxedCooldown = hasShield
-                ? playerEntity.getItemCooldownManager().getCooldownProgress(shieldStack, 0.0F)
+                ? playerEntity.getCooldowns().getCooldownPercent(shieldStack, 0.0F)
                 : 0.0F;
         shieldAxedMaxCooldown = 1;
 
-        shieldMaxRaiseTicks = hasShield ? Objects.requireNonNull(shieldStack.get(DataComponentTypes.BLOCKS_ATTACKS)).getBlockDelayTicks() : 0;
+        shieldMaxRaiseTicks = hasShield ? Objects.requireNonNull(shieldStack.get(DataComponents.BLOCKS_ATTACKS)).blockDelayTicks() : 0;
         shieldRaiseTicksRemaining = hasShield && playerEntity.isUsingItem()
-                && playerEntity.getActiveItem() == shieldStack ?
-                Math.max(0, shieldMaxRaiseTicks - (shieldStack.getMaxUseTime(playerEntity) - playerEntity.getItemUseTimeLeft()))
+                && playerEntity.getUseItem() == shieldStack ?
+                Math.max(0, shieldMaxRaiseTicks - (shieldStack.getUseDuration(playerEntity) - playerEntity.getUseItemRemainingTicks()))
                 : 0;
 
         maxArmorDurability = (float)armor; // Abstraction
@@ -301,37 +302,37 @@ public class PlayerProperties {
         bootsMaxArmor = getArmorItemMaxArmor(Items.NETHERITE_BOOTS);
         bootsMaxDurability = getArmorElementMaxDurability(playerEntity, EquipmentSlot.FEET);
 
-        hasAnyArmorItem = (playerEntity.getEquippedStack(EquipmentSlot.HEAD).getItem() != Items.AIR ||
-                           playerEntity.getEquippedStack(EquipmentSlot.CHEST).getItem() != Items.AIR ||
-                           playerEntity.getEquippedStack(EquipmentSlot.LEGS).getItem() != Items.AIR ||
-                           playerEntity.getEquippedStack(EquipmentSlot.FEET).getItem() != Items.AIR ||
-                           playerEntity.getEquippedStack(EquipmentSlot.OFFHAND).getItem() != Items.AIR);
+        hasAnyArmorItem = (playerEntity.getItemBySlot(EquipmentSlot.HEAD).getItem() != Items.AIR ||
+                           playerEntity.getItemBySlot(EquipmentSlot.CHEST).getItem() != Items.AIR ||
+                           playerEntity.getItemBySlot(EquipmentSlot.LEGS).getItem() != Items.AIR ||
+                           playerEntity.getItemBySlot(EquipmentSlot.FEET).getItem() != Items.AIR ||
+                           playerEntity.getItemBySlot(EquipmentSlot.OFFHAND).getItem() != Items.AIR);
 
-        amountTotemOfUndying = playerEntity.getInventory().count(Items.TOTEM_OF_UNDYING);
+        amountTotemOfUndying = playerEntity.getInventory().countItem(Items.TOTEM_OF_UNDYING);
         hasTotemOfUndying = amountTotemOfUndying > 0;
-        isHoldingTotemOfUndying = playerEntity.getMainHandStack().isOf(Items.TOTEM_OF_UNDYING) ||
-                                  playerEntity.getOffHandStack().isOf(Items.TOTEM_OF_UNDYING);
+        isHoldingTotemOfUndying = playerEntity.getMainHandItem().is(Items.TOTEM_OF_UNDYING) ||
+                                  playerEntity.getOffhandItem().is(Items.TOTEM_OF_UNDYING);
 
-        hasArrowsStuck = playerEntity.getStuckArrowCount() > 0;
+        hasArrowsStuck = playerEntity.getArrowCount() > 0;
 
-        isVisibleOnLocatorBar = locatorBarAvailable && !playerEntity.isSneaking() && !hasInvisibility &&
-                !Set.of(Items.CREEPER_HEAD, Items.DRAGON_HEAD, Items.PIGLIN_HEAD, Items.PLAYER_HEAD, Items.SKELETON_SKULL, Items.WITHER_SKELETON_SKULL, Items.ZOMBIE_HEAD, Items.CARVED_PUMPKIN).contains(playerEntity.getEquippedStack(EquipmentSlot.HEAD).getItem());
+        isVisibleOnLocatorBar = locatorBarAvailable && !playerEntity.isShiftKeyDown() && !hasInvisibility &&
+                !Set.of(Items.CREEPER_HEAD, Items.DRAGON_HEAD, Items.PIGLIN_HEAD, Items.PLAYER_HEAD, Items.SKELETON_SKULL, Items.WITHER_SKELETON_SKULL, Items.ZOMBIE_HEAD, Items.CARVED_PUMPKIN).contains(playerEntity.getItemBySlot(EquipmentSlot.HEAD).getItem());
 
-        isFlyingWithElytra = playerEntity.isGliding();
+        isFlyingWithElytra = playerEntity.isFallFlying();
 
-        RegistryEntry<Enchantment> mendingEntry = playerEntity.getEntityWorld()
-                .getRegistryManager()
-                .getOrThrow(RegistryKeys.ENCHANTMENT)
-                .getEntry(Identifier.ofVanilla("mending"))
+        Holder<Enchantment> mendingEntry = playerEntity.level()
+                .registryAccess()
+                .lookupOrThrow(Registries.ENCHANTMENT)
+                .get(ResourceLocation.withDefaultNamespace("mending"))
                 .orElseThrow();
 
         isMendingAnything = Stream.concat(
-                        Stream.of(playerEntity.getMainHandStack(), playerEntity.getOffHandStack()),
-                        Arrays.stream(playerArmorSlots).map(playerEntity::getEquippedStack)
+                        Stream.of(playerEntity.getMainHandItem(), playerEntity.getOffhandItem()),
+                        Arrays.stream(playerArmorSlots).map(playerEntity::getItemBySlot)
                 )
-                .anyMatch(stack -> EnchantmentHelper.getLevel(mendingEntry, stack) > 0 && stack.isDamaged());
+                .anyMatch(stack -> EnchantmentHelper.getItemEnchantmentLevel(mendingEntry, stack) > 0 && stack.isDamaged());
 
-        maxFoodLevel = playerEntity.defaultMaxHealth;
+        maxFoodLevel = playerEntity.invulnerableDuration;
         maxFoodLevelRaw = (float)maxFoodLevel; // Used for saturation calculations
         foodLevel = hungerManager.getFoodLevel();
         hunger = maxFoodLevel - foodLevel;
@@ -339,23 +340,23 @@ public class PlayerProperties {
         hasHunger = hunger > 0;
         isStarving = hunger >= maxFoodLevel;
         saturationRaw = hungerManager.getSaturationLevel();
-        saturation = MathHelper.ceil(saturationRaw);
+        saturation = Mth.ceil(saturationRaw);
         extraRegenFoodLevel = hunger < 3 ? hunger : 0;
         saturationLoss = maxFoodLevel - saturation;
         hasSaturation = saturationRaw > 0;
 
-        maxAirRaw = playerEntity.getMaxAir();
-        airRaw = maxAirRaw - playerEntity.getAir();
-        air = Math.min(airRaw, maxAirRaw) / (int) Calculations.getPrettyDivisor(maxAirRaw, playerEntity.defaultMaxHealth);
-        isInWater = playerEntity.isTouchingWater();
-        isUnderwater =  playerEntity.isSubmergedInWater() || airRaw > 0;
+        maxAirRaw = playerEntity.getMaxAirSupply();
+        airRaw = maxAirRaw - playerEntity.getAirSupply();
+        air = Math.min(airRaw, maxAirRaw) / (int) Calculations.getPrettyDivisor(maxAirRaw, playerEntity.invulnerableDuration);
+        isInWater = playerEntity.isInWater();
+        isUnderwater =  playerEntity.isUnderWater() || airRaw > 0;
         isDrowning = airRaw >= maxAirRaw;
 
-        isSuffocating = playerEntity.isInsideWall();
+        isSuffocating = playerEntity.isInWall();
 
-        isBurning = playerEntity.doesRenderOnFire();
+        isBurning = playerEntity.displayFireAnimation();
 
-        int currentFireTicks = playerEntity.getFireTicks();
+        int currentFireTicks = playerEntity.getRemainingFireTicks();
 
         final int NO_FIRE_TICKS = 0;
         final int BURNING_FIRE_TICKS = 160;
@@ -375,14 +376,14 @@ public class PlayerProperties {
 
         isBurningOnFire = isBurning && !hasFireResistance;
 
-        maxFreezeRaw = playerEntity.getMinFreezeDamageTicks();
-        freezeRaw = playerEntity.getFrozenTicks();
-        freeze = freezeRaw / (int) Calculations.getPrettyDivisor(maxFreezeRaw, playerEntity.defaultMaxHealth);
+        maxFreezeRaw = playerEntity.getTicksRequiredToFreeze();
+        freezeRaw = playerEntity.getTicksFrozen();
+        freeze = freezeRaw / (int) Calculations.getPrettyDivisor(maxFreezeRaw, playerEntity.invulnerableDuration);
         isFreezing = freezeRaw > 0;
-        isGettingFreezeDamage = playerEntity.isFrozen() && !difficulty.equals(Difficulty.PEACEFUL);
+        isGettingFreezeDamage = playerEntity.isFullyFrozen() && !difficulty.equals(Difficulty.PEACEFUL);
 
         maxLevitationTimeRaw = 200;
-        levitationTimeRaw = hasLevitation ? Math.max(Objects.requireNonNull(playerEntity.getStatusEffect(StatusEffects.LEVITATION)).getDuration(), 0) : 0;
+        levitationTimeRaw = hasLevitation ? Math.max(Objects.requireNonNull(playerEntity.getEffect(MobEffects.LEVITATION)).getDuration(), 0) : 0;
         maxLevitationTime = maxLevitationTimeRaw / 20;
         levitationTime = levitationTimeRaw / (int) Calculations.getPrettyDivisor(maxLevitationTimeRaw, maxLevitationTime);
 
@@ -390,8 +391,8 @@ public class PlayerProperties {
         double y = (int)playerEntity.getY();
         double voidLimit = -128;
         BlockState state; //TODO: use material to determine fall damage
-        if(playerEntity.getEntityWorld() != null && (!playerEntity.isOnGround() || playerEntity.isSneaking())){
-            var world = playerEntity.getEntityWorld();
+        if(playerEntity.level() != null && (!playerEntity.onGround() || playerEntity.isShiftKeyDown())){
+            var world = playerEntity.level();
             var x = (int)playerEntity.getX();
             var z = (int)playerEntity.getZ();
             while((state = world.getBlockState(new BlockPos(x, (int)--y, z))).isAir() && y >= voidLimit) { //TODO: detect if block is solid and what height it has
@@ -400,8 +401,8 @@ public class PlayerProperties {
         }
         belowBlockY = (int) Math.round(belowBlockYRaw);
 
-        if(playerEntity.hasStatusEffect(StatusEffects.LEVITATION)){
-            var effect = playerEntity.getStatusEffect(StatusEffects.LEVITATION);
+        if(playerEntity.hasEffect(MobEffects.LEVITATION)){
+            var effect = playerEntity.getEffect(MobEffects.LEVITATION);
             var estHeight = (Objects.requireNonNull(effect).getAmplifier() + 1) * 0.9 * ((float) effect.getDuration() / 20);
             levitationResultYRaw = playerEntity.getY() + estHeight;
             levitationFallHeightRaw = getFallingHeightEstimate(playerEntity, levitationResultYRaw - belowBlockYRaw);
@@ -416,26 +417,26 @@ public class PlayerProperties {
         normalFallHealthEstimate = getFallingHealthEstimate(healthRaw, normalFallHeightRaw, normalFallHurts);
         normalFallHeightDisplay = new DecimalFormat("0.#").format(normalFallHeightRaw);
 
-        badOmenLevel = hasBadOmen ? Objects.requireNonNull(playerEntity.getStatusEffect(StatusEffects.BAD_OMEN)).getAmplifier() + 1: 0;
+        badOmenLevel = hasBadOmen ? Objects.requireNonNull(playerEntity.getEffect(MobEffects.BAD_OMEN)).getAmplifier() + 1: 0;
         raidOmenWaves = calculateRaidWaves(playerEntity);
         trialOmenMinutes = getTrialOmenTimeString(playerEntity);
 
         xpLevel = playerEntity.experienceLevel;
         maxXp = 183; //renderExperienceBar @ InGameHud.class
         xp = (int)(playerEntity.experienceProgress * maxXp);
-        lapisLazuli = playerEntity.getInventory().count(Items.LAPIS_LAZULI) +
-                (playerEntity.getInventory().count(Items.LAPIS_BLOCK) * 9);
+        lapisLazuli = playerEntity.getInventory().countItem(Items.LAPIS_LAZULI) +
+                (playerEntity.getInventory().countItem(Items.LAPIS_BLOCK) * 9);
 
-        MinecraftClient client = MinecraftClient.getInstance();
-        if(client.currentScreen instanceof EnchantmentScreen){
-            lapisLazuli += ((EnchantmentScreen) client.currentScreen).getScreenHandler().getLapisCount();
+        Minecraft client = Minecraft.getInstance();
+        if(client.screen instanceof EnchantmentScreen){
+            lapisLazuli += ((EnchantmentScreen) client.screen).getMenu().getGoldCount();
         }
 
-        if (client.currentScreen instanceof HandledScreen<?>){
-            var pickedUpItemInInventory = ((HandledScreen<?>) client.currentScreen).getScreenHandler().getCursorStack();
-            if(pickedUpItemInInventory.isOf(Items.LAPIS_BLOCK)) lapisLazuli += pickedUpItemInInventory.getCount() * 9;
-            if(pickedUpItemInInventory.isOf(Items.LAPIS_LAZULI)) lapisLazuli += pickedUpItemInInventory.getCount();
-            if(pickedUpItemInInventory.isOf(Items.TOTEM_OF_UNDYING)) amountTotemOfUndying += pickedUpItemInInventory.getCount();
+        if (client.screen instanceof AbstractContainerScreen<?>){
+            var pickedUpItemInInventory = ((AbstractContainerScreen<?>) client.screen).getMenu().getCarried();
+            if(pickedUpItemInInventory.is(Items.LAPIS_BLOCK)) lapisLazuli += pickedUpItemInInventory.getCount() * 9;
+            if(pickedUpItemInInventory.is(Items.LAPIS_LAZULI)) lapisLazuli += pickedUpItemInInventory.getCount();
+            if(pickedUpItemInInventory.is(Items.TOTEM_OF_UNDYING)) amountTotemOfUndying += pickedUpItemInInventory.getCount();
         }
 
         lapisLazuliMax = 0;
@@ -446,11 +447,11 @@ public class PlayerProperties {
 
         // Potion effects
 
-        StatusEffectInstance resistanceEffect = playerEntity.getStatusEffect(StatusEffects.RESISTANCE);
+        MobEffectInstance resistanceEffect = playerEntity.getEffect(MobEffects.RESISTANCE);
         resistancePercent = 0;
         if(resistanceEffect != null) resistancePercent = (resistanceEffect.getAmplifier() + 1) * 20;
 
-        StatusEffectInstance regenerationEffect = playerEntity.getStatusEffect(StatusEffects.REGENERATION);
+        MobEffectInstance regenerationEffect = playerEntity.getEffect(MobEffects.REGENERATION);
         regenerationHealthRaw = 0;
         if(regenerationEffect != null)
             regenerationHealthRaw = Calculations.getEstimatedHealthRegen(50,
@@ -458,9 +459,9 @@ public class PlayerProperties {
                                                     regenerationEffect.getDuration(),
                                                     healthRaw,
                                                     maxHealthRaw);
-        regenerationHealth = MathHelper.ceil(regenerationHealthRaw);
+        regenerationHealth = Mth.ceil(regenerationHealthRaw);
 
-        StatusEffectInstance poisonEffect = playerEntity.getStatusEffect(StatusEffects.POISON);
+        MobEffectInstance poisonEffect = playerEntity.getEffect(MobEffects.POISON);
         poisonHealthRaw = maxHealthRaw;
         if(poisonEffect != null)
             poisonHealthRaw = Calculations.getEstimatedHealthDamage(25,
@@ -468,10 +469,10 @@ public class PlayerProperties {
                                                     poisonEffect.getDuration(),
                                                     healthRaw,
                                                     1);
-        poisonHealth = MathHelper.ceil(poisonHealthRaw);
+        poisonHealth = Mth.ceil(poisonHealthRaw);
 
 
-        StatusEffectInstance witherEffect = playerEntity.getStatusEffect(StatusEffects.WITHER);
+        MobEffectInstance witherEffect = playerEntity.getEffect(MobEffects.WITHER);
         witherHealthRaw = maxHealthRaw;
         if(witherEffect != null)
             witherHealthRaw = Calculations.getEstimatedHealthDamage(40,
@@ -479,16 +480,16 @@ public class PlayerProperties {
                                                     witherEffect.getDuration(),
                                                     healthRaw,
                                                     0);
-        witherHealth = MathHelper.ceil(witherHealthRaw);
+        witherHealth = Mth.ceil(witherHealthRaw);
 
-        StatusEffectInstance hungerEffect = playerEntity.getStatusEffect(StatusEffects.HUNGER);
+        MobEffectInstance hungerEffect = playerEntity.getEffect(MobEffects.HUNGER);
         hungerEffectSaturationLoss = 0;
         if(hungerEffect != null) {
             int duration = hungerEffect.getDuration();
             float hungerEffectExhaustionLoss = 0.005F * (float)(hungerEffect.getAmplifier() + 1) * duration;
             hungerEffectSaturationLoss = hungerEffectExhaustionLoss / (float)4;
 
-            if (MathHelper.ceil(hungerRaw + hungerEffectSaturationLoss) != (MathHelper.ceil(previousHungerEffectEstimate) - 1)) {
+            if (Mth.ceil(hungerRaw + hungerEffectSaturationLoss) != (Mth.ceil(previousHungerEffectEstimate) - 1)) {
                 hungerEffectEstimateRaw = !hasSaturation ? Math.max(Math.min(hungerRaw + hungerEffectSaturationLoss, maxFoodLevelRaw), 0) : hungerRaw;
                 previousHungerEffectEstimate = hungerEffectEstimateRaw;
             }
@@ -497,7 +498,7 @@ public class PlayerProperties {
             hungerEffectEstimateRaw = hungerRaw;
             previousHungerEffectEstimate = hungerEffectEstimateRaw;
         }
-        hungerEffectEstimate = MathHelper.ceil(hungerEffectEstimateRaw);
+        hungerEffectEstimate = Mth.ceil(hungerEffectEstimateRaw);
 
         if(isStarving){
             if(difficulty == Difficulty.EASY)
@@ -515,7 +516,7 @@ public class PlayerProperties {
             else if(difficulty.equals(Difficulty.PEACEFUL))
                 naturalRegenerationAddition = maxHealthRaw - healthRaw;
 
-            if(MathHelper.ceil(health + naturalRegenerationAddition) != (MathHelper.ceil(previousNaturalRegenerationHealth) + 1)){
+            if(Mth.ceil(health + naturalRegenerationAddition) != (Mth.ceil(previousNaturalRegenerationHealth) + 1)){
                 naturalRegenerationHealthRaw = Math.min(healthRaw + naturalRegenerationAddition, maxHealthRaw);
                 previousNaturalRegenerationHealth = naturalRegenerationHealth;
             }
@@ -524,15 +525,15 @@ public class PlayerProperties {
             naturalRegenerationHealthRaw = healthRaw;
             previousNaturalRegenerationHealth = naturalRegenerationHealthRaw;
         }
-        naturalRegenerationHealth = MathHelper.ceil(naturalRegenerationHealthRaw);
+        naturalRegenerationHealth = Mth.ceil(naturalRegenerationHealthRaw);
 
         heldFoodHunger = 0;
-        ItemStack heldFoodItem = Objects.requireNonNull(playerEntity).getMainHandStack();
-        if(!heldFoodItem.getComponents().contains(DataComponentTypes.FOOD)) heldFoodItem = playerEntity.getOffHandStack();
+        ItemStack heldFoodItem = Objects.requireNonNull(playerEntity).getMainHandItem();
+        if(!heldFoodItem.getComponents().has(DataComponents.FOOD)) heldFoodItem = playerEntity.getOffhandItem();
 
-        if(heldFoodItem.getComponents().contains(DataComponentTypes.FOOD)){
+        if(heldFoodItem.getComponents().has(DataComponents.FOOD)){
             isHoldingFood = true;
-            FoodComponent itemFood = heldFoodItem.getItem().getComponents().get(DataComponentTypes.FOOD);
+            FoodProperties itemFood = heldFoodItem.getItem().components().get(DataComponents.FOOD);
             heldFoodHunger = Objects.requireNonNull(itemFood).nutrition();
             heldFoodSaturation = Objects.requireNonNull(itemFood).saturation() * heldFoodHunger * 2.0F; // See HungerManager -> add() for more info
         }
@@ -550,7 +551,7 @@ public class PlayerProperties {
             heldFoodHealthEstimateRaw = 0;
             heldFoodSaturationEstimateRaw = 0;
         }
-        heldFoodHealthEstimate = MathHelper.ceil(heldFoodHealthEstimateRaw);
+        heldFoodHealthEstimate = Mth.ceil(heldFoodHealthEstimateRaw);
 
         rawMaxWardenDanger = 149;
         maxWardenDanger = 20;
@@ -559,13 +560,13 @@ public class PlayerProperties {
         isWardenNear = false;
         isWardenAngry = false;
 
-        WardenEntity warden = getClosestWarden(playerEntity);
+        Warden warden = getClosestWarden(playerEntity);
 
         if(warden != null){
             isWardenNear = true;
-            rawWardenDanger = warden.getAnger();
-            isWardenAngry = rawWardenDanger > Angriness.ANGRY.getThreshold();
-            wardenDanger = (int) (rawWardenDanger / Calculations.getPrettyDivisor(rawMaxWardenDanger, playerEntity.defaultMaxHealth));
+            rawWardenDanger = warden.getClientAngerLevel();
+            isWardenAngry = rawWardenDanger > AngerLevel.ANGRY.getMinimumAnger();
+            wardenDanger = (int) (rawWardenDanger / Calculations.getPrettyDivisor(rawMaxWardenDanger, playerEntity.invulnerableDuration));
         }
     }
 
@@ -577,7 +578,7 @@ public class PlayerProperties {
         locatorBarAvailable = isAvailable;
     }
 
-    private double getFallingHeightEstimate(PlayerEntity playerEntity, double height){
+    private double getFallingHeightEstimate(Player playerEntity, double height){
         //TODO: not precise enough
         /*
         ItemStack[] armorTypes = {
@@ -607,14 +608,14 @@ public class PlayerProperties {
         double value = hurts ? (health - Math.max(0, height - 3)) : health;
         if(value == 0) value = 1; // Fatal height is always +0.5 blocks of the estimate
         if(value <= -1) value = 0;
-        return MathHelper.ceil(value);
+        return Mth.ceil(value);
     }
 
-    private WardenEntity getClosestWarden(PlayerEntity player){
+    private Warden getClosestWarden(Player player){
         // A warden is aware of all targetable entities within a 49×51×49 box around itself. https://minecraft.wiki/w/Warden#Behavior
-        Box boundingBox = player.getBoundingBox().expand(49, 51, 49);
-        List<WardenEntity> nearbyWardens = player.getEntityWorld().getEntitiesByType(
-                TypeFilter.instanceOf(WardenEntity.class),
+        AABB boundingBox = player.getBoundingBox().inflate(49, 51, 49);
+        List<Warden> nearbyWardens = player.level().getEntities(
+                EntityTypeTest.forClass(Warden.class),
                 boundingBox,
                 Predicates.alwaysTrue()
         );
@@ -624,50 +625,50 @@ public class PlayerProperties {
     }
 
     public static int getProtectionFromArmor(ItemStack armorItem) {
-        AttributeModifiersComponent attributeModifierComponent = armorItem.get(DataComponentTypes.ATTRIBUTE_MODIFIERS);
+        ItemAttributeModifiers attributeModifierComponent = armorItem.get(DataComponents.ATTRIBUTE_MODIFIERS);
         if (attributeModifierComponent == null)
             return 0;
-        RegistryKey<EntityAttribute> ARMOR = EntityAttributes.ARMOR.getKey().get();
+        ResourceKey<Attribute> ARMOR = Attributes.ARMOR.unwrapKey().get();
 
         return attributeModifierComponent.modifiers().stream()
-                .filter(entry -> entry.attribute().matchesKey(ARMOR))
-                .mapToInt(entry -> (int) entry.modifier().value())
+                .filter(entry -> entry.attribute().is(ARMOR))
+                .mapToInt(entry -> (int) entry.modifier().amount())
                 .findFirst()
                 .orElse(0);
     }
 
 
-    private int getArmorElementArmor(PlayerEntity playerEntity, EquipmentSlot slot) {
-        return getProtectionFromArmor(playerEntity.getEquippedStack(slot));
+    private int getArmorElementArmor(Player playerEntity, EquipmentSlot slot) {
+        return getProtectionFromArmor(playerEntity.getItemBySlot(slot));
     }
 
     private int getArmorItemMaxArmor(Item armorItem) {
         return getProtectionFromArmor(new ItemStack(armorItem));
     }
 
-    public float getArmorElementDurability(PlayerEntity playerEntity, EquipmentSlot slot, float maxLimit){
-        ItemStack armorItem = playerEntity.getEquippedStack(slot);
+    public float getArmorElementDurability(Player playerEntity, EquipmentSlot slot, float maxLimit){
+        ItemStack armorItem = playerEntity.getItemBySlot(slot);
         if (armorItem != ItemStack.EMPTY){
-            var rawArmorDurability = armorItem.getMaxDamage() - armorItem.getDamage();
+            var rawArmorDurability = armorItem.getMaxDamage() - armorItem.getDamageValue();
             var rawMaxArmorDurability = armorItem.getMaxDamage();
             return rawArmorDurability > 0 ? (((float)rawArmorDurability / rawMaxArmorDurability) * maxLimit) : 0;
         }
         return (float)0;
     }
 
-    private float getArmorElementMaxDurability(PlayerEntity playerEntity, EquipmentSlot slot){
-        ItemStack armorItem = playerEntity.getEquippedStack(slot);
+    private float getArmorElementMaxDurability(Player playerEntity, EquipmentSlot slot){
+        ItemStack armorItem = playerEntity.getItemBySlot(slot);
         if (armorItem != ItemStack.EMPTY)
             return (float)armorItem.getMaxDamage();
         return (float)0;
     }
 
-    public static String getMobHead(PlayerEntity playerEntity){
-        Item headItem = playerEntity.getEquippedStack(EquipmentSlot.HEAD).getItem();
-        boolean hasPiglinDeterArmorItem = (playerEntity.getEquippedStack(EquipmentSlot.HEAD).getItem() == Items.GOLDEN_HELMET ||
-                playerEntity.getEquippedStack(EquipmentSlot.CHEST).getItem() == Items.GOLDEN_CHESTPLATE ||
-                playerEntity.getEquippedStack(EquipmentSlot.LEGS).getItem() == Items.GOLDEN_LEGGINGS ||
-                playerEntity.getEquippedStack(EquipmentSlot.FEET).getItem() == Items.GOLDEN_BOOTS);
+    public static String getMobHead(Player playerEntity){
+        Item headItem = playerEntity.getItemBySlot(EquipmentSlot.HEAD).getItem();
+        boolean hasPiglinDeterArmorItem = (playerEntity.getItemBySlot(EquipmentSlot.HEAD).getItem() == Items.GOLDEN_HELMET ||
+                playerEntity.getItemBySlot(EquipmentSlot.CHEST).getItem() == Items.GOLDEN_CHESTPLATE ||
+                playerEntity.getItemBySlot(EquipmentSlot.LEGS).getItem() == Items.GOLDEN_LEGGINGS ||
+                playerEntity.getItemBySlot(EquipmentSlot.FEET).getItem() == Items.GOLDEN_BOOTS);
 
         if(headItem == Items.ZOMBIE_HEAD)
             return Calculations.emojiOrText("text.onebar.mobHeadZombieEmoji","text.onebar.mobHeadZombie", false, calculateMobDetectionRange(playerEntity, 35));
@@ -687,8 +688,8 @@ public class PlayerProperties {
             return null;
     }
 
-    private static int calculateMobDetectionRange(PlayerEntity playerEntity, double baseRange) {
-        if (playerEntity.getEntityWorld().getDifficulty() == Difficulty.PEACEFUL) {
+    private static int calculateMobDetectionRange(Player playerEntity, double baseRange) {
+        if (playerEntity.level().getDifficulty() == Difficulty.PEACEFUL) {
             return 0;
         }
 
@@ -698,24 +699,24 @@ public class PlayerProperties {
         modifiedRange *= 0.50;
 
         // Sneaking check
-        if (playerEntity.isSneaking()) {
+        if (playerEntity.isShiftKeyDown()) {
             modifiedRange *= 0.80; // 80% of normal
         }
 
         // Invisibility check
-        if (playerEntity.hasStatusEffect(StatusEffects.INVISIBILITY)) {
+        if (playerEntity.hasEffect(MobEffects.INVISIBILITY)) {
             // Count how many armor slots are occupied
             int armorPieces = 0;
-            if (playerEntity.getEquippedStack(EquipmentSlot.HEAD).getItem() != Items.AIR) {
+            if (playerEntity.getItemBySlot(EquipmentSlot.HEAD).getItem() != Items.AIR) {
                 armorPieces++;
             }
-            if (playerEntity.getEquippedStack(EquipmentSlot.CHEST).getItem() != Items.AIR) {
+            if (playerEntity.getItemBySlot(EquipmentSlot.CHEST).getItem() != Items.AIR) {
                 armorPieces++;
             }
-            if (playerEntity.getEquippedStack(EquipmentSlot.LEGS).getItem() != Items.AIR) {
+            if (playerEntity.getItemBySlot(EquipmentSlot.LEGS).getItem() != Items.AIR) {
                 armorPieces++;
             }
-            if (playerEntity.getEquippedStack(EquipmentSlot.FEET).getItem() != Items.AIR) {
+            if (playerEntity.getItemBySlot(EquipmentSlot.FEET).getItem() != Items.AIR) {
                 armorPieces++;
             }
 
@@ -730,8 +731,8 @@ public class PlayerProperties {
         return (int) Math.ceil(modifiedRange);
     }
 
-    private int calculateRaidWaves(PlayerEntity player) {
-        Difficulty diff = player.getEntityWorld().getDifficulty();
+    private int calculateRaidWaves(Player player) {
+        Difficulty diff = player.level().getDifficulty();
         int baseWaves = switch (diff) {
             case PEACEFUL -> 0;
             case EASY -> 3;
@@ -739,8 +740,8 @@ public class PlayerProperties {
             case HARD -> 7;
         };
 
-        if (player.hasStatusEffect(StatusEffects.RAID_OMEN)) {
-            int amplifier = player.getStatusEffect(StatusEffects.RAID_OMEN).getAmplifier();
+        if (player.hasEffect(MobEffects.RAID_OMEN)) {
+            int amplifier = player.getEffect(MobEffects.RAID_OMEN).getAmplifier();
             if ((amplifier + 1) >= 2) {
                 baseWaves++;
             }
@@ -749,19 +750,19 @@ public class PlayerProperties {
         return baseWaves;
     }
 
-    public String getTrialOmenTimeString(PlayerEntity player) {
-        if (!player.hasStatusEffect(StatusEffects.TRIAL_OMEN)) {
+    public String getTrialOmenTimeString(Player player) {
+        if (!player.hasEffect(MobEffects.TRIAL_OMEN)) {
             return "";
         }
-        StatusEffectInstance trial = player.getStatusEffect(StatusEffects.TRIAL_OMEN);
+        MobEffectInstance trial = player.getEffect(MobEffects.TRIAL_OMEN);
         int ticks = trial.getDuration();
         int totalSeconds = ticks / 20;
 
         if (totalSeconds >= 60) {
             int minutes = totalSeconds / 60;
-            return Text.translatable("text.onebar.trialOmenEmoji.minutes", minutes).getString();
+            return Component.translatable("text.onebar.trialOmenEmoji.minutes", minutes).getString();
         } else if (totalSeconds >= 30) {
-            return Text.translatable("text.onebar.trialOmenEmoji.underMinute").getString();
+            return Component.translatable("text.onebar.trialOmenEmoji.underMinute").getString();
         } else {
             return String.valueOf(totalSeconds);
         }

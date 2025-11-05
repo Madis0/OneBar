@@ -2,15 +2,15 @@ package io.github.madis0.mixin;
 
 import io.github.madis0.MixinConfigQuery;
 import io.github.madis0.ModConfig;
-import net.minecraft.client.gui.hud.BossBarHud;
+import net.minecraft.client.gui.components.BossHealthOverlay;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.Constant;
 import org.spongepowered.asm.mixin.injection.ModifyConstant;
 
-@Mixin(BossBarHud.class)
+@Mixin(BossHealthOverlay.class)
 public abstract class BossBarHudMixin {
     @ModifyConstant(
-            method = "render(Lnet/minecraft/client/gui/DrawContext;)V",
+            method = "render(Lnet/minecraft/client/gui/GuiGraphics;)V",
             constant = @Constant(intValue = 12)
     )
     private int adjustBossBarStartY(int original) {

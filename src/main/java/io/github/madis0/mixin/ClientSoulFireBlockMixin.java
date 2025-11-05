@@ -3,31 +3,33 @@ package io.github.madis0.mixin;
 import io.github.madis0.PlayerProperties;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
-import net.minecraft.block.*;
-import net.minecraft.entity.Entity;
-import net.minecraft.entity.EntityCollisionHandler;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.world.World;
+import net.minecraft.core.BlockPos;
+import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.InsideBlockEffectApplier;
+import net.minecraft.world.level.Level;
+import net.minecraft.world.level.block.BaseFireBlock;
+import net.minecraft.world.level.block.SoulFireBlock;
+import net.minecraft.world.level.block.state.BlockState;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
 
 @Environment(EnvType.CLIENT)
 @Mixin(SoulFireBlock.class)
-public abstract class ClientSoulFireBlockMixin extends AbstractFireBlock {
+public abstract class ClientSoulFireBlockMixin extends BaseFireBlock {
 
-    public ClientSoulFireBlockMixin(Settings settings, float damage) {
+    public ClientSoulFireBlockMixin(Properties settings, float damage) {
         super(settings, damage);
     }
 
     @Shadow
     @Override
-    protected boolean isFlammable(BlockState state) {
+    protected boolean canBurn(BlockState state) {
         return true;
     }
 
     @Override
-    public void onEntityCollision(BlockState state, World world, BlockPos pos, Entity entity, EntityCollisionHandler handler, boolean bl) {
-        PlayerProperties.setPlayerBurningOnSoulFire(entity.isPlayer());
-        super.onEntityCollision(state, world, pos, entity, handler, bl);
+    public void entityInside(BlockState state, Level world, BlockPos pos, Entity entity, InsideBlockEffectApplier handler, boolean bl) {
+        PlayerProperties.setPlayerBurningOnSoulFire(entity.isAlwaysTicking());
+        super.entityInside(state, world, pos, entity, handler, bl);
     }
 }

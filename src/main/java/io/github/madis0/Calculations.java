@@ -1,8 +1,8 @@
 package io.github.madis0;
 
 import me.shedaniel.autoconfig.AutoConfig;
-import net.minecraft.text.Text;
-import net.minecraft.util.math.MathHelper;
+import net.minecraft.network.chat.Component;
+import net.minecraft.util.Mth;
 import java.text.DecimalFormat;
 
 public class Calculations {
@@ -24,11 +24,11 @@ public class Calculations {
      * @return the calculated coordinate relative to the start position
      */
     public static int relativeW(int start, int end, int value, int total){
-        return value < total ? MathHelper.ceil(start + ((float) (end - start) / total * value)) : end;
+        return value < total ? Mth.ceil(start + ((float) (end - start) / total * value)) : end;
     }
 
     public static int getPreciseInt(float number){
-        return MathHelper.ceil(number * 10000.0F);
+        return Mth.ceil(number * 10000.0F);
     }
 
     public static String makeFraction(int number, boolean italic){
@@ -90,7 +90,7 @@ public class Calculations {
         if(extra && !config.textSettings.extraSymbols)
             return String.valueOf(args[0]);
 
-        return Text.translatable(config.textSettings.useEmoji ? emojiPhrase : textPhrase, args).getString();
+        return Component.translatable(config.textSettings.useEmoji ? emojiPhrase : textPhrase, args).getString();
     }
 
     /**

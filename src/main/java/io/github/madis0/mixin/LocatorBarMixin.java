@@ -1,9 +1,9 @@
 package io.github.madis0.mixin;
 
 import io.github.madis0.MixinConfigQuery;
-import net.minecraft.client.gui.DrawContext;
-import net.minecraft.client.gui.hud.bar.LocatorBar;
-import net.minecraft.client.render.RenderTickCounter;
+import net.minecraft.client.DeltaTracker;
+import net.minecraft.client.gui.GuiGraphics;
+import net.minecraft.client.gui.contextualbar.LocatorBarRenderer;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
@@ -11,14 +11,14 @@ import org.spongepowered.asm.mixin.injection.ModifyArg;
 import org.spongepowered.asm.mixin.injection.ModifyVariable;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
-@Mixin(value = LocatorBar.class)
+@Mixin(value = LocatorBarRenderer.class)
 public abstract class LocatorBarMixin {
 
     @ModifyArg(
-            method = "renderBar(Lnet/minecraft/client/gui/DrawContext;Lnet/minecraft/client/render/RenderTickCounter;)V",
+            method = "renderBackground(Lnet/minecraft/client/gui/GuiGraphics;Lnet/minecraft/client/DeltaTracker;)V",
             at = @At(
                     value = "INVOKE",
-                    target = "Lnet/minecraft/client/gui/DrawContext;drawGuiTexture(Lcom/mojang/blaze3d/pipeline/RenderPipeline;Lnet/minecraft/util/Identifier;IIII)V"
+                    target = "Lnet/minecraft/client/gui/GuiGraphics;blitSprite(Lcom/mojang/blaze3d/pipeline/RenderPipeline;Lnet/minecraft/resources/ResourceLocation;IIII)V"
             ),
             index = 3
     )
@@ -30,7 +30,7 @@ public abstract class LocatorBarMixin {
     }
 
     @ModifyVariable(
-            method = "renderAddons(Lnet/minecraft/client/gui/DrawContext;Lnet/minecraft/client/render/RenderTickCounter;)V",
+            method = "render(Lnet/minecraft/client/gui/GuiGraphics;Lnet/minecraft/client/DeltaTracker;)V",
             at = @At("STORE"), // Could also use "LOAD" depending on when you want to intercept
             index = 3
     )
@@ -41,14 +41,14 @@ public abstract class LocatorBarMixin {
         return MixinConfigQuery.getLocatorBarHeight();
     }
 
-    @Inject(method = "renderAddons", at = @At(value = "HEAD"), cancellable = true)
-    private void hideBar(DrawContext context, RenderTickCounter tickCounter, CallbackInfo ci){
+    @Inject(method = "render", at = @At(value = "HEAD"), cancellable = true)
+    private void hideBar(GuiGraphics context, DeltaTracker tickCounter, CallbackInfo ci){
         if(MixinConfigQuery.isOneBarEnabled() && !MixinConfigQuery.isLocatorBarEnabled())
             ci.cancel();
     }
 
-    @Inject(method = "renderAddons", at = @At(value = "HEAD"), cancellable = true)
-    private void hideAddons(DrawContext context, RenderTickCounter tickCounter, CallbackInfo ci){
+    @Inject(method = "render", at = @At(value = "HEAD"), cancellable = true)
+    private void hideAddons(GuiGraphics context, DeltaTracker tickCounter, CallbackInfo ci){
         if(MixinConfigQuery.isOneBarEnabled() && !MixinConfigQuery.isLocatorBarEnabled())
             ci.cancel();
     }

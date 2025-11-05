@@ -4,7 +4,7 @@ plugins {
 }
 
 loom {
-	accessWidenerPath = file("src/main/resources/ingamehudbartype.accesswidener")
+	accessWidenerPath = file("src/main/resources/guicontextualinfo.accesswidener")
 }
 
 sourceCompatibility = JavaVersion.VERSION_21
@@ -34,7 +34,7 @@ repositories {
 dependencies {
 	// To change the versions see the gradle.properties file
 	minecraft "com.mojang:minecraft:${project.minecraft_version}"
-	mappings "net.fabricmc:yarn:${project.yarn_mappings}:v2"
+	mappings loom.officialMojangMappings()
 	modImplementation "net.fabricmc:fabric-loader:${project.loader_version}"
 
 	// Fabric API. This is technically optional, but you probably want it anyway.
@@ -91,15 +91,5 @@ publishing {
 		// Notice: This block does NOT have the same function as the block in the top level.
 		// The repositories here will be used for publishing your artifact, not for
 		// retrieving dependencies.
-	}
-}
-
-tasks.register('moveMigrated') {
-	group = 'migration'
-	description = 'Moves all files from remappedSrc into src/main/java'
-	doLast {
-		ant.move(todir: file('src/main/java')) {
-			fileset(dir: file('remappedSrc'))
-		}
 	}
 }
