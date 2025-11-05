@@ -10,7 +10,7 @@ import net.minecraft.core.component.DataComponents;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceKey;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.util.Mth;
 import net.minecraft.world.Difficulty;
 import net.minecraft.world.effect.MobEffectInstance;
@@ -241,7 +241,7 @@ public class PlayerProperties {
         absorption = Mth.ceil(playerEntity.getAbsorptionAmount());
         hasAbsorption = absorption > 0;
 
-        maxArmor = playerEntity.invulnerableDuration;
+        maxArmor = playerEntity.invulnerableTime;
         armor = playerEntity.getArmorValue();
 
         var playerArmorSlots = Arrays.stream(EquipmentSlot.values())
@@ -323,7 +323,7 @@ public class PlayerProperties {
         Holder<Enchantment> mendingEntry = playerEntity.level()
                 .registryAccess()
                 .lookupOrThrow(Registries.ENCHANTMENT)
-                .get(ResourceLocation.withDefaultNamespace("mending"))
+                .get(Identifier.withDefaultNamespace("mending"))
                 .orElseThrow();
 
         isMendingAnything = Stream.concat(
@@ -332,7 +332,7 @@ public class PlayerProperties {
                 )
                 .anyMatch(stack -> EnchantmentHelper.getItemEnchantmentLevel(mendingEntry, stack) > 0 && stack.isDamaged());
 
-        maxFoodLevel = playerEntity.invulnerableDuration;
+        maxFoodLevel = playerEntity.invulnerableTime;
         maxFoodLevelRaw = (float)maxFoodLevel; // Used for saturation calculations
         foodLevel = hungerManager.getFoodLevel();
         hunger = maxFoodLevel - foodLevel;
@@ -347,7 +347,7 @@ public class PlayerProperties {
 
         maxAirRaw = playerEntity.getMaxAirSupply();
         airRaw = maxAirRaw - playerEntity.getAirSupply();
-        air = Math.min(airRaw, maxAirRaw) / (int) Calculations.getPrettyDivisor(maxAirRaw, playerEntity.invulnerableDuration);
+        air = Math.min(airRaw, maxAirRaw) / (int) Calculations.getPrettyDivisor(maxAirRaw, playerEntity.invulnerableTime);
         isInWater = playerEntity.isInWater();
         isUnderwater =  playerEntity.isUnderWater() || airRaw > 0;
         isDrowning = airRaw >= maxAirRaw;
@@ -378,7 +378,7 @@ public class PlayerProperties {
 
         maxFreezeRaw = playerEntity.getTicksRequiredToFreeze();
         freezeRaw = playerEntity.getTicksFrozen();
-        freeze = freezeRaw / (int) Calculations.getPrettyDivisor(maxFreezeRaw, playerEntity.invulnerableDuration);
+        freeze = freezeRaw / (int) Calculations.getPrettyDivisor(maxFreezeRaw, playerEntity.invulnerableTime);
         isFreezing = freezeRaw > 0;
         isGettingFreezeDamage = playerEntity.isFullyFrozen() && !difficulty.equals(Difficulty.PEACEFUL);
 
@@ -566,7 +566,7 @@ public class PlayerProperties {
             isWardenNear = true;
             rawWardenDanger = warden.getClientAngerLevel();
             isWardenAngry = rawWardenDanger > AngerLevel.ANGRY.getMinimumAnger();
-            wardenDanger = (int) (rawWardenDanger / Calculations.getPrettyDivisor(rawMaxWardenDanger, playerEntity.invulnerableDuration));
+            wardenDanger = (int) (rawWardenDanger / Calculations.getPrettyDivisor(rawMaxWardenDanger, playerEntity.invulnerableTime));
         }
     }
 

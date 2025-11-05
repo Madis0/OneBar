@@ -9,7 +9,7 @@ import net.fabricmc.fabric.api.client.keybinding.v1.KeyBindingHelper;
 import net.minecraft.client.KeyMapping;
 import net.minecraft.client.Minecraft;
 import net.minecraft.network.chat.Component;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 
 public class OneBar implements ClientModInitializer {
     static KeyMapping.Category ONEBAR_MAIN;
@@ -25,7 +25,7 @@ public class OneBar implements ClientModInitializer {
 
 		ModConfig config = AutoConfig.getConfigHolder(ModConfig.class).getConfig();
 
-        ONEBAR_MAIN = KeyMapping.Category.register(ResourceLocation.fromNamespaceAndPath("onebar", "main"));
+        ONEBAR_MAIN = KeyMapping.Category.register(Identifier.fromNamespaceAndPath("onebar", "main"));
 
 		KeyMapping showOneBar = registerKeybind("text.autoconfig.onebar.option.showOneBar");
 		KeyMapping healthEstimates = registerKeybind("text.autoconfig.onebar.option.healthEstimates");
