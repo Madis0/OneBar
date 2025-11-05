@@ -3,10 +3,16 @@
   "package": "io.github.madis0.mixin",
   "compatibilityLevel": "JAVA_21",
   "client": [
+    "BarMixin",
+    "BossBarHudMixin",
     "ClientSoulFireBlockMixin",
     "DebugHudAccessor",
     "InGameHudMixin",
-    "NarratorManagerMixin"
+    "NarratorManagerMixin",
+    "ExperienceBarMixin",
+    "InGameHudMixin",
+    "JumpBarMixin",
+    "LocatorBarMixin"
   ],
   "injectors": {
     "defaultRequire": 1

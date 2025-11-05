@@ -26,8 +26,8 @@ public abstract class ClientSoulFireBlockMixin extends AbstractFireBlock {
     }
 
     @Override
-    public void onEntityCollision(BlockState state, World world, BlockPos pos, Entity entity, EntityCollisionHandler handler) {
+    public void onEntityCollision(BlockState state, World world, BlockPos pos, Entity entity, EntityCollisionHandler handler, boolean bl) {
         PlayerProperties.setPlayerBurningOnSoulFire(entity.isPlayer());
-        super.onEntityCollision(state, world, pos, entity, handler);
+        super.onEntityCollision(state, world, pos, entity, handler, bl);
     }
 }

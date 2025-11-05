@@ -10,8 +10,11 @@ import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.option.KeyBinding;
 import net.minecraft.client.util.InputUtil;
 import net.minecraft.text.Text;
+import net.minecraft.util.Identifier;
 
 public class OneBar implements ClientModInitializer {
+    static KeyBinding.Category ONEBAR_MAIN;
+
 	@Override
 	public void onInitializeClient() {
 		// This code runs as soon as Minecraft is in a mod-load-ready state.
@@ -23,15 +26,17 @@ public class OneBar implements ClientModInitializer {
 
 		ModConfig config = AutoConfig.getConfigHolder(ModConfig.class).getConfig();
 
-		KeyBinding showOneBar = KeyBindingHelper.registerKeyBinding(new KeyBinding("text.autoconfig.onebar.option.showOneBar", InputUtil.Type.KEYSYM, InputUtil.UNKNOWN_KEY.getCode(), "text.autoconfig.onebar.title"));
-		KeyBinding healthEstimates = KeyBindingHelper.registerKeyBinding(new KeyBinding("text.autoconfig.onebar.option.healthEstimates", InputUtil.Type.KEYSYM, InputUtil.UNKNOWN_KEY.getCode(), "text.autoconfig.onebar.title"));
-		KeyBinding uhcMode = KeyBindingHelper.registerKeyBinding(new KeyBinding("text.autoconfig.onebar.option.uhcMode", InputUtil.Type.KEYSYM, InputUtil.UNKNOWN_KEY.getCode(), "text.autoconfig.onebar.title"));
-		KeyBinding disableHunger = KeyBindingHelper.registerKeyBinding(new KeyBinding("text.autoconfig.onebar.option.disableHunger", InputUtil.Type.KEYSYM, InputUtil.UNKNOWN_KEY.getCode(), "text.autoconfig.onebar.title"));
-		KeyBinding configScreen = KeyBindingHelper.registerKeyBinding(new KeyBinding("text.autoconfig.onebar.title", InputUtil.Type.KEYSYM, InputUtil.UNKNOWN_KEY.getCode(), "text.autoconfig.onebar.title"));
-		KeyBinding narrateOneBar = KeyBindingHelper.registerKeyBinding(new KeyBinding("text.onebar.narrate.onebar", InputUtil.Type.KEYSYM, InputUtil.UNKNOWN_KEY.getCode(), "text.autoconfig.onebar.title"));
-		//KeyBinding narrateMount = KeyBindingHelper.registerKeyBinding(new KeyBinding("text.onebar.narrate.mount", InputUtil.Type.KEYSYM, InputUtil.UNKNOWN_KEY.getCode(), "text.autoconfig.onebar.title"));
-		//KeyBinding narrateArmor = KeyBindingHelper.registerKeyBinding(new KeyBinding("text.onebar.narrate.armor", InputUtil.Type.KEYSYM, InputUtil.UNKNOWN_KEY.getCode(), "text.autoconfig.onebar.title"));
-		//KeyBinding narrateXp = KeyBindingHelper.registerKeyBinding(new KeyBinding("text.onebar.narrate.xp", InputUtil.Type.KEYSYM, InputUtil.UNKNOWN_KEY.getCode(), "text.autoconfig.onebar.title"));
+        ONEBAR_MAIN = KeyBinding.Category.create(Identifier.of("onebar", "main"));
+
+		KeyBinding showOneBar = registerKeybind("text.autoconfig.onebar.option.showOneBar");
+		KeyBinding healthEstimates = registerKeybind("text.autoconfig.onebar.option.healthEstimates");
+		KeyBinding uhcMode = registerKeybind("text.autoconfig.onebar.option.uhcMode");
+		KeyBinding disableHunger = registerKeybind("text.autoconfig.onebar.option.disableHunger");
+		KeyBinding configScreen = registerKeybind("text.autoconfig.onebar.title");
+		KeyBinding narrateOneBar = registerKeybind("text.onebar.narrate.onebar");
+		//KeyBinding narrateMount = registerKeybind("text.onebar.narrate.mount");
+		//KeyBinding narrateArmor = registerKeybind("text.onebar.narrate.armor");
+		//KeyBinding narrateXp = registerKeybind("text.onebar.narrate.xp");
 
 		ClientTickEvents.END_CLIENT_TICK.register(client -> {
 
@@ -86,4 +91,8 @@ public class OneBar implements ClientModInitializer {
 		assert client.player != null;
 		client.player.sendMessage(Text.translatable(variable ? "options.on.composed" : "options.off.composed", Text.translatable(translationKey).getString()), true);
 	}
+
+    private static KeyBinding registerKeybind(String translationKey) {
+        return KeyBindingHelper.registerKeyBinding(new KeyBinding(translationKey, InputUtil.Type.KEYSYM, InputUtil.UNKNOWN_KEY.getCode(), ONEBAR_MAIN));
+    }
 }

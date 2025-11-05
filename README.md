@@ -68,6 +68,7 @@ The mod only uses client-side data, so it is never needed on a server. There are
 | Water Breathing, Conduit Power | Blue | █ | -~⭘1~ | -~ai1~ | The bar is only shown if you got the effect after losing air, text is only shown if you are in water |
 | Held food restored hunger: exact/less | Green | █ | _→1_ | _→1_ | Overlaid on hunger bar; number is the resulting hunger (like AppleSkin) | 
 | Held food restored hunger: wasted | Orange | █ | _→-1_ | _→-1_ | Overlaid on hunger bar; number is the waste of hunger (how much more than needed) | 
+| Saturation | Orange | ▁ |  | Below OneBar | Opt-in |
 
 #### Negative (right-to-left)
 
@@ -87,14 +88,14 @@ The mod only uses client-side data, so it is never needed on a server. There are
 | Fall height (experimental) |  |  | -⊻1 | -fa1 | Opt-in, indicates the amount of blocks you're about to fall in-air/with levitation effect/while sneaking on an edge. Currently does not consider target block type, your effects and enchants. |
 | Glowing |  |  | -☀ | -gl | Usually given when shot by a spectral arrow. Emoji chosen to remind of the effect icon. |
 | Infested |  |  | -💔🐛 | -Hin | Having infested effect may summon silverfish upon getting hit. Given in ominous trials. |
-| Weaving |  |  | -😵🕸 | -Dwe | Having weaving effect may summon cobwebs upon death. Given in ominous trials. |
-| Oozing |  |  | -😵▪▪ | -Doo | Having oozing effect may summon two slimes upon death. Given in ominous trials. |
-| Wind Charged |  |  | -😵💨 | -Dwi | Having wind charged effect may summon a wind charge upon death. Given in ominous trials. |
 | Bad Omen |  |  | -👹?1× | -bo1× | Number is the effect level; preserved when converting into Raid or Trial Omen |
-| Raid Omen |  |  | -👹🪓1× | -ro1× | Number is [the effect level](https://minecraft.wiki/w/Raid#Java_Edition) |
-| Trial Omen |  |  | -👹🗝1× | -to1× | Number is [the duration multiplier](https://minecraft.wiki/w/Trial_Omen#Causes), e.g. level 2 means 2×15=30 minutes of ominous trial |
 | Impending death |  |  | _→0_ | _→0_ | Drowning, freezing damage, burning in fire/lava, starvation, suffocation, angry warden. Zero is the resulting health (death) |
 | Hardcore mode |  |  | -☠ | -HC | The vanilla one, not the UHC mode of OneBar which has no indicators |
+| Weaving |  |  | -😵🕸   | -Dwe  | Opt-in, having weaving effect may summon cobwebs upon death. Given in ominous trials.                                                                                                          |
+| Oozing |  |  | -😵▪▪   | -Doo  | Opt-in, having oozing effect may summon two slimes upon death. Given in ominous trials.                                                                                                                |
+| Wind Charged |  |  | -😵💨   | -Dwi  | Opt-in, having wind charged effect may summon a wind charge upon death. Given in ominous trials.                                                                                                       |
+| Raid Omen |  |  | -👹🪓1w | -ro1w | Number indicates the total amount of raid waves.                                                                                                                                               |
+| Trial Omen |  |  | -👹🗝1m | -to1m | Number indicates the remaining minutes of ominous trial.                                                                                                                                       |
 
 #### Mounts
 
@@ -113,7 +114,9 @@ The mod only uses client-side data, so it is never needed on a server. There are
 | Armor durability | Light blue | ▔ |  |  | Overlaid on armor bar | Opt-in, width adapts to armor bar or armor bar segment |
 | Segmented armor | White | ▔ |  |  | Above OneBar | Opt-in, similar to normal bar but each armor piece is a separate bar |
 | Elytra durability | Purple | ▔ |  |  | Armor bar area | Normal armor bar: displayed as a full-width overlay only when flying; segmented armor bar: displayed constantly as a diamond-width bar at chest segment. |
-| Mob head indicator |  |  | +a☻ | +aH | OneBar | Opt-in, "a" represents s̲keleton, c̲reeper, z̲ombie head; e̲nderman (carved pumpkin), p̲iglin (any golden armor or piglin head)                          |
+| Shield durability | Gray | ▔ |  |  | Armor bar area | Opt-in, full-width durability bar overlaying armor bar only when holding up a shield |
+| Shield cooldown | Orange | ▔ |  |  | Armor bar area | Opt-in. Holding delay: shield durability bar with cooldown color; axe-nerfed: cooldown bar until you can use shield again |
+| Mob head indicator | |  | +a☻1 | +aH1 | Opt-in, "a" represents each mob's initial, except e̲nderman (carved pumpkin) and g_olden (any golden armor or piglin head) and l_ocator (all heads work overall but for player, dragon and wither skeleton head indicator is only shown when locator bar is available). Number indicates the minimum amount of blocks the player can safely stand from the mob when wearing its head (rounded, considers sneaking and invisibility).
 
 #### Others
 
@@ -122,6 +125,8 @@ The mod only uses client-side data, so it is never needed on a server. There are
 | Experience bar | Green | ▁ | 1 | Next to hotbar | Shown only when you have any XP (configurable) |
 | Lapis Lazuli counter | Blue |  | 1 or 1× | Next to experience bar | Opt-in, shows either the raw count or times enchantable maxed out (XP level 30+) |
 | Saturation | Orange | ▁ |  | Below OneBar | Opt-in |
+| Locatability indicator |  |  | -🔍 | -lo | Opt-in, shows when locator bar is available on the server (even if you hide it) and you are visible to others. |
+| Mending indicator | Pink |  | 🔧 or md | Next to experience bar | Opt-in, shown when holding something with mending enchant that needs repair |
 
 ## FAQ
 

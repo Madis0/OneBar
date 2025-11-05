@@ -1,6 +1,10 @@
 plugins {
-	id 'fabric-loom' version '1.10-SNAPSHOT'
+	id 'fabric-loom' version "${loom_version}"
 	id 'maven-publish'
+}
+
+loom {
+	accessWidenerPath = file("src/main/resources/ingamehudbartype.accesswidener")
 }
 
 sourceCompatibility = JavaVersion.VERSION_21
@@ -87,5 +91,15 @@ publishing {
 		// Notice: This block does NOT have the same function as the block in the top level.
 		// The repositories here will be used for publishing your artifact, not for
 		// retrieving dependencies.
+	}
+}
+
+tasks.register('moveMigrated') {
+	group = 'migration'
+	description = 'Moves all files from remappedSrc into src/main/java'
+	doLast {
+		ant.move(todir: file('src/main/java')) {
+			fileset(dir: file('remappedSrc'))
+		}
 	}
 }

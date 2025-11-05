@@ -6,7 +6,6 @@ import net.fabricmc.loader.api.FabricLoader;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.font.TextRenderer;
 import net.minecraft.client.gui.DrawContext;
-import net.minecraft.client.render.RenderLayer;
 import net.minecraft.component.DataComponentTypes;
 import net.minecraft.component.type.AttributeModifiersComponent;
 import net.minecraft.entity.EquipmentSlot;
@@ -30,7 +29,7 @@ public class OneBarElements {
     private final PlayerProperties playerProperties = new PlayerProperties();
     private final TextGeneration textGeneration = new TextGeneration();
     private final MinecraftClient client = MinecraftClient.getInstance();
-    private final Difficulty difficulty = client.getCameraEntity().getWorld().getDifficulty();
+    private final Difficulty difficulty = Objects.requireNonNull(client.getCameraEntity()).getEntityWorld().getDifficulty();
     private final DrawContext drawContext;
     private final TextRenderer textRenderer = client.textRenderer;
     private static final boolean hasExordium = FabricLoader.getInstance().isModLoaded("exordium");
@@ -77,7 +76,9 @@ public class OneBarElements {
             if(config.armor.showArmorBar) armorBar();
             if(config.armor.showArmorDurabilityBar) armorDurabilityBar();
             if(config.armor.showElytraDurabilityBar) elytraDurabilityBar();
-            if(config.otherBars.showSaturationBar) saturationBar();
+            if(config.armor.showShieldDurabilityBar) shieldDurabilityBar();
+            if(config.armor.showShieldCooldownBar) shieldCooldownBar();
+            if(config.goodThings.showSaturationBar) saturationBar();
             //if(config.healthEstimates && config.otherBars.showSaturationBar) heldFoodSaturationBar();
 
             //  if(hasExordium) {
@@ -91,7 +92,7 @@ public class OneBarElements {
         if(!config.enableGradient)
             drawContext.fill(x1, y1, x2, y2, color);
         else
-            drawContext.fillGradient(RenderLayer.getGui(), x1, y1, x2, y2, color, Calculations.manipulateColor(color, config.gradientShift), 0);
+            drawContext.fillGradient(x1, y1, x2, y2, color, Calculations.manipulateColor(color, config.gradientShift));
     }
 
     private void renderLeftToRightBar(float currentValue, float maxValue, int color) {
@@ -104,6 +105,10 @@ public class OneBarElements {
 
     private void renderRightToLeftBar(float currentValue, float maxValue, int color) {
         renderBar(clientProperties.baseRelativeStartW(currentValue, maxValue), clientProperties.baseStartH, clientProperties.baseEndW, clientProperties.baseEndH, color);
+    }
+
+    private void renderRightToLeftBar(float currentValue, float maxValue, int color, int startH, int endH) {
+        renderBar(clientProperties.baseRelativeStartW(currentValue, maxValue), startH, clientProperties.baseEndW, endH, color);
     }
 
     private void renderLeftToRightBarWithOffset(float offset, float currentValue, float totalLength, int color, int startH, int endH) {
@@ -143,7 +148,9 @@ public class OneBarElements {
     }
 
     private void armorDurabilityBar(){
-        var helmetDurability = playerProperties.getArmorElementDurability(Objects.requireNonNull(client.player), EquipmentSlot.HEAD, playerProperties.helmetArmor);
+        if (client.player == null) return;
+
+        var helmetDurability = playerProperties.getArmorElementDurability(client.player, EquipmentSlot.HEAD, playerProperties.helmetArmor);
         var chestplateDurability = playerProperties.getArmorElementDurability(client.player, EquipmentSlot.CHEST, playerProperties.chestplateArmor);
         var leggingsDurability = playerProperties.getArmorElementDurability(client.player, EquipmentSlot.LEGS, playerProperties.leggingsArmor);
         var bootsDurability = playerProperties.getArmorElementDurability(client.player, EquipmentSlot.FEET, playerProperties.bootsArmor);
@@ -171,8 +178,21 @@ public class OneBarElements {
             renderLeftToRightBar(playerProperties.elytraDurability, playerProperties.elytraMaxDurability, config.armor.elytraDurabilityColor, clientProperties.armorStartH, clientProperties.armorEndH);
     }
 
+    private void shieldDurabilityBar(){
+        if(playerProperties.usesShield){
+            renderLeftToRightBar(playerProperties.shieldDurability, playerProperties.shieldMaxDurability, config.armor.shieldDurabilityColor, clientProperties.armorStartH, clientProperties.armorEndH);
+        }
+    }
+
+    private void shieldCooldownBar(){
+        if(playerProperties.shieldRaiseTicksRemaining > 0)
+            renderLeftToRightBar(playerProperties.shieldDurability, playerProperties.shieldMaxDurability, config.armor.shieldCooldownColor, clientProperties.armorStartH, clientProperties.armorEndH);
+        else if(playerProperties.shieldAxedCooldown > 0)
+            renderLeftToRightBar(playerProperties.shieldAxedCooldown, playerProperties.shieldAxedMaxCooldown, config.armor.shieldCooldownColor, clientProperties.armorStartH, clientProperties.armorEndH);
+    }
+
     private void saturationBar(){
-        renderLeftToRightBar(playerProperties.saturationRaw, playerProperties.maxFoodLevelRaw, config.otherBars.saturationColor, clientProperties.saturationStartH, clientProperties.saturationEndH);
+        renderLeftToRightBar(playerProperties.saturationRaw, playerProperties.maxFoodLevelRaw, config.goodThings.saturationColor, clientProperties.saturationStartH, clientProperties.saturationEndH);
     }
 
     private void heldFoodHungerBar(){
@@ -292,13 +312,20 @@ public class OneBarElements {
                     drawContext.drawTextWithShadow(textRenderer, String.valueOf(playerProperties.xpLevel), textX + edgeAlignedConst - client.textRenderer.getWidth(String.valueOf(playerProperties.xpLevel)), textY, config.otherBars.xpColor);
             }
 
-            if(config.otherBars.lapisCounter){
-                var lapisTextX = clientProperties.xpEndW + 1;
-                if(client.options.getMainArm().getValue()  == Arm.LEFT)
-                    lapisTextX = clientProperties.xpStartW - 1 - client.textRenderer.getWidth(lapisText);
+            var lapisTextX = clientProperties.xpEndW + 1;
+            var lapisTextY = clientProperties.xpStartH - 5;
 
-                var lapisTextY = clientProperties.xpStartH - 5;
+            var mendingTextY = textY - 8;
+            if(client.options.getMainArm().getValue() == Arm.LEFT){
+                lapisTextX = clientProperties.xpStartW - 1 - client.textRenderer.getWidth(lapisText);
+            }
+
+            if(config.otherBars.lapisCounter){
                 drawContext.drawTextWithShadow(textRenderer, lapisText, lapisTextX, lapisTextY, config.otherBars.lapisColor);
+            }
+
+            if(config.otherBars.mendingIndicator && playerProperties.isMendingAnything){
+                drawContext.drawCenteredTextWithShadow(textRenderer, Calculations.emojiOrText("text.onebar.mendingEmoji", "text.onebar.mending", false), textX, mendingTextY, config.otherBars.mendingColor);
             }
         }
         if(!config.otherBars.adaptiveXpBar || playerProperties.xp > 0){
@@ -307,11 +334,27 @@ public class OneBarElements {
         }
     }
 
+    public void mountJumpBar() {
+        if(client.player == null) return;
+
+        var entity = client.player.getControllingVehicle();
+        if (entity == null) return;
+
+        if (entity instanceof CamelEntity) {
+            camelJumpBar();
+        } else {
+            horseJumpBar(); // Horse or modded entity
+        }
+    }
+
     public void horseJumpBar(){
+        if (client.player == null || client.player.getJumpingMount() == null) return;
+
         int barHeight = Calculations.getPreciseInt(1.0F);
         int jumpHeight = Calculations.getPreciseInt(client.player.getMountJumpStrength());
 
-        double heightInBlocks = Math.max(0, Calculations.getHorseJumpHeight(client.player.getMountJumpStrength()));
+        double heightInBlocks = Math.max(0, client.player.getMountJumpStrength() *
+                                                Calculations.horseJumpStrengthToJumpHeight(client.player.getMountJumpStrength()));
 
         String roundedHeightInBlocks = Calculations.getSubscriptNumber(Double.parseDouble(String.format(Locale.US, "%,.1f",(heightInBlocks))));
 
@@ -327,7 +370,9 @@ public class OneBarElements {
     }
 
     public void camelJumpBar(){
-        int jumpStrength = Calculations.getPreciseInt(client.player.getMountJumpStrength()); //TODO: strength can be negative???
+        if (client.player == null || client.player.getJumpingMount() == null) return;
+
+        int jumpStrength = Calculations.getPreciseInt(Math.max(client.player.getMountJumpStrength(), 0)); //TODO: strength can be negative???
         int maxStrength = Calculations.getPreciseInt(1.0F);
         int cooldown = client.player.getJumpingMount().getJumpCooldown();
         int maxCooldown = 50;
