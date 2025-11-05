@@ -6,7 +6,6 @@
     "BarMixin",
     "BossBarHudMixin",
     "ClientSoulFireBlockMixin",
-    "DebugHudAccessor",
     "InGameHudMixin",
     "NarratorManagerMixin",
     "ExperienceBarMixin",

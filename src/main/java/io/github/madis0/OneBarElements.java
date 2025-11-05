@@ -278,6 +278,8 @@ public class OneBarElements {
     }
 
     private void xpBar(){
+        var textGeneration = new TextGeneration();
+
         int relativeEndW = Calculations.relativeW(clientProperties.xpStartW, clientProperties.xpEndW, playerProperties.xp, playerProperties.maxXp);
 
         int textX = clientProperties.xpStartW + 9;
@@ -325,7 +327,7 @@ public class OneBarElements {
             }
 
             if(config.otherBars.mendingIndicator && playerProperties.isMendingAnything){
-                drawContext.drawCenteredTextWithShadow(textRenderer, Calculations.emojiOrText("text.onebar.mendingEmoji", "text.onebar.mending", false), textX, mendingTextY, config.otherBars.mendingColor);
+                drawContext.drawCenteredTextWithShadow(textRenderer, textGeneration.getSymbol("text.onebar.mending"), textX, mendingTextY, config.otherBars.mendingColor);
             }
         }
         if(!config.otherBars.adaptiveXpBar || playerProperties.xp > 0){
@@ -354,7 +356,7 @@ public class OneBarElements {
         int jumpHeight = Calculations.getPreciseInt(client.player.getMountJumpStrength());
 
         double heightInBlocks = Math.max(0, client.player.getMountJumpStrength() *
-                                                Calculations.horseJumpStrengthToJumpHeight(client.player.getMountJumpStrength()));
+                                                Calculations.getHorseJumpHeight(client.player.getMountJumpStrength()));
 
         String roundedHeightInBlocks = Calculations.getSubscriptNumber(Double.parseDouble(String.format(Locale.US, "%,.1f",(heightInBlocks))));
 

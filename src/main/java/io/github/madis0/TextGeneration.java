@@ -3,10 +3,12 @@ package io.github.madis0;
 import me.shedaniel.autoconfig.AutoConfig;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.entity.EquipmentSlot;
+import net.minecraft.entity.effect.StatusEffects;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.Item;
 import net.minecraft.item.Items;
 import net.minecraft.text.Text;
+import net.minecraft.world.Difficulty;
 
 import java.text.DecimalFormat;
 import java.util.Objects;
@@ -100,8 +102,6 @@ public class TextGeneration {
                 value += plus + getSymbol("text.onebar.resistance", playerProperties.resistancePercent);
             if(getMobHead(client.player) != null && config.armor.showMobHeads)
                 value += plus + getMobHead(client.player);
-            if(playerProperties.hasPiglinDeterArmorItem && config.armor.showMobHeads)
-                value += plus + getSymbol("text.onebar.mobHeadPiglin");
             if(playerProperties.hasInvisibility && !playerProperties.hasAnyArmorItem && !playerProperties.hasArrowsStuck && !playerProperties.hasGlowing && config.goodThings.showInvisibility)
                 value += plus + getSymbol("text.onebar.invisibility");
             if(playerProperties.hasInvisibility && (playerProperties.hasAnyArmorItem || playerProperties.hasArrowsStuck || playerProperties.hasGlowing) && config.goodThings.showInvisibility)
@@ -265,16 +265,69 @@ public class TextGeneration {
 
     public String getMobHead(PlayerEntity playerEntity){
         Item headItem = playerEntity.getEquippedStack(EquipmentSlot.HEAD).getItem();
+        boolean hasPiglinDeterArmorItem = (playerEntity.getEquippedStack(EquipmentSlot.HEAD).getItem() == Items.GOLDEN_HELMET ||
+                playerEntity.getEquippedStack(EquipmentSlot.CHEST).getItem() == Items.GOLDEN_CHESTPLATE ||
+                playerEntity.getEquippedStack(EquipmentSlot.LEGS).getItem() == Items.GOLDEN_LEGGINGS ||
+                playerEntity.getEquippedStack(EquipmentSlot.FEET).getItem() == Items.GOLDEN_BOOTS);
 
         if(headItem == Items.ZOMBIE_HEAD)
-            return getSymbol("text.onebar.mobHeadZombie");
+            return getSymbol("text.onebar.mobHeadZombie", calculateMobDetectionRange(playerEntity, 35));
         else if(headItem == Items.SKELETON_SKULL)
-            return getSymbol("text.onebar.mobHeadSkeleton");
+            return getSymbol("text.onebar.mobHeadSkeleton", calculateMobDetectionRange(playerEntity, 16));
         else if(headItem == Items.CREEPER_HEAD)
-            return getSymbol("text.onebar.mobHeadCreeper");
+            return getSymbol("text.onebar.mobHeadCreeper", calculateMobDetectionRange(playerEntity, 16));
+        else if(headItem == Items.CARVED_PUMPKIN)
+            return getSymbol("text.onebar.mobHeadEnderman", calculateMobDetectionRange(playerEntity, 16));
+        else if(hasPiglinDeterArmorItem)
+            return getSymbol("text.onebar.mobHeadPiglin");
         else if(headItem == Items.CARVED_PUMPKIN)
             return getSymbol("text.onebar.mobHeadEnderman");
+        else if(PlayerProperties.locatorBarAvailable && (headItem == Items.PLAYER_HEAD || headItem == Items.DRAGON_HEAD || headItem == Items.WITHER_SKELETON_SKULL))
+            return getSymbol("text.onebar.mobHeadLocator");
         else
             return null;
+    }
+
+    private static int calculateMobDetectionRange(PlayerEntity playerEntity, double baseRange) {
+        if (playerEntity.getEntityWorld().getDifficulty() == Difficulty.PEACEFUL) {
+            return 0;
+        }
+
+        double modifiedRange = baseRange;
+
+        // Apply the head reduction
+        modifiedRange *= 0.50;
+
+        // Sneaking check
+        if (playerEntity.isSneaking()) {
+            modifiedRange *= 0.80; // 80% of normal
+        }
+
+        // Invisibility check
+        if (playerEntity.hasStatusEffect(StatusEffects.INVISIBILITY)) {
+            // Count how many armor slots are occupied
+            int armorPieces = 0;
+            if (playerEntity.getEquippedStack(EquipmentSlot.HEAD).getItem() != Items.AIR) {
+                armorPieces++;
+            }
+            if (playerEntity.getEquippedStack(EquipmentSlot.CHEST).getItem() != Items.AIR) {
+                armorPieces++;
+            }
+            if (playerEntity.getEquippedStack(EquipmentSlot.LEGS).getItem() != Items.AIR) {
+                armorPieces++;
+            }
+            if (playerEntity.getEquippedStack(EquipmentSlot.FEET).getItem() != Items.AIR) {
+                armorPieces++;
+            }
+
+            double invisFactor = 0.175 * armorPieces; // 17.5% per piece
+            if (invisFactor > 1.0) {
+                invisFactor = 1.0;
+            }
+            modifiedRange *= invisFactor;
+        }
+
+        // Round up to the next whole number
+        return (int) Math.ceil(modifiedRange);
     }
 }
