@@ -146,9 +146,9 @@ public class TextGeneration {
             if (playerProperties.hasBadOmen && config.badThings.showOmens)
                 value += minus + getSymbol("text.onebar.badOmen", playerProperties.badOmenLevel);
             if (playerProperties.hasRaidOmen && config.badThings.showOmens)
-                value += minus + getSymbol("text.onebar.raidOmen", playerProperties.raidOmenLevel);
+                value += minus + getSymbol("text.onebar.raidOmen", playerProperties.raidOmenWaves);
             if (playerProperties.hasTrialOmen && config.badThings.showOmens)
-                value += minus + getSymbol("text.onebar.trialOmen", playerProperties.trialOmenLevel);
+                value += minus + getSymbol("text.onebar.trialOmen", playerProperties.trialOmenMinutes);
             if (clientProperties.isHardcore)
                 value += minus + getSymbol("text.onebar.hardcore");
             if (hasHunger || (playerProperties.hasHungerEffect && config.healthEstimates && !config.disableHunger))
