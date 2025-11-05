@@ -16,6 +16,7 @@ import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.ai.attributes.Attribute;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.animal.camel.Camel;
+import net.minecraft.world.entity.animal.nautilus.Nautilus;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
@@ -475,7 +476,7 @@ public class OneBarElements {
         var entity = client.player.getControlledVehicle();
         if (entity == null) return;
 
-        if (entity instanceof Camel) {
+        if (entity instanceof Camel || entity instanceof Nautilus) {
             camelJumpBar();
         } else {
             horseJumpBar(); // Horse or modded entity
@@ -509,7 +510,7 @@ public class OneBarElements {
 
         int jumpStrength = Calculations.getPreciseInt(Math.max(client.player.getJumpRidingScale(), 0)); //TODO: strength can be negative???
         int maxStrength = Calculations.getPreciseInt(1.0F);
-        int cooldown = client.player.jumpableVehicle().getJumpCooldown();
+        int cooldown = Objects.requireNonNull(client.player.jumpableVehicle()).getJumpCooldown();
         int maxCooldown = 50;
         int cooldownVisible = cooldown / 20;
 

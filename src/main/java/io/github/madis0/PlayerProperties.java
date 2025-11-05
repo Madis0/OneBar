@@ -47,6 +47,7 @@ public class PlayerProperties {
     public final boolean hasWither;
     public final boolean hasFireResistance;
     public final boolean hasWaterBreathing;
+    public final boolean hasWaterPause;
     public final boolean hasHungerEffect;
     public final boolean hasBadOmen;
     public final boolean hasRaidOmen;
@@ -222,6 +223,7 @@ public class PlayerProperties {
         hasWither = playerEntity.hasEffect(MobEffects.WITHER);
         hasFireResistance = playerEntity.hasEffect(MobEffects.FIRE_RESISTANCE);
         hasWaterBreathing = playerEntity.hasEffect(MobEffects.WATER_BREATHING) || playerEntity.hasEffect(MobEffects.CONDUIT_POWER);
+        hasWaterPause = playerEntity.hasEffect(MobEffects.BREATH_OF_THE_NAUTILUS);
         hasHungerEffect = playerEntity.hasEffect(MobEffects.HUNGER) && !difficulty.equals(Difficulty.PEACEFUL);
         hasBadOmen = playerEntity.hasEffect(MobEffects.BAD_OMEN) && !difficulty.equals(Difficulty.PEACEFUL);
         hasRaidOmen = playerEntity.hasEffect(MobEffects.RAID_OMEN) && !difficulty.equals(Difficulty.PEACEFUL);
@@ -241,7 +243,7 @@ public class PlayerProperties {
         absorption = Mth.ceil(playerEntity.getAbsorptionAmount());
         hasAbsorption = absorption > 0;
 
-        maxArmor = playerEntity.invulnerableTime;
+        maxArmor = 20; //TODO: find a variable to base it on
         armor = playerEntity.getArmorValue();
 
         var playerArmorSlots = Arrays.stream(EquipmentSlot.values())
@@ -332,7 +334,7 @@ public class PlayerProperties {
                 )
                 .anyMatch(stack -> EnchantmentHelper.getItemEnchantmentLevel(mendingEntry, stack) > 0 && stack.isDamaged());
 
-        maxFoodLevel = playerEntity.invulnerableTime;
+        maxFoodLevel = maxArmor;
         maxFoodLevelRaw = (float)maxFoodLevel; // Used for saturation calculations
         foodLevel = hungerManager.getFoodLevel();
         hunger = maxFoodLevel - foodLevel;
@@ -347,7 +349,7 @@ public class PlayerProperties {
 
         maxAirRaw = playerEntity.getMaxAirSupply();
         airRaw = maxAirRaw - playerEntity.getAirSupply();
-        air = Math.min(airRaw, maxAirRaw) / (int) Calculations.getPrettyDivisor(maxAirRaw, playerEntity.invulnerableTime);
+        air = Math.min(airRaw, maxAirRaw) / (int) Calculations.getPrettyDivisor(maxAirRaw, maxArmor);
         isInWater = playerEntity.isInWater();
         isUnderwater =  playerEntity.isUnderWater() || airRaw > 0;
         isDrowning = airRaw >= maxAirRaw;
@@ -378,7 +380,7 @@ public class PlayerProperties {
 
         maxFreezeRaw = playerEntity.getTicksRequiredToFreeze();
         freezeRaw = playerEntity.getTicksFrozen();
-        freeze = freezeRaw / (int) Calculations.getPrettyDivisor(maxFreezeRaw, playerEntity.invulnerableTime);
+        freeze = freezeRaw / (int) Calculations.getPrettyDivisor(maxFreezeRaw, maxArmor);
         isFreezing = freezeRaw > 0;
         isGettingFreezeDamage = playerEntity.isFullyFrozen() && !difficulty.equals(Difficulty.PEACEFUL);
 
@@ -566,7 +568,7 @@ public class PlayerProperties {
             isWardenNear = true;
             rawWardenDanger = warden.getClientAngerLevel();
             isWardenAngry = rawWardenDanger > AngerLevel.ANGRY.getMinimumAnger();
-            wardenDanger = (int) (rawWardenDanger / Calculations.getPrettyDivisor(rawMaxWardenDanger, playerEntity.invulnerableTime));
+            wardenDanger = (int) (rawWardenDanger / Calculations.getPrettyDivisor(rawMaxWardenDanger, maxArmor));
         }
     }
 
