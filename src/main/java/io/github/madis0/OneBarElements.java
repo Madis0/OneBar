@@ -3,23 +3,22 @@ package io.github.madis0;
 //import dev.tr7zw.exordium.ExordiumModBase;
 import me.shedaniel.autoconfig.AutoConfig;
 import net.fabricmc.loader.api.FabricLoader;
-import net.minecraft.client.MinecraftClient;
-import net.minecraft.client.font.TextRenderer;
-import net.minecraft.client.gui.DrawContext;
-import net.minecraft.component.DataComponentTypes;
-import net.minecraft.component.type.AttributeModifiersComponent;
-import net.minecraft.entity.EquipmentSlot;
-import net.minecraft.entity.LivingEntity;
-import net.minecraft.entity.attribute.EntityAttribute;
-import net.minecraft.entity.attribute.EntityAttributes;
-import net.minecraft.entity.passive.CamelEntity;
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.item.ItemStack;
-import net.minecraft.item.Items;
-import net.minecraft.registry.RegistryKey;
-import net.minecraft.util.Arm;
+import net.minecraft.client.Minecraft;
+import net.minecraft.client.gui.Font;
+import net.minecraft.client.gui.GuiGraphics;
+import net.minecraft.core.component.DataComponents;
+import net.minecraft.resources.ResourceKey;
 import net.minecraft.world.Difficulty;
-
+import net.minecraft.world.entity.EquipmentSlot;
+import net.minecraft.world.entity.HumanoidArm;
+import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.ai.attributes.Attribute;
+import net.minecraft.world.entity.ai.attributes.Attributes;
+import net.minecraft.world.entity.animal.camel.Camel;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.Items;
+import net.minecraft.world.item.component.ItemAttributeModifiers;
 import java.util.Locale;
 import java.util.Objects;
 
@@ -28,10 +27,10 @@ public class OneBarElements {
     private final ClientProperties clientProperties = new ClientProperties();
     private final PlayerProperties playerProperties = new PlayerProperties();
     private final TextGeneration textGeneration = new TextGeneration();
-    private final MinecraftClient client = MinecraftClient.getInstance();
-    private final Difficulty difficulty = Objects.requireNonNull(client.getCameraEntity()).getEntityWorld().getDifficulty();
-    private final DrawContext drawContext;
-    private final TextRenderer textRenderer = client.textRenderer;
+    private final Minecraft client = Minecraft.getInstance();
+    private final Difficulty difficulty = Objects.requireNonNull(client.getCameraEntity()).level().getDifficulty();
+    private final GuiGraphics drawContext;
+    private final Font textRenderer = client.font;
     private static final boolean hasExordium = FabricLoader.getInstance().isModLoaded("exordium");
 
     boolean hasHunger = playerProperties.hasHunger && !config.disableHunger;
@@ -42,7 +41,7 @@ public class OneBarElements {
     float armorBarTotalLength = armorBarBootsLength + playerProperties.bootsMaxArmor;
     float elytraDurability = playerProperties.getArmorElementDurability(Objects.requireNonNull(client.player), EquipmentSlot.CHEST, 8); //8 aka same full width as Diamond/Netherite
 
-    public OneBarElements(DrawContext context){
+    public OneBarElements(GuiGraphics context){
         drawContext = context;
     }
 
@@ -52,7 +51,7 @@ public class OneBarElements {
        //     ExordiumModBase.setForceBlend(true);
        // }
 
-        PlayerEntity playerEntity = MinecraftClient.getInstance().player;
+        Player playerEntity = Minecraft.getInstance().player;
         if (playerEntity != null) {
             barBackground();
             if(config.healthEstimates && !config.uhcMode) naturalRegenerationBar();
@@ -271,10 +270,10 @@ public class OneBarElements {
 
     private void barText(){
         String value = textGeneration.GenerateOneBarText();
-        int textX = clientProperties.baseEndW - client.textRenderer.getWidth(value);
+        int textX = clientProperties.baseEndW - client.font.width(value);
         int textY = clientProperties.baseStartH + 1;
 
-        drawContext.drawText(textRenderer, value, textX, textY, config.textSettings.textColor, false);
+        drawContext.drawString(textRenderer, value, textX, textY, config.textSettings.textColor, false);
     }
 
     private void xpBar(){
@@ -301,33 +300,33 @@ public class OneBarElements {
         }
         
         if(!config.otherBars.adaptiveXpBar || playerProperties.xpLevel > 0){
-            int sizeLimit = !client.options.getForceUnicodeFont().getValue() ? 10000 : 1000000;
+            int sizeLimit = !client.options.forceUnicodeFont().get() ? 10000 : 1000000;
             int edgeAlignedConst = 13;
 
             if(playerProperties.xpLevel >= 0 && playerProperties.xpLevel < sizeLimit){
-                drawContext.drawCenteredTextWithShadow(textRenderer, String.valueOf(playerProperties.xpLevel), textX, textY, config.otherBars.xpColor);
+                drawContext.drawCenteredString(textRenderer, String.valueOf(playerProperties.xpLevel), textX, textY, config.otherBars.xpColor);
             }
             else if(playerProperties.xpLevel >= sizeLimit){
-                if(client.options.getMainArm().getValue() == Arm.RIGHT)
-                    drawContext.drawTextWithShadow(textRenderer, String.valueOf(playerProperties.xpLevel), textX - edgeAlignedConst, textY, config.otherBars.xpColor);
-                else if(client.options.getMainArm().getValue()  == Arm.LEFT)
-                    drawContext.drawTextWithShadow(textRenderer, String.valueOf(playerProperties.xpLevel), textX + edgeAlignedConst - client.textRenderer.getWidth(String.valueOf(playerProperties.xpLevel)), textY, config.otherBars.xpColor);
+                if(client.options.mainHand().get() == HumanoidArm.RIGHT)
+                    drawContext.drawString(textRenderer, String.valueOf(playerProperties.xpLevel), textX - edgeAlignedConst, textY, config.otherBars.xpColor);
+                else if(client.options.mainHand().get()  == HumanoidArm.LEFT)
+                    drawContext.drawString(textRenderer, String.valueOf(playerProperties.xpLevel), textX + edgeAlignedConst - client.font.width(String.valueOf(playerProperties.xpLevel)), textY, config.otherBars.xpColor);
             }
 
             var lapisTextX = clientProperties.xpEndW + 1;
             var lapisTextY = clientProperties.xpStartH - 5;
 
             var mendingTextY = textY - 8;
-            if(client.options.getMainArm().getValue() == Arm.LEFT){
-                lapisTextX = clientProperties.xpStartW - 1 - client.textRenderer.getWidth(lapisText);
+            if(client.options.mainHand().get() == HumanoidArm.LEFT){
+                lapisTextX = clientProperties.xpStartW - 1 - client.font.width(lapisText);
             }
 
             if(config.otherBars.lapisCounter){
-                drawContext.drawTextWithShadow(textRenderer, lapisText, lapisTextX, lapisTextY, config.otherBars.lapisColor);
+                drawContext.drawString(textRenderer, lapisText, lapisTextX, lapisTextY, config.otherBars.lapisColor);
             }
 
             if(config.otherBars.mendingIndicator && playerProperties.isMendingAnything){
-                drawContext.drawCenteredTextWithShadow(textRenderer, textGeneration.getSymbol("text.onebar.mending"), textX, mendingTextY, config.otherBars.mendingColor);
+                drawContext.drawCenteredString(textRenderer, textGeneration.getSymbol("text.onebar.mending"), textX, mendingTextY, config.otherBars.mendingColor);
             }
         }
         if(!config.otherBars.adaptiveXpBar || playerProperties.xp > 0){
@@ -339,10 +338,10 @@ public class OneBarElements {
     public void mountJumpBar() {
         if(client.player == null) return;
 
-        var entity = client.player.getControllingVehicle();
+        var entity = client.player.getControlledVehicle();
         if (entity == null) return;
 
-        if (entity instanceof CamelEntity) {
+        if (entity instanceof Camel) {
             camelJumpBar();
         } else {
             horseJumpBar(); // Horse or modded entity
@@ -350,13 +349,13 @@ public class OneBarElements {
     }
 
     public void horseJumpBar(){
-        if (client.player == null || client.player.getJumpingMount() == null) return;
+        if (client.player == null || client.player.jumpableVehicle() == null) return;
 
         int barHeight = Calculations.getPreciseInt(1.0F);
-        int jumpHeight = Calculations.getPreciseInt(client.player.getMountJumpStrength());
+        int jumpHeight = Calculations.getPreciseInt(client.player.getJumpRidingScale());
 
-        double heightInBlocks = Math.max(0, client.player.getMountJumpStrength() *
-                                                Calculations.getHorseJumpHeight(client.player.getMountJumpStrength()));
+        double heightInBlocks = Math.max(0, client.player.getJumpRidingScale() *
+                                                Calculations.getHorseJumpHeight(client.player.getJumpRidingScale()));
 
         String roundedHeightInBlocks = Calculations.getSubscriptNumber(Double.parseDouble(String.format(Locale.US, "%,.1f",(heightInBlocks))));
 
@@ -364,23 +363,23 @@ public class OneBarElements {
         renderBar(clientProperties.horseJumpStartW, clientProperties.horseJumpStartH, clientProperties.horseJumpEndW, clientProperties.horseJumpEndH, config.backgroundColor);
         renderBar(clientProperties.horseJumpStartW, relativeStartH, clientProperties.horseJumpEndW, clientProperties.horseJumpEndH, config.entity.jumpColor);
 
-        int textX = clientProperties.horseJumpEndW - client.textRenderer.getWidth(roundedHeightInBlocks);
+        int textX = clientProperties.horseJumpEndW - client.font.width(roundedHeightInBlocks);
         int textY = clientProperties.horseJumpEndH - 10;
 
         if(config.textSettings.showText && config.entity.showMountJumpText)
-            drawContext.drawText(textRenderer, roundedHeightInBlocks, textX, textY, config.textSettings.textColor, false);
+            drawContext.drawString(textRenderer, roundedHeightInBlocks, textX, textY, config.textSettings.textColor, false);
     }
 
     public void camelJumpBar(){
-        if (client.player == null || client.player.getJumpingMount() == null) return;
+        if (client.player == null || client.player.jumpableVehicle() == null) return;
 
-        int jumpStrength = Calculations.getPreciseInt(Math.max(client.player.getMountJumpStrength(), 0)); //TODO: strength can be negative???
+        int jumpStrength = Calculations.getPreciseInt(Math.max(client.player.getJumpRidingScale(), 0)); //TODO: strength can be negative???
         int maxStrength = Calculations.getPreciseInt(1.0F);
-        int cooldown = client.player.getJumpingMount().getJumpCooldown();
+        int cooldown = client.player.jumpableVehicle().getJumpCooldown();
         int maxCooldown = 50;
         int cooldownVisible = cooldown / 20;
 
-        double distanceInBlocks = Math.max(0, Calculations.getCamelDashDistance(client.player.getMountJumpStrength()));
+        double distanceInBlocks = Math.max(0, Calculations.getCamelDashDistance(client.player.getJumpRidingScale()));
 
         int relativeEndW = clientProperties.camelRelativeEndW(jumpStrength, maxStrength);
         int relativeEndWCooldown = clientProperties.camelRelativeEndW(cooldown, maxCooldown);
@@ -394,9 +393,9 @@ public class OneBarElements {
 
             if(config.textSettings.showText && config.entity.showMountJumpText){
                 String roundedDistanceInBlocks = Calculations.getSubscriptNumber(Double.parseDouble(String.format(Locale.US, "%,.1f",(distanceInBlocks))));
-                int textX = clientProperties.camelJumpEndW - client.textRenderer.getWidth(roundedDistanceInBlocks);
+                int textX = clientProperties.camelJumpEndW - client.font.width(roundedDistanceInBlocks);
                 int textY = clientProperties.camelJumpEndH - 9;
-                drawContext.drawText(textRenderer, roundedDistanceInBlocks, textX, textY, config.textSettings.textColor, false);
+                drawContext.drawString(textRenderer, roundedDistanceInBlocks, textX, textY, config.textSettings.textColor, false);
             }
         }
     }
@@ -408,22 +407,22 @@ public class OneBarElements {
 
             if(config.textSettings.showText && config.entity.showMountCooldownText){
                 String text = Calculations.getSubscriptNumber(-1 - cooldownTimer);
-                int textX = clientProperties.camelJumpEndW - client.textRenderer.getWidth(text);
+                int textX = clientProperties.camelJumpEndW - client.font.width(text);
                 int textY = clientProperties.camelJumpEndH - 9;
-                drawContext.drawText(textRenderer, text, textX, textY, config.textSettings.textColor, false);
+                drawContext.drawString(textRenderer, text, textX, textY, config.textSettings.textColor, false);
             }
         }
     }
 
     public static int getProtectionFromArmor(ItemStack armorItem) {
-        AttributeModifiersComponent attributeModifierComponent = armorItem.get(DataComponentTypes.ATTRIBUTE_MODIFIERS);
+        ItemAttributeModifiers attributeModifierComponent = armorItem.get(DataComponents.ATTRIBUTE_MODIFIERS);
         if (attributeModifierComponent == null)
             return 0;
-        RegistryKey<EntityAttribute> ARMOR = EntityAttributes.ARMOR.getKey().get();
+        ResourceKey<Attribute> ARMOR = Attributes.ARMOR.unwrapKey().get();
 
         return attributeModifierComponent.modifiers().stream()
-                .filter(entry -> entry.attribute().matchesKey(ARMOR))
-                .mapToInt(entry -> (int) entry.modifier().value())
+                .filter(entry -> entry.attribute().is(ARMOR))
+                .mapToInt(entry -> (int) entry.modifier().amount())
                 .findFirst()
                 .orElse(0);
     }
@@ -434,24 +433,24 @@ public class OneBarElements {
         float mountRawHealth = mountEntity.getHealth();
         float mountMaxHealth = mountEntity.getMaxHealth();
         int health = (int) Math.ceil(mountRawHealth);
-        int horseArmor = mountEntity.getArmor();
+        int horseArmor = mountEntity.getArmorValue();
         int horseMaxArmor = getProtectionFromArmor(new ItemStack((Items.DIAMOND_HORSE_ARMOR)));
 
         String value = textGeneration.GenerateMountBarText(mountRawHealth, health);
-        int textX = clientProperties.baseEndW - client.textRenderer.getWidth(value);
+        int textX = clientProperties.baseEndW - client.font.width(value);
         int textY = clientProperties.mountStartH + 1;
 
         renderBar(clientProperties.baseStartW, clientProperties.mountStartH, clientProperties.baseEndW, clientProperties.mountEndH, config.backgroundColor);
         renderBar(clientProperties.baseStartW, clientProperties.mountStartH, clientProperties.baseRelativeEndW(Calculations.getPreciseInt(mountRawHealth), Calculations.getPreciseInt(mountMaxHealth)), clientProperties.mountEndH, config.entity.healthColor);
         if(config.armor.showArmorBar) renderBar(clientProperties.baseStartW, clientProperties.mountStartH - 1, clientProperties.baseRelativeEndW(horseArmor, horseMaxArmor), clientProperties.mountStartH, config.armor.armorColor);
-        if(config.textSettings.showText) drawContext.drawText(textRenderer, value, textX, textY, config.textSettings.textColor, false);
+        if(config.textSettings.showText) drawContext.drawString(textRenderer, value, textX, textY, config.textSettings.textColor, false);
 
-        if(mountEntity instanceof CamelEntity){
+        if(mountEntity instanceof Camel){
             long standingUpMax = 52;
-            var standingUpTimer = Math.min(standingUpMax, ((CamelEntity)mountEntity).getTimeSinceLastPoseTick());
+            var standingUpTimer = Math.min(standingUpMax, ((Camel)mountEntity).getPoseTime());
             int standingUpTimerVisible = Math.round((standingUpMax - standingUpTimer) / (float)20);
 
-            if(((CamelEntity)mountEntity).isChangingPose()){
+            if(((Camel)mountEntity).isInPoseTransition()){
                 camelCooldownBar(clientProperties.camelRelativeEndW(standingUpMax - standingUpTimer, standingUpMax), standingUpTimerVisible);
             }
         }
@@ -459,6 +458,6 @@ public class OneBarElements {
     }
 
     private void debugText(String value){
-        drawContext.drawTextWithShadow(textRenderer, value, clientProperties.baseEndW + 15, clientProperties.baseStartH + 1, config.textSettings.textColor);
+        drawContext.drawString(textRenderer, value, clientProperties.baseEndW + 15, clientProperties.baseStartH + 1, config.textSettings.textColor);
     }
 }

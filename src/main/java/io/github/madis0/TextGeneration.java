@@ -1,15 +1,14 @@
 package io.github.madis0;
 
 import me.shedaniel.autoconfig.AutoConfig;
-import net.minecraft.client.MinecraftClient;
-import net.minecraft.entity.EquipmentSlot;
-import net.minecraft.entity.effect.StatusEffects;
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.item.Item;
-import net.minecraft.item.Items;
-import net.minecraft.text.Text;
+import net.minecraft.client.Minecraft;
+import net.minecraft.network.chat.Component;
 import net.minecraft.world.Difficulty;
-
+import net.minecraft.world.effect.MobEffects;
+import net.minecraft.world.entity.EquipmentSlot;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.Item;
+import net.minecraft.world.item.Items;
 import java.text.DecimalFormat;
 import java.util.Objects;
 
@@ -17,7 +16,7 @@ public class TextGeneration {
     private final PlayerProperties playerProperties = new PlayerProperties();
     private final ModConfig config = AutoConfig.getConfigHolder(ModConfig.class).getConfig();
     private final ClientProperties clientProperties = new ClientProperties();
-    private final MinecraftClient client = MinecraftClient.getInstance();
+    private final Minecraft client = Minecraft.getInstance();
     private boolean useSpeech;
 
     public TextGeneration() {
@@ -209,7 +208,7 @@ public class TextGeneration {
     }
 
     private boolean translationStringValid(String key){
-        return !Objects.equals(Text.translatable(key).getString(), key);
+        return !Objects.equals(Component.translatable(key).getString(), key);
     }
 
     private String getFraction(double number){
@@ -260,15 +259,15 @@ public class TextGeneration {
         else if(!translationStringValid(stringKey) && !config.textSettings.extraSymbols) // If extras are turned off, output value only
             return String.valueOf(parameters[0]);
 
-        return Text.translatable(stringKey + suffix, parameters).getString();
+        return Component.translatable(stringKey + suffix, parameters).getString();
     }
 
-    public String getMobHead(PlayerEntity playerEntity){
-        Item headItem = playerEntity.getEquippedStack(EquipmentSlot.HEAD).getItem();
-        boolean hasPiglinDeterArmorItem = (playerEntity.getEquippedStack(EquipmentSlot.HEAD).getItem() == Items.GOLDEN_HELMET ||
-                playerEntity.getEquippedStack(EquipmentSlot.CHEST).getItem() == Items.GOLDEN_CHESTPLATE ||
-                playerEntity.getEquippedStack(EquipmentSlot.LEGS).getItem() == Items.GOLDEN_LEGGINGS ||
-                playerEntity.getEquippedStack(EquipmentSlot.FEET).getItem() == Items.GOLDEN_BOOTS);
+    public String getMobHead(Player playerEntity){
+        Item headItem = playerEntity.getItemBySlot(EquipmentSlot.HEAD).getItem();
+        boolean hasPiglinDeterArmorItem = (playerEntity.getItemBySlot(EquipmentSlot.HEAD).getItem() == Items.GOLDEN_HELMET ||
+                playerEntity.getItemBySlot(EquipmentSlot.CHEST).getItem() == Items.GOLDEN_CHESTPLATE ||
+                playerEntity.getItemBySlot(EquipmentSlot.LEGS).getItem() == Items.GOLDEN_LEGGINGS ||
+                playerEntity.getItemBySlot(EquipmentSlot.FEET).getItem() == Items.GOLDEN_BOOTS);
 
         if(headItem == Items.ZOMBIE_HEAD)
             return getSymbol("text.onebar.mobHeadZombie", calculateMobDetectionRange(playerEntity, 35));
@@ -288,8 +287,8 @@ public class TextGeneration {
             return null;
     }
 
-    private static int calculateMobDetectionRange(PlayerEntity playerEntity, double baseRange) {
-        if (playerEntity.getEntityWorld().getDifficulty() == Difficulty.PEACEFUL) {
+    private static int calculateMobDetectionRange(Player playerEntity, double baseRange) {
+        if (playerEntity.level().getDifficulty() == Difficulty.PEACEFUL) {
             return 0;
         }
 
@@ -299,24 +298,24 @@ public class TextGeneration {
         modifiedRange *= 0.50;
 
         // Sneaking check
-        if (playerEntity.isSneaking()) {
+        if (playerEntity.isShiftKeyDown()) {
             modifiedRange *= 0.80; // 80% of normal
         }
 
         // Invisibility check
-        if (playerEntity.hasStatusEffect(StatusEffects.INVISIBILITY)) {
+        if (playerEntity.hasEffect(MobEffects.INVISIBILITY)) {
             // Count how many armor slots are occupied
             int armorPieces = 0;
-            if (playerEntity.getEquippedStack(EquipmentSlot.HEAD).getItem() != Items.AIR) {
+            if (playerEntity.getItemBySlot(EquipmentSlot.HEAD).getItem() != Items.AIR) {
                 armorPieces++;
             }
-            if (playerEntity.getEquippedStack(EquipmentSlot.CHEST).getItem() != Items.AIR) {
+            if (playerEntity.getItemBySlot(EquipmentSlot.CHEST).getItem() != Items.AIR) {
                 armorPieces++;
             }
-            if (playerEntity.getEquippedStack(EquipmentSlot.LEGS).getItem() != Items.AIR) {
+            if (playerEntity.getItemBySlot(EquipmentSlot.LEGS).getItem() != Items.AIR) {
                 armorPieces++;
             }
-            if (playerEntity.getEquippedStack(EquipmentSlot.FEET).getItem() != Items.AIR) {
+            if (playerEntity.getItemBySlot(EquipmentSlot.FEET).getItem() != Items.AIR) {
                 armorPieces++;
             }
 

@@ -1,7 +1,7 @@
 package io.github.madis0;
 
 import me.shedaniel.autoconfig.AutoConfig;
-import net.minecraft.util.math.MathHelper;
+import net.minecraft.util.Mth;
 
 public class Calculations {
     private static final ModConfig config = AutoConfig.getConfigHolder(ModConfig.class).getConfig();
@@ -22,11 +22,11 @@ public class Calculations {
      * @return the calculated coordinate relative to the start position
      */
     public static int relativeW(int start, int end, int value, int total){
-        return value < total ? MathHelper.ceil(start + ((float) (end - start) / total * value)) : end;
+        return value < total ? Mth.ceil(start + ((float) (end - start) / total * value)) : end;
     }
 
     public static int getPreciseInt(float number){
-        return MathHelper.ceil(number * 10000.0F);
+        return Mth.ceil(number * 10000.0F);
     }
 
     public static float getEstimatedHealthDelta(int constant, int rawLevel, int duration){
