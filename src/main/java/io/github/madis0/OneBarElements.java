@@ -490,16 +490,16 @@ public class OneBarElements {
         int jumpHeight = Calculations.getPreciseInt(client.player.getJumpRidingScale());
 
         double heightInBlocks = Math.max(0, client.player.getJumpRidingScale() *
-                                                Calculations.horseJumpStrengthToJumpHeight(client.player.getJumpRidingScale()));
+                                                Calculations.getJumpHeight(client.player.getJumpRidingScale()));
 
         String roundedHeightInBlocks = Calculations.getSubscriptNumber(Double.parseDouble(String.format(Locale.US, "%,.1f",(heightInBlocks))));
 
-        int relativeStartH = Calculations.relativeW(clientProperties.horseJumpEndH, clientProperties.horseJumpStartH, jumpHeight, barHeight);
-        renderBar(clientProperties.horseJumpStartW, clientProperties.horseJumpStartH, clientProperties.horseJumpEndW, clientProperties.horseJumpEndH, config.backgroundColor);
-        renderBar(clientProperties.horseJumpStartW, relativeStartH, clientProperties.horseJumpEndW, clientProperties.horseJumpEndH, config.entity.jumpColor);
+        int relativeStartH = Calculations.relativeW(clientProperties.jumpEndH, clientProperties.jumpStartH, jumpHeight, barHeight);
+        renderBar(clientProperties.jumpStartW, clientProperties.jumpStartH, clientProperties.jumpEndW, clientProperties.jumpEndH, config.backgroundColor);
+        renderBar(clientProperties.jumpStartW, relativeStartH, clientProperties.jumpEndW, clientProperties.jumpEndH, config.entity.jumpColor);
 
-        int textX = clientProperties.horseJumpEndW - client.font.width(roundedHeightInBlocks);
-        int textY = clientProperties.horseJumpEndH - 10;
+        int textX = clientProperties.jumpEndW - client.font.width(roundedHeightInBlocks);
+        int textY = clientProperties.jumpEndH - 10;
 
         if(config.textSettings.showText && config.entity.showMountJumpText)
             drawContext.drawString(textRenderer, roundedHeightInBlocks, textX, textY, config.textSettings.textColor, false);
@@ -514,27 +514,36 @@ public class OneBarElements {
         int maxCooldown = 50;
         int cooldownVisible = cooldown / 20;
 
-        int relativeEndW = clientProperties.camelRelativeEndW(jumpStrength, maxStrength);
-        int relativeEndWCooldown = clientProperties.camelRelativeEndW(cooldown, maxCooldown);
+        double distanceInBlocks = Math.max(0, Calculations.getDashDistance(client.player.getJumpRidingScale()));
+
+        int relativeEndW = clientProperties.dashRelativeEndW(jumpStrength, maxStrength);
+        int relativeEndWCooldown = clientProperties.dashRelativeEndW(cooldown, maxCooldown);
 
         if(relativeEndWCooldown > relativeEndW){
-            camelCooldownBar(relativeEndWCooldown, cooldownVisible);
+            dashCooldownBar(relativeEndWCooldown, cooldownVisible);
         }
         else {
-            renderBar(clientProperties.camelJumpStartW, clientProperties.camelJumpStartH, clientProperties.camelJumpEndW, clientProperties.camelJumpEndH, config.backgroundColor);
-            renderBar(clientProperties.camelJumpStartW, clientProperties.camelJumpStartH, relativeEndW, clientProperties.camelJumpEndH, config.entity.jumpColor);
+            renderBar(clientProperties.dashStartW, clientProperties.dashStartH, clientProperties.dashEndW, clientProperties.dashEndH, config.backgroundColor);
+            renderBar(clientProperties.dashStartW, clientProperties.dashStartH, relativeEndW, clientProperties.dashEndH, config.entity.jumpColor);
+
+            if(config.textSettings.showText && config.entity.showMountJumpText){
+                String roundedDistanceInBlocks = Calculations.getSubscriptNumber(Double.parseDouble(String.format(Locale.US, "%,.1f",(distanceInBlocks))));
+                int textX = clientProperties.dashEndW - client.font.width(roundedDistanceInBlocks);
+                int textY = clientProperties.dashEndH - 9;
+                drawContext.drawString(textRenderer, roundedDistanceInBlocks, textX, textY, config.textSettings.textColor, false);
+            }
         }
     }
 
-    private void camelCooldownBar(int relativeEndW, int cooldownTimer){
+    private void dashCooldownBar(int relativeEndW, int cooldownTimer){
         if(config.entity.showMountCooldown){
-            renderBar(clientProperties.camelJumpStartW, clientProperties.camelJumpStartH, clientProperties.camelJumpEndW, clientProperties.camelJumpEndH, config.backgroundColor);
-            renderBar(clientProperties.camelJumpStartW, clientProperties.camelJumpStartH, relativeEndW, clientProperties.camelJumpEndH, config.entity.cooldownColor);
+            renderBar(clientProperties.dashStartW, clientProperties.dashStartH, clientProperties.dashEndW, clientProperties.dashEndH, config.backgroundColor);
+            renderBar(clientProperties.dashStartW, clientProperties.dashStartH, relativeEndW, clientProperties.dashEndH, config.entity.cooldownColor);
 
             if(config.textSettings.showText && config.entity.showMountCooldownText){
                 String text = Calculations.getSubscriptNumber(-1 - cooldownTimer);
-                int textX = clientProperties.camelJumpEndW - client.font.width(text);
-                int textY = clientProperties.camelJumpEndH - 9;
+                int textX = clientProperties.dashEndW - client.font.width(text);
+                int textY = clientProperties.dashEndH - 9;
                 drawContext.drawString(textRenderer, text, textX, textY, config.textSettings.textColor, false);
             }
         }
@@ -577,7 +586,7 @@ public class OneBarElements {
             int standingUpTimerVisible = Math.round((standingUpMax - standingUpTimer) / (float)20);
 
             if(((Camel)mountEntity).isInPoseTransition()){
-                camelCooldownBar(clientProperties.camelRelativeEndW(standingUpMax - standingUpTimer, standingUpMax), standingUpTimerVisible);
+                dashCooldownBar(clientProperties.dashRelativeEndW(standingUpMax - standingUpTimer, standingUpMax), standingUpTimerVisible);
             }
         }
 

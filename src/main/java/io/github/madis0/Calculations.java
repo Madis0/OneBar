@@ -95,12 +95,39 @@ public class Calculations {
 
     /**
      * Converts horse's jump strength to jump height, may not be 100% accurate
-     * <a href="https://github.com/d4rkm0nkey/HorseStatsVanilla/blob/main/src/main/java/monkey/lumpy/horse/stats/vanilla/util/Converter.java">Source</a>
+     * <a href="https://github.com/d4rkm0nkey/HorseStatsVanilla/blob/main/src/client/java/monkey/lumpy/horse/stats/vanilla/util/Converter.java">Source</a>
      * @param strength Horse jump strength
      * @return Jump height in blocks
      */
-    public static double horseJumpStrengthToJumpHeight(double strength) {
-        return -0.1817584952 * strength * strength * strength + 3.689713992 * strength * strength + 2.128599134 * strength - 0.343930367;
+    public static double getJumpHeight(double strength) {
+        double height = 0;
+        double velocity = strength;
+        while(velocity > 0) {
+            height += velocity;
+            velocity = (velocity - .08) * .98 * .98;
+        }
+        return height;
+    }
+
+    public static double getDashDistance(float strength) {
+        // Minecraft gravity constant (approximately)
+        final double gravity = 0.08; // Blocks/tick^2
+        final double jumpVelocityOneBlock = Math.sqrt(2 * gravity * 1); // Velocity needed to reach 1 block high
+
+        // Default values for movement speed and velocity multiplier
+        final double defaultMovementSpeed = 0.12; // Adjusted for the camel's movement speed
+        final double defaultVelocityMultiplier = 1.0; // Neutral velocity multiplier
+
+        // Horizontal velocity calculation with adjusted factor
+        double horizontalVelocity = 11.1111F * strength * defaultMovementSpeed * defaultVelocityMultiplier;
+
+        // Time in the air (based on jumping 1 block high)
+        double initialVerticalVelocity = jumpVelocityOneBlock * strength;
+        double timeUp = initialVerticalVelocity / gravity; // Time to reach the peak
+        double totalTimeInAir = timeUp * 2;
+
+        // Horizontal distance = horizontal velocity * total time in air
+        return horizontalVelocity * totalTimeInAir;
     }
 
     /**
