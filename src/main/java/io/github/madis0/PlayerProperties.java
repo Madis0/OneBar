@@ -663,14 +663,6 @@ public class PlayerProperties {
         return (float)0;
     }
 
-    public static String getMobHead(Player playerEntity){
-        Item headItem = playerEntity.getItemBySlot(EquipmentSlot.HEAD).getItem();
-        boolean hasPiglinDeterArmorItem = (playerEntity.getItemBySlot(EquipmentSlot.HEAD).getItem() == Items.GOLDEN_HELMET ||
-                playerEntity.getItemBySlot(EquipmentSlot.CHEST).getItem() == Items.GOLDEN_CHESTPLATE ||
-                playerEntity.getItemBySlot(EquipmentSlot.LEGS).getItem() == Items.GOLDEN_LEGGINGS ||
-                playerEntity.getItemBySlot(EquipmentSlot.FEET).getItem() == Items.GOLDEN_BOOTS);
-
-
     private static int calculateMobDetectionRange(Player playerEntity, double baseRange) {
         if (playerEntity.level().getDifficulty() == Difficulty.PEACEFUL) {
             return 0;
