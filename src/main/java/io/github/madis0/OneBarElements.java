@@ -477,13 +477,13 @@ public class OneBarElements {
         if (entity == null) return;
 
         if (entity instanceof AbstractHorse && !(entity instanceof Camel)) {
-            horseJumpBar();
+            jumpBar();
         } else { // Camel, Nautilus, modded mobs
-            camelJumpBar();
+            dashBar();
         }
     }
 
-    public void horseJumpBar(){
+    public void jumpBar(){
         if (client.player == null || client.player.jumpableVehicle() == null) return;
 
         int barHeight = Calculations.getPreciseInt(1.0F);
@@ -505,7 +505,7 @@ public class OneBarElements {
             drawContext.drawString(textRenderer, roundedHeightInBlocks, textX, textY, config.textSettings.textColor, false);
     }
 
-    public void camelJumpBar(){
+    public void dashBar(){
         if (client.player == null || client.player.jumpableVehicle() == null) return;
 
         int jumpStrength = Calculations.getPreciseInt(Math.max(client.player.getJumpRidingScale(), 0)); //TODO: strength can be negative???
