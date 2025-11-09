@@ -16,7 +16,7 @@ import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.ai.attributes.Attribute;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.animal.camel.Camel;
-import net.minecraft.world.entity.animal.nautilus.Nautilus;
+import net.minecraft.world.entity.animal.horse.AbstractHorse;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
@@ -476,10 +476,10 @@ public class OneBarElements {
         var entity = client.player.getControlledVehicle();
         if (entity == null) return;
 
-        if (entity instanceof Camel || entity instanceof Nautilus) {
+        if (entity instanceof AbstractHorse && !(entity instanceof Camel)) {
+            horseJumpBar();
+        } else { // Camel, Nautilus, modded mobs
             camelJumpBar();
-        } else {
-            horseJumpBar(); // Horse or modded entity
         }
     }
 
