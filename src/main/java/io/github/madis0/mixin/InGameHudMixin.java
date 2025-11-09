@@ -30,7 +30,7 @@ public abstract class InGameHudMixin {
         oneBarElements = new OneBarElements(context);
         showOneBar = MixinConfigQuery.isOneBarEnabled(); // This var exists because it also shows whether oneBarElements is initialized
 
-        boolean barsVisible = !minecraft.options.hideGui && minecraft.gameMode.canHurtPlayer();
+        boolean barsVisible = !minecraft.options.hideGui && Objects.requireNonNull(minecraft.gameMode).canHurtPlayer();
         if(showOneBar && barsVisible) oneBarElements.renderOneBar();
         if(showOneBar && MixinConfigQuery.showMountJump() && !minecraft.options.hideGui) oneBarElements.mountJumpBar();
 

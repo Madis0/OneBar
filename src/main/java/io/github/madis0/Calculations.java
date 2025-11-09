@@ -1,7 +1,9 @@
 package io.github.madis0;
 
 import me.shedaniel.autoconfig.AutoConfig;
+import net.minecraft.network.chat.Component;
 import net.minecraft.util.Mth;
+import java.text.DecimalFormat;
 
 public class Calculations {
     private static final ModConfig config = AutoConfig.getConfigHolder(ModConfig.class).getConfig();
@@ -65,7 +67,6 @@ public class Calculations {
                 .replace(".","ִ") //TODO?
                 .replace('-','₋');
     }
-
 
     /**
      * Converts horse's jump strength to jump height, may not be 100% accurate

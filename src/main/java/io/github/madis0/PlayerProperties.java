@@ -8,7 +8,6 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.core.Holder;
 import net.minecraft.core.component.DataComponents;
 import net.minecraft.core.registries.Registries;
-import net.minecraft.item.*;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
@@ -384,7 +383,7 @@ public class PlayerProperties {
         isGettingFreezeDamage = playerEntity.isFullyFrozen() && !difficulty.equals(Difficulty.PEACEFUL);
 
         maxLevitationTimeRaw = 200;
-        levitationTimeRaw = hasLevitation ? Math.max(playerEntity.getEffect(MobEffects.LEVITATION).getDuration(), 0) : 0;
+        levitationTimeRaw = hasLevitation ? Math.max(Objects.requireNonNull(playerEntity.getEffect(MobEffects.LEVITATION)).getDuration(), 0) : 0;
         maxLevitationTime = maxLevitationTimeRaw / 20;
         levitationTime = levitationTimeRaw / (int) Calculations.getPrettyDivisor(maxLevitationTimeRaw, maxLevitationTime);
 
@@ -404,7 +403,7 @@ public class PlayerProperties {
 
         if(playerEntity.hasEffect(MobEffects.LEVITATION)){
             var effect = playerEntity.getEffect(MobEffects.LEVITATION);
-            var estHeight = (effect.getAmplifier() + 1) * 0.9 * ((float) effect.getDuration() / 20);
+            var estHeight = (Objects.requireNonNull(effect).getAmplifier() + 1) * 0.9 * ((float) effect.getDuration() / 20);
             levitationResultYRaw = playerEntity.getY() + estHeight;
             levitationFallHeightRaw = getFallingHeightEstimate(playerEntity, levitationResultYRaw - belowBlockYRaw);
 
@@ -664,7 +663,56 @@ public class PlayerProperties {
         return (float)0;
     }
 
+    public static String getMobHead(Player playerEntity){
+        Item headItem = playerEntity.getItemBySlot(EquipmentSlot.HEAD).getItem();
+        boolean hasPiglinDeterArmorItem = (playerEntity.getItemBySlot(EquipmentSlot.HEAD).getItem() == Items.GOLDEN_HELMET ||
+                playerEntity.getItemBySlot(EquipmentSlot.CHEST).getItem() == Items.GOLDEN_CHESTPLATE ||
+                playerEntity.getItemBySlot(EquipmentSlot.LEGS).getItem() == Items.GOLDEN_LEGGINGS ||
+                playerEntity.getItemBySlot(EquipmentSlot.FEET).getItem() == Items.GOLDEN_BOOTS);
 
+
+    private static int calculateMobDetectionRange(Player playerEntity, double baseRange) {
+        if (playerEntity.level().getDifficulty() == Difficulty.PEACEFUL) {
+            return 0;
+        }
+
+        double modifiedRange = baseRange;
+
+        // Apply the head reduction
+        modifiedRange *= 0.50;
+
+        // Sneaking check
+        if (playerEntity.isShiftKeyDown()) {
+            modifiedRange *= 0.80; // 80% of normal
+        }
+
+        // Invisibility check
+        if (playerEntity.hasEffect(MobEffects.INVISIBILITY)) {
+            // Count how many armor slots are occupied
+            int armorPieces = 0;
+            if (playerEntity.getItemBySlot(EquipmentSlot.HEAD).getItem() != Items.AIR) {
+                armorPieces++;
+            }
+            if (playerEntity.getItemBySlot(EquipmentSlot.CHEST).getItem() != Items.AIR) {
+                armorPieces++;
+            }
+            if (playerEntity.getItemBySlot(EquipmentSlot.LEGS).getItem() != Items.AIR) {
+                armorPieces++;
+            }
+            if (playerEntity.getItemBySlot(EquipmentSlot.FEET).getItem() != Items.AIR) {
+                armorPieces++;
+            }
+
+            double invisFactor = 0.175 * armorPieces; // 17.5% per piece
+            if (invisFactor > 1.0) {
+                invisFactor = 1.0;
+            }
+            modifiedRange *= invisFactor;
+        }
+
+        // Round up to the next whole number
+        return (int) Math.ceil(modifiedRange);
+    }
 
     private int calculateRaidWaves(Player player) {
         Difficulty diff = player.level().getDifficulty();
