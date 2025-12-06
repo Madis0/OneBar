@@ -352,10 +352,14 @@ public class OneBarElements {
 
             if(playerProperties.isWardenNear && config.badThings.showWarden)
                 value += minus + Calculations.emojiOrText("text.onebar.wardenEmoji","text.onebar.warden",false, Calculations.makeFraction(playerProperties.wardenDanger, false));
-            if (playerProperties.isUnderwater && !playerProperties.hasWaterBreathing)
+            if (playerProperties.isUnderwater && !playerProperties.hasWaterBreathing && !playerProperties.hasWaterPause)
                 value += minus + Calculations.emojiOrText("text.onebar.airEmoji", "text.onebar.air", false, Calculations.makeFraction(playerProperties.air, false));
-            if (playerProperties.isUnderwater && playerProperties.hasWaterBreathing)
+            if (playerProperties.isUnderwater && playerProperties.hasWaterBreathing && !playerProperties.hasWaterPause)
                 value += minus + para + "m" + Calculations.emojiOrText("text.onebar.airEmoji","text.onebar.air", false, Calculations.makeFraction(playerProperties.air, false)) + para + "r";
+            if (playerProperties.isUnderwater && !playerProperties.hasWaterBreathing && playerProperties.hasWaterPause)
+                value += minus + Calculations.emojiOrText("text.onebar.airPauseEmoji","text.onebar.airPause", false, Calculations.makeFraction(playerProperties.air, false));
+            if (playerProperties.isUnderwater && playerProperties.hasWaterBreathing && playerProperties.hasWaterPause)
+                value += minus + para + "m" + Calculations.emojiOrText("text.onebar.airPauseEmoji","text.onebar.airPause", false, Calculations.makeFraction(playerProperties.air, false)) + para + "r";
             if (playerProperties.isFreezing)
                 value += minus + Calculations.emojiOrText("text.onebar.freezeEmoji", "text.onebar.freeze", false, Calculations.makeFraction(playerProperties.freeze, false));
             if (playerProperties.isBurning && !playerProperties.hasFireResistance && config.badThings.showFire)
