@@ -16,6 +16,7 @@ import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.ai.attributes.Attribute;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.animal.camel.Camel;
+import net.minecraft.world.entity.animal.equine.AbstractHorse;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
@@ -351,10 +352,14 @@ public class OneBarElements {
 
             if(playerProperties.isWardenNear && config.badThings.showWarden)
                 value += minus + Calculations.emojiOrText("text.onebar.wardenEmoji","text.onebar.warden",false, Calculations.makeFraction(playerProperties.wardenDanger, false));
-            if (playerProperties.isUnderwater && !playerProperties.hasWaterBreathing)
+            if (playerProperties.isUnderwater && !playerProperties.hasWaterBreathing && !playerProperties.hasWaterPause)
                 value += minus + Calculations.emojiOrText("text.onebar.airEmoji", "text.onebar.air", false, Calculations.makeFraction(playerProperties.air, false));
-            if (playerProperties.isUnderwater && playerProperties.hasWaterBreathing)
+            if (playerProperties.isUnderwater && playerProperties.hasWaterBreathing && !playerProperties.hasWaterPause)
                 value += minus + para + "m" + Calculations.emojiOrText("text.onebar.airEmoji","text.onebar.air", false, Calculations.makeFraction(playerProperties.air, false)) + para + "r";
+            if (playerProperties.isUnderwater && !playerProperties.hasWaterBreathing && playerProperties.hasWaterPause)
+                value += minus + Calculations.emojiOrText("text.onebar.airPauseEmoji","text.onebar.airPause", false, Calculations.makeFraction(playerProperties.air, false));
+            if (playerProperties.isUnderwater && playerProperties.hasWaterBreathing && playerProperties.hasWaterPause)
+                value += minus + para + "m" + Calculations.emojiOrText("text.onebar.airPauseEmoji","text.onebar.airPause", false, Calculations.makeFraction(playerProperties.air, false)) + para + "r";
             if (playerProperties.isFreezing)
                 value += minus + Calculations.emojiOrText("text.onebar.freezeEmoji", "text.onebar.freeze", false, Calculations.makeFraction(playerProperties.freeze, false));
             if (playerProperties.isBurning && !playerProperties.hasFireResistance && config.badThings.showFire)
@@ -475,65 +480,74 @@ public class OneBarElements {
         var entity = client.player.getControlledVehicle();
         if (entity == null) return;
 
-        if (entity instanceof Camel) {
-            camelJumpBar();
-        } else {
-            horseJumpBar(); // Horse or modded entity
+        if (entity instanceof AbstractHorse && !(entity instanceof Camel)) {
+            jumpBar();
+        } else { // Camel, Nautilus, modded mobs
+            dashBar();
         }
     }
 
-    public void horseJumpBar(){
+    public void jumpBar(){
         if (client.player == null || client.player.jumpableVehicle() == null) return;
 
         int barHeight = Calculations.getPreciseInt(1.0F);
         int jumpHeight = Calculations.getPreciseInt(client.player.getJumpRidingScale());
 
         double heightInBlocks = Math.max(0, client.player.getJumpRidingScale() *
-                                                Calculations.horseJumpStrengthToJumpHeight(client.player.getJumpRidingScale()));
+                                                Calculations.getJumpHeight(client.player.getJumpRidingScale()));
 
         String roundedHeightInBlocks = Calculations.getSubscriptNumber(Double.parseDouble(String.format(Locale.US, "%,.1f",(heightInBlocks))));
 
-        int relativeStartH = Calculations.relativeW(clientProperties.horseJumpEndH, clientProperties.horseJumpStartH, jumpHeight, barHeight);
-        renderBar(clientProperties.horseJumpStartW, clientProperties.horseJumpStartH, clientProperties.horseJumpEndW, clientProperties.horseJumpEndH, config.backgroundColor);
-        renderBar(clientProperties.horseJumpStartW, relativeStartH, clientProperties.horseJumpEndW, clientProperties.horseJumpEndH, config.entity.jumpColor);
+        int relativeStartH = Calculations.relativeW(clientProperties.jumpEndH, clientProperties.jumpStartH, jumpHeight, barHeight);
+        renderBar(clientProperties.jumpStartW, clientProperties.jumpStartH, clientProperties.jumpEndW, clientProperties.jumpEndH, config.backgroundColor);
+        renderBar(clientProperties.jumpStartW, relativeStartH, clientProperties.jumpEndW, clientProperties.jumpEndH, config.entity.jumpColor);
 
-        int textX = clientProperties.horseJumpEndW - client.font.width(roundedHeightInBlocks);
-        int textY = clientProperties.horseJumpEndH - 10;
+        int textX = clientProperties.jumpEndW - client.font.width(roundedHeightInBlocks);
+        int textY = clientProperties.jumpEndH - 10;
 
         if(config.textSettings.showText && config.entity.showMountJumpText)
             drawContext.drawString(textRenderer, roundedHeightInBlocks, textX, textY, config.textSettings.textColor, false);
     }
 
-    public void camelJumpBar(){
+    public void dashBar(){
         if (client.player == null || client.player.jumpableVehicle() == null) return;
 
         int jumpStrength = Calculations.getPreciseInt(Math.max(client.player.getJumpRidingScale(), 0)); //TODO: strength can be negative???
         int maxStrength = Calculations.getPreciseInt(1.0F);
-        int cooldown = client.player.jumpableVehicle().getJumpCooldown();
+        int cooldown = Objects.requireNonNull(client.player.jumpableVehicle()).getJumpCooldown();
         int maxCooldown = 50;
         int cooldownVisible = cooldown / 20;
 
-        int relativeEndW = clientProperties.camelRelativeEndW(jumpStrength, maxStrength);
-        int relativeEndWCooldown = clientProperties.camelRelativeEndW(cooldown, maxCooldown);
+        double distanceInBlocks = Math.max(0, Calculations.getDashDistance(client.player.getJumpRidingScale()));
+
+        int relativeEndW = clientProperties.dashRelativeEndW(jumpStrength, maxStrength);
+        int relativeEndWCooldown = clientProperties.dashRelativeEndW(cooldown, maxCooldown);
 
         if(relativeEndWCooldown > relativeEndW){
-            camelCooldownBar(relativeEndWCooldown, cooldownVisible);
+            dashCooldownBar(relativeEndWCooldown, cooldownVisible);
         }
         else {
-            renderBar(clientProperties.camelJumpStartW, clientProperties.camelJumpStartH, clientProperties.camelJumpEndW, clientProperties.camelJumpEndH, config.backgroundColor);
-            renderBar(clientProperties.camelJumpStartW, clientProperties.camelJumpStartH, relativeEndW, clientProperties.camelJumpEndH, config.entity.jumpColor);
+            renderBar(clientProperties.dashStartW, clientProperties.dashStartH, clientProperties.dashEndW, clientProperties.dashEndH, config.backgroundColor);
+            renderBar(clientProperties.dashStartW, clientProperties.dashStartH, relativeEndW, clientProperties.dashEndH, config.entity.jumpColor);
+
+            if(config.textSettings.showText && config.entity.showMountJumpText){
+                String roundedDistanceInBlocks = Calculations.getSubscriptNumber(Double.parseDouble(String.format(Locale.US, "%,.1f",(distanceInBlocks))));
+                int textX = clientProperties.dashEndW - client.font.width(roundedDistanceInBlocks);
+                int textY = clientProperties.dashEndH - 9;
+                drawContext.drawString(textRenderer, roundedDistanceInBlocks, textX, textY, config.textSettings.textColor, false);
+            }
         }
     }
 
-    private void camelCooldownBar(int relativeEndW, int cooldownTimer){
+    private void dashCooldownBar(int relativeEndW, int cooldownTimer){
         if(config.entity.showMountCooldown){
-            renderBar(clientProperties.camelJumpStartW, clientProperties.camelJumpStartH, clientProperties.camelJumpEndW, clientProperties.camelJumpEndH, config.backgroundColor);
-            renderBar(clientProperties.camelJumpStartW, clientProperties.camelJumpStartH, relativeEndW, clientProperties.camelJumpEndH, config.entity.cooldownColor);
+            renderBar(clientProperties.dashStartW, clientProperties.dashStartH, clientProperties.dashEndW, clientProperties.dashEndH, config.backgroundColor);
+            renderBar(clientProperties.dashStartW, clientProperties.dashStartH, relativeEndW, clientProperties.dashEndH, config.entity.cooldownColor);
 
             if(config.textSettings.showText && config.entity.showMountCooldownText){
                 String text = Calculations.getSubscriptNumber(-1 - cooldownTimer);
-                int textX = clientProperties.camelJumpEndW - client.font.width(text);
-                int textY = clientProperties.camelJumpEndH - 9;
+                int textX = clientProperties.dashEndW - client.font.width(text);
+                int textY = clientProperties.dashEndH - 9;
                 drawContext.drawString(textRenderer, text, textX, textY, config.textSettings.textColor, false);
             }
         }
@@ -558,8 +572,8 @@ public class OneBarElements {
         float mountRawHealth = mountEntity.getHealth();
         float mountMaxHealth = mountEntity.getMaxHealth();
         int health = (int) Math.ceil(mountRawHealth);
-        int horseArmor = mountEntity.getArmorValue();
-        int horseMaxArmor = getProtectionFromArmor(new ItemStack((Items.DIAMOND_HORSE_ARMOR)));
+        int mountArmor = mountEntity.getArmorValue();
+        int mountMaxArmor = getProtectionFromArmor(new ItemStack((Items.NETHERITE_HORSE_ARMOR)));
 
         String value = Calculations.emojiOrText("text.onebar.mountHealthEmoji","text.onebar.mountHealth", true, config.textSettings.rawHealth ? (Math.round(mountRawHealth * 100.0) / 100.0) : Calculations.makeFraction(health, false));
         int textX = clientProperties.baseEndW - client.font.width(value);
@@ -567,7 +581,7 @@ public class OneBarElements {
 
         renderBar(clientProperties.baseStartW, clientProperties.mountStartH, clientProperties.baseEndW, clientProperties.mountEndH, config.backgroundColor);
         renderBar(clientProperties.baseStartW, clientProperties.mountStartH, clientProperties.baseRelativeEndW(Calculations.getPreciseInt(mountRawHealth), Calculations.getPreciseInt(mountMaxHealth)), clientProperties.mountEndH, config.entity.healthColor);
-        if(config.armor.showArmorBar) renderBar(clientProperties.baseStartW, clientProperties.mountStartH - 1, clientProperties.baseRelativeEndW(horseArmor, horseMaxArmor), clientProperties.mountStartH, config.armor.armorColor);
+        if(config.armor.showArmorBar) renderBar(clientProperties.baseStartW, clientProperties.mountStartH - 1, clientProperties.baseRelativeEndW(mountArmor, mountMaxArmor), clientProperties.mountStartH, config.armor.armorColor);
         if(config.textSettings.showText) drawContext.drawString(textRenderer, value, textX, textY, config.textSettings.textColor, false);
 
         if(mountEntity instanceof Camel){
@@ -576,7 +590,7 @@ public class OneBarElements {
             int standingUpTimerVisible = Math.round((standingUpMax - standingUpTimer) / (float)20);
 
             if(((Camel)mountEntity).isInPoseTransition()){
-                camelCooldownBar(clientProperties.camelRelativeEndW(standingUpMax - standingUpTimer, standingUpMax), standingUpTimerVisible);
+                dashCooldownBar(clientProperties.dashRelativeEndW(standingUpMax - standingUpTimer, standingUpMax), standingUpTimerVisible);
             }
         }
 

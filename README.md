@@ -66,6 +66,7 @@ The mod only uses client-side data, so it is never needed on a server. There are
 | Totem of Undying |  |  | +ቶ1 | +tu1 | Opt-in, shows the amount of Totem of Undyings in your inventory; crossed out when not held in main/offhand. |
 | Fire resistance |  |  | -~🔥1×~ | -~bu1×~ | Number is a rough damage multiplier (1× - burning, 2× - in fire, 3× - in soul fire, 4× - in lava), only shown if you are on fire |
 | Water Breathing, Conduit Power | Blue | █ | -~⭘1~ | -~ai1~ | The bar is only shown if you got the effect after losing air, text is only shown if you are in water |
+| Breath of the Nautilus | Blue | █ | -⭘1⏸️ | -ap1 | The bar is only shown if you got the effect after losing air, text is only shown if you are in water, text is crossed if combined with water breathing-like effect. |
 | Held food restored hunger: exact/less | Green | █ | _→1_ | _→1_ | Overlaid on hunger bar; number is the resulting hunger (like AppleSkin) | 
 | Held food restored hunger: wasted | Orange | █ | _→-1_ | _→-1_ | Overlaid on hunger bar; number is the waste of hunger (how much more than needed) | 
 | Saturation | Orange | ▁ |  | Below OneBar | Opt-in |
