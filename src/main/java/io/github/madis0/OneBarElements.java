@@ -1,6 +1,5 @@
 package io.github.madis0;
 
-//import dev.tr7zw.exordium.ExordiumModBase;
 import me.shedaniel.autoconfig.AutoConfig;
 import net.fabricmc.loader.api.FabricLoader;
 import net.minecraft.client.Minecraft;
@@ -32,7 +31,6 @@ public class OneBarElements {
     private final Difficulty difficulty = Objects.requireNonNull(client.getCameraEntity()).level().getDifficulty();
     private final GuiGraphics drawContext;
     private final Font textRenderer = client.font;
-    private static final boolean hasExordium = FabricLoader.getInstance().isModLoaded("exordium");
 
     boolean hasHunger = playerProperties.hasHunger && !config.disableHunger;
     float armorBarGap = 0.1F;
@@ -47,11 +45,6 @@ public class OneBarElements {
     }
 
     public void renderOneBar(){
-       // if(hasExordium) {
-       //     ExordiumModBase.correctBlendMode();
-       //     ExordiumModBase.setForceBlend(true);
-       // }
-
         Player playerEntity = Minecraft.getInstance().player;
         if (playerEntity != null) {
             barBackground();
@@ -80,11 +73,6 @@ public class OneBarElements {
             if(config.armor.showShieldCooldownBar) shieldCooldownBar();
             if(config.goodThings.showSaturationBar) saturationBar();
             //if(config.healthEstimates && config.otherBars.showSaturationBar) heldFoodSaturationBar();
-
-            //  if(hasExordium) {
-            //      ExordiumModBase.setForceBlend(false);
-            //      RenderSystem.defaultBlendFunc();
-            //  }
         }
     }
 
