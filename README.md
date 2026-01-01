@@ -27,7 +27,6 @@ Currently also works on [Quilt](https://quiltmc.org), though no effort has yet b
 - [Auto HUD](https://www.curseforge.com/minecraft/mc-mods/auto-hud) - automatically shows and hides certain elements of OneBar as needed
 - [OneBar + MCC Island Compat](https://modrinth.com/mod/onebarmcci) (unofficial) - disables OneBar when you have no health bar on MCC Island
 - [Head-down display](https://www.curseforge.com/minecraft/mc-mods/headdowndisplay) - partial compatibility for the auto-hide feature, does not hide OneBar elements
-- [Exordium](https://www.curseforge.com/minecraft/mc-mods/exordium) (beta, available in some versions of OneBar) - improve HUD performance
 
 ## How it works
 

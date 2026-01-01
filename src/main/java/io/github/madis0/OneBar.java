@@ -2,6 +2,7 @@ package io.github.madis0;
 
 import com.mojang.blaze3d.platform.InputConstants;
 import me.shedaniel.autoconfig.AutoConfig;
+import me.shedaniel.autoconfig.AutoConfigClient;
 import me.shedaniel.autoconfig.serializer.GsonConfigSerializer;
 import net.fabricmc.api.ClientModInitializer;
 import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientTickEvents;
@@ -50,7 +51,7 @@ public class OneBar implements ClientModInitializer {
 				showState(client, config.disableHunger, "text.autoconfig.onebar.option.disableHunger");
 			}
 			while (configScreen.consumeClick()) {
-				client.setScreen(AutoConfig.getConfigScreen(ModConfig.class, null).get());
+				client.setScreen(AutoConfigClient.getConfigScreen(ModConfig.class, null).get());
 			}
 		});
 	}
