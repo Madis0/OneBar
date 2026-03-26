@@ -1,6 +1,7 @@
 package io.github.madis0;
 
 import me.shedaniel.autoconfig.AutoConfig;
+import net.minecraft.client.DeltaTracker;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Font;
 import net.minecraft.client.gui.GuiGraphicsExtractor;
@@ -23,13 +24,14 @@ import java.util.Locale;
 import java.util.Objects;
 
 public class OneBarElements {
+    private static final OneBarElements INSTANCE = new OneBarElements();
     private final ModConfig config = AutoConfig.getConfigHolder(ModConfig.class).getConfig();
     private final ClientProperties clientProperties = new ClientProperties();
     private final PlayerProperties playerProperties = new PlayerProperties();
     private final Minecraft client = Minecraft.getInstance();
     private final Difficulty difficulty = Objects.requireNonNull(client.getCameraEntity()).level().getDifficulty();
-    private final GuiGraphicsExtractor drawContext;
     private final Font textRenderer = client.font;
+    private GuiGraphicsExtractor drawContext;
 
     boolean hasHunger = playerProperties.hasHunger && !config.disableHunger;
     float armorBarGap = 0.1F;
@@ -39,11 +41,17 @@ public class OneBarElements {
     float armorBarTotalLength = armorBarBootsLength + playerProperties.bootsMaxArmor;
     float elytraDurability = playerProperties.getArmorElementDurability(Objects.requireNonNull(client.player), EquipmentSlot.CHEST, 8); //8 aka same full width as Diamond/Netherite
 
-    public OneBarElements(GuiGraphicsExtractor context){
-        drawContext = context;
+    public static void render(GuiGraphicsExtractor drawContext, DeltaTracker deltaTracker) {
+        INSTANCE.drawContext = drawContext;
+        INSTANCE.renderOneBar();
     }
 
-    public void renderOneBar(){
+    public static void renderEntityBar(GuiGraphicsExtractor drawContext, DeltaTracker deltaTracker) {
+        INSTANCE.drawContext = drawContext;
+        INSTANCE.mountJumpBar();
+    }
+
+    private void renderOneBar(){
         Player playerEntity = Minecraft.getInstance().player;
         if (playerEntity != null) {
             barBackground();

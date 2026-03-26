@@ -22,6 +22,10 @@ public class OneBar implements ClientModInitializer {
 		// Proceed with mild caution.
 		AutoConfig.register(ModConfig.class, GsonConfigSerializer::new);
 
+		// --- HUD ---
+
+		new BarVisibility();
+
 		// --- Keybindings ---
 
 		ModConfig config = AutoConfig.getConfigHolder(ModConfig.class).getConfig();

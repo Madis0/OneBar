@@ -40,16 +40,4 @@ public abstract class LocatorBarMixin {
 
         return MixinConfigQuery.getLocatorBarHeight();
     }
-
-    @Inject(method = "render", at = @At(value = "HEAD"), cancellable = true)
-    private void hideBar(GuiGraphicsExtractor context, DeltaTracker tickCounter, CallbackInfo ci){
-        if(MixinConfigQuery.isOneBarEnabled() && !MixinConfigQuery.isLocatorBarEnabled())
-            ci.cancel();
-    }
-
-    @Inject(method = "render", at = @At(value = "HEAD"), cancellable = true)
-    private void hideAddons(GuiGraphicsExtractor context, DeltaTracker tickCounter, CallbackInfo ci){
-        if(MixinConfigQuery.isOneBarEnabled() && !MixinConfigQuery.isLocatorBarEnabled())
-            ci.cancel();
-    }
 }
