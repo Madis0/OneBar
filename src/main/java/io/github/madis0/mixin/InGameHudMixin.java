@@ -14,7 +14,7 @@ import net.minecraft.client.DeltaTracker;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Gui;
 import net.minecraft.client.gui.Gui.ContextualInfo;
-import net.minecraft.client.gui.GuiGraphics;
+import net.minecraft.client.gui.GuiGraphicsExtractor;
 import net.minecraft.world.entity.LivingEntity;
 
 @Mixin(value = Gui.class)
@@ -26,7 +26,7 @@ public abstract class InGameHudMixin {
     private boolean showOneBar = false;
 
     @Inject(at = @At("HEAD"), method = "render")
-    public void render(GuiGraphics context, DeltaTracker tickCounter, CallbackInfo ci) {
+    public void render(GuiGraphicsExtractor context, DeltaTracker tickCounter, CallbackInfo ci) {
         oneBarElements = new OneBarElements(context);
         showOneBar = MixinConfigQuery.isOneBarEnabled(); // This var exists because it also shows whether oneBarElements is initialized
 
@@ -38,13 +38,13 @@ public abstract class InGameHudMixin {
     }
 
     @Inject(method = "renderPlayerHealth", at = @At(value = "HEAD"), cancellable = true)
-    private void hideHud(GuiGraphics context, CallbackInfo ci){
+    private void hideHud(GuiGraphicsExtractor context, CallbackInfo ci){
         if(showOneBar && !MixinConfigQuery.isCompatModeEnabled())
             ci.cancel();
     }
 
     @Inject(method = "renderVehicleHealth", at = @At(value = "HEAD"), cancellable = true)
-    private void hideMountHealth(GuiGraphics context, CallbackInfo ci) {
+    private void hideMountHealth(GuiGraphicsExtractor context, CallbackInfo ci) {
         if(showOneBar && !MixinConfigQuery.isCompatModeEnabled())
             ci.cancel();
         oneBarElements.mountBar(getPlayerVehicleWithHealth());
