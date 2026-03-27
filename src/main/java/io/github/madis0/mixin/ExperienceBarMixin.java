@@ -11,13 +11,13 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 @Mixin(value = ExperienceBarRenderer.class)
 public abstract class ExperienceBarMixin {
-    @Inject(method = "render", at = @At(value = "HEAD"), cancellable = true)
+    @Inject(method = "extractRenderState", at = @At(value = "HEAD"), cancellable = true)
     private void hideBar(GuiGraphicsExtractor context, DeltaTracker tickCounter, CallbackInfo ci){
         if(!MixinConfigQuery.isCompatModeEnabled() && MixinConfigQuery.isOneBarEnabled())
             ci.cancel();
     }
 
-    @Inject(method = "render", at = @At(value = "HEAD"), cancellable = true)
+    @Inject(method = "extractRenderState", at = @At(value = "HEAD"), cancellable = true)
     private void hideAddons(GuiGraphicsExtractor context, DeltaTracker tickCounter, CallbackInfo ci){
         if(!MixinConfigQuery.isCompatModeEnabled() && MixinConfigQuery.isOneBarEnabled())
             ci.cancel();

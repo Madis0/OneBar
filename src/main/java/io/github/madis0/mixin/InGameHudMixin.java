@@ -25,7 +25,7 @@ public abstract class InGameHudMixin {
     private OneBarElements oneBarElements;
     private boolean showOneBar = false;
 
-    @Inject(at = @At("HEAD"), method = "render")
+    @Inject(at = @At("HEAD"), method = "extractRenderState")
     public void render(GuiGraphicsExtractor context, DeltaTracker tickCounter, CallbackInfo ci) {
         oneBarElements = new OneBarElements(context);
         showOneBar = MixinConfigQuery.isOneBarEnabled(); // This var exists because it also shows whether oneBarElements is initialized
@@ -37,13 +37,13 @@ public abstract class InGameHudMixin {
         PlayerProperties.setLocatorBarAvailable(minecraft.player.connection.getWaypointManager().hasWaypoints());
     }
 
-    @Inject(method = "renderPlayerHealth", at = @At(value = "HEAD"), cancellable = true)
+    @Inject(method = "extractPlayerHealth", at = @At(value = "HEAD"), cancellable = true)
     private void hideHud(GuiGraphicsExtractor context, CallbackInfo ci){
         if(showOneBar && !MixinConfigQuery.isCompatModeEnabled())
             ci.cancel();
     }
 
-    @Inject(method = "renderVehicleHealth", at = @At(value = "HEAD"), cancellable = true)
+    @Inject(method = "extractVehicleHealth", at = @At(value = "HEAD"), cancellable = true)
     private void hideMountHealth(GuiGraphicsExtractor context, CallbackInfo ci) {
         if(showOneBar && !MixinConfigQuery.isCompatModeEnabled())
             ci.cancel();
@@ -61,7 +61,7 @@ public abstract class InGameHudMixin {
         }
     }
 
-    @ModifyVariable(method = "renderSelectedItemName", at = @At(value = "STORE"), ordinal = 2)
+    @ModifyVariable(method = "extractSelectedItemName", at = @At(value = "STORE"), name = "y")
     private int renderHeldItemTooltip(int k) {
         if (!showOneBar || !MixinConfigQuery.isHotbarTooltipsDown()) {
             return k;

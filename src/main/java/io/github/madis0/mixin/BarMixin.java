@@ -11,7 +11,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 @Mixin(value = ContextualBarRenderer.class)
 public interface BarMixin {
-    @Inject(method = "renderExperienceLevel", at = @At(value = "HEAD"), cancellable = true)
+    @Inject(method = "extractExperienceLevel", at = @At(value = "HEAD"), cancellable = true)
     private static void hideXpLevel(GuiGraphicsExtractor context, Font textRenderer, int level, CallbackInfo ci){
         if(MixinConfigQuery.isOneBarEnabled() && !MixinConfigQuery.isCompatModeEnabled())
             ci.cancel();

@@ -15,10 +15,10 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 public abstract class LocatorBarMixin {
 
     @ModifyArg(
-            method = "renderBackground(Lnet/minecraft/client/gui/GuiGraphics;Lnet/minecraft/client/DeltaTracker;)V",
+            method = "extractBackground(Lnet/minecraft/client/gui/GuiGraphicsExtractor;Lnet/minecraft/client/DeltaTracker;)V",
             at = @At(
                     value = "INVOKE",
-                    target = "Lnet/minecraft/client/gui/GuiGraphics;blitSprite(Lcom/mojang/blaze3d/pipeline/RenderPipeline;Lnet/minecraft/resources/Identifier;IIII)V"
+                    target = "Lnet/minecraft/client/gui/GuiGraphicsExtractor;blitSprite(Lcom/mojang/blaze3d/pipeline/RenderPipeline;Lnet/minecraft/resources/Identifier;IIII)V"
             ),
             index = 3
     )
@@ -30,7 +30,7 @@ public abstract class LocatorBarMixin {
     }
 
     @ModifyVariable(
-            method = "render(Lnet/minecraft/client/gui/GuiGraphics;Lnet/minecraft/client/DeltaTracker;)V",
+            method = "extractRenderState(Lnet/minecraft/client/gui/GuiGraphicsExtractor;Lnet/minecraft/client/DeltaTracker;)V",
             at = @At("STORE"), // Could also use "LOAD" depending on when you want to intercept
             index = 3
     )
@@ -41,13 +41,13 @@ public abstract class LocatorBarMixin {
         return MixinConfigQuery.getLocatorBarHeight();
     }
 
-    @Inject(method = "render", at = @At(value = "HEAD"), cancellable = true)
+    @Inject(method = "extractRenderState", at = @At(value = "HEAD"), cancellable = true)
     private void hideBar(GuiGraphicsExtractor context, DeltaTracker tickCounter, CallbackInfo ci){
         if(MixinConfigQuery.isOneBarEnabled() && !MixinConfigQuery.isLocatorBarEnabled())
             ci.cancel();
     }
 
-    @Inject(method = "render", at = @At(value = "HEAD"), cancellable = true)
+    @Inject(method = "extractRenderState", at = @At(value = "HEAD"), cancellable = true)
     private void hideAddons(GuiGraphicsExtractor context, DeltaTracker tickCounter, CallbackInfo ci){
         if(MixinConfigQuery.isOneBarEnabled() && !MixinConfigQuery.isLocatorBarEnabled())
             ci.cancel();
