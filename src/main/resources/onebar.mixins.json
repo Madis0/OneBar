@@ -3,7 +3,10 @@
   "package": "io.github.madis0.mixin",
   "compatibilityLevel": "JAVA_25",
   "client": [
-    "ClientSoulFireBlockMixin"
+    "BossBarHudMixin",
+    "ClientSoulFireBlockMixin",
+    "InGameHudMixin",
+    "LocatorBarMixin"
   ],
   "injectors": {
     "defaultRequire": 1

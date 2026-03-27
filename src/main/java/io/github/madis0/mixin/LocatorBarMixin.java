@@ -32,8 +32,7 @@ public abstract class LocatorBarMixin {
     @ModifyVariable(
             method = "extractRenderState(Lnet/minecraft/client/gui/GuiGraphicsExtractor;Lnet/minecraft/client/DeltaTracker;)V",
             at = @At("STORE"), // Could also use "LOAD" depending on when you want to intercept
-            index = 3
-    )
+            name = "top")
     private int modifyHeightAddons(int original) {
         if(!MixinConfigQuery.isOneBarEnabled() || MixinConfigQuery.isCompatModeEnabled())
             return original;

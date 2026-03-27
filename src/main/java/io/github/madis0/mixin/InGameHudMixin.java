@@ -1,7 +1,6 @@
 package io.github.madis0.mixin;
 
 import io.github.madis0.*;
-import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
@@ -10,40 +9,13 @@ import org.spongepowered.asm.mixin.injection.ModifyVariable;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 import net.minecraft.client.gui.Gui;
 import net.minecraft.client.gui.Gui.ContextualInfo;
-import net.minecraft.client.gui.GuiGraphicsExtractor;
 import net.minecraft.world.entity.LivingEntity;
 
 @Mixin(value = Gui.class)
 public abstract class InGameHudMixin {
     @Shadow protected abstract LivingEntity getPlayerVehicleWithHealth();
 
-    private OneBarElements oneBarElements;
     private boolean showOneBar = false;
-
-    @Inject(at = @At("HEAD"), method = "extractRenderState")
-    public void render(GuiGraphicsExtractor context, DeltaTracker tickCounter, CallbackInfo ci) {
-        oneBarElements = new OneBarElements(context);
-        showOneBar = MixinConfigQuery.isOneBarEnabled(); // This var exists because it also shows whether oneBarElements is initialized
-
-        boolean barsVisible = !minecraft.options.hideGui && Objects.requireNonNull(minecraft.gameMode).canHurtPlayer();
-        if(showOneBar && barsVisible) oneBarElements.renderOneBar();
-        if(showOneBar && MixinConfigQuery.showMountJump() && !minecraft.options.hideGui) oneBarElements.mountJumpBar();
-
-        PlayerProperties.setLocatorBarAvailable(minecraft.player.connection.getWaypointManager().hasWaypoints());
-    }
-
-    @Inject(method = "extractPlayerHealth", at = @At(value = "HEAD"), cancellable = true)
-    private void hideHud(GuiGraphicsExtractor context, CallbackInfo ci){
-        if(showOneBar && !MixinConfigQuery.isCompatModeEnabled())
-            ci.cancel();
-    }
-
-    @Inject(method = "extractVehicleHealth", at = @At(value = "HEAD"), cancellable = true)
-    private void hideMountHealth(GuiGraphicsExtractor context, CallbackInfo ci) {
-        if(showOneBar && !MixinConfigQuery.isCompatModeEnabled())
-            ci.cancel();
-        oneBarElements.mountBar(getPlayerVehicleWithHealth());
-    }
 
     @Inject(method = "nextContextualInfoState", at = @At("HEAD"), cancellable = true)
     private void forceLocatorBar(CallbackInfoReturnable<ContextualInfo> cir) {
