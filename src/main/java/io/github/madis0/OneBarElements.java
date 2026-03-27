@@ -1,10 +1,9 @@
 package io.github.madis0;
 
 import me.shedaniel.autoconfig.AutoConfig;
-import net.fabricmc.loader.api.FabricLoader;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Font;
-import net.minecraft.client.gui.GuiGraphics;
+import net.minecraft.client.gui.GuiGraphicsExtractor;
 import net.minecraft.core.component.DataComponents;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceKey;
@@ -29,7 +28,7 @@ public class OneBarElements {
     private final PlayerProperties playerProperties = new PlayerProperties();
     private final Minecraft client = Minecraft.getInstance();
     private final Difficulty difficulty = Objects.requireNonNull(client.getCameraEntity()).level().getDifficulty();
-    private final GuiGraphics drawContext;
+    private final GuiGraphicsExtractor drawContext;
     private final Font textRenderer = client.font;
 
     boolean hasHunger = playerProperties.hasHunger && !config.disableHunger;
@@ -40,7 +39,7 @@ public class OneBarElements {
     float armorBarTotalLength = armorBarBootsLength + playerProperties.bootsMaxArmor;
     float elytraDurability = playerProperties.getArmorElementDurability(Objects.requireNonNull(client.player), EquipmentSlot.CHEST, 8); //8 aka same full width as Diamond/Netherite
 
-    public OneBarElements(GuiGraphics context){
+    public OneBarElements(GuiGraphicsExtractor context){
         drawContext = context;
     }
 
@@ -402,7 +401,7 @@ public class OneBarElements {
         int textX = clientProperties.baseEndW - client.font.width(value);
         int textY = clientProperties.baseStartH + 1;
 
-        drawContext.drawString(textRenderer, value, textX, textY, config.textSettings.textColor, false);
+        drawContext.text(textRenderer, value, textX, textY, config.textSettings.textColor, false);
     }
 
     private void xpBar(){
@@ -431,13 +430,13 @@ public class OneBarElements {
             int edgeAlignedConst = 13;
 
             if(playerProperties.xpLevel >= 0 && playerProperties.xpLevel < sizeLimit){
-                drawContext.drawCenteredString(textRenderer, String.valueOf(playerProperties.xpLevel), textX, textY, config.otherBars.xpColor);
+                drawContext.centeredText(textRenderer, String.valueOf(playerProperties.xpLevel), textX, textY, config.otherBars.xpColor);
             }
             else if(playerProperties.xpLevel >= sizeLimit){
                 if(client.options.mainHand().get() == HumanoidArm.RIGHT)
-                    drawContext.drawString(textRenderer, String.valueOf(playerProperties.xpLevel), textX - edgeAlignedConst, textY, config.otherBars.xpColor);
+                    drawContext.text(textRenderer, String.valueOf(playerProperties.xpLevel), textX - edgeAlignedConst, textY, config.otherBars.xpColor);
                 else if(client.options.mainHand().get()  == HumanoidArm.LEFT)
-                    drawContext.drawString(textRenderer, String.valueOf(playerProperties.xpLevel), textX + edgeAlignedConst - client.font.width(String.valueOf(playerProperties.xpLevel)), textY, config.otherBars.xpColor);
+                    drawContext.text(textRenderer, String.valueOf(playerProperties.xpLevel), textX + edgeAlignedConst - client.font.width(String.valueOf(playerProperties.xpLevel)), textY, config.otherBars.xpColor);
             }
 
             var lapisTextX = clientProperties.xpEndW + 1;
@@ -449,11 +448,11 @@ public class OneBarElements {
             }
 
             if(config.otherBars.lapisCounter){
-                drawContext.drawString(textRenderer, lapisText, lapisTextX, lapisTextY, config.otherBars.lapisColor);
+                drawContext.text(textRenderer, lapisText, lapisTextX, lapisTextY, config.otherBars.lapisColor);
             }
 
             if(config.otherBars.mendingIndicator && playerProperties.isMendingAnything){
-                drawContext.drawCenteredString(textRenderer, Calculations.emojiOrText("text.onebar.mendingEmoji", "text.onebar.mending", false), textX, mendingTextY, config.otherBars.mendingColor);
+                drawContext.centeredText(textRenderer, Calculations.emojiOrText("text.onebar.mendingEmoji", "text.onebar.mending", false), textX, mendingTextY, config.otherBars.mendingColor);
             }
         }
         if(!config.otherBars.adaptiveXpBar || playerProperties.xp > 0){
@@ -494,7 +493,7 @@ public class OneBarElements {
         int textY = clientProperties.jumpEndH - 10;
 
         if(config.textSettings.showText && config.entity.showMountJumpText)
-            drawContext.drawString(textRenderer, roundedHeightInBlocks, textX, textY, config.textSettings.textColor, false);
+            drawContext.text(textRenderer, roundedHeightInBlocks, textX, textY, config.textSettings.textColor, false);
     }
 
     public void dashBar(){
@@ -522,7 +521,7 @@ public class OneBarElements {
                 String roundedDistanceInBlocks = Calculations.getSubscriptNumber(Double.parseDouble(String.format(Locale.US, "%,.1f",(distanceInBlocks))));
                 int textX = clientProperties.dashEndW - client.font.width(roundedDistanceInBlocks);
                 int textY = clientProperties.dashEndH - 9;
-                drawContext.drawString(textRenderer, roundedDistanceInBlocks, textX, textY, config.textSettings.textColor, false);
+                drawContext.text(textRenderer, roundedDistanceInBlocks, textX, textY, config.textSettings.textColor, false);
             }
         }
     }
@@ -536,7 +535,7 @@ public class OneBarElements {
                 String text = Calculations.getSubscriptNumber(-1 - cooldownTimer);
                 int textX = clientProperties.dashEndW - client.font.width(text);
                 int textY = clientProperties.dashEndH - 9;
-                drawContext.drawString(textRenderer, text, textX, textY, config.textSettings.textColor, false);
+                drawContext.text(textRenderer, text, textX, textY, config.textSettings.textColor, false);
             }
         }
     }
@@ -570,7 +569,7 @@ public class OneBarElements {
         renderBar(clientProperties.baseStartW, clientProperties.mountStartH, clientProperties.baseEndW, clientProperties.mountEndH, config.backgroundColor);
         renderBar(clientProperties.baseStartW, clientProperties.mountStartH, clientProperties.baseRelativeEndW(Calculations.getPreciseInt(mountRawHealth), Calculations.getPreciseInt(mountMaxHealth)), clientProperties.mountEndH, config.entity.healthColor);
         if(config.armor.showArmorBar) renderBar(clientProperties.baseStartW, clientProperties.mountStartH - 1, clientProperties.baseRelativeEndW(mountArmor, mountMaxArmor), clientProperties.mountStartH, config.armor.armorColor);
-        if(config.textSettings.showText) drawContext.drawString(textRenderer, value, textX, textY, config.textSettings.textColor, false);
+        if(config.textSettings.showText) drawContext.text(textRenderer, value, textX, textY, config.textSettings.textColor, false);
 
         if(mountEntity instanceof Camel){
             long standingUpMax = 52;
@@ -585,6 +584,6 @@ public class OneBarElements {
     }
 
     private void debugText(String value){
-        drawContext.drawString(textRenderer, value, clientProperties.baseEndW + 15, clientProperties.baseStartH + 1, config.textSettings.textColor);
+        drawContext.text(textRenderer, value, clientProperties.baseEndW + 15, clientProperties.baseStartH + 1, config.textSettings.textColor);
     }
 }

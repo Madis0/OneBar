@@ -1,7 +1,7 @@
 {
   "required": true,
   "package": "io.github.madis0.mixin",
-  "compatibilityLevel": "JAVA_21",
+  "compatibilityLevel": "JAVA_25",
   "client": [
     "BarMixin",
     "BossBarHudMixin",

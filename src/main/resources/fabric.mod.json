@@ -29,8 +29,8 @@
   "accessWidener": "guicontextualinfo.accesswidener",
   "depends": {
     "fabric-api": "*",
-    "cloth-config2": "*",
-    "minecraft": ">=1.21.11-"
+    "cloth-config": "*",
+    "minecraft": ">=26.1-"
   },
   "suggests": {
     "modmenu": "*"
