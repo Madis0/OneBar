@@ -29,7 +29,7 @@
   "accessWidener": "guicontextualinfo.accesswidener",
   "depends": {
     "fabric-api": "*",
-    "cloth-config2": "*",
+    "cloth-config": "*",
     "minecraft": ">=26.1-"
   },
   "suggests": {
