@@ -10,13 +10,40 @@ import org.spongepowered.asm.mixin.injection.ModifyVariable;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 import net.minecraft.client.gui.Gui;
 import net.minecraft.client.gui.Gui.ContextualInfo;
+import net.minecraft.client.gui.GuiGraphicsExtractor;
 import net.minecraft.world.entity.LivingEntity;
 
 @Mixin(value = Gui.class)
 public abstract class InGameHudMixin {
     @Shadow protected abstract LivingEntity getPlayerVehicleWithHealth();
 
-    private boolean showOneBar = MixinConfigQuery.isOneBarEnabled();;
+    private OneBarElements oneBarElements;
+    private boolean showOneBar = false;
+
+    @Inject(at = @At("HEAD"), method = "extractRenderState")
+    public void render(GuiGraphicsExtractor context, DeltaTracker tickCounter, CallbackInfo ci) {
+        oneBarElements = new OneBarElements(context);
+        showOneBar = MixinConfigQuery.isOneBarEnabled(); // This var exists because it also shows whether oneBarElements is initialized
+
+        boolean barsVisible = !minecraft.options.hideGui && Objects.requireNonNull(minecraft.gameMode).canHurtPlayer();
+        if(showOneBar && barsVisible) oneBarElements.renderOneBar();
+        if(showOneBar && MixinConfigQuery.showMountJump() && !minecraft.options.hideGui) oneBarElements.mountJumpBar();
+
+        PlayerProperties.setLocatorBarAvailable(minecraft.player.connection.getWaypointManager().hasWaypoints());
+    }
+
+    @Inject(method = "extractPlayerHealth", at = @At(value = "HEAD"), cancellable = true)
+    private void hideHud(GuiGraphicsExtractor context, CallbackInfo ci){
+        if(showOneBar && !MixinConfigQuery.isCompatModeEnabled())
+            ci.cancel();
+    }
+
+    @Inject(method = "extractVehicleHealth", at = @At(value = "HEAD"), cancellable = true)
+    private void hideMountHealth(GuiGraphicsExtractor context, CallbackInfo ci) {
+        if(showOneBar && !MixinConfigQuery.isCompatModeEnabled())
+            ci.cancel();
+        oneBarElements.mountBar(getPlayerVehicleWithHealth());
+    }
 
     @Inject(method = "nextContextualInfoState", at = @At("HEAD"), cancellable = true)
     private void forceLocatorBar(CallbackInfoReturnable<ContextualInfo> cir) {
@@ -29,7 +56,7 @@ public abstract class InGameHudMixin {
         }
     }
 
-    @ModifyVariable(method = "renderSelectedItemName", at = @At(value = "STORE"), ordinal = 2)
+    @ModifyVariable(method = "extractSelectedItemName", at = @At(value = "STORE"), name = "y")
     private int renderHeldItemTooltip(int k) {
         if (!showOneBar || !MixinConfigQuery.isHotbarTooltipsDown()) {
             return k;

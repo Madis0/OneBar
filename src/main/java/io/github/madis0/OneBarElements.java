@@ -30,6 +30,7 @@ public class OneBarElements {
     private final PlayerProperties playerProperties = new PlayerProperties();
     private final Minecraft client = Minecraft.getInstance();
     private final Difficulty difficulty = Objects.requireNonNull(client.getCameraEntity()).level().getDifficulty();
+    private final GuiGraphicsExtractor drawContext;
     private final Font textRenderer = client.font;
     private GuiGraphicsExtractor drawContext;
 
