@@ -28,7 +28,7 @@ repositories {
 }
 
 loom {
-    accessWidenerPath = file("src/main/resources/guicontextualinfo.accesswidener")
+    accessWidenerPath = file("src/main/resources/hudcontextualinfo.accesswidener")
 }
 
 

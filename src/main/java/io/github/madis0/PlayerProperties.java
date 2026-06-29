@@ -430,12 +430,12 @@ public class PlayerProperties {
                 (playerEntity.getInventory().countItem(Items.LAPIS_BLOCK) * 9);
 
         Minecraft client = Minecraft.getInstance();
-        if(client.screen instanceof EnchantmentScreen){
-            lapisLazuli += ((EnchantmentScreen) client.screen).getMenu().getGoldCount();
+        if(client.gui.screen() instanceof EnchantmentScreen){
+            lapisLazuli += ((EnchantmentScreen) client.gui.screen()).getMenu().getGoldCount();
         }
 
-        if (client.screen instanceof AbstractContainerScreen<?>){
-            var pickedUpItemInInventory = ((AbstractContainerScreen<?>) client.screen).getMenu().getCarried();
+        if (client.gui.screen() instanceof AbstractContainerScreen<?>){
+            var pickedUpItemInInventory = ((AbstractContainerScreen<?>) client.gui.screen()).getMenu().getCarried();
             if(pickedUpItemInInventory.is(Items.LAPIS_BLOCK)) lapisLazuli += pickedUpItemInInventory.getCount() * 9;
             if(pickedUpItemInInventory.is(Items.LAPIS_LAZULI)) lapisLazuli += pickedUpItemInInventory.getCount();
             if(pickedUpItemInInventory.is(Items.TOTEM_OF_UNDYING)) amountTotemOfUndying += pickedUpItemInInventory.getCount();

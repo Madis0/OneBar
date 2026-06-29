@@ -51,7 +51,7 @@ public class OneBar implements ClientModInitializer {
 				showState(client, config.disableHunger, "text.autoconfig.onebar.option.disableHunger");
 			}
 			while (configScreen.consumeClick()) {
-				client.setScreen(AutoConfigClient.getConfigScreen(ModConfig.class, null).get());
+				client.gui.setScreen(AutoConfigClient.getConfigScreen(ModConfig.class, null).get());
 			}
 		});
 	}

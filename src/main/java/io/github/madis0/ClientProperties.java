@@ -56,8 +56,8 @@ public class ClientProperties {
         boolean hasHotbarLocatorBar = MixinConfigQuery.isLocatorBarEnabled() && MixinConfigQuery.isLocatorBarMode(ModConfig.LocatorBarMode.HOTBAR);
         locatorBarHeightConst = 7;
 
-        boolean f3IsCovering = Minecraft.getInstance().gui.getDebugOverlay().showFpsCharts() ||
-                Minecraft.getInstance().gui.getDebugOverlay().showNetworkCharts();
+        boolean f3IsCovering = Minecraft.getInstance().getDebugOverlay().showFpsCharts() ||
+                Minecraft.getInstance().getDebugOverlay().showNetworkCharts();
 
         baseStartW = scaledWidth / 2 - 91;
         baseEndW = baseStartW + 182;

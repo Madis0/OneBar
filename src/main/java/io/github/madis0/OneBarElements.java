@@ -39,8 +39,8 @@ public class OneBarElements {
     float armorBarTotalLength = armorBarBootsLength + playerProperties.bootsMaxArmor;
     float elytraDurability = playerProperties.getArmorElementDurability(Objects.requireNonNull(client.player), EquipmentSlot.CHEST, 8); //8 aka same full width as Diamond/Netherite
 
-    public OneBarElements(GuiGraphicsExtractor context){
-        drawContext = context;
+    public OneBarElements(GuiGraphicsExtractor graphics){
+        drawContext = graphics;
     }
 
     public void renderOneBar(){
