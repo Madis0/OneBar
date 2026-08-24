@@ -62,6 +62,6 @@ public class OneBar implements ClientModInitializer {
 	}
 
     private static KeyMapping registerKeybind(String translationKey) {
-        return KeyMappingHelper.registerKeyMapping(new KeyMapping(translationKey, InputConstants.Type.KEYSYM, InputConstants.UNKNOWN.getValue(), ONEBAR_MAIN));
+        return KeyMappingHelper.registerKeyMapping(new KeyMapping(translationKey, InputConstants.Type.KEYBOARD, InputConstants.UNKNOWN.getValue(), ONEBAR_MAIN));
     }
 }
