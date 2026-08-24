@@ -25,6 +25,7 @@ Currently also works on [Quilt](https://quiltmc.org), though no effort has yet b
 
 - [Mod Menu](https://www.curseforge.com/minecraft/mc-mods/modmenu) - mod info, config GUI
 - [Catalogue](https://www.curseforge.com/minecraft/mc-mods/catalogue) - mod info, config GUI
+- [Sodium](https://www.curseforge.com/minecraft/mc-mods/sodium) - mod version, config GUI
 
 <details>
 <summary>Previous versions compatible with</summary>

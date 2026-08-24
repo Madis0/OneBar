@@ -21,6 +21,9 @@
     ],
     "modmenu": [
       "io.github.madis0.ModMenuIntegration"
+    ],
+    "sodium:config_api_user": [
+      "io.github.madis0.SodiumIntegration"
     ]
   },
   "mixins": [

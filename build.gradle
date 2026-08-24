@@ -19,11 +19,8 @@ repositories {
 	maven { url "https://maven.shedaniel.me/" }
 	maven { url "https://maven.terraformersmc.com/releases/" }
 	maven {
-		name = "Modrinth"
-		url = "https://api.modrinth.com/maven"
-		content {
-			includeGroup "maven.modrinth"
-		}
+		name "CaffeineMC"
+		url "https://maven.caffeinemc.net/releases" // or /snapshots
 	}
 }
 
@@ -42,6 +39,9 @@ dependencies {
 	
 	//Mod Menu config integration
     //implementation "com.terraformersmc:modmenu:${project.modmenu_version}"
+
+	// Sodium config API
+	implementation "net.caffeinemc:sodium-fabric-api:${project.sodium_version}"
 
 	// Cloth Config API
 	api("me.shedaniel.cloth:cloth-config-fabric:${project.cloth_config_version}") {
