@@ -15,7 +15,7 @@ Reviews by Niche Duck: [main mod](https://www.youtube.com/watch?v=-Exd6HXWSpc) (
 
 1. Install Minecraft 1.16 or later
 2. Install [Fabric Loader](https://fabricmc.net/use/)
-3. Download OneBar, [Fabric API](https://www.curseforge.com/minecraft/mc-mods/fabric-api), [Mod Menu](https://www.curseforge.com/minecraft/mc-mods/modmenu), [Cloth Config API](https://www.curseforge.com/minecraft/mc-mods/cloth-config)
+3. Download OneBar, [Fabric API](https://www.curseforge.com/minecraft/mc-mods/fabric-api), [Cloth Config API](https://www.curseforge.com/minecraft/mc-mods/cloth-config)
 4. Place the JARs you downloaded to your Minecraft's mods folder
 5. Run the game!
 
@@ -23,10 +23,19 @@ Currently also works on [Quilt](https://quiltmc.org), though no effort has yet b
 
 ## Mod compatibility
 
-- [Raised](https://www.curseforge.com/minecraft/mc-mods/raised) - moves OneBar and hotbar upwards, height of both can be adjusted 
+- [Mod Menu](https://www.curseforge.com/minecraft/mc-mods/modmenu) - mod info, config GUI
+- [Catalogue](https://www.curseforge.com/minecraft/mc-mods/catalogue) - mod info, config GUI
+
+<details>
+<summary>Previous versions compatible with</summary>
+
 - [Auto HUD](https://www.curseforge.com/minecraft/mc-mods/auto-hud) - automatically shows and hides certain elements of OneBar as needed
+- [Raised](https://www.curseforge.com/minecraft/mc-mods/raised) - moves OneBar and hotbar upwards, height of both can be adjusted
 - [OneBar + MCC Island Compat](https://modrinth.com/mod/onebarmcci) (unofficial) - disables OneBar when you have no health bar on MCC Island
 - [Head-down display](https://www.curseforge.com/minecraft/mc-mods/headdowndisplay) - partial compatibility for the auto-hide feature, does not hide OneBar elements
+- [Exordium](https://www.curseforge.com/minecraft/mc-mods/exordium) (beta) - improve HUD performance
+
+</details>
 
 ## How it works
 
