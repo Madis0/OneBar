@@ -326,7 +326,7 @@ public class PlayerProperties {
                 .registryAccess()
                 .lookupOrThrow(Registries.ENCHANTMENT)
                 .get(Identifier.withDefaultNamespace("mending"))
-                .orElseThrow();
+                .orElse(null);
 
         isMendingAnything = Stream.concat(
                         Stream.of(playerEntity.getMainHandItem(), playerEntity.getOffhandItem()),
