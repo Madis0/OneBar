@@ -1,5 +1,6 @@
 package io.github.madis0;
 
+/*
 import net.caffeinemc.mods.sodium.api.config.ConfigEntryPoint;
 import net.caffeinemc.mods.sodium.api.config.structure.ConfigBuilder;
 import net.minecraft.client.Minecraft;
@@ -23,3 +24,4 @@ public class SodiumIntegration implements ConfigEntryPoint {
                 );
     }
 }
+*/
