@@ -79,7 +79,7 @@ public class OneBar implements ClientModInitializer {
 
 		var narrator = client.getNarrator();
 		if(!narrator.isActive() || !((NarratorManagerMixin) narrator).invokeGetNarratorMode().shouldNarrateSystem()){
-			client.player.displayClientMessage(Component.translatable("text.onebar.narrator.error"), true);
+			client.player.sendOverlayMessage(Component.translatable("text.onebar.narrator.error"));
 			return;
 		}
 		final TextGeneration textGeneration = new TextGeneration(true);

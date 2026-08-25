@@ -243,21 +243,18 @@ public class TextGeneration {
     }
 
     public String getSymbol(String stringKey, Object... parameters){
-        String suffix = "";
+        if (useSpeech)
+            return Component.translatable(stringKey + ".speech", parameters).getString();
 
-        if(useSpeech){
-            suffix = ".speech";
-        }
-        else if(config.textSettings.extraSymbols && translationStringValid(stringKey + ".extra")){
-            suffix = ".extra";
-            if(config.textSettings.useEmoji && translationStringValid(stringKey + suffix + ".emoji"))
-                suffix += ".emoji";
-        }
-        else if(config.textSettings.useEmoji && translationStringValid(stringKey + ".emoji")){
-            suffix = ".emoji";
-        }
-        else if(!translationStringValid(stringKey) && !config.textSettings.extraSymbols) // If extras are turned off, output value only
+        boolean extraSymbols = config.textSettings.extraSymbols;
+        if (!extraSymbols && !translationStringValid(stringKey)) // If extras are turned off, output value only
             return String.valueOf(parameters[0]);
+
+        String suffix = extraSymbols && translationStringValid(stringKey + ".extra") ? ".extra" :
+                config.textSettings.useEmoji && translationStringValid(stringKey + ".emoji") ? ".emoji" : "";
+        if (".extra".equals(suffix) && config.textSettings.useEmoji &&
+                translationStringValid(stringKey + suffix + ".emoji"))
+            suffix += ".emoji";
 
         return Component.translatable(stringKey + suffix, parameters).getString();
     }
