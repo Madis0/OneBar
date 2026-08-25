@@ -35,9 +35,6 @@
     "cloth-config": "*",
     "minecraft": ">=26.3-"
   },
-  "suggests": {
-    "modmenu": "*"
-  },
   "custom": {
     "modmenu": {
       "links": {
