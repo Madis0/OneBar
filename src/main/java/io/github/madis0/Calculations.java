@@ -74,7 +74,7 @@ public class Calculations {
      * @param strength Horse jump strength
      * @return Jump height in blocks
      */
-    public static double getHorseJumpHeight(double strength) {
+    public static double getJumpHeight(double strength) {
         double height = 0;
         double velocity = strength;
         while(velocity > 0) {
@@ -84,7 +84,7 @@ public class Calculations {
         return height;
     }
 
-    public static double getCamelDashDistance(float strength) {
+    public static double getDashDistance(float strength) {
         // Minecraft gravity constant (approximately)
         final double gravity = 0.08; // Blocks/tick^2
         final double jumpVelocityOneBlock = Math.sqrt(2 * gravity * 1); // Velocity needed to reach 1 block high

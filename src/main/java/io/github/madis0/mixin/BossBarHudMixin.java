@@ -10,7 +10,7 @@ import org.spongepowered.asm.mixin.injection.ModifyConstant;
 @Mixin(BossHealthOverlay.class)
 public abstract class BossBarHudMixin {
     @ModifyConstant(
-            method = "render(Lnet/minecraft/client/gui/GuiGraphics;)V",
+            method = "extractRenderState(Lnet/minecraft/client/gui/GuiGraphicsExtractor;)V",
             constant = @Constant(intValue = 12)
     )
     private int adjustBossBarStartY(int original) {

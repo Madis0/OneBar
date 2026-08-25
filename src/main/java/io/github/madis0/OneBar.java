@@ -3,14 +3,15 @@ package io.github.madis0;
 import com.mojang.blaze3d.platform.InputConstants;
 import io.github.madis0.mixin.NarratorManagerMixin;
 import me.shedaniel.autoconfig.AutoConfig;
+import me.shedaniel.autoconfig.AutoConfigClient;
 import me.shedaniel.autoconfig.serializer.GsonConfigSerializer;
 import net.fabricmc.api.ClientModInitializer;
 import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientTickEvents;
-import net.fabricmc.fabric.api.client.keybinding.v1.KeyBindingHelper;
+import net.fabricmc.fabric.api.client.keymapping.v1.KeyMappingHelper;
 import net.minecraft.client.KeyMapping;
 import net.minecraft.client.Minecraft;
 import net.minecraft.network.chat.Component;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 
 public class OneBar implements ClientModInitializer {
     static KeyMapping.Category ONEBAR_MAIN;
@@ -26,7 +27,7 @@ public class OneBar implements ClientModInitializer {
 
 		ModConfig config = AutoConfig.getConfigHolder(ModConfig.class).getConfig();
 
-        ONEBAR_MAIN = KeyMapping.Category.register(ResourceLocation.fromNamespaceAndPath("onebar", "main"));
+        ONEBAR_MAIN = KeyMapping.Category.register(Identifier.fromNamespaceAndPath("onebar", "main"));
 
 		KeyMapping showOneBar = registerKeybind("text.autoconfig.onebar.option.showOneBar");
 		KeyMapping healthEstimates = registerKeybind("text.autoconfig.onebar.option.healthEstimates");
@@ -56,7 +57,7 @@ public class OneBar implements ClientModInitializer {
 				showState(client, config.disableHunger, "text.autoconfig.onebar.option.disableHunger");
 			}
 			while (configScreen.consumeClick()) {
-				client.setScreen(AutoConfig.getConfigScreen(ModConfig.class, null).get());
+				client.gui.setScreen(AutoConfigClient.getConfigScreen(ModConfig.class, null).get());
 			}
 			while (narrateOneBar.consumeClick()) {
 				handleSpeech(client);
@@ -89,10 +90,10 @@ public class OneBar implements ClientModInitializer {
 
 	private static void showState(Minecraft client, boolean variable, String translationKey){
 		assert client.player != null;
-		client.player.displayClientMessage(Component.translatable(variable ? "options.on.composed" : "options.off.composed", Component.translatable(translationKey).getString()), true);
+		client.player.sendOverlayMessage(Component.translatable(variable ? "options.on.composed" : "options.off.composed", Component.translatable(translationKey).getString()));
 	}
 
     private static KeyMapping registerKeybind(String translationKey) {
-        return KeyBindingHelper.registerKeyBinding(new KeyMapping(translationKey, InputConstants.Type.KEYSYM, InputConstants.UNKNOWN.getValue(), ONEBAR_MAIN));
+        return KeyMappingHelper.registerKeyMapping(new KeyMapping(translationKey, InputConstants.Type.KEYSYM, InputConstants.UNKNOWN.getValue(), ONEBAR_MAIN));
     }
 }

@@ -1,6 +1,6 @@
 package io.github.madis0;
 
-import me.shedaniel.autoconfig.AutoConfig;
+import me.shedaniel.autoconfig.AutoConfigClient;
 import net.fabricmc.loader.api.ModContainer;
 import net.minecraft.client.gui.screens.Screen;
 
@@ -8,6 +8,6 @@ import net.minecraft.client.gui.screens.Screen;
 public final class CatalogueIntegration {
 
     public static Screen createConfigScreen(Screen parent, ModContainer mod) {
-        return AutoConfig.getConfigScreen(ModConfig.class, parent).get();
+        return AutoConfigClient.getConfigScreen(ModConfig.class, parent).get();
     }
 }

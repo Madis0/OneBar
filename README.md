@@ -15,7 +15,7 @@ Reviews by Niche Duck: [main mod](https://www.youtube.com/watch?v=-Exd6HXWSpc) (
 
 1. Install Minecraft 1.16 or later
 2. Install [Fabric Loader](https://fabricmc.net/use/)
-3. Download OneBar, [Fabric API](https://www.curseforge.com/minecraft/mc-mods/fabric-api), [Mod Menu](https://www.curseforge.com/minecraft/mc-mods/modmenu), [Cloth Config API](https://www.curseforge.com/minecraft/mc-mods/cloth-config)
+3. Download OneBar, [Fabric API](https://www.curseforge.com/minecraft/mc-mods/fabric-api), [Cloth Config API](https://www.curseforge.com/minecraft/mc-mods/cloth-config)
 4. Place the JARs you downloaded to your Minecraft's mods folder
 5. Run the game!
 
@@ -23,11 +23,20 @@ Currently also works on [Quilt](https://quiltmc.org), though no effort has yet b
 
 ## Mod compatibility
 
-- [Raised](https://www.curseforge.com/minecraft/mc-mods/raised) - moves OneBar and hotbar upwards, height of both can be adjusted 
+- [Mod Menu](https://www.curseforge.com/minecraft/mc-mods/modmenu) - mod info, config GUI shortcut
+- [Catalogue](https://www.curseforge.com/minecraft/mc-mods/catalogue) - mod info, config GUI shortcut
+- [Sodium](https://www.curseforge.com/minecraft/mc-mods/sodium) - mod version, config GUI shortcut
+
+<details>
+<summary>Previous versions compatible with</summary>
+
 - [Auto HUD](https://www.curseforge.com/minecraft/mc-mods/auto-hud) - automatically shows and hides certain elements of OneBar as needed
+- [Raised](https://www.curseforge.com/minecraft/mc-mods/raised) - moves OneBar and hotbar upwards, height of both can be adjusted
 - [OneBar + MCC Island Compat](https://modrinth.com/mod/onebarmcci) (unofficial) - disables OneBar when you have no health bar on MCC Island
 - [Head-down display](https://www.curseforge.com/minecraft/mc-mods/headdowndisplay) - partial compatibility for the auto-hide feature, does not hide OneBar elements
-- [Exordium](https://www.curseforge.com/minecraft/mc-mods/exordium) (beta, available in some versions of OneBar) - improve HUD performance
+- [Exordium](https://www.curseforge.com/minecraft/mc-mods/exordium) (beta) - improve HUD performance
+
+</details>
 
 ## How it works
 
@@ -66,6 +75,7 @@ The mod only uses client-side data, so it is never needed on a server. There are
 | Totem of Undying |  |  | +ቶ1 | +tu1 | Opt-in, shows the amount of Totem of Undyings in your inventory; crossed out when not held in main/offhand. |
 | Fire resistance |  |  | -~🔥1×~ | -~bu1×~ | Number is a rough damage multiplier (1× - burning, 2× - in fire, 3× - in soul fire, 4× - in lava), only shown if you are on fire |
 | Water Breathing, Conduit Power | Blue | █ | -~⭘1~ | -~ai1~ | The bar is only shown if you got the effect after losing air, text is only shown if you are in water |
+| Breath of the Nautilus | Blue | █ | -⭘1⏸️ | -ap1 | The bar is only shown if you got the effect after losing air, text is only shown if you are in water, text is crossed if combined with water breathing-like effect. |
 | Held food restored hunger: exact/less | Green | █ | _→1_ | _→1_ | Overlaid on hunger bar; number is the resulting hunger (like AppleSkin) | 
 | Held food restored hunger: wasted | Orange | █ | _→-1_ | _→-1_ | Overlaid on hunger bar; number is the waste of hunger (how much more than needed) | 
 | Saturation | Orange | ▁ |  | Below OneBar | Opt-in |
@@ -125,7 +135,7 @@ The mod only uses client-side data, so it is never needed on a server. There are
 | Experience bar | Green | ▁ | 1 | Next to hotbar | Shown only when you have any XP (configurable) |
 | Lapis Lazuli counter | Blue |  | 1 or 1× | Next to experience bar | Opt-in, shows either the raw count or times enchantable maxed out (XP level 30+) |
 | Saturation | Orange | ▁ |  | Below OneBar | Opt-in |
-| Locatability indicator |  |  | -🔍 | -lo | Opt-in, shows when locator bar is available on the server (even if you hide it) and you are visible to others. |
+| Locatability indicator |  |  | -🔍 or -lo | On OneBar | Opt-in, shows when locator bar is available on the server (even if you hide it) and you are visible to others. |
 | Mending indicator | Pink |  | 🔧 or md | Next to experience bar | Opt-in, shown when holding something with mending enchant that needs repair |
 
 ## FAQ
@@ -146,7 +156,7 @@ A: Yes! There are options to disable hunger display or enable UHC mode, plus you
 
 A: Yes. If things like AppleSkin and effect HUDs are allowed, you can use the full featureset of OneBar. If they are not, just disable effect estimates to use it for essentially only health and hunger.
 
-**Q: Forge support?**
+**Q: (Neo)Forge support?**
 
 A: No. Feel free to fork according to the license or [check out my resource pack that inspired this](https://www.curseforge.com/minecraft/texture-packs/material-design-hud).
 
@@ -156,4 +166,8 @@ A: No. There are old versions available down to 1.16.5 though.
 
 **Q: Snapshots?**
 
-A: Maybe. If I have time, I might do targeted updates, but otherwise as long as you have the latest Cloth Config and Fabric API, it probably runs anyway.
+A: Maybe. If I have time, I might do targeted updates, but otherwise as long as you have the latest Cloth Config and Fabric API, it could run anyway.
+
+**Q: April Fool's versions?**
+
+A: Yes, every April Fool's snapshot since 2022 is supported and marked as such on Modrinth.

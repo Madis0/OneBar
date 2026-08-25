@@ -122,7 +122,7 @@ public class ModConfig implements ConfigData {
         @ConfigEntry.Gui.Tooltip
         public boolean showMountJump = true;
         @ConfigEntry.Gui.Tooltip
-        public boolean showMountJumpText = true;
+        public boolean showMountJumpText = false;
         @ConfigEntry.ColorPicker(allowAlpha = true)
         public int jumpColor = 0xFF795548;
         @ConfigEntry.Gui.Tooltip

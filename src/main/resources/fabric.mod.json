@@ -21,19 +21,19 @@
     ],
     "modmenu": [
       "io.github.madis0.ModMenuIntegration"
+    ],
+    "sodium:config_api_user": [
+      "io.github.madis0.SodiumIntegration"
     ]
   },
   "mixins": [
     "onebar.mixins.json"
   ],
-  "accessWidener": "guicontextualinfo.accesswidener",
+  "accessWidener": "hudcontextualinfo.accesswidener",
   "depends": {
     "fabric-api": "*",
-    "cloth-config2": "*",
-    "minecraft": "1.21.10"
-  },
-  "suggests": {
-    "modmenu": "*"
+    "cloth-config": "*",
+    "minecraft": ">=26.2-"
   },
   "custom": {
     "modmenu": {

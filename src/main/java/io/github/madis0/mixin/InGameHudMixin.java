@@ -1,6 +1,7 @@
 package io.github.madis0.mixin;
 
 import io.github.madis0.*;
+import net.minecraft.client.gui.Hud;
 import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
@@ -12,12 +13,10 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 import java.util.Objects;
 import net.minecraft.client.DeltaTracker;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.Gui;
-import net.minecraft.client.gui.Gui.ContextualInfo;
-import net.minecraft.client.gui.GuiGraphics;
+import net.minecraft.client.gui.GuiGraphicsExtractor;
 import net.minecraft.world.entity.LivingEntity;
 
-@Mixin(value = Gui.class)
+@Mixin(value = Hud.class)
 public abstract class InGameHudMixin {
     @Final @Shadow private Minecraft minecraft;
     @Shadow protected abstract LivingEntity getPlayerVehicleWithHealth();
@@ -25,46 +24,46 @@ public abstract class InGameHudMixin {
     private OneBarElements oneBarElements;
     private boolean showOneBar = false;
 
-    @Inject(at = @At("HEAD"), method = "render")
-    public void render(GuiGraphics context, DeltaTracker tickCounter, CallbackInfo ci) {
-        oneBarElements = new OneBarElements(context);
+    @Inject(at = @At("HEAD"), method = "extractRenderState")
+    public void render(GuiGraphicsExtractor graphics, DeltaTracker deltaTracker, CallbackInfo ci) {
+        oneBarElements = new OneBarElements(graphics);
         showOneBar = MixinConfigQuery.isOneBarEnabled(); // This var exists because it also shows whether oneBarElements is initialized
 
-        boolean barsVisible = !minecraft.options.hideGui && Objects.requireNonNull(minecraft.gameMode).canHurtPlayer();
+        boolean barsVisible = !minecraft.gui.hud.isHidden() && Objects.requireNonNull(minecraft.gameMode).canHurtPlayer();
         if(showOneBar && barsVisible) oneBarElements.renderOneBar();
-        if(showOneBar && MixinConfigQuery.showMountJump() && !minecraft.options.hideGui) oneBarElements.mountJumpBar();
+        if(showOneBar && MixinConfigQuery.showMountJump() && !minecraft.gui.hud.isHidden()) oneBarElements.mountJumpBar();
 
         PlayerProperties.setLocatorBarAvailable(minecraft.player.connection.getWaypointManager().hasWaypoints());
     }
 
-    @Inject(method = "renderPlayerHealth", at = @At(value = "HEAD"), cancellable = true)
-    private void hideHud(GuiGraphics context, CallbackInfo ci){
+    @Inject(method = "extractPlayerHealth", at = @At(value = "HEAD"), cancellable = true)
+    private void hideHud(GuiGraphicsExtractor graphics, CallbackInfo ci){
         if(showOneBar && !MixinConfigQuery.isCompatModeEnabled())
             ci.cancel();
     }
 
-    @Inject(method = "renderVehicleHealth", at = @At(value = "HEAD"), cancellable = true)
-    private void hideMountHealth(GuiGraphics context, CallbackInfo ci) {
+    @Inject(method = "extractVehicleHealth", at = @At(value = "HEAD"), cancellable = true)
+    private void hideMountHealth(GuiGraphicsExtractor graphics, CallbackInfo ci) {
         if(showOneBar && !MixinConfigQuery.isCompatModeEnabled())
             ci.cancel();
         oneBarElements.mountBar(getPlayerVehicleWithHealth());
     }
 
     @Inject(method = "nextContextualInfoState", at = @At("HEAD"), cancellable = true)
-    private void forceLocatorBar(CallbackInfoReturnable<ContextualInfo> cir) {
+    private void forceLocatorBar(CallbackInfoReturnable<Hud.ContextualInfo> cir) {
         if (showOneBar && !MixinConfigQuery.isCompatModeEnabled()) {
-            ContextualInfo barType = MixinConfigQuery.isLocatorBarEnabled()
-                    ? ContextualInfo.LOCATOR
-                    : ContextualInfo.EMPTY;
+            Hud.ContextualInfo barType = MixinConfigQuery.isLocatorBarEnabled()
+                    ? Hud.ContextualInfo.LOCATOR
+                    : Hud.ContextualInfo.EMPTY;
             cir.setReturnValue(barType);
             cir.cancel();
         }
     }
 
-    @ModifyVariable(method = "renderSelectedItemName", at = @At(value = "STORE"), ordinal = 2)
-    private int renderHeldItemTooltip(int k) {
+    @ModifyVariable(method = "extractSelectedItemName", at = @At(value = "STORE"), name = "y")
+    private int renderHeldItemTooltip(int y) {
         if (!showOneBar || !MixinConfigQuery.isHotbarTooltipsDown()) {
-            return k;
+            return y;
         }
 
         boolean creativeOrSpectator = PlayerProperties.isCreativeOrSpectator;
