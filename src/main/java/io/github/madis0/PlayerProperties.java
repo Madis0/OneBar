@@ -673,19 +673,19 @@ public class PlayerProperties {
                 playerEntity.getItemBySlot(EquipmentSlot.FEET).getItem() == Items.GOLDEN_BOOTS);
 
         if(headItem == Items.ZOMBIE_HEAD)
-            return Calculations.emojiOrText("text.onebar.mobHeadZombieEmoji","text.onebar.mobHeadZombie", false, calculateMobDetectionRange(playerEntity, 35));
+            return Calculations.emojiOrText("text.onebar.mobHeadZombie.emoji","text.onebar.mobHeadZombie", false, calculateMobDetectionRange(playerEntity, 35));
         else if(headItem == Items.SKELETON_SKULL)
-            return Calculations.emojiOrText("text.onebar.mobHeadSkeletonEmoji","text.onebar.mobHeadSkeleton", false, calculateMobDetectionRange(playerEntity, 16));
+            return Calculations.emojiOrText("text.onebar.mobHeadSkeleton.emoji","text.onebar.mobHeadSkeleton", false, calculateMobDetectionRange(playerEntity, 16));
         else if(headItem == Items.CREEPER_HEAD)
-            return Calculations.emojiOrText("text.onebar.mobHeadCreeperEmoji","text.onebar.mobHeadCreeper", false, calculateMobDetectionRange(playerEntity, 16));
+            return Calculations.emojiOrText("text.onebar.mobHeadCreeper.emoji","text.onebar.mobHeadCreeper", false, calculateMobDetectionRange(playerEntity, 16));
         else if(headItem == Items.PIGLIN_HEAD && !hasPiglinDeterArmorItem)
-            return Calculations.emojiOrText("text.onebar.mobHeadPiglinEmoji","text.onebar.mobHeadPiglin", false, calculateMobDetectionRange(playerEntity, 16));
+            return Calculations.emojiOrText("text.onebar.mobHeadPiglin.emoji","text.onebar.mobHeadPiglin", false, calculateMobDetectionRange(playerEntity, 16));
         else if(hasPiglinDeterArmorItem)
-            return Calculations.emojiOrText("text.onebar.mobHeadPiglinEmoji","text.onebar.mobHeadPiglin", false, 0);
+            return Calculations.emojiOrText("text.onebar.mobHeadPiglin.emoji","text.onebar.mobHeadPiglin", false, 0);
         else if(headItem == Items.CARVED_PUMPKIN)
-            return Calculations.emojiOrText("text.onebar.mobHeadEndermanEmoji","text.onebar.mobHeadEnderman", false, 0);
+            return Calculations.emojiOrText("text.onebar.mobHeadEnderman.emoji","text.onebar.mobHeadEnderman", false, 0);
         else if(PlayerProperties.locatorBarAvailable && (headItem == Items.PLAYER_HEAD || headItem == Items.DRAGON_HEAD || headItem == Items.WITHER_SKELETON_SKULL))
-            return Calculations.emojiOrText("text.onebar.mobHeadLocatorEmoji","text.onebar.mobHeadLocator", false, 0);
+            return Calculations.emojiOrText("text.onebar.mobHeadLocator.emoji","text.onebar.mobHeadLocator", false, 0);
         else
             return null;
     }
