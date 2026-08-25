@@ -762,9 +762,9 @@ public class PlayerProperties {
 
         if (totalSeconds >= 60) {
             int minutes = totalSeconds / 60;
-            return Component.translatable("text.onebar.trialOmenEmoji.minutes", minutes).getString();
+            return Component.translatable("text.onebar.trialOmen.emoji.minutes", minutes).getString();
         } else if (totalSeconds >= 30) {
-            return Component.translatable("text.onebar.trialOmenEmoji.underMinute").getString();
+            return Component.translatable("text.onebar.trialOmen.emoji.underMinute").getString();
         } else {
             return String.valueOf(totalSeconds);
         }
