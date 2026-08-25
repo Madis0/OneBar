@@ -268,19 +268,20 @@ public class OneBarElements {
 
         boolean showHungerParentheses = config.textSettings.estimatesParentheses && config.healthEstimates && (playerProperties.hasHungerEffect && !config.disableHunger || (hasHunger && playerProperties.isHoldingFood && config.goodThings.heldFoodHungerBar));
 
-        final String arrowRight = Component.translatable("text.onebar.healthEstimate.emoji").getString();
-        final String plus = "+";
-        final String minus = "-";
-        final String para = "§";
-        final String pStart = "(";
-        final String pEnd = ")";
+        final String arrowRight = Component.translatable("text.onebar.estimateTo").getString();
+        final String plus = Component.translatable("text.onebar.plus").getString();
+        final String minus = Component.translatable("text.onebar.minus").getString();
+        final String noStart = Component.translatable("text.onebar.noStart").getString();
+        final String noEnd = Component.translatable("text.onebar.noEnd").getString();
+        final String parStart = Component.translatable("text.onebar.parStart").getString();
+        final String parEnd = Component.translatable("text.onebar.parEnd").getString();
 
         if(config.textSettings.showText) {
 
             // Health values
 
             if (config.healthEstimates && showHealthParentheses)
-                value += pStart;
+                value += parStart;
 
             value += Calculations.emojiOrText("text.onebar.health.emoji","text.onebar.health", true, config.textSettings.rawHealth ? (Math.round(playerProperties.healthRaw * 100.0) / 100.0) : Calculations.makeFraction(playerProperties.health, false));
 
@@ -312,7 +313,7 @@ public class OneBarElements {
                 if (playerProperties.isSuffocating)
                     value += arrowRight + Calculations.makeFraction(0, config.textSettings.estimatesItalic);
                 if (showHealthParentheses)
-                    value += pEnd;
+                    value += parEnd;
             }
         }
 
@@ -329,11 +330,11 @@ public class OneBarElements {
             if(playerProperties.hasInvisibility && !playerProperties.hasAnyArmorItem && !playerProperties.hasArrowsStuck && !playerProperties.hasGlowing && config.goodThings.showInvisibility)
                 value += plus + Calculations.emojiOrText("text.onebar.invisibility.emoji","text.onebar.invisibility", false, (Object) null);
             if(playerProperties.hasInvisibility && (playerProperties.hasAnyArmorItem || playerProperties.hasArrowsStuck || playerProperties.hasGlowing) && config.goodThings.showInvisibility)
-                value += plus + para + "m" + Calculations.emojiOrText("text.onebar.invisibility.emoji","text.onebar.invisibility", false, (Object) null) + para + "r";
+                value += plus + noStart + Calculations.emojiOrText("text.onebar.invisibility.emoji","text.onebar.invisibility", false, (Object) null) + noEnd;
             if(playerProperties.hasTotemOfUndying && playerProperties.isHoldingTotemOfUndying && config.goodThings.showTotemOfUndying)
                 value += plus + Calculations.emojiOrText("text.onebar.totemOfUndying.emoji","text.onebar.totemOfUndying", false, playerProperties.amountTotemOfUndying);
             if(playerProperties.hasTotemOfUndying && !playerProperties.isHoldingTotemOfUndying && config.goodThings.showTotemOfUndying)
-                value += plus + para + "m" + Calculations.emojiOrText("text.onebar.totemOfUndying.emoji","text.onebar.totemOfUndying", false, playerProperties.amountTotemOfUndying) + para + "r";
+                value += plus + noStart + Calculations.emojiOrText("text.onebar.totemOfUndying.emoji","text.onebar.totemOfUndying", false, playerProperties.amountTotemOfUndying) + noEnd;
 
             // Subtractive values
 
@@ -342,21 +343,21 @@ public class OneBarElements {
             if (playerProperties.isUnderwater && !playerProperties.hasWaterBreathing && !playerProperties.hasWaterPause)
                 value += minus + Calculations.emojiOrText("text.onebar.air.emoji", "text.onebar.air", false, Calculations.makeFraction(playerProperties.air, false));
             if (playerProperties.isUnderwater && playerProperties.hasWaterBreathing && !playerProperties.hasWaterPause)
-                value += minus + para + "m" + Calculations.emojiOrText("text.onebar.air.emoji","text.onebar.air", false, Calculations.makeFraction(playerProperties.air, false)) + para + "r";
+                value += minus + noStart + Calculations.emojiOrText("text.onebar.air.emoji","text.onebar.air", false, Calculations.makeFraction(playerProperties.air, false)) + noEnd;
             if (playerProperties.isUnderwater && !playerProperties.hasWaterBreathing && playerProperties.hasWaterPause)
                 value += minus + Calculations.emojiOrText("text.onebar.airPause.emoji","text.onebar.airPause", false, Calculations.makeFraction(playerProperties.air, false));
             if (playerProperties.isUnderwater && playerProperties.hasWaterBreathing && playerProperties.hasWaterPause)
-                value += minus + para + "m" + Calculations.emojiOrText("text.onebar.airPause.emoji","text.onebar.airPause", false, Calculations.makeFraction(playerProperties.air, false)) + para + "r";
+                value += minus + noStart + Calculations.emojiOrText("text.onebar.airPause.emoji","text.onebar.airPause", false, Calculations.makeFraction(playerProperties.air, false)) + noEnd;
             if (playerProperties.isFreezing)
                 value += minus + Calculations.emojiOrText("text.onebar.freeze.emoji", "text.onebar.freeze", false, Calculations.makeFraction(playerProperties.freeze, false));
             if (playerProperties.isBurning && !playerProperties.hasFireResistance && config.badThings.showFire)
                 value += minus + Calculations.emojiOrText("text.onebar.fire.emoji","text.onebar.fire", false, playerProperties.burningMultiplier);
             if (playerProperties.isBurning && playerProperties.hasFireResistance && config.badThings.showFire)
-                value += minus + para + "m" + Calculations.emojiOrText("text.onebar.fire.emoji","text.onebar.fire", false, playerProperties.burningMultiplier) + para + "r";
+                value += minus + noStart + Calculations.emojiOrText("text.onebar.fire.emoji","text.onebar.fire", false, playerProperties.burningMultiplier) + noEnd;
             if (playerProperties.hasLevitation && !playerProperties.isInWater && config.badThings.showLevitation)
                 value += minus + Calculations.emojiOrText("text.onebar.levitation.emoji", "text.onebar.levitation", false, playerProperties.levitationTime);
             if (playerProperties.hasLevitation && playerProperties.isInWater && config.badThings.showLevitation)
-                value += minus + para + "m" + Calculations.emojiOrText("text.onebar.levitation.emoji", "text.onebar.levitation", false, playerProperties.levitationTime + para + "r");
+                value += minus + noStart + Calculations.emojiOrText("text.onebar.levitation.emoji", "text.onebar.levitation", false, playerProperties.levitationTime + noEnd);
             if (playerProperties.levitationFallHurts && config.badThings.showFallHeight && config.badThings.showLevitation)
                 value += Calculations.emojiOrText("text.onebar.falling.emoji", "text.onebar.falling", false, playerProperties.levitationFallHeight);
             if (playerProperties.normalFallHurts && config.badThings.showFallHeight && !playerProperties.hasLevitation)
@@ -385,7 +386,7 @@ public class OneBarElements {
                 value += minus;
 
             if (showHungerParentheses)
-                value += pStart;
+                value += parStart;
             if (hasHunger || (playerProperties.hasHungerEffect && config.healthEstimates && !config.disableHunger))
                 value += Calculations.emojiOrText("text.onebar.hunger.emoji","text.onebar.hunger", true, Calculations.makeFraction(playerProperties.hunger, false));
             if (hasHunger && playerProperties.saturation < 1 && config.badThings.showHungerDecreasing)
@@ -395,7 +396,7 @@ public class OneBarElements {
             if (hasHunger && playerProperties.isHoldingFood && config.goodThings.heldFoodHungerBar)
                 value += arrowRight + Calculations.makeFraction(playerProperties.heldFoodHungerEstimate, config.textSettings.estimatesItalic);
             if (showHungerParentheses)
-                value += pEnd;
+                value += parEnd;
         }
 
         int textX = clientProperties.baseEndW - client.font.width(value);

@@ -1,5 +1,13 @@
 {
   "modmenu.descriptionTranslation.onebar": "Everything you need to know to survive, in a single bar!",
+  "text.onebar.plus": "+",
+  "text.onebar.minus": "-",
+  "text.onebar.negative": "-%s",
+  "text.onebar.estimateTo": "\u2192",
+  "text.onebar.noStart": "§m",
+  "text.onebar.noEnd": "§r",
+  "text.onebar.parStart": "(",
+  "text.onebar.parEnd": ")",
   "text.onebar.health": "he%s",
   "text.onebar.mountHealth": "mh%s",
   "text.onebar.absorption": "ab%s",
