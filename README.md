@@ -156,7 +156,7 @@ A: Yes! There are options to disable hunger display or enable UHC mode, plus you
 
 A: Yes. If things like AppleSkin and effect HUDs are allowed, you can use the full featureset of OneBar. If they are not, just disable effect estimates to use it for essentially only health and hunger.
 
-**Q: Forge support?**
+**Q: (Neo)Forge support?**
 
 A: No. Feel free to fork according to the license or [check out my resource pack that inspired this](https://www.curseforge.com/minecraft/texture-packs/material-design-hud).
 
@@ -166,4 +166,8 @@ A: No. There are old versions available down to 1.16.5 though.
 
 **Q: Snapshots?**
 
-A: Maybe. If I have time, I might do targeted updates, but otherwise as long as you have the latest Cloth Config and Fabric API, it probably runs anyway.
+A: Maybe. If I have time, I might do targeted updates, but otherwise as long as you have the latest Cloth Config and Fabric API, it could run anyway.
+
+**Q: April Fool's versions?**
+
+A: Yes, every April Fool's snapshot since 2022 is supported and marked as such on Modrinth.
