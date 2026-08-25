@@ -283,7 +283,7 @@ public class OneBarElements {
             if (config.healthEstimates && showHealthParentheses)
                 value += parStart;
 
-            value += Calculations.emojiOrText("text.onebar.health.emoji","text.onebar.health", true, config.textSettings.rawHealth ? (Math.round(playerProperties.healthRaw * 100.0) / 100.0) : Calculations.makeFraction(playerProperties.health, false));
+            value += Calculations.emojiOrText("text.onebar.health.emoji","text.onebar.health.extra", true, config.textSettings.rawHealth ? (Math.round(playerProperties.healthRaw * 100.0) / 100.0) : Calculations.makeFraction(playerProperties.health, false));
 
             if(config.healthEstimates){
                 if (playerProperties.naturalRegenerationHealth > playerProperties.health && !config.uhcMode)
@@ -320,7 +320,7 @@ public class OneBarElements {
         // Additive values
 
         if (playerProperties.hasAbsorption)
-            value += plus + Calculations.emojiOrText("text.onebar.absorption.emoji","text.onebar.absorption", true, Calculations.makeFraction(playerProperties.absorption, false));
+            value += plus + Calculations.emojiOrText("text.onebar.absorption.emoji","text.onebar.absorption.extra", true, Calculations.makeFraction(playerProperties.absorption, false));
 
         if(config.textSettings.showText) { // Separated if because order matters
             if (playerProperties.hasResistance && config.goodThings.showResistance)
@@ -388,7 +388,7 @@ public class OneBarElements {
             if (showHungerParentheses)
                 value += parStart;
             if (hasHunger || (playerProperties.hasHungerEffect && config.healthEstimates && !config.disableHunger))
-                value += Calculations.emojiOrText("text.onebar.hunger.emoji","text.onebar.hunger", true, Calculations.makeFraction(playerProperties.hunger, false));
+                value += Calculations.emojiOrText("text.onebar.hunger.emoji","text.onebar.hunger.extra", true, Calculations.makeFraction(playerProperties.hunger, false));
             if (hasHunger && playerProperties.saturation < 1 && config.badThings.showHungerDecreasing)
                 value += Component.translatable("text.onebar.gettingHungrier.emoji").getString();
             if (playerProperties.hasHungerEffect && !config.disableHunger && config.healthEstimates)
@@ -563,7 +563,7 @@ public class OneBarElements {
         int mountArmor = mountEntity.getArmorValue();
         int mountMaxArmor = getProtectionFromArmor(new ItemStack((Items.NETHERITE_HORSE_ARMOR)));
 
-        String value = Calculations.emojiOrText("text.onebar.mountHealth.emoji","text.onebar.mountHealth", true, config.textSettings.rawHealth ? (Math.round(mountRawHealth * 100.0) / 100.0) : Calculations.makeFraction(health, false));
+        String value = Calculations.emojiOrText("text.onebar.mountHealth.emoji","text.onebar.mountHealth.extra", true, config.textSettings.rawHealth ? (Math.round(mountRawHealth * 100.0) / 100.0) : Calculations.makeFraction(health, false));
         int textX = clientProperties.baseEndW - client.font.width(value);
         int textY = clientProperties.mountStartH + 1;
 
