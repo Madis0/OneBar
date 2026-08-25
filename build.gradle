@@ -41,7 +41,7 @@ dependencies {
     //implementation "com.terraformersmc:modmenu:${project.modmenu_version}"
 
 	// Sodium config API
-	//implementation "net.caffeinemc:sodium-fabric-api:${project.sodium_version}"
+	//compileOnly "net.caffeinemc:sodium-fabric-api:${project.sodium_version}"
 
 	// Cloth Config API
 	api("me.shedaniel.cloth:cloth-config-fabric:${project.cloth_config_version}") {
