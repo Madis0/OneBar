@@ -33,7 +33,7 @@
   "depends": {
     "fabric-api": "*",
     "cloth-config": "*",
-    "minecraft": ">=26.2-"
+    "minecraft": ">=26.3-"
   },
   "custom": {
     "modmenu": {
