@@ -63,47 +63,47 @@ The mod only uses client-side data, so it is never needed on a server. There are
 
 | Effect | Color | Bar | Emoji | Text | Description/comment |
 |-|-|-|-|-|-|
-| Health | Red | █ | 1 | 1 | Number is your health points |
-| Health boost | Red | █ | 1 | 1 | Bar width adapts to max health |
-| Health/health boost (extra symbols) | Red | █ | ❤1 | he1 | When enabling "Show additional symbols" in Text options |
-| Natural regeneration | Yellow | █ | _→1_ | _→1_ | Number is the resulting health |
-| Regeneration | Pink | █ | _→1_ | _→1_ | Number is the resulting health |
-| Absorption |  |  | +1 | +1 | Number is your absorption health points |
-| Absorption (extra symbols) |  |  | +💟1 | +ab1 | When enabling "Show additional symbols" in Text options; in-game the emoji looks like a heart in picture frame |
-| Resistance |  |  | +⛨1% | +re1% | Number is [the effect level × 20%](https://minecraft.wiki/Resistance#Effect) |
-| Invisibility |  |  | +🫥 | +in | Crossed out when wearing armor/offhand item, have glowing effect or arrow(s) stuck in you. |
-| Totem of Undying |  |  | +ቶ1 | +tu1 | Opt-in, shows the amount of Totem of Undyings in your inventory; crossed out when not held in main/offhand. |
-| Fire resistance |  |  | -~🔥1×~ | -~bu1×~ | Number is a rough damage multiplier (1× - burning, 2× - in fire, 3× - in soul fire, 4× - in lava), only shown if you are on fire |
-| Water Breathing, Conduit Power | Blue | █ | -~⭘1~ | -~ai1~ | The bar is only shown if you got the effect after losing air, text is only shown if you are in water |
+| Health | Red | █ | 1 | 1 | Number indicates your health points. |
+| Health boost | Red | █ | 1 | 1 | Bar width adapts to maximum health. |
+| Health/health boost (extra symbols) | Red | █ | ❤1 | he1 | Shown when "Show additional symbols" is enabled in Text options. |
+| Natural regeneration | Yellow | █ | _→1_ | _→1_ | Number indicates the resulting health. |
+| Regeneration | Pink | █ | _→1_ | _→1_ | Number indicates the resulting health. |
+| Absorption |  |  | +1 | +1 | Number indicates your absorption health points. |
+| Absorption (extra symbols) |  |  | +💟1 | +ab1 | Shown when "Show additional symbols" is enabled in Text options; in-game the emoji looks like a heart in picture frame. |
+| Resistance |  |  | +⛨1% | +re1% | Number indicates the player's resistance percentage ([effect level × 20%](https://minecraft.wiki/Resistance#Effect)). |
+| Invisibility |  |  | +🫥 | +in | Crossed out when wearing armor pieces, an offhand item, or have glowing effect or arrow(s) stuck in you. |
+| Totem of Undying |  |  | +ቶ1 | +tu1 | Opt-in, shows the amount of Totem of Undyings in your inventory; crossed out when these are not held in main or offhand. |
+| Fire resistance |  |  | -~🔥1×~ | -~bu1×~ | 1× - burning, 2× - in fire, 3× - in soul fire, 4× - in lava, only shown while on fire. |
+| Water Breathing, Conduit Power | Blue | █ | -~⭘1~ | -~ai1~ | The bar is only shown if you got the effect after losing air, text is only shown while you are in water. |
 | Breath of the Nautilus | Blue | █ | -⭘1⏸️ | -ap1 | The bar is only shown if you got the effect after losing air, text is only shown if you are in water, text is crossed if combined with water breathing-like effect. |
-| Held food restored hunger: exact/less | Green | █ | _→1_ | _→1_ | Overlaid on hunger bar; number is the resulting hunger (like AppleSkin) | 
-| Held food restored hunger: wasted | Orange | █ | _→-1_ | _→-1_ | Overlaid on hunger bar; number is the waste of hunger (how much more than needed) | 
+| Held food restored hunger: exact/less | Green | █ | _→1_ | _→1_ | Overlaid on hunger bar; number indicates the resulting hunger (like AppleSkin). | 
+| Held food restored hunger: wasted | Orange | █ | _→-1_ | _→-1_ | Overlaid on hunger bar; number indicates the waste of hunger (how much more than needed). | 
 | Saturation | Orange | ▁ |  | Below OneBar | Opt-in |
 
 #### Negative (right-to-left)
 
 | Effect | Color | Bar | Emoji | Text | Description/comment |
 |-|-|-|-|-|-|
-| Hunger | Brown | █ | -1 | -1 | Number is 20 minus food points (e.g. if you had 15 food points, it would show 5) |
-| Hunger (extra symbols) | Brown | █ | -🍖1 | -hu1 | When enabling "Show additional symbols" in Text options |
-| Hunger effect | Yellowish brown | █ | _→1_ | _→1_ | Number is the resulting hunger |
-| Getting hungrier |  |  | ↓ | ↓ | Opt-in, shown when saturation is zero |
-| Air | Blue | █ | -⭘1 | -ai1 | Number is the equivalent of the _lack of_ bubbles in vanilla |
-| Freezing | Light gray | █ | -❄1 | -fr1 | Number is the equivalent of frost fading in vanilla |
-| Burning | Orange | █ | -🔥1× | -bu1× | Number is a rough damage multiplier (1× - burning, 2× - in fire, 3× - in soul fire, 4× - in lava) |
-| Poison | Yellowish green | █ | _→1_ | _→1_ | Number is the resulting health |
-| Wither | Dark gray | █ | _→1_ | _→1_ | Number is the resulting health |
-| Warden anger | Dark teal | █ | -💢1 | -wa1 | The closest warden's anger level towards the player. [20-11 - angry, chasing; 10-6 - agitated, 5-0 - calm, can despawn.](https://minecraft.wiki/w/Warden#Anger)
-| Levitation | Dark purple | █ | -⏏1 | -le1 | Number is the effect time, crossed out while in water |
-| Fall height (experimental) |  |  | -⊻1 | -fa1 | Opt-in, indicates the amount of blocks you're about to fall in-air/with levitation effect/while sneaking on an edge. Currently does not consider target block type, your effects and enchants. |
-| Glowing |  |  | -☀ | -gl | Usually given when shot by a spectral arrow. Emoji chosen to remind of the effect icon. |
-| Infested |  |  | -💔🐛 | -Hin | Having infested effect may summon silverfish upon getting hit. Given in ominous trials. |
-| Bad Omen |  |  | -👹?1× | -bo1× | Number is the effect level; preserved when converting into Raid or Trial Omen |
+| Hunger | Brown | █ | -1 | -1 | Number is 20 minus food points (e.g. if you had 15 food points, it would show 5). |
+| Hunger (extra symbols) | Brown | █ | -🍖1 | -hu1 | Shown when "Show additional symbols" is enabled in Text options. |
+| Hunger effect | Yellowish brown | █ | _→1_ | _→1_ | Number indicates the resulting hunger. |
+| Getting hungrier |  |  | ↓ | ↓ | Opt-in, shown when saturation is zero. |
+| Air | Blue | █ | -⭘1 | -ai1 | Number indicates the amount of air bubbles missing in vanilla. |
+| Freezing | Light gray | █ | -❄1 | -fr1 | Number indicates the frost fading screen effect state. |
+| Burning | Orange | █ | -🔥1× | -bu1× | 1× - burning, 2× - in fire, 3× - in soul fire, 4× - in lava |
+| Poison | Yellowish green | █ | _→1_ | _→1_ | Number indicates the resulting health. |
+| Wither | Dark gray | █ | _→1_ | _→1_ | Number indicates the resulting health. |
+| Warden anger | Dark teal | █ | -💢1 | -wa1 | Number indicates the closest warden's [anger level](https://minecraft.wiki/w/Warden#Suspense) towards the player. 20-11 - angry, chasing; 10-6 - agitated, 5-0 - calm, can despawn.
+| Levitation | Dark purple | █ | -⏏1 | -le1 | Number indicates the effect time in seconds; crossed out while in water. |
+| Fall height (experimental) |  |  | -⊻1 | -fa1 | Opt-in, number indicates the amount of blocks you're about to fall in-air/with levitation effect/while sneaking on an edge. Currently does not consider the target block type, your effects and enchants. |
+| Glowing |  |  | -☀ | -gl |  |
+| Infested |  |  | -💔🐛 | -Hin | Having the infested effect may summon silverfish upon getting hit. |
+| Bad Omen |  |  | -👹?1× | -bo1× | Number indicates the effect level. |
 | Impending death |  |  | _→0_ | _→0_ | Drowning, freezing damage, burning in fire/lava, starvation, suffocation, angry warden. Zero is the resulting health (death) |
-| Hardcore mode |  |  | -☠ | -HC | The vanilla one, not the UHC mode of OneBar which has no indicators |
-| Weaving |  |  | -😵🕸   | -Dwe  | Opt-in, having weaving effect may summon cobwebs upon death. Given in ominous trials.                                                                                                          |
-| Oozing |  |  | -😵▪▪   | -Doo  | Opt-in, having oozing effect may summon two slimes upon death. Given in ominous trials.                                                                                                                |
-| Wind Charged |  |  | -😵💨   | -Dwi  | Opt-in, having wind charged effect may summon a wind charge upon death. Given in ominous trials.                                                                                                       |
+| Hardcore mode |  |  | -☠ | -HC | The vanilla world state, not to be confused with the UHC mode of OneBar |
+| Weaving |  |  | -😵🕸   | -Dwe  | Opt-in, having the weaving effect may summon cobwebs upon death.                                                                                                           |
+| Oozing |  |  | -😵▪▪   | -Doo  | Opt-in, having the oozing effect may summon two slimes upon death.                                                                                                                 |
+| Wind Charged |  |  | -😵💨   | -Dwi  | Opt-in, having the wind charged effect may summon a wind charge upon death.                                                                                                        |
 | Raid Omen |  |  | -👹🪓1w | -ro1w | Number indicates the total amount of raid waves.                                                                                                                                               |
 | Trial Omen |  |  | -👹🗝1m | -to1m | Number indicates the remaining minutes of ominous trial.                                                                                                                                       |
 
