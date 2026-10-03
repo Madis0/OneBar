@@ -126,7 +126,7 @@ The mod only uses client-side data, so it is never needed on a server. There are
 | Elytra durability | Purple | ▔ |  |  | Armor bar area | Normal armor bar: displayed as a full-width overlay only when flying; segmented armor bar: displayed constantly as a diamond-width bar at chest segment. |
 | Shield durability | Gray | ▔ |  |  | Armor bar area | Opt-in, full-width durability bar overlaying armor bar only when holding up a shield |
 | Shield cooldown | Orange | ▔ |  |  | Armor bar area | Opt-in. Holding delay: shield durability bar with cooldown color; axe-nerfed: cooldown bar until you can use shield again |
-| Mob head indicator | |  | +a☻1 | +aH1 | Opt-in, "a" represents each mob's initial, except e̲nderman (carved pumpkin) and g_olden (any golden armor or piglin head) and l_ocator (all heads work overall but for player, dragon and wither skeleton head indicator is only shown when locator bar is available). Number indicates the minimum amount of blocks the player can safely stand from the mob when wearing its head (rounded, considers sneaking and invisibility).
+| Mob head indicator | |  | +a☻1 | +aH1 | OneBar || Opt-in, "a" represents each mob's initial, except e̲nderman (carved pumpkin) and g_olden (any golden armor or piglin head) and l_ocator (all heads work overall but for player, dragon and wither skeleton head indicator is only shown when locator bar is available). Number indicates the minimum amount of blocks the player can safely stand from the mob when wearing its head (rounded, considers sneaking and invisibility).
 
 #### Others
 
