@@ -251,7 +251,7 @@ public class OneBarElements {
     }
 
     private void fireBar(){
-        if (playerProperties.isBurning && !playerProperties.hasFireResistance){
+        if (playerProperties.isOnFire && !playerProperties.hasFireResistance){
             renderRightToLeftBar((playerProperties.maxHealthRaw - playerProperties.healthRaw) + playerProperties.burningMultiplier, playerProperties.maxHealthRaw, config.badThings.fireColor);
         }
     }
@@ -261,7 +261,7 @@ public class OneBarElements {
 
         String value = "";
         boolean showHealthParentheses = config.textSettings.estimatesParentheses &&
-                (((hasHunger || playerProperties.hasHungerEffect && !config.disableHunger || playerProperties.isUnderwater || playerProperties.isFreezing || playerProperties.isBurning || playerProperties.hasAbsorption || (playerProperties.hasResistance && config.goodThings.showResistance)) &&
+                (((hasHunger || playerProperties.hasHungerEffect && !config.disableHunger || playerProperties.isUnderwater || playerProperties.isFreezing || playerProperties.isOnFire || playerProperties.hasAbsorption || (playerProperties.hasResistance && config.goodThings.showResistance)) &&
                 ((playerProperties.naturalRegenerationHealth > playerProperties.health && !config.uhcMode) || playerProperties.hasRegeneration || playerProperties.isStarving && !config.disableHunger || playerProperties.hasPoison || playerProperties.hasWither || playerProperties.isGettingFreezeDamage
                         || playerProperties.isBurningOnFire || playerProperties.isDrowning || playerProperties.isSuffocating)) || (playerProperties.levitationFallHurts && playerProperties.hasLevitation && config.badThings.showFallHeight)
                 || (playerProperties.normalFallHurts && !playerProperties.hasLevitation && config.badThings.showFallHeight));
@@ -351,9 +351,9 @@ public class OneBarElements {
                 value += minus + Calculations.emojiOrText("text.onebar.freezeEmoji", "text.onebar.freeze", false, Calculations.makeFraction(playerProperties.freeze, false));
             if (playerProperties.isFreezing && playerProperties.hasFreezingResistance)
                 value += minus + para + "m" + Calculations.emojiOrText("text.onebar.freezeEmoji", "text.onebar.freeze", false, Calculations.makeFraction(playerProperties.freeze, false) + para + "r");
-            if (playerProperties.isBurning && !playerProperties.hasFireResistance && config.badThings.showFire)
+            if (playerProperties.isOnFire && !playerProperties.hasFireResistance && config.badThings.showFire)
                 value += minus + Calculations.emojiOrText("text.onebar.fireEmoji","text.onebar.fire", false, playerProperties.burningMultiplier);
-            if (playerProperties.isBurning && playerProperties.hasFireResistance && config.badThings.showFire)
+            if (playerProperties.isOnFire && playerProperties.hasFireResistance && config.badThings.showFire)
                 value += minus + para + "m" + Calculations.emojiOrText("text.onebar.fireEmoji","text.onebar.fire", false, playerProperties.burningMultiplier) + para + "r";
             if (playerProperties.hasLevitation && !playerProperties.isInWater && config.badThings.showLevitation)
                 value += minus + Calculations.emojiOrText("text.onebar.levitationEmoji", "text.onebar.levitation", false, playerProperties.levitationTime);

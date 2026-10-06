@@ -133,7 +133,7 @@ public class PlayerProperties {
 
     public final boolean isSuffocating;
 
-    public final boolean isBurning;
+    public final boolean isOnFire;
     public final boolean isBurningOnFire;
     public static boolean isBurningOnSoulFire;
     public int burningMultiplier;
@@ -359,7 +359,7 @@ public class PlayerProperties {
 
         isSuffocating = playerEntity.isInWall();
 
-        isBurning = playerEntity.isOnFire();
+        isOnFire = playerEntity.isOnFire();
 
         int currentFireTicks = playerEntity.getRemainingFireTicks();
 
@@ -371,7 +371,7 @@ public class PlayerProperties {
             isBurningOnSoulFire = false;
         }
 
-        if (currentFireTicks == NO_FIRE_TICKS && isBurning) {
+        if (currentFireTicks == NO_FIRE_TICKS && isOnFire) {
             burningMultiplier = 1; // Burning in air.
         } else if (currentFireTicks == BURNING_FIRE_TICKS) {
             burningMultiplier = isBurningOnSoulFire ? 3 : 2; // 3 for soul fire, 2 for normal fire.
@@ -379,7 +379,7 @@ public class PlayerProperties {
             burningMultiplier = 4; // Burning in lava.
         }
 
-        isBurningOnFire = isBurning && !hasFireResistance;
+        isBurningOnFire = isOnFire && !hasFireResistance;
 
         maxFreezeRaw = playerEntity.getTicksRequiredToFreeze();
         freezeRaw = playerEntity.getTicksFrozen();
