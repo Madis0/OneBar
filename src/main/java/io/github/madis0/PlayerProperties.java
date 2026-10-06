@@ -143,6 +143,8 @@ public class PlayerProperties {
     public final int freeze;
     public final boolean isFreezing;
     public final boolean isGettingFreezeDamage;
+    public final boolean hasFreezingEffect;
+    public final boolean hasFreezingResistance;
 
     public int maxLevitationTimeRaw;
     public final int levitationTimeRaw;
@@ -235,6 +237,7 @@ public class PlayerProperties {
         hasWindCharged = playerEntity.hasEffect(MobEffects.WIND_CHARGED);
         hasInfested = playerEntity.hasEffect(MobEffects.INFESTED);
         hasLevitation = playerEntity.hasEffect(MobEffects.LEVITATION);
+        hasFreezingEffect = playerEntity.hasEffect(MobEffects.FREEZING);
 
         healthRaw = playerEntity.getHealth();
         maxHealthRaw = playerEntity.getMaxHealth();
@@ -356,7 +359,7 @@ public class PlayerProperties {
 
         isSuffocating = playerEntity.isInWall();
 
-        isBurning = playerEntity.displayFireAnimation();
+        isBurning = playerEntity.isOnFire();
 
         int currentFireTicks = playerEntity.getRemainingFireTicks();
 
@@ -381,7 +384,11 @@ public class PlayerProperties {
         maxFreezeRaw = playerEntity.getTicksRequiredToFreeze();
         freezeRaw = playerEntity.getTicksFrozen();
         freeze = freezeRaw / (int) Calculations.getPrettyDivisor(maxFreezeRaw, maxArmor);
-        isFreezing = freezeRaw > 0;
+        isFreezing = freezeRaw > 0 || hasFreezingEffect;
+        hasFreezingResistance = burningMultiplier > 1 || (playerEntity.getItemBySlot(EquipmentSlot.HEAD).getItem() == Items.LEATHER_HELMET ||
+                playerEntity.getItemBySlot(EquipmentSlot.CHEST).getItem() == Items.LEATHER_CHESTPLATE ||
+                playerEntity.getItemBySlot(EquipmentSlot.LEGS).getItem() == Items.LEATHER_LEGGINGS ||
+                playerEntity.getItemBySlot(EquipmentSlot.FEET).getItem() == Items.LEATHER_BOOTS);
         isGettingFreezeDamage = playerEntity.isFullyFrozen() && !difficulty.equals(Difficulty.PEACEFUL);
 
         maxLevitationTimeRaw = 200;

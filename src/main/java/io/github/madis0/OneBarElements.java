@@ -347,8 +347,10 @@ public class OneBarElements {
                 value += minus + Calculations.emojiOrText("text.onebar.airPauseEmoji","text.onebar.airPause", false, Calculations.makeFraction(playerProperties.air, false));
             if (playerProperties.isUnderwater && playerProperties.hasWaterBreathing && playerProperties.hasWaterPause)
                 value += minus + para + "m" + Calculations.emojiOrText("text.onebar.airPauseEmoji","text.onebar.airPause", false, Calculations.makeFraction(playerProperties.air, false)) + para + "r";
-            if (playerProperties.isFreezing)
+            if (playerProperties.isFreezing && !playerProperties.hasFreezingResistance)
                 value += minus + Calculations.emojiOrText("text.onebar.freezeEmoji", "text.onebar.freeze", false, Calculations.makeFraction(playerProperties.freeze, false));
+            if (playerProperties.isFreezing && playerProperties.hasFreezingResistance)
+                value += minus + para + "m" + Calculations.emojiOrText("text.onebar.freezeEmoji", "text.onebar.freeze", false, Calculations.makeFraction(playerProperties.freeze, false) + para + "r");
             if (playerProperties.isBurning && !playerProperties.hasFireResistance && config.badThings.showFire)
                 value += minus + Calculations.emojiOrText("text.onebar.fireEmoji","text.onebar.fire", false, playerProperties.burningMultiplier);
             if (playerProperties.isBurning && playerProperties.hasFireResistance && config.badThings.showFire)
