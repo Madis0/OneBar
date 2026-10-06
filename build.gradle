@@ -38,7 +38,7 @@ dependencies {
     implementation "net.fabricmc.fabric-api:fabric-api:${project.fabric_api_version}"
 	
 	//Mod Menu config integration
-    implementation "com.terraformersmc:modmenu:${project.modmenu_version}"
+    //implementation "com.terraformersmc:modmenu:${project.modmenu_version}"
 
 	// Sodium config API
 	compileOnly "net.caffeinemc:sodium-fabric-api:${project.sodium_version}"
